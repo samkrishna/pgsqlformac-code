@@ -27,18 +27,6 @@ fi
 # also needs to make sure that the Service Manager.app is built and ready to 
 # deploy
 
-# configure and build PostgreSQL
-#cd ../PostgreSQL
-#./configure --prefix=/Library/PostgreSQL8 --with-openssl --with-rendezvous --with-perl --with-pam --with-krb5 --with-tcl --with-python --without-readline --enable-static --disable-shared
-#make
-#sudo make install
-#cd ../BuildScripts
-
-# build the Service Manager applet
-cd ./ServiceManager
-/usr/bin/xcodebuild -project Service\ Manager.xcode -buildstyle Deployment -target Service\ Manager
-cd ..
-
 # copy the files into the temp storage.
 if (test -d $BASEPATH/Installers/PostgreSQL8/Files/Library/PostgreSQL8/bin) then
 	rm -rf $BASEPATH/Installers/PostgreSQL8/Files/*
@@ -76,21 +64,89 @@ rm -rf $BASEPATH/Installers/PostgreSQL8/Files/*
 # ************************************************************** StartupItem.pkg
 
 # copy the files into the temp storage.
-if (test -d $BASEPATH/Installers/StartupItem/Files/Library/StartupItems) then
-	rm -rf $BASEPATH/Installers/StartupItem/Files/*
-fi
+mkdir -p $BASEPATH/temp/Files/Library/StartupItems/PostgreSQL/Resources/English.lproj
+cp $BASEPATH/StartupItem/PostgreSQL/PostgreSQL $BASEPATH/temp/Files/Library/StartupItems/PostgreSQL/
+cp $BASEPATH/StartupItem/PostgreSQL/StartupParameters.plist $BASEPATH/temp/Files/Library/StartupItems/PostgreSQL/
 
-mkdir -p $BASEPATH/Installers/StartupItem/Files/Library/StartupItems
-cp -r $BASEPATH/StartupItem/ $BASEPATH/Installers/StartupItem/Files/Library/StartupItems
+mkdir -p $BASEPATH/temp/Files/Library/StartupItems/PostgreSQL/Resources/English.lproj
+cp $BASEPATH/StartupItem/PostgreSQL/Resources/English.lproj/Localizable.strings $BASEPATH/temp/Files/Library/StartupItems/PostgreSQL/Resources/English.lproj/
 
-find $BASEPATH/Installers/StartupItem/ -name ".DS_Store" -exec rm -f {} \; 
+mkdir -p $BASEPATH/temp/Resources
+cp  $BASEPATH/Installers/StartupItem/Resources/*.rtf $BASEPATH/temp/Resources
+cp  $BASEPATH/Installers/StartupItem/Resources/*.strings $BASEPATH/temp/Resources
+cp  $BASEPATH/Installers/StartupItem/Resources/background.tif $BASEPATH/temp/Resources
+cp  $BASEPATH/Installers/StartupItem/Resources/InstallationCheck $BASEPATH/temp/Resources
+cp  $BASEPATH/Installers/StartupItem/Resources/postflight $BASEPATH/temp/Resources
+
+sudo find $BASEPATH/temp/ -name ".DS_Store" -exec rm -f {} \; 
 
 # fix permissions so that they get installed correctly.
 chown -R root:admin $BASEPATH/Installers/StartupItem/Files/*
 
 # build the .pkg
-/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $BASEPATH/dist/packages/Postgres\ Startup\ Item.pkg -f $BASEPATH/Installers/StartupItem/Files -r $BASEPATH/Installers/StartupItem/Resources -d $BASEPATH/Installers/StartupItem/Description.plist -i $BASEPATH/Installers/StartupItem/Info.plist
+/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $BASEPATH/dist/packages/Postgres\ Startup\ Item.pkg -f $BASEPATH/temp/Files -r $BASEPATH/temp/Resources -d $BASEPATH/Installers/StartupItem/Description.plist -i $BASEPATH/Installers/StartupItem/Info.plist
 
 # clean up after ourselves
-rm -rf $BASEPATH/Installers/StartupItem/Files/*
+rm -rf $BASEPATH/temp
+
+# ************************************************************** JDBC Driver.pkg
+
+# copy the files into the temp storage.
+
+mkdir -p $BASEPATH/temp/Files/Library/Java/Extensions
+cp $BASEPATH/Installers/JDBC/Files/Library/Java/Extensions/*.jar $BASEPATH/temp/Files/Library/Java/Extensions
+
+mkdir -p $BASEPATH/temp/Resources
+cp  $BASEPATH/Installers/JDBC/Resources/*.rtf $BASEPATH/temp/Resources
+cp  $BASEPATH/Installers/JDBC/Resources/background.tif $BASEPATH/temp/Resources
+
+sudo find $BASEPATH/Installers/StartupItem/ -name ".DS_Store" -exec rm -f {} \; 
+
+# fix permissions so that they get installed correctly.
+chown -R root:admin $BASEPATH/temp/Files/*
+
+# build the .pkg
+/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $BASEPATH/dist/packages/Postgres\ JDBC.pkg -f $BASEPATH/temp/Files -r $BASEPATH/temp/Resources -d $BASEPATH/Installers/JDBC/Description.plist -i $BASEPATH/Installers/JDBC/Info.plist
+
+# clean up after ourselves
+rm -rf $BASEPATH/temp
+
+# ************************************************************** ODBC Driver.pkg
+# ************************************************************* Client tools.pkg
+
+# copy the files into the temp storage.
+if (test -d $BASEPATH/Installers/ClientTools/Files) then
+	rm -rf $BASEPATH/Installers/ClientTools/Files/*
+fi
+
+mkdir -p $BASEPATH/Installers/ClientTools/Files/Applications/PostgreSQL
+
+cp -r $BASEPATH/CreateDatabase/build/Create\ Database.app $BASEPATH/Installers/ClientTools/Files/Applications/PostgreSQL
+cp -r $BASEPATH/CreateUser/build/Create\ User.app $BASEPATH/Installers/ClientTools/Files/Applications/PostgreSQL
+cp -r $BASEPATH/QueryTool/build/Query\ Tool\ for\ Postgres.app $BASEPATH/Installers/ClientTools/Files/Applications/PostgreSQL
+
+sudo find $BASEPATH/Installers/ClientTools/ -name ".DS_Store" -exec rm -f {} \; 
+sudo find $BASEPATH/Installers/ClientTools/Files/ -name "CVS" -exec rm -rf {} \; 
+
+# fix permissions so that they get installed correctly.
+chown -R root:admin $BASEPATH/Installers/ClientTools/Files/*
+
+# build the .pkg
+/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $BASEPATH/dist/packages/Client\ Tools.pkg -f $BASEPATH/Installers/ClientTools/Files -r $BASEPATH/Installers/ClientTools/Resources -d $BASEPATH/Installers/ClientTools/Description.plist -i $BASEPATH/Installers/ClientTools/Info.plist
+
+# clean up after ourselves
+rm -rf $BASEPATH/Installers/ClientTools/Files/*
+
+# ************************************************************** Admin Tools.pkg
+# ********************************************************** Migration Tools.pkg
+# *************************************************************** SQL-Ledger.pkg
+# ************************************************************** pgAdmin/III.pkg
+
+
+# ************************************************* PostgreSQL Meta Package.mpkg
+
+# build the .pkg
+/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $BASEPATH/dist/PostgreSQL.mpkg -f $BASEPATH/Installers/PostgreSQL/Files -r $BASEPATH/Installers/PostgreSQL/Resources -d $BASEPATH/Installers/PostgreSQL/Description.plist -i $BASEPATH/Installers/PostgreSQL/Info.plist
+
+
 
