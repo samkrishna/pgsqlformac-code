@@ -582,22 +582,6 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
-		4350CDB606653F0100244060 = {
-			buildActionMask = 2147483647;
-			dstPath = /Library/Frameworks/;
-			dstSubfolderSpec = 0;
-			files = (
-				4350CDBC06653F3600244060,
-			);
-			isa = PBXCopyFilesBuildPhase;
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		4350CDBC06653F3600244060 = {
-			fileRef = 8DC2EF5B0486A6940098B216;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 //430
 //431
 //432
@@ -615,7 +599,6 @@
 				8DC2EF540486A6940098B216,
 				8DC2EF560486A6940098B216,
 				8DC2EF580486A6940098B216,
-				4350CDB606653F0100244060,
 			);
 			buildRules = (
 			);
