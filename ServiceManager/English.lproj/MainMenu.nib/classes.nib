@@ -1,0 +1,37 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                onAddServer = id; 
+                onAutoStartChange = id; 
+                onRefresh = id; 
+                onRestartService = id; 
+                onStartService = id; 
+                onStopService = id; 
+            }; 
+            CLASS = SQLServiceManager; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                addServer = NSButton; 
+                autostartOption = NSButton; 
+                progress = NSProgressIndicator; 
+                refresh = NSButton; 
+                restartService = NSButton; 
+                restartServiceLabel = NSTextField; 
+                servers = NSPopUpButton; 
+                serviceImage = NSImageView; 
+                services = NSPopUpButton; 
+                startService = NSButton; 
+                startServiceLabel = NSTextField; 
+                status = NSTextField; 
+                stopService = NSButton; 
+                stopServiceLabel = NSTextField; 
+                window = NSWindow; 
+                working = NSProgressIndicator; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
