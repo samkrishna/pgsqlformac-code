@@ -1,0 +1,66 @@
+//
+//  Databases.m
+//
+//  Created by Andy Satori on Thu 01/29/04 10:53 PM
+//  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
+//
+
+#import <Cocoa/Cocoa.h>
+#import "Database.h"
+#import "Databases.h"
+
+@implementation Databases
+
+- (id)init
+{
+    [super init];
+    
+    items = [[NSMutableArray alloc] init];
+    [items retain];
+    
+    return self;
+}
+
+// collection management
+
+- (Database *)addItem
+{
+    Database *newItem = [[Database alloc] init];
+    [newItem retain];
+    
+    [items addObject: newItem];
+    return newItem;    
+}
+
+- (void)removeItemAtIndex:(int)index
+{
+    [items removeObjectAtIndex:index];
+}
+
+- (Database *)itemAtIndex:(int)index
+{
+    return [items objectAtIndex:index];
+}
+
+- (int)count
+{
+    return [items count];
+}
+
+// table view data source methods
+
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+{
+    return [items count];
+}
+
+- (id)tableView:(NSTableView *)aTableView 
+    objectValueForTableColumn:(NSTableColumn *)aTableColumn 
+    row:(int)rowIndex 
+{
+    NSString *ident = [aTableColumn identifier];
+    Database *anItem = [items objectAtIndex:rowIndex];
+    return [anItem valueForKey:ident];
+}
+
+@end
