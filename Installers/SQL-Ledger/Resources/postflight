@@ -1,0 +1,28 @@
+#!/bin/sh
+
+# sql-ledger setup stuff
+set -e
+if (test -d /Library/WebServer/Documents/sql-ledger) then
+	chown www:www /Library/WebServer/Documents/sql-ledger/users
+	chown www:www /Library/WebServer/Documents/sql-ledger/templates
+	chown www:www /Library/WebServer/Documents/sql-ledger/spool
+	chown www:www /Library/WebServer/Documents/sql-ledger/css
+fi
+if (test -f /private/etc/httpd/users/sql-ledger.conf) then
+	chown root:wheel /private/etc/httpd/users/sql-ledger.conf
+	chmod 644 /private/etc/httpd/users/sql-ledger.conf
+fi
+
+x=`su -m postgres -c '/Library/PostgreSQL8/bin/psql -d template1 -h localhost -p 5432 -c "select usename from pg_user;" | grep sql\-ledger'`
+if (! test -n $x) then
+	su -m postgres -c '/Library/PostgreSQL8/bin/createuser -h localhost -A -d sql-ledger'
+fi
+
+
+x=`su -m postgres -c '/Library/PostgreSQL8/bin/psql -d template1 -h localhost -p 5432 -c "select lanname from pg_language;" | grep plpgsql'`
+if (! test -n $x) then
+	su -m postgres -c '/Library/PostgreSQL8/bin/createlang plpgsql template1'
+fi
+
+/usr/sbin/apachectl restart
+
