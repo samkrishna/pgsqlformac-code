@@ -27,6 +27,24 @@ fi
 # also needs to make sure that the Service Manager.app is built and ready to 
 # deploy
 
+# configure and build PostgreSQL
+#cd ../PostgreSQL
+#./configure --prefix=/Library/PostgreSQL8 --with-openssl --with-rendezvous --with-perl --with-pam --with-krb5 --with-tcl --with-python --without-readline --enable-static --disable-shared
+#make
+#sudo make install
+#cd ../BuildScripts
+
+# build the StartupHelper tool
+cd ./StartupHelper
+/usr/bin/xcodebuild -project StartupHelper.xcode -buildstyle Deployment -target StartupHelper
+cd ..
+
+
+# build the Service Manager applet
+cd ./ServiceManager
+/usr/bin/xcodebuild -project Service\ Manager.xcode -buildstyle Deployment -target Service\ Manager
+cd ..
+
 # copy the files into the temp storage.
 if (test -d $BASEPATH/Installers/PostgreSQL8/Files/Library/PostgreSQL8/bin) then
 	rm -rf $BASEPATH/Installers/PostgreSQL8/Files/*
