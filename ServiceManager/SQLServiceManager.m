@@ -26,7 +26,6 @@
 	[services removeAllItems];
 	[services addItemWithTitle:@"PostgresSQL"];
 	
-	[refresh setEnabled:NO];
 	[addServer setEnabled:NO];
 	
 	isRunning = [self checkPostmasterStatus];
@@ -70,12 +69,13 @@
 - (BOOL)checkPostmasterStatus
 {
 	// check the current run state of postmaster
-	NSString *serverProcessName = [[NSString alloc] initWithString:@"postgres"];
+	NSString *serverProcessName = [[NSString alloc] initWithString:@"postmaster"];
 	NSArray *processes = [AGProcess allProcesses];
 	int i;
 	for (i = 0; i < [processes count]; i++)
 	{
 		AGProcess *process = (AGProcess *)[processes objectAtIndex:i];
+
 		// NSLog(@"%s", [[process command] cString]);
 		if ([[process command] isEqual:serverProcessName])
 		{
@@ -99,7 +99,8 @@
 
 - (IBAction)onRefresh:(id)sender
 {
-	// attempt a connection to determine running/non running state
+	BOOL isRunning = [self checkPostmasterStatus];
+	[self updateButtonStatus:isRunning];
 }
 
 - (IBAction)onRestartService:(id)sender
@@ -203,7 +204,7 @@
     myStatus = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, 
 		myFlags, &myAuthorizationRef);				
     if (myStatus != errAuthorizationSuccess) 
-		return NO;
+		return;
 
     do 
     {
