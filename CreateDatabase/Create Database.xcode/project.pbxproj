@@ -313,9 +313,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = pgCocoaDB.framework;
-			path = /Users/arsatori/Projects/PostgreSQL/Sources/pgCocoaDB/build/pgCocoaDB.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../pgCocoaDB/build/pgCocoaDB.framework;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		43DF5C6A07C41E8E00BF6235 = {
 			fileRef = 43DF5C6907C41E8E00BF6235;
@@ -421,11 +421,11 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = "/Users/arsatori/Projects/PostgreSQL/Sources/pgCocoaDB/build ";
+				FRAMEWORK_SEARCH_PATHS = ../pgCocoaDB/build/;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Create Database_Prefix.pch";
-				HEADER_SEARCH_PATHS = /Users/arsatori/Projects/PostgreSQL/Sources/pgCocoaDB;
+				HEADER_SEARCH_PATHS = ../pgCocoaDB;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				PRODUCT_NAME = "Create Database";

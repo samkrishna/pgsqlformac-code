@@ -619,7 +619,8 @@
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(LOCAL_LIBRARY_DIR)/PostgreSQL8/lib\"";
 				LIBRARY_STYLE = Dynamic;
-				OTHER_LDFLAGS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				OTHER_LDFLAGS = "-seg1addr 0xb0000000";
 				PRODUCT_NAME = pgCocoaDB;
 				SECTORDER_FLAGS = "";
 				VERSIONING_SYSTEM = "";
