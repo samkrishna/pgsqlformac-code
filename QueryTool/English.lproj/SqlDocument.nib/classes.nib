@@ -1,0 +1,34 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = MyDocument; LANGUAGE = ObjC; SUPERCLASS = NSDocument; }, 
+        {
+            ACTIONS = {
+                onConnect = id; 
+                onConnectCancel = id; 
+                onConnectOK = id; 
+                onDisconnect = id; 
+                onExecuteQuery = id; 
+            }; 
+            CLASS = SqlDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                dataOutput = NSTableView; 
+                dbName = NSTextField; 
+                host = NSComboBox; 
+                panelConnect = NSPanel; 
+                password = NSTextField; 
+                port = NSComboBox; 
+                query = NSTextView; 
+                rawOutput = NSTextView; 
+                status = NSTextField; 
+                tabs = NSTabView; 
+                userName = NSTextField; 
+                window = NSWindow; 
+                working = NSProgressIndicator; 
+            }; 
+            SUPERCLASS = NSDocument; 
+        }
+    ); 
+    IBVersion = 1; 
+}
