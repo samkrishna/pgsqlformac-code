@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IFPkgDescriptionDeleteWarning</key>
+	<string>Removing the PostgreSQL Database will disable your local PostgreSQL server</string>
+	<key>IFPkgDescriptionDescription</key>
+	<string>Installs the PostgreSQL8 Database Engine and command line tools to the Mac OS X sensitive location /Library/PostgreSQL8</string>
+	<key>IFPkgDescriptionTitle</key>
+	<string>PostgreSQL</string>
+	<key>IFPkgDescriptionVersion</key>
+	<string>8.0</string>
+</dict>
+</plist>
