@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IFPkgDescriptionDeleteWarning</key>
+	<string></string>
+	<key>IFPkgDescriptionDescription</key>
+	<string>Installs a full PostgreSQL Database server environment on Mac OS X.</string>
+	<key>IFPkgDescriptionTitle</key>
+	<string>PostgreSQL 8.0.1</string>
+	<key>IFPkgDescriptionVersion</key>
+	<string>8.0.1</string>
+</dict>
+</plist>
