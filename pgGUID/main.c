@@ -1,3 +1,15 @@
+/*
+ *  newid.c
+ *  guid
+ *
+ *  Created by Andy Satori on 9/29/04.
+ *  Copyright 2004-2005 Druware Software Designs. All rights reserved.
+ *  
+ *  For further licensing information, See the COPYRIGHT file that was 
+ *  shipped with this code.
+ *
+ */
+ 
 #include <string.h>
 #include "postgres.h"
 #include "fmgr.h"

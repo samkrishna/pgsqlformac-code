@@ -54,6 +54,7 @@
 		};
 		08FB7794FE84155DC02AAC07 = {
 			children = (
+				43CBB84707DDF565001F6DCF,
 				43B52A37070B167B00A6D242,
 				08FB7795FE84155DC02AAC07,
 				1AB674ADFE9D54B511CA2CBB,
@@ -259,6 +260,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 16;
 			files = (
+				43CBB84807DDF565001F6DCF,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,6 +272,20 @@
 			path = INSTALL.txt;
 			refType = 4;
 			sourceTree = "<group>";
+		};
+		43CBB84707DDF565001F6DCF = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = COPYRIGHT;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		43CBB84807DDF565001F6DCF = {
+			fileRef = 43CBB84707DDF565001F6DCF;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 //430
 //431
