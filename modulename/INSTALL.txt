@@ -1,6 +1,0 @@
-Copy the libpgGUID.so library to the /Library/PostgreSQL/lib directory, and 
-run the following SQL in the target database:
-
-create function newid() returns text 
-	as '/Library/PostgreSQL8/lib/libpgGUID.so' 
-	language C STRICT;
