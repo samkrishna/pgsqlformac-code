@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# check to see if PostgreSQL is running.
+
+# check the version
+
+# shutdown postgres if possible.
