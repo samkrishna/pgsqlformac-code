@@ -34,12 +34,6 @@ fi
 #sudo make install
 #cd ../BuildScripts
 
-# build the StartupHelper tool
-cd ./StartupHelper
-/usr/bin/xcodebuild -project StartupHelper.xcode -buildstyle Deployment -target StartupHelper
-cd ..
-
-
 # build the Service Manager applet
 cd ./ServiceManager
 /usr/bin/xcodebuild -project Service\ Manager.xcode -buildstyle Deployment -target Service\ Manager
@@ -79,6 +73,24 @@ chown -R root:admin $BASEPATH/Installers/PostgreSQL8/Files/*
 # clean up after ourselves
 rm -rf $BASEPATH/Installers/PostgreSQL8/Files/*
 
-# ************************************************************** PostgreSQL8.pkg
+# ************************************************************** StartupItem.pkg
 
+# copy the files into the temp storage.
+if (test -d $BASEPATH/Installers/StartupItem/Files/Library/StartupItems) then
+	rm -rf $BASEPATH/Installers/StartupItem/Files/*
+fi
+
+mkdir -p $BASEPATH/Installers/StartupItem/Files/Library/StartupItems
+cp -r $BASEPATH/StartupItem/ $BASEPATH/Installers/StartupItem/Files/Library/StartupItems
+
+find $BASEPATH/Installers/StartupItem/ -name ".DS_Store" -exec rm -f {} \; 
+
+# fix permissions so that they get installed correctly.
+chown -R root:admin $BASEPATH/Installers/StartupItem/Files/*
+
+# build the .pkg
+/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $BASEPATH/dist/packages/Postgres\ Startup\ Item.pkg -f $BASEPATH/Installers/StartupItem/Files -r $BASEPATH/Installers/StartupItem/Resources -d $BASEPATH/Installers/StartupItem/Description.plist -i $BASEPATH/Installers/StartupItem/Info.plist
+
+# clean up after ourselves
+rm -rf $BASEPATH/Installers/StartupItem/Files/*
 
