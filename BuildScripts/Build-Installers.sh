@@ -52,6 +52,9 @@ cp -r $BASEPATH/ServiceManager/build/Service\ Manager.app $BASEPATH/Installers/P
 
 find $BASEPATH/Installers/PostgreSQL8/ -name ".DS_Store" -exec rm -f {} \; 
 
+# fix permissions so that they get installed correctly.
+chown -R root:admin $BASEPATH/Installers/PostgreSQL8/Files/*
+
 # build the .pkg
 /Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $BASEPATH/dist/packages/PostgreSQL8.pkg -f $BASEPATH/Installers/PostgreSQL8/Files -r $BASEPATH/Installers/PostgreSQL8/Resources -d $BASEPATH/Installers/PostgreSQL8/Description.plist -i $BASEPATH/Installers/PostgreSQL8/Info.plist
 
