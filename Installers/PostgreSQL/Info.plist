@@ -15,7 +15,7 @@
 	<key>IFMinorVersion</key>
 	<integer>0</integer>
 	<key>IFPkgFlagComponentDirectory</key>
-	<string>..</string>
+	<string>../packages</string>
 	<key>IFPkgFlagPackageList</key>
 	<array>
 		<dict>
@@ -26,13 +26,13 @@
 		</dict>
 		<dict>
 			<key>IFPkgFlagPackageLocation</key>
-			<string>PostgreSQL Startup Item.pkg</string>
+			<string>Postgres Startup Item.pkg</string>
 			<key>IFPkgFlagPackageSelection</key>
 			<string>selected</string>
 		</dict>
 		<dict>
 			<key>IFPkgFlagPackageLocation</key>
-			<string>PostgreSQL JDBC Driver.pkg</string>
+			<string>Postgres JDBC.pkg</string>
 			<key>IFPkgFlagPackageSelection</key>
 			<string>selected</string>
 		</dict>
