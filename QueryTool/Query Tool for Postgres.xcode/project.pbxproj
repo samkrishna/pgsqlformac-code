@@ -1,0 +1,948 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 39;
+	objects = {
+		089C165FFE840EACC02AAC07 = {
+			children = (
+				089C1660FE840EACC02AAC07,
+			);
+			isa = PBXVariantGroup;
+			name = InfoPlist.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		089C1660FE840EACC02AAC07 = {
+			fileEncoding = 10;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.strings;
+			name = English;
+			path = English.lproj/InfoPlist.strings;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//080
+//081
+//082
+//083
+//084
+//100
+//101
+//102
+//103
+//104
+		1058C7A6FEA54F5311CA2CBB = {
+			children = (
+				4327F0E007CEBD6700AB5CFE,
+				1058C7A7FEA54F5311CA2CBB,
+			);
+			isa = PBXGroup;
+			name = "Linked Frameworks";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		1058C7A7FEA54F5311CA2CBB = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Cocoa.framework;
+			path = /System/Library/Frameworks/Cocoa.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		1058C7A8FEA54F5311CA2CBB = {
+			children = (
+				2A37F4C5FDCFA73011CA2CEA,
+				2A37F4C4FDCFA73011CA2CEA,
+			);
+			isa = PBXGroup;
+			name = "Other Frameworks";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//100
+//101
+//102
+//103
+//104
+//190
+//191
+//192
+//193
+//194
+		19C28FB0FE9D524F11CA2CBB = {
+			children = (
+				8D15AC370486D014006FF6A4,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//190
+//191
+//192
+//193
+//194
+//2A0
+//2A1
+//2A2
+//2A3
+//2A4
+		2A37F4A9FDCFA73011CA2CEA = {
+			buildSettings = {
+			};
+			buildStyles = (
+				4A9504D0FFE6A4CB11CA0CBA,
+				4A9504D1FFE6A4CB11CA0CBA,
+			);
+			hasScannedForEncodings = 1;
+			isa = PBXProject;
+			mainGroup = 2A37F4AAFDCFA73011CA2CEA;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 4327EEA807CE783C00AB5CFE;
+					ProjectRef = 4350CDE40665400000244060;
+				},
+			);
+			targets = (
+				8D15AC270486D014006FF6A4,
+			);
+		};
+		2A37F4AAFDCFA73011CA2CEA = {
+			children = (
+				2A37F4ABFDCFA73011CA2CEA,
+				2A37F4AFFDCFA73011CA2CEA,
+				2A37F4B8FDCFA73011CA2CEA,
+				2A37F4C3FDCFA73011CA2CEA,
+				19C28FB0FE9D524F11CA2CBB,
+				4350CDE40665400000244060,
+			);
+			isa = PBXGroup;
+			name = "Query Tool for Postgres";
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		2A37F4ABFDCFA73011CA2CEA = {
+			children = (
+				4350CCB90665349000244060,
+				4350CCBA0665349000244060,
+				4350CCBB0665349000244060,
+				4350CCBC0665349000244060,
+				4350CD2C0665399300244060,
+				4350CD2D0665399300244060,
+				4350CE08066540D500244060,
+				4350CE09066540D500244060,
+			);
+			isa = PBXGroup;
+			name = Classes;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		2A37F4AFFDCFA73011CA2CEA = {
+			children = (
+				32DBCF750370BD2300C91783,
+				2A37F4B0FDCFA73011CA2CEA,
+			);
+			isa = PBXGroup;
+			name = "Other Sources";
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		2A37F4B0FDCFA73011CA2CEA = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = main.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		2A37F4B6FDCFA73011CA2CEA = {
+			children = (
+				2A37F4B7FDCFA73011CA2CEA,
+			);
+			isa = PBXVariantGroup;
+			name = MainMenu.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		2A37F4B7FDCFA73011CA2CEA = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/MainMenu.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		2A37F4B8FDCFA73011CA2CEA = {
+			children = (
+				4327F0A307CEBD0000AB5CFE,
+				4327F0A407CEBD0000AB5CFE,
+				4327F0A507CEBD0000AB5CFE,
+				4327F0A607CEBD0000AB5CFE,
+				4327F0A707CEBD0000AB5CFE,
+				4327F0A807CEBD0000AB5CFE,
+				4327F0A907CEBD0000AB5CFE,
+				4327F0AA07CEBD0000AB5CFE,
+				4327F0AB07CEBD0000AB5CFE,
+				4327F0AC07CEBD0000AB5CFE,
+				4327F0AD07CEBD0000AB5CFE,
+				4327F0AE07CEBD0000AB5CFE,
+				4327F0AF07CEBD0000AB5CFE,
+				4327F0B007CEBD0000AB5CFE,
+				4327F0B107CEBD0000AB5CFE,
+				4327F0B207CEBD0000AB5CFE,
+				4327F0B307CEBD0000AB5CFE,
+				4327F0B407CEBD0000AB5CFE,
+				4327F01607CEB4AA00AB5CFE,
+				2A37F4B9FDCFA73011CA2CEA,
+				2A37F4B6FDCFA73011CA2CEA,
+				4350CCCC0665350000244060,
+				8D15AC360486D014006FF6A4,
+				089C165FFE840EACC02AAC07,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		2A37F4B9FDCFA73011CA2CEA = {
+			children = (
+				2A37F4BAFDCFA73011CA2CEA,
+			);
+			isa = PBXVariantGroup;
+			name = Credits.rtf;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		2A37F4BAFDCFA73011CA2CEA = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.rtf;
+			name = English;
+			path = English.lproj/Credits.rtf;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		2A37F4C3FDCFA73011CA2CEA = {
+			children = (
+				1058C7A6FEA54F5311CA2CBB,
+				1058C7A8FEA54F5311CA2CBB,
+			);
+			isa = PBXGroup;
+			name = Frameworks;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		2A37F4C4FDCFA73011CA2CEA = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = AppKit.framework;
+			path = /System/Library/Frameworks/AppKit.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		2A37F4C5FDCFA73011CA2CEA = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = Foundation.framework;
+			path = /System/Library/Frameworks/Foundation.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+//2A0
+//2A1
+//2A2
+//2A3
+//2A4
+//320
+//321
+//322
+//323
+//324
+		32DBCF750370BD2300C91783 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = "Query Tool for Postgres_Prefix.pch";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+//320
+//321
+//322
+//323
+//324
+//430
+//431
+//432
+//433
+//434
+		4327EEA807CE783C00AB5CFE = {
+			children = (
+				4327EEA907CE783C00AB5CFE,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327EEA907CE783C00AB5CFE = {
+			fileType = wrapper.framework;
+			isa = PBXReferenceProxy;
+			path = pgCocoaDB.framework;
+			refType = 3;
+			remoteRef = 4327EEAA07CE784000AB5CFE;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4327EEAA07CE784000AB5CFE = {
+			containerPortal = 4350CDE40665400000244060;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = pgCocoaDB;
+		};
+		4327EFCB07CE9B5900AB5CFE = {
+			containerPortal = 4350CDE40665400000244060;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = pgCocoaDB;
+		};
+		4327EFCC07CE9B5900AB5CFE = {
+			isa = PBXTargetDependency;
+			name = "pgCocoaDB (from pgCocoaDB.xcode)";
+			targetProxy = 4327EFCB07CE9B5900AB5CFE;
+		};
+		4327F01607CEB4AA00AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder;
+			path = Help;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F01807CEB4AA00AB5CFE = {
+			fileRef = 4327F01607CEB4AA00AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0A307CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = about_32.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0A407CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = connect_32.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0A507CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = connect_dlg.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0A607CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = copy_32.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0A707CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = cut_32.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0A807CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = disconnect_32.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0A907CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = export_data_32.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0AA07CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = icon_postgres.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0AB07CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.icns;
+			path = icon_query_tool.icns;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0AC07CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = open_32.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0AD07CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = paste_32.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0AE07CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = prefs_32.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0AF07CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = print_32.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0B007CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = run_script_32.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0B107CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = savas_32.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0B207CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = save_32.png;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0B307CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.icns;
+			path = "sql-doc.icns";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0B407CEBD0000AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = image.png;
+			path = "sql-doc.png";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4327F0B507CEBD0000AB5CFE = {
+			fileRef = 4327F0A307CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0B607CEBD0000AB5CFE = {
+			fileRef = 4327F0A407CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0B707CEBD0000AB5CFE = {
+			fileRef = 4327F0A507CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0B807CEBD0000AB5CFE = {
+			fileRef = 4327F0A607CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0B907CEBD0000AB5CFE = {
+			fileRef = 4327F0A707CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0BA07CEBD0000AB5CFE = {
+			fileRef = 4327F0A807CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0BB07CEBD0000AB5CFE = {
+			fileRef = 4327F0A907CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0BC07CEBD0000AB5CFE = {
+			fileRef = 4327F0AA07CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0BD07CEBD0000AB5CFE = {
+			fileRef = 4327F0AB07CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0BE07CEBD0000AB5CFE = {
+			fileRef = 4327F0AC07CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0BF07CEBD0000AB5CFE = {
+			fileRef = 4327F0AD07CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0C007CEBD0000AB5CFE = {
+			fileRef = 4327F0AE07CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0C107CEBD0000AB5CFE = {
+			fileRef = 4327F0AF07CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0C207CEBD0000AB5CFE = {
+			fileRef = 4327F0B007CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0C307CEBD0000AB5CFE = {
+			fileRef = 4327F0B107CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0C407CEBD0000AB5CFE = {
+			fileRef = 4327F0B207CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0C507CEBD0000AB5CFE = {
+			fileRef = 4327F0B307CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0C607CEBD0000AB5CFE = {
+			fileRef = 4327F0B407CEBD0000AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0CC07CEBD3500AB5CFE = {
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				4327F0ED07CEBD8E00AB5CFE,
+			);
+			isa = PBXCopyFilesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4327F0E007CEBD6700AB5CFE = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = pgCocoaDB.framework;
+			path = /Users/arsatori/Projects/PostgreSQL/Sources/pgCocoaDB/build/pgCocoaDB.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		4327F0E107CEBD6700AB5CFE = {
+			fileRef = 4327F0E007CEBD6700AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4327F0ED07CEBD8E00AB5CFE = {
+			fileRef = 4327F0E007CEBD6700AB5CFE;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4350CCB90665349000244060 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = DataSource.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4350CCBA0665349000244060 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = DataSource.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4350CCBB0665349000244060 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = SqlDocument.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4350CCBC0665349000244060 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = SqlDocument.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4350CCBD0665349000244060 = {
+			fileRef = 4350CCB90665349000244060;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4350CCBE0665349000244060 = {
+			fileRef = 4350CCBA0665349000244060;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4350CCBF0665349000244060 = {
+			fileRef = 4350CCBB0665349000244060;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4350CCC00665349000244060 = {
+			fileRef = 4350CCBC0665349000244060;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4350CCCC0665350000244060 = {
+			children = (
+				4350CCCD0665350000244060,
+			);
+			isa = PBXVariantGroup;
+			name = SqlDocument.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4350CCCD0665350000244060 = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/SqlDocument.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4350CCCE0665350000244060 = {
+			fileRef = 4350CCCC0665350000244060;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4350CD2C0665399300244060 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = SqlMenuCategory.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4350CD2D0665399300244060 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = SqlMenuCategory.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4350CD2E0665399300244060 = {
+			fileRef = 4350CD2C0665399300244060;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4350CD2F0665399300244060 = {
+			fileRef = 4350CD2D0665399300244060;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4350CDE40665400000244060 = {
+			isa = PBXFileReference;
+			lastKnownFileType = "wrapper.pb-project";
+			name = pgCocoaDB.xcode;
+			path = ../pgCocoaDB/pgCocoaDB.xcode;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
+		};
+		4350CE08066540D500244060 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = SqlToolbarCategory.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4350CE09066540D500244060 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = SqlToolbarCategory.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4350CE0A066540D500244060 = {
+			fileRef = 4350CE08066540D500244060;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4350CE0B066540D500244060 = {
+			fileRef = 4350CE09066540D500244060;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//430
+//431
+//432
+//433
+//434
+//4A0
+//4A1
+//4A2
+//4A3
+//4A4
+		4A9504D0FFE6A4CB11CA0CBA = {
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OPTIMIZATION_CFLAGS = "-O0";
+				ZERO_LINK = YES;
+			};
+			isa = PBXBuildStyle;
+			name = Development;
+		};
+		4A9504D1FFE6A4CB11CA0CBA = {
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				ZERO_LINK = NO;
+			};
+			isa = PBXBuildStyle;
+			name = Deployment;
+		};
+//4A0
+//4A1
+//4A2
+//4A3
+//4A4
+//8D0
+//8D1
+//8D2
+//8D3
+//8D4
+		8D15AC270486D014006FF6A4 = {
+			buildPhases = (
+				8D15AC280486D014006FF6A4,
+				8D15AC2B0486D014006FF6A4,
+				8D15AC300486D014006FF6A4,
+				8D15AC330486D014006FF6A4,
+				4327F0CC07CEBD3500AB5CFE,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = /Users/arsatori/Projects/PostgreSQL/Sources/pgCocoaDB/build;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Query Tool for Postgres_Prefix.pch";
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = "";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "Query Tool for Postgres";
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WRAPPER_EXTENSION = app;
+			};
+			dependencies = (
+				4327EFCC07CE9B5900AB5CFE,
+			);
+			isa = PBXNativeTarget;
+			name = "Query Tool for Postgres";
+			productInstallPath = "$(HOME)/Applications";
+			productName = "Query Tool for Postgres";
+			productReference = 8D15AC370486D014006FF6A4;
+			productType = "com.apple.product-type.application";
+		};
+		8D15AC280486D014006FF6A4 = {
+			buildActionMask = 2147483647;
+			files = (
+				8D15AC290486D014006FF6A4,
+				4350CCBD0665349000244060,
+				4350CCBF0665349000244060,
+				4350CD2E0665399300244060,
+				4350CE0A066540D500244060,
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D15AC290486D014006FF6A4 = {
+			fileRef = 32DBCF750370BD2300C91783;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		8D15AC2B0486D014006FF6A4 = {
+			buildActionMask = 2147483647;
+			files = (
+				8D15AC2C0486D014006FF6A4,
+				8D15AC2D0486D014006FF6A4,
+				8D15AC2F0486D014006FF6A4,
+				4350CCCE0665350000244060,
+				4327F01807CEB4AA00AB5CFE,
+				4327F0B507CEBD0000AB5CFE,
+				4327F0B607CEBD0000AB5CFE,
+				4327F0B707CEBD0000AB5CFE,
+				4327F0B807CEBD0000AB5CFE,
+				4327F0B907CEBD0000AB5CFE,
+				4327F0BA07CEBD0000AB5CFE,
+				4327F0BB07CEBD0000AB5CFE,
+				4327F0BC07CEBD0000AB5CFE,
+				4327F0BD07CEBD0000AB5CFE,
+				4327F0BE07CEBD0000AB5CFE,
+				4327F0BF07CEBD0000AB5CFE,
+				4327F0C007CEBD0000AB5CFE,
+				4327F0C107CEBD0000AB5CFE,
+				4327F0C207CEBD0000AB5CFE,
+				4327F0C307CEBD0000AB5CFE,
+				4327F0C407CEBD0000AB5CFE,
+				4327F0C507CEBD0000AB5CFE,
+				4327F0C607CEBD0000AB5CFE,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D15AC2C0486D014006FF6A4 = {
+			fileRef = 2A37F4B9FDCFA73011CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		8D15AC2D0486D014006FF6A4 = {
+			fileRef = 2A37F4B6FDCFA73011CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		8D15AC2F0486D014006FF6A4 = {
+			fileRef = 089C165FFE840EACC02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		8D15AC300486D014006FF6A4 = {
+			buildActionMask = 2147483647;
+			files = (
+				8D15AC320486D014006FF6A4,
+				4350CCBE0665349000244060,
+				4350CCC00665349000244060,
+				4350CD2F0665399300244060,
+				4350CE0B066540D500244060,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D15AC320486D014006FF6A4 = {
+			fileRef = 2A37F4B0FDCFA73011CA2CEA;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+				);
+			};
+		};
+		8D15AC330486D014006FF6A4 = {
+			buildActionMask = 2147483647;
+			files = (
+				8D15AC340486D014006FF6A4,
+				4327F0E107CEBD6700AB5CFE,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D15AC340486D014006FF6A4 = {
+			fileRef = 1058C7A7FEA54F5311CA2CBB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		8D15AC360486D014006FF6A4 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist;
+			path = Info.plist;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		8D15AC370486D014006FF6A4 = {
+			explicitFileType = wrapper.application;
+			includeInIndex = 0;
+			isa = PBXFileReference;
+			path = "Query Tool for Postgres.app";
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+	};
+	rootObject = 2A37F4A9FDCFA73011CA2CEA;
+}
