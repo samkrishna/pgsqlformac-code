@@ -1,0 +1,11 @@
+{
+  Description   = "PostgreSQL database server";
+  Provides      = ("PostgreSQL");
+  Requires      = ("Resolver");
+  Preference    = "Late";
+  Messages =
+  {
+    start = "Starting PostgreSQL";
+    stop  = "Stopping PostgreSQL";
+  };
+}

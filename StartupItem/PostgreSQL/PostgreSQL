@@ -1,0 +1,88 @@
+#!/bin/sh
+
+. /etc/rc.common
+
+##
+# Start up the PostgreSQL database server on Mac OS X / Darwin
+#
+#
+# History
+# -------
+#
+# 2005-02-28  Andy Satori <dru@druwaer.com >
+#             Modified to resolve issues with the Postgres user not having a
+#             Shell defined (su -m)
+#
+# 2005-02-07  Andy Satori <dru@druware.com>
+#             Updated for the new PostgreSQL8 package from Druware
+#			  Software Designs
+#
+# 2004-03-09  Andy Satori <dru@druware.com>
+#             Modified to use the /Library/PostgreSQL/Data path
+#             and place logs in /Library/Logs/PostgreSQL.log for
+#             use with the /Applications/Utilities/Console.app
+#
+# 2002-08-21  Marc Liyanage <liyanage@access.ch>
+#             Changed startup to use pg_ctl
+#
+# 2002-08-19  Ed Silva <ed@septicus.com>
+#             Modified startup script to conform
+#             to new SystemStarter format for Mac OS X 10.2
+#
+# 2001-04-02  Marc Liyanage <liyanage@access.ch>
+#             First version
+#
+# 2001-12-02  Johan Henselmans <johanhenselmans@mac.com>
+#             Enhanced after carefully studying the Frontbase
+#             startup sequence ;-)
+#             Now provides a stop procedure for a graceful shutdown
+#             and a hard kill if the clean shutdown doesn't work.
+#
+# 2001-12-02  Marc Liyanage <liyanage@access.ch>
+#             Added localized startup messages in 7 languages
+#             by adapting the resources of the Apple-supplied
+#             "Sendmail" startup script.
+#
+#
+# License
+# -------
+#
+# The PostgreSQL BSD-style license applies to this file
+#
+
+StartService ()
+{
+
+	if [ "${POSTGRES:=-YES-}" = "-YES-" ]; then
+
+       
+	    ConsoleMessage "Starting PostgreSQL database server"
+	    su -m postgres -c '/Library/PostgreSQL8/bin/pg_ctl start -D /Library/PostgreSQL8/data -l /Library/PostgreSQL8/log/PostgreSQL8.log -o -i'
+	    
+	fi
+
+}
+
+StopService()
+{
+
+	ConsoleMessage "Stopping PostgreSQL database services"
+	su -m postgres -c '/Library/PostgreSQL8/bin/pg_ctl stop -D /Library/PostgreSQL8/data'
+	x=`ps -aux | grep postgres | grep postmaster | awk -F" " '{print $2}'`
+	if /bin/test "$x"
+	then
+		set $x
+		kill -9 $x
+	fi
+
+}
+
+RestartService ()
+{
+    StopService
+    StartService
+}
+
+
+RunService "$1"
+
