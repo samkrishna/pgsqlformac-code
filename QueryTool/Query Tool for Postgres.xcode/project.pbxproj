@@ -583,9 +583,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = pgCocoaDB.framework;
-			path = ../pgCocoaDB/build/pgCocoaDB.framework;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			path = /Users/arsatori/Projects/PostgreSQL/Sources/pgCocoaDB/build/pgCocoaDB.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		4327F0E107CEBD6700AB5CFE = {
 			fileRef = 4327F0E007CEBD6700AB5CFE;
@@ -797,7 +797,7 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = ../pgCocoaDB/build;
+				FRAMEWORK_SEARCH_PATHS = /Users/arsatori/Projects/PostgreSQL/Sources/pgCocoaDB/build;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -805,7 +805,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = ../pgCocoaDB;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";

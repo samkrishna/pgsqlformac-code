@@ -3,7 +3,7 @@
 //  Create User
 //
 //  Created by Andy Satori on 2/21/05.
-//  Copyright 2005 Druware Software Designs. All rights reserved.
+//  Copyright 2005 __MyCompanyName__. All rights reserved.
 //
 
 #import "PGNewUserUI.h"

@@ -74,7 +74,7 @@ sudo chown -R postgres:postgres /Library/PostgreSQL8/data
 sudo chown -R postgres:admin /Library/PostgreSQL8/log
 sudo chmod -R 777 /Library/PostgreSQL8/doc/*
 
-su -m postgres -c '/Library/PostgreSQL8/bin/initdb -D /Library/PostgreSQL8/data'
+sudo -u postgres /Library/PostgreSQL8/bin/initdb -D /Library/PostgreSQL8/data
 
 echo Permissions have been altered to allow the automated startup 
 echo of the PostgreSQL server.

@@ -44,13 +44,12 @@
     [textContainer setWidthTracksTextView:NO];
 	
 	// set the text view delegate
-	[query setDelegate:self];
 	[[query textStorage] setDelegate:self];
 	
 	// init the keyword arrays
 	NSString *temp = [[NSString alloc] initWithString:@"select from where order by asc desc insert into delete create drop alter"];
 	
-	keywords = [[NSArray alloc] initWithArray:[temp componentsSeparatedByString:@" "]];
+	keywords = [temp componentsSeparatedByString:@" "];
 	[keywords retain];
 	[keywords autorelease];
 	
@@ -254,40 +253,14 @@
 	[working stopAnimation:sender];
 }
 
-//- (void)textViewDidChange:(NSNotification *)aNotification
-- (void) textStorageWillProcessEditing:(NSNotification *)aNotification
-{
-	// see stickie
-	NSScanner *scanner = [NSScanner scannerWithString:[query string]];
-	NSColor *tagColor = [NSColor colorWithCalibratedRed: 0.2 green: 0.2 blue: 1.0 alpha: 1.0];
-	NSDictionary *atts = [NSDictionary dictionaryWithObject:tagColor
-		forKey:NSForegroundColorAttributeName];
-	NSColor *defaultColor = [NSColor colorWithCalibratedRed: 0.0 green: 0.0 blue: 0.0 alpha: 1.0];
-	NSDictionary *defaultAtts = [NSDictionary dictionaryWithObject:defaultColor
-		forKey:NSForegroundColorAttributeName];
-		
-	NSArray *words = [[query textStorage] words];
-	
-	int i;
-	for (i = 0; i < [words count]; i++)
-	{
-		NSMutableAttributedString *word = [words objectAtIndex:i];
-		[word setAttributes:defaultAtts range:NSMakeRange(0, [word length])];
 
-		int x;
-		for (x = 0; x < [keywords count]; x++)
-		{
-			NSString *keyword = (NSString *)[keywords objectAtIndex:x];
-			if ([keyword caseInsensitiveCompare:[[words objectAtIndex:i] string]] ==
-					NSOrderedSame)
-			{
-				[word setAttributes:atts range:NSMakeRange(0, [word length])];
-				break;
-			}
-		}
-	}
-	
-	[self updateChangeCount:NSChangeDone];
+//- (void)textViewDidChange:(NSNotification *)aNotification
+- (void)textStorageWillProcessEditing:(NSNotification *)aNotification
+{
+  // see stickie
+  
+  
+  [self updateChangeCount:NSChangeDone];
 }
 
 - (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(int *)index

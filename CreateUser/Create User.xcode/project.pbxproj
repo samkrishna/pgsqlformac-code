@@ -347,9 +347,9 @@
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.framework;
 			name = pgCocoaDB.framework;
-			path = ../pgCocoaDB/build/pgCocoaDB.framework;
-			refType = 2;
-			sourceTree = SOURCE_ROOT;
+			path = /Users/arsatori/Projects/PostgreSQL/Sources/pgCocoaDB/build/pgCocoaDB.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
 		};
 		434CDD6607CC33DF000F3026 = {
 			fileRef = 434CDD6507CC33DF000F3026;
@@ -427,14 +427,13 @@
 			buildRules = (
 			);
 			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = ../pgCocoaDB/build;
+				FRAMEWORK_SEARCH_PATHS = /Users/arsatori/Projects/PostgreSQL/Sources/pgCocoaDB/build;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Create User_Prefix.pch";
-				HEADER_SEARCH_PATHS = ../pgCocoaDB;
+				HEADER_SEARCH_PATHS = /Users/arsatori/Projects/PostgreSQL/Sources/pgCocoaDB;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "Create User";
 				WRAPPER_EXTENSION = app;
 			};
