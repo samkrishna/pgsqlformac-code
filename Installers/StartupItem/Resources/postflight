@@ -2,7 +2,7 @@
 
 # Set the permissions on the directories
 
-sudo chown -R root:admin /Library/StartupItems/PostgreSQL
+sudo chown -R root:wheel /Library/StartupItems/PostgreSQL
 
 sudo sh /Library/StartupItems/PostgreSQL/PostgreSQL start
 

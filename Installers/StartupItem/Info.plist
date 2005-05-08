@@ -9,7 +9,7 @@
 	<key>CFBundleName</key>
 	<string>PostgreSQL Startup Item</string>
 	<key>CFBundleShortVersionString</key>
-	<string>8.0.1b</string>
+	<string>8.0.1</string>
 	<key>IFMajorVersion</key>
 	<integer>8</integer>
 	<key>IFMinorVersion</key>
