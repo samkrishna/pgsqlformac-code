@@ -81,6 +81,7 @@
 				089C1665FE841158C02AAC07,
 				0867D69AFE84028FC02AAC07,
 				034768DFFF38A50411DB9C8B,
+				430CA1710825BC7800F43A7D,
 			);
 			isa = PBXGroup;
 			name = pgCocoaDB;
@@ -254,6 +255,13 @@
 //432
 //433
 //434
+		430CA1710825BC7800F43A7D = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.xcclassmodel;
+			path = pgCocoaDB.xcclassmodel;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		4330338F066135480037D932 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
