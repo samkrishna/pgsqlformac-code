@@ -45,7 +45,7 @@ cp -r /Library/PostgreSQL8/share/* $BASEPATH/temp/Files/Library/PostgreSQL8/shar
 mkdir -p $BASEPATH/temp/Files/Library/PostgreSQL8/lib
 cp -r /Library/PostgreSQL8/lib/* $BASEPATH/temp/Files/Library/PostgreSQL8/lib
 mkdir -p $BASEPATH/temp/Files/Applications/PostgreSQL
-cp -r $BASEPATH/ServiceManager/build/Service\ Manager.app $BASEPATH/temp/Files/Applications/PostgreSQL
+cp -r $BASEPATH/ServiceManager/build/Deployment/Service\ Manager.app $BASEPATH/temp/Files/Applications/PostgreSQL
 
 find $BASEPATH/temp/ -name ".DS_Store" -exec rm -f {} \; 
 
@@ -78,7 +78,7 @@ cp  $BASEPATH/Installers/StartupItem/Resources/postflight $BASEPATH/temp/Resourc
 sudo find $BASEPATH/temp/ -name ".DS_Store" -exec rm -f {} \; 
 
 # fix permissions so that they get installed correctly.
-chown -R root:admin $BASEPATH/Installers/StartupItem/Files/*
+chown -R root:wheel $BASEPATH/Installers/StartupItem/Files/*
 
 # build the .pkg
 /Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $BASEPATH/dist/PostgreSQL/packages/Postgres\ Startup\ Item.pkg -f $BASEPATH/temp/Files -r $BASEPATH/temp/Resources -d $BASEPATH/Installers/StartupItem/Description.plist -i $BASEPATH/Installers/StartupItem/Info.plist
@@ -155,6 +155,11 @@ sudo find $BASEPATH/temp -name ".DS_Store" -exec rm -f {} \;
 # fix permissions so that they get installed correctly.
 chown -R root:admin $BASEPATH/temp/*
 
+mkdir -p $BASEPATH/dist/SQL-Ledger
+
+rm -rf $BASEPATH/dist/SQL-Ledger/packages
+cp -r $BASEPATH/dist/PostgreSQL/packages $BASEPATH/dist/SQL-Ledger/
+
 # build the .pkg
 /Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $BASEPATH/dist/SQL-Ledger/packages/SQL-Ledger.pkg -f $BASEPATH/temp/Files -r $BASEPATH/Installers/SQL-Ledger/Resources -d $BASEPATH/Installers/SQL-Ledger/Description.plist -i $BASEPATH/Installers/SQL-Ledger/Info.plist
 
@@ -178,4 +183,3 @@ mkdir -p $BASEPATH/temp
 
 /Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $BASEPATH/dist/SQL-Ledger/SQL-Ledger.mpkg -f $BASEPATH/temp -r $BASEPATH/Installers/SQL-LedgerMP/Resources -d $BASEPATH/Installers/SQL-LedgerMP/Description.plist -i $BASEPATH/Installers/SQL-LedgerMP/Info.plist
 
-cp -r $BASEPATH/dist/PostgreSQL/packages/* $BASEPATH/dist/SQL-Ledger/packages

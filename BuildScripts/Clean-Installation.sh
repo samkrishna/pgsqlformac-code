@@ -55,9 +55,9 @@ echo \#       ...done
 echo \# Removing Logs \& Receipts
 sudo rm -f /Library/Logs/PostgreSQL8.log
 sudo rm -rf /Library/Receipts/PostgreSQL8.pkg
-sudo rm -rf /Library/Receipts/Postgres Startup Item.pkg
-sudo rm -rf /Library/Receipts/Postgres JDBC.pkg
-sudo rm -rf /Library/Receipts/Client Tools.pkg
+sudo rm -rf /Library/Receipts/Postgres\ Startup\ Item.pkg
+sudo rm -rf /Library/Receipts/Postgres\ JDBC.pkg
+sudo rm -rf /Library/Receipts/Client\ Tools.pkg
 sudo rm -rf /Library/Receipts/SQL-Ledger.pkg
 echo \#       ...done
 
