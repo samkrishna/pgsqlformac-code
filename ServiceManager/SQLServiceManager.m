@@ -70,14 +70,22 @@
 {
 	// check the current run state of postmaster
 	NSString *serverProcessName = [[NSString alloc] initWithString:@"postgres"];
+	NSString *serverProcessNameAlt = [[NSString alloc] initWithString:@"postmaster"];
 	NSArray *processes = [AGProcess allProcesses];
 	int i;
 	for (i = 0; i < [processes count]; i++)
 	{
 		AGProcess *process = (AGProcess *)[processes objectAtIndex:i];
 
-		NSLog(@"%s", [[process command] cString]);
+		/* -- debug
+		 *  NSLog(@"%s", [[process command] cString]);
+		 * -- end debug */
+		
 		if ([[process command] isEqual:serverProcessName])
+		{
+			return YES;
+		}
+		if ([[process command] isEqual:serverProcessNameAlt])
 		{
 			return YES;
 		}
