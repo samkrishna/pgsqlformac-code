@@ -29,7 +29,7 @@ echo \# Removing NetInfo entries
 
 PG_UID=`/usr/bin/nifind -p //users/postgres | grep "^uid:.[0-9]" | sed 's/.*: //' | sed 's/ //'`
 	
-# User Doesn't Exist, create it 
+# User exists 
 if test $PG_UID; then
 	sudo /usr/bin/niutil -destroyprop / /users/postgres gid 
 	sudo /usr/bin/niutil -destroyprop / /users/postgres uid 
@@ -40,7 +40,7 @@ fi
 
 PG_GID=`/usr/bin/nifind -p //groups/postgres | grep "gid:.[0-9]" | sed 's/.*: //' | sed 's/ //'`
 	
-# Group Doesn't Exist, create it 
+# Group Exist, destroy it 
 if test $PG_GID; then
 	sudo /usr/bin/niutil -destroyprop / /groups/postgres gid 
 	sudo /usr/bin/niutil -destroy / /groups/postgres
@@ -66,6 +66,8 @@ echo \# Removing Files and Folders
 sudo rm -rf /Library/PostgreSQL8
 sudo rm -rf /Library/StartupItems/PostgreSQL
 sudo rm -rf /Applications/PostgreSQL
+
+# the following lines are for SQL-Ledger
 sudo rm -rf /Library/WebServer/Documents/sql-ledger
 sudo rm -f /private/etc/httpd/users/sql-ledger.conf
 sudo rm -f /usr/bin/dbiproxy

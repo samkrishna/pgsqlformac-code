@@ -46,6 +46,7 @@ mkdir -p $BASEPATH/temp/Files/Library/PostgreSQL8/lib
 cp -r /Library/PostgreSQL8/lib/* $BASEPATH/temp/Files/Library/PostgreSQL8/lib
 mkdir -p $BASEPATH/temp/Files/Applications/PostgreSQL
 cp -r $BASEPATH/ServiceManager/build/Deployment/Service\ Manager.app $BASEPATH/temp/Files/Applications/PostgreSQL
+cp -r $BASEPATH/BuildScripts/Clean-Installation.sh $BASEPATH/temp/Files/Applications/PostgreSQL/Uninstall-PostgreSQL.sh
 
 find $BASEPATH/temp/ -name ".DS_Store" -exec rm -f {} \; 
 
@@ -70,9 +71,8 @@ cp $BASEPATH/StartupItem/PostgreSQL/Resources/English.lproj/Localizable.strings 
 
 mkdir -p $BASEPATH/temp/Resources
 cp  $BASEPATH/Installers/StartupItem/Resources/*.rtf $BASEPATH/temp/Resources
-cp  $BASEPATH/Installers/StartupItem/Resources/*.strings $BASEPATH/temp/Resources
 cp  $BASEPATH/Installers/StartupItem/Resources/background.tif $BASEPATH/temp/Resources
-cp  $BASEPATH/Installers/StartupItem/Resources/InstallationCheck $BASEPATH/temp/Resources
+cp  $BASEPATH/Installers/StartupItem/Resources/preflight $BASEPATH/temp/Resources
 cp  $BASEPATH/Installers/StartupItem/Resources/postflight $BASEPATH/temp/Resources
 
 sudo find $BASEPATH/temp/ -name ".DS_Store" -exec rm -f {} \; 
@@ -114,9 +114,9 @@ rm -rf $BASEPATH/temp
 # copy the files into the temp storage.
 mkdir -p $BASEPATH/temp/Files/Applications/PostgreSQL
 
-cp -r $BASEPATH/CreateDatabase/build/Create\ Database.app $BASEPATH/temp/Files/Applications/PostgreSQL
-cp -r $BASEPATH/CreateUser/build/Create\ User.app $BASEPATH/temp/Files/Applications/PostgreSQL
-cp -r $BASEPATH/QueryTool/build/Query\ Tool\ for\ Postgres.app $BASEPATH/temp/Files/Applications/PostgreSQL
+cp -r $BASEPATH/CreateDatabase/build/Deployment/Create\ Database.app $BASEPATH/temp/Files/Applications/PostgreSQL
+cp -r $BASEPATH/CreateUser/build/Deployment/Create\ User.app $BASEPATH/temp/Files/Applications/PostgreSQL
+cp -r $BASEPATH/QueryTool/build/Deployment/Query\ Tool\ for\ Postgres.app $BASEPATH/temp/Files/Applications/PostgreSQL
 
 sudo find $BASEPATH/temp/ -name ".DS_Store" -exec rm -f {} \; 
 
