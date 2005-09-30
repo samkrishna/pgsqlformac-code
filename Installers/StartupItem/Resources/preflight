@@ -17,5 +17,12 @@ then
 		set $x
 		kill -9 $x
 	fi
+	
+	x=`ps -aux | grep postgres | grep postmaster | awk -F" " '{print $2}'`
+	if /bin/test "$x"
+	then
+		echo +++ PostgreSQL is still running despite repeated attempts to stop it
+		exit 113
+	fi
 fi
 exit 0
