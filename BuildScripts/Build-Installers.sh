@@ -130,6 +130,10 @@ chown -R root:admin $BASEPATH/temp/Files/*
 rm -rf $BASEPATH/temp
 
 # ************************************************************** Admin Tools.pkg
+
+# PGAdmin III
+
+
 # ********************************************************** Migration Tools.pkg
 # *************************************************************** SQL-Ledger.pkg
 
