@@ -84,7 +84,8 @@
 			[resultStatus startAnimation:self];
 			[back setEnabled:NO];
 			
-			[NSThread detachNewThreadSelector:@selector(createDatabase) toTarget:self withObject:nil];
+			// [NSThread detachNewThreadSelector:@selector(createDatabase) toTarget:self withObject:nil];
+			[self createDatabase];
 			break;
 		default: // all done
 			[NSApp terminate:sender];
@@ -131,7 +132,7 @@
 			[tableSpace stringValue]]];	
 	}
 	
-	[resultOutput setString:@""];
+//	[resultOutput setString:@""];
 	[resultOutput setString:[NSString stringWithFormat:@"executing sql command: %@\n", 
 		cmd]];
 		
@@ -144,8 +145,8 @@
 
 	[resultStatus stopAnimation:self];
 	
-	[pool release];
-	[NSThread exit];
+	//[pool release];
+	//[NSThread exit];
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification

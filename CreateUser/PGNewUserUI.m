@@ -99,7 +99,9 @@
 			[back setEnabled:NO];
 
 			
-			[NSThread detachNewThreadSelector:@selector(createUser) toTarget:self withObject:nil];
+			// [NSThread detachNewThreadSelector:@selector(createUser) toTarget:self withObject:nil];
+			[self createUser];
+			
 			break;
 		default: // all done
 			[NSApp terminate:sender];
@@ -112,7 +114,7 @@
 
 - (void)createUser
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	//NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
     // Do processing here
 	NSMutableString *cmd = [[NSMutableString alloc] initWithString:@""];
@@ -171,8 +173,8 @@
 
 	[resultStatus stopAnimation:self];
 	
-	[pool release];
-	[NSThread exit];
+	//[pool release];
+	//[NSThread exit];
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification
