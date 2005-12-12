@@ -66,4 +66,6 @@
 
 - (Databases *)databases;
 
+- (NSString *)currentDatabase;
+
 @end

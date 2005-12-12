@@ -23,10 +23,6 @@
 		433033C2066135EA0037D932 /* Record.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033B2066135EA0037D932 /* Record.m */; };
 		433033C3066135EA0037D932 /* RecordSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 433033B3066135EA0037D932 /* RecordSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		433033C4066135EA0037D932 /* RecordSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033B4066135EA0037D932 /* RecordSet.m */; };
-		433033E0066136300037D932 /* libpq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 433033DF066136300037D932 /* libpq.a */; };
-		433033F4066137650037D932 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 433033F3066137650037D932 /* libcrypto.dylib */; };
-		433033F8066137830037D932 /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 433033F7066137830037D932 /* libssl.dylib */; };
-		4330341D066138050037D932 /* libkrb5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4330341C066138050037D932 /* libkrb5.dylib */; };
 		8DC2EF510486A6940098B216 /* pgCocoaDB_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF5E0370ADEE00C91783 /* pgCocoaDB_Prefix.pch */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF550486A6940098B216 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 08FB77B4FE84181DC02AAC07 /* main.c */; settings = {ATTRIBUTES = (); }; };
@@ -86,9 +82,9 @@
 		433033B5066135EA0037D932 /* Table.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Table.h; sourceTree = "<group>"; };
 		433033B6066135EA0037D932 /* Table.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Table.m; sourceTree = "<group>"; };
 		433033DF066136300037D932 /* libpq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpq.a; path = /opt/local/lib/libpq.a; sourceTree = "<absolute>"; };
-		433033F3066137650037D932 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
-		433033F7066137830037D932 /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = /usr/lib/libssl.dylib; sourceTree = "<absolute>"; };
-		4330341C066138050037D932 /* libkrb5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libkrb5.dylib; path = /usr/lib/libkrb5.dylib; sourceTree = "<absolute>"; };
+		433033F3066137650037D932 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o"; name = libcrypto.dylib; path = /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
+		433033F7066137830037D932 /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o"; name = libssl.dylib; path = /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/libssl.dylib; sourceTree = "<absolute>"; };
+		4330341C066138050037D932 /* libkrb5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o"; name = libkrb5.dylib; path = /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/libkrb5.dylib; sourceTree = "<absolute>"; };
 		434E29C207DDFF62002F9C11 /* COPYRIGHT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYRIGHT; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* pgCocoaDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = pgCocoaDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,10 +96,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
-				433033E0066136300037D932 /* libpq.a in Frameworks */,
-				433033F4066137650037D932 /* libcrypto.dylib in Frameworks */,
-				433033F8066137830037D932 /* libssl.dylib in Frameworks */,
-				4330341D066138050037D932 /* libkrb5.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -356,6 +348,10 @@
 		43389A470869E11900D5B56D /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -378,13 +374,18 @@
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				LIBRARY_STYLE = Dynamic;
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_LDFLAGS = (
+					"-lssl",
+					"-lcrypto",
+					"-lkrb5",
+					"-lpq",
 					"-seg1addr",
 					0xb0000000,
 				);
 				PRODUCT_NAME = pgCocoaDB;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SECTORDER_FLAGS = "";
 				VERSIONING_SYSTEM = "";
 				WARNING_CFLAGS = (
@@ -400,6 +401,10 @@
 		43389A480869E11900D5B56D /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -419,12 +424,17 @@
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				LIBRARY_STYLE = Dynamic;
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_LDFLAGS = (
+					"-lssl",
+					"-lcrypto",
+					"-lkrb5",
+					"-lpq",
 					"-seg1addr",
 					0xb0000000,
 				);
 				PRODUCT_NAME = pgCocoaDB;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SECTORDER_FLAGS = "";
 				VERSIONING_SYSTEM = "";
 				WARNING_CFLAGS = (
@@ -440,6 +450,10 @@
 		43389A490869E11900D5B56D /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -457,12 +471,17 @@
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				LIBRARY_STYLE = Dynamic;
 				MACH_O_TYPE = mh_dylib;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_LDFLAGS = (
+					"-lssl",
+					"-lcrypto",
+					"-lkrb5",
+					"-lpq",
 					"-seg1addr",
 					0xb0000000,
 				);
 				PRODUCT_NAME = pgCocoaDB;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SECTORDER_FLAGS = "";
 				VERSIONING_SYSTEM = "";
 				WARNING_CFLAGS = (
@@ -477,18 +496,24 @@
 		43389A4B0869E11900D5B56D /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Development;
 		};
 		43389A4C0869E11900D5B56D /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Deployment;
 		};
 		43389A4D0869E11900D5B56D /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Default;
 		};

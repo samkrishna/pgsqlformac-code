@@ -196,7 +196,7 @@
 	}
 	
 	PGresult	*res;
-	NSString	*sql = @"select * from pg_database where datistemplate = 'f' and datallowconn = 't' order by datname asc"; 
+	NSString	*sql = @"select * from pg_database where datallowconn = 't' order by datname asc"; 
 	
 	res = PQexec(pgconn, [sql cString]);
 	if (PQresultStatus(res) != PGRES_TUPLES_OK) 
@@ -237,6 +237,11 @@
 	
 	return dbs;
 	
+}
+
+- (NSString *)currentDatabase
+{	
+	return [[NSString stringWithCString:PQdb(pgconn)] autorelease];
 }
 
 
