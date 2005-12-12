@@ -9,11 +9,14 @@
                 onConnectOK = id; 
                 onDisconnect = id; 
                 onExecuteQuery = id; 
+                onSetDatabase = id; 
             }; 
             CLASS = SqlDocument; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 dataOutput = NSTableView; 
+                dbList = NSPopUpButton; 
+                dbListView = NSView; 
                 dbName = NSTextField; 
                 host = NSComboBox; 
                 panelConnect = NSPanel; 

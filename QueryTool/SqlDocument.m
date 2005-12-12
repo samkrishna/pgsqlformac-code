@@ -57,6 +57,8 @@
 	window = [aController window];
 	[self setupToolbar];
 	
+	[dbList removeAllItems];
+		
 	// load the file if it exists
 	if ( fileContent != nil ) 
 	{
@@ -110,13 +112,6 @@
 	[conn setHost:[host stringValue]];
 	[conn setPort:[port stringValue]];
 	
-	if ([[dbName stringValue] length] == 0)
-	{
-		[conn setDbName:@"template1"];
-	} else {
-		[conn setDbName:[dbName stringValue]];
-	}
-	
 	// close the sheet
 	[NSApp stopModal];            
     [NSApp endSheet:panelConnect];
@@ -124,10 +119,29 @@
     [panelConnect close];
 	
 	// perform the connection
-	if ([conn connect])
+	
+	[conn setDbName:@""];	
+	[conn connect];
+	if (![conn isConnected]) 
+	{
+		[conn setDbName:@"template1"];
+		[conn connect];
+	}
+	
+	if ([conn isConnected]) 
 	{
 		[status setStringValue:[NSString stringWithFormat:@"Connected to %@ as %@", 
 			[conn host], [conn userName]]];
+		int i;
+		for (i = 0; i < [[conn databases] count]; i++)
+		{
+			[dbList addItemWithTitle:[[[conn databases] itemAtIndex:i] name]];
+			if ([[[[conn databases] itemAtIndex:i] name] isEqualToString:[conn currentDatabase]])
+			{
+				[dbList selectItemAtIndex:i];
+			}
+		}
+		
 	} else {
 		[status setStringValue:@"Connection failed: %@"];
 	}
@@ -158,8 +172,7 @@
 	// execute the current query on the current database
 	if (![conn isConnected]) 
 	{
-		[status setStringValue:@"Cannot Execute a query against a closed connection"];
-		return;
+		[conn disconnect];
 	}
 	
 	[working startAnimation:sender];
@@ -254,10 +267,39 @@
 	[working stopAnimation:sender];
 }
 
+
+- (IBAction)onSetDatabase:(id)sender
+{
+	if ([conn isConnected])
+	{
+		[conn disconnect];
+	}
+	
+	if ([[[dbList selectedItem]  title] length] == 0)
+	{
+		[conn setDbName:@""];
+	} else {
+		[conn setDbName:[[dbList selectedItem] title]];
+	}
+	
+	// perform the connection
+	if ([conn connect])
+	{
+		[status setStringValue:[NSString stringWithFormat:@"Connected to %@ as %@", 
+			[conn host], [conn userName]]];
+	} else {
+		[status setStringValue:@"Connection failed: %@"];
+	}
+}
+
+
+// NSPopUpButtonWillPopUpNotification
+
 //- (void)textViewDidChange:(NSNotification *)aNotification
 - (void) textStorageWillProcessEditing:(NSNotification *)aNotification
 {
 	// see stickie
+/*
 	NSScanner *scanner = [NSScanner scannerWithString:[query string]];
 	NSColor *tagColor = [NSColor colorWithCalibratedRed: 0.2 green: 0.2 blue: 1.0 alpha: 1.0];
 	NSDictionary *atts = [NSDictionary dictionaryWithObject:tagColor
@@ -287,6 +329,7 @@
 		}
 	}
 	
+ */
 	[self updateChangeCount:NSChangeDone];
 }
 

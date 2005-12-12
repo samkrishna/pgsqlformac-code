@@ -28,7 +28,12 @@
 	IBOutlet NSTextField	*password;
 	IBOutlet NSComboBox		*host;
 	IBOutlet NSComboBox		*port;
-	IBOutlet NSTextField	*dbName;
+	IBOutlet NSPopUpButton	*dbName;
+	
+	// toolbar items
+	IBOutlet NSView			*dbListView;
+	IBOutlet NSPopUpButton  *dbList;
+	
 	
 	NSString				*fileContent;
 	NSData					*fileData;
@@ -47,7 +52,6 @@
 	NSArray *endComment;
 	NSArray *beginLiteral;
 	NSArray *endLiteral;
-	
 }
 
 - (IBAction)onExecuteQuery:(id)sender;
@@ -55,5 +59,6 @@
 - (IBAction)onConnectOK:(id)sender;
 - (IBAction)onConnectCancel:(id)sender;
 - (IBAction)onDisconnect:(id)sender;
+- (IBAction)onSetDatabase:(id)sender;
 
 @end

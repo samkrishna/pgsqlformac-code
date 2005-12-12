@@ -48,6 +48,15 @@
         [item setTarget:self];
         [item setAction:@selector(onExecuteQuery:)];
     }
+	
+	if ( [itemIdentifier isEqualToString:@"SelectDB"] ) {
+		NSRect fRect = [dbListView frame];
+        [item setLabel:@"Select Database:"];
+        [item setPaletteLabel:[item label]];
+        [item setView:dbListView];
+		[item setMinSize:fRect.size];
+		[item setMaxSize:fRect.size];
+    }
 		
 	return [item autorelease];
 }
@@ -55,6 +64,7 @@
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar
 {
     return [NSArray arrayWithObjects:@"Connect", @"Disconnect", @"Execute",
+									 @"SelectDB",
 	                                 NSToolbarSpaceItemIdentifier,
                                      NSToolbarFlexibleSpaceItemIdentifier,
                                      NSToolbarCustomizeToolbarItemIdentifier, nil];
@@ -63,7 +73,7 @@
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar
 {
     return [NSArray arrayWithObjects:
-        @"Connect", @"Disconnect", @"Execute", 
+        @"Connect", @"Disconnect", @"Execute", @"SelectDB",
         NSToolbarFlexibleSpaceItemIdentifier, 
         NSToolbarCustomizeToolbarItemIdentifier, nil];
 }
@@ -85,6 +95,11 @@
 	{
         return ([conn isConnected]);
 	}	
+	
+	//if ( [[theItem itemIdentifier] isEqualToString:@"SelectDB"] )
+	//{
+    //    return ([conn isConnected]);
+	//}
 		
 	return YES;
 }
