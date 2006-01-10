@@ -61,4 +61,9 @@
 - (IBAction)onDisconnect:(id)sender;
 - (IBAction)onSetDatabase:(id)sender;
 
+
+- (BOOL)isValueKeyword:(NSString *)value;
+- (void)setAttributesForWord:(NSRange)rangeOfCurrentWord;
+- (void)colorRange:(NSRange)rangeToColor;
+
 @end

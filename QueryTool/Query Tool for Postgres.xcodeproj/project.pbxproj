@@ -76,7 +76,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 439FF4EA093FFDA7003D928C /* pgCocoaDB.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* pgCocoaDB */;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = pgCocoaDB;
 		};
 		439FF4F1093FFDA7003D928C /* PBXContainerItemProxy */ = {

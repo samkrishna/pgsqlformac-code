@@ -64,6 +64,7 @@
 	{
 		//[query replaceCharactersInRange:NSMakeRange(0, 0) withRTFD:fileContent];
 		[query setString:fileContent];
+		[self colorRange:NSMakeRange(0, [fileContent length])];
 		[self updateChangeCount:NSChangeCleared];
 	}
 	
@@ -292,45 +293,105 @@
 	}
 }
 
-
-// NSPopUpButtonWillPopUpNotification
-
-//- (void)textViewDidChange:(NSNotification *)aNotification
-- (void) textStorageWillProcessEditing:(NSNotification *)aNotification
+- (BOOL)isValueKeyword:(NSString *)value
 {
-	// see stickie
-/*
-	NSScanner *scanner = [NSScanner scannerWithString:[query string]];
+	int x;
+	NSString *trimmedValue = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	for (x = 0; x < [keywords count]; x++)
+	{
+		NSString *keyword = (NSString *)[keywords objectAtIndex:x];
+		if ([keyword caseInsensitiveCompare:trimmedValue] == NSOrderedSame)
+		{
+			return YES;
+		}
+	}
+	return NO;	
+}
+
+- (void)setAttributesForWord:(NSRange)rangeOfCurrentWord
+{
+	// set the attributes of the string 
+	NSTextStorage *ts = [query textStorage];
 	NSColor *tagColor = [NSColor colorWithCalibratedRed: 0.2 green: 0.2 blue: 1.0 alpha: 1.0];
 	NSDictionary *atts = [NSDictionary dictionaryWithObject:tagColor
-		forKey:NSForegroundColorAttributeName];
-	NSColor *defaultColor = [NSColor colorWithCalibratedRed: 0.0 green: 0.0 blue: 0.0 alpha: 1.0];
-	NSDictionary *defaultAtts = [NSDictionary dictionaryWithObject:defaultColor
-		forKey:NSForegroundColorAttributeName];
-		
-	NSArray *words = [[query textStorage] words];
+													 forKey:NSForegroundColorAttributeName];
+	[[query layoutManager] removeTemporaryAttribute:NSForegroundColorAttributeName forCharacterRange:rangeOfCurrentWord];
 	
-	int i;
-	for (i = 0; i < [words count]; i++)
+	if ([self isValueKeyword:[[ts attributedSubstringFromRange:rangeOfCurrentWord] string]])
 	{
-		NSMutableAttributedString *word = [words objectAtIndex:i];
-		[word setAttributes:defaultAtts range:NSMakeRange(0, [word length])];
+		[[query layoutManager] setTemporaryAttributes:atts forCharacterRange:rangeOfCurrentWord];
+	}
+}
 
-		int x;
-		for (x = 0; x < [keywords count]; x++)
+- (void)colorRange:(NSRange)rangeToColor
+{
+	// loop through the range, breaking at each delimiter to set the attributes
+	long i;
+	
+	i = rangeToColor.location;
+	NSRange rangeOfWord;
+	rangeOfWord.location = rangeToColor.location;
+	for (i = rangeToColor.location; i < (rangeToColor.location + rangeToColor.length); i++) 
+	{
+		// break on delimiters
+		if ([[NSCharacterSet whitespaceAndNewlineCharacterSet] 
+			characterIsMember:[[query string] characterAtIndex:i]]) // needs to be altered to 'delimiter'
 		{
-			NSString *keyword = (NSString *)[keywords objectAtIndex:x];
-			if ([keyword caseInsensitiveCompare:[[words objectAtIndex:i] string]] ==
-					NSOrderedSame)
-			{
-				[word setAttributes:atts range:NSMakeRange(0, [word length])];
-				break;
-			}
+			rangeOfWord.length = i - rangeOfWord.location;
+			[self setAttributesForWord:rangeOfWord];
+			rangeOfWord.location = i;
+			rangeOfWord.length = 0;
 		}
 	}
 	
- */
-	[self updateChangeCount:NSChangeDone];
+	//NSLog(@"To be implemented");
+	
+}
+
+ - (void)textViewDidChangeSelection:(NSNotification *)aNotification
+{
+	// based upon the current locatiodn, scan forward and backward to the nearest
+	// delimiter and highlight the current word based upon that delimiter	
+	NSTextStorage *ts = [query textStorage];
+	
+	NSRange rangeOfEdit = [ts editedRange];
+	NSRange rangeOfCurrentWord = [ts editedRange];
+	
+	
+	if (rangeOfEdit.length == 0) {
+		return;
+	}
+	if (rangeOfEdit.length > 1) {
+		[self colorRange:rangeOfEdit];
+		return;
+	}
+	
+	// if the edited range contains no delimiters...
+	long i = rangeOfEdit.location;
+	if (i >= [[ts string] length]) { i = [[ts string] length] - 1; }
+	
+	while ([[ts string] characterAtIndex:i] != ' ')
+	{
+		if (i <= 0) { break; }
+		i--;
+	}
+	if ([[ts string] characterAtIndex:i] == ' ')  
+	{
+		i++;
+	}
+	rangeOfCurrentWord.location = i ;	
+	
+	i = rangeOfEdit.location;
+	if (i >= [[ts string] length]) { i = [[ts string] length] - 1; }
+	while ([[ts string] characterAtIndex:i] != ' ')
+	{
+		if (i >= ([[ts string] length] - 1)) { break; }
+		i++;
+	}
+	rangeOfCurrentWord.length = i - rangeOfCurrentWord.location + 1;
+	
+	[self setAttributesForWord:rangeOfCurrentWord];
+	[self updateChangeCount:NSChangeDone]; 
 }
 
 - (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(int *)index
