@@ -43,12 +43,15 @@
     [textContainer setContainerSize:theSize];
     [textContainer setWidthTracksTextView:NO];
 	
+	[status setStringValue:[NSString stringWithString:@""]];
+	
 	// set the text view delegate
 	[query setDelegate:self];
 	[[query textStorage] setDelegate:self];
 	
 	// init the keyword arrays
-	NSString *temp = [[NSString alloc] initWithString:@"select from where order by asc desc insert into delete create drop alter"];
+	NSString *temp = [[NSString alloc] 
+		initWithString:@"select from where order group by asc desc insert into delete drop create alter table procedure view function"];
 	
 	keywords = [[NSArray alloc] initWithArray:[temp componentsSeparatedByString:@" "]];
 	[keywords retain];
@@ -86,7 +89,9 @@
 - (IBAction)onConnect:(id)sender
 {
     /* read the preferences and add them to the drop downs */
-		
+	
+	[status setStringValue:[NSString stringWithString:@"Waiting for connection information"]];
+	
 	[host setStringValue:@"localhost"];
 	[port setStringValue:@"5432"];
     
@@ -105,6 +110,7 @@
 		[conn release];
 	}
 	conn = [[Connection alloc] init];
+	[status setStringValue:[NSString stringWithFormat:@"Connecting to %@...", [conn host]]];
 	
 	// set the connection parameters					
 	[conn setUserName:[userName stringValue]];
@@ -131,8 +137,8 @@
 	
 	if ([conn isConnected]) 
 	{
-		[status setStringValue:[NSString stringWithFormat:@"Connected to %@ as %@", 
-			[conn host], [conn userName]]];
+		[status setStringValue:[NSString stringWithFormat:@"Connected to %@ on %@ as %@", 
+			[conn dbName], [conn host], [conn userName]]];
 		int i;
 		for (i = 0; i < [[conn databases] count]; i++)
 		{
@@ -145,6 +151,8 @@
 		
 	} else {
 		[status setStringValue:@"Connection failed: %@"];
+		// [status setStringValue:[NSString stringWithFormat:@"Connected to %@ as %@", 
+		//	[conn host], [conn userName]]];
 	}
 }
 
@@ -153,7 +161,8 @@
     [NSApp stopModal];            
     [NSApp endSheet:panelConnect];
     [panelConnect orderOut:self];
-    [panelConnect close];	
+    [panelConnect close];
+	[status setStringValue:@"Connection cancelled."];
 }
 
 - (IBAction)onDisconnect:(id)sender
@@ -162,6 +171,7 @@
 	if ([conn isConnected])
 	{
 		[conn disconnect];
+		[status setStringValue:@"Connection closed."];
 	}
 }
 
@@ -264,7 +274,7 @@
 		// long recordcount = [conn execCommand:sql];
 	}
 	
-	[status setStringValue:@"Query Completed Elapsed Time: "];
+	[status setStringValue:@"Query Completed."];
 	[working stopAnimation:sender];
 }
 
@@ -286,10 +296,10 @@
 	// perform the connection
 	if ([conn connect])
 	{
-		[status setStringValue:[NSString stringWithFormat:@"Connected to %@ as %@", 
-			[conn host], [conn userName]]];
+		[status setStringValue:[NSString stringWithFormat:@"Connected to %@ on %@ as %@", 
+			[conn dbName], [conn host], [conn userName]]];
 	} else {
-		[status setStringValue:@"Connection failed: %@"];
+		[status setStringValue:@"Connection failed."];
 	}
 }
 
