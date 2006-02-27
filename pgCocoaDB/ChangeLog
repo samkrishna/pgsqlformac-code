@@ -1,0 +1,53 @@
+2006-02-26 20:58  ntiffin
+
+	* Schema.h, Schema.m: First pass at Schema.[ch]. Not working.
+
+2005-12-11 18:40  hawkmoon
+
+	* pgCocoaDB.xcodeproj/project.pbxproj, Connection.h, Connection.m:
+	  Added CurrentDatabase property
+
+2005-12-01 21:11  hawkmoon
+
+	* pgCocoaDB.xcodeproj/project.pbxproj: [no log message]
+
+2005-11-13 21:05  hawkmoon
+
+	* pgCocoaDB.xcode/project.pbxproj: Updated for universal builds
+
+2005-06-14 08:46  hawkmoon
+
+	* .DS_Store, pgCocoaDB.xcode/project.pbxproj: [no log message]
+
+2005-03-18 18:35  hawkmoon
+
+	* Info.plist, pgCocoaDB.xcode/project.pbxproj: Modfied References
+	  and Build to correctly include the Framework
+
+2005-03-18 17:58  hawkmoon
+
+	* pgCocoaDB.xcode/project.pbxproj: Modfied References and Build to
+	  correctly include the Framework
+
+2005-03-08 09:45  hawkmoon
+
+	* .DS_Store, Connection.h, COPYRIGHT, Connection.m, DataSource.h,
+	  DataSource.m, Database.h, Database.m, Databases.h, Databases.m,
+	  Field.h, Field.m, Fields.h, Fields.m, Info.plist, Record.h,
+	  Record.m, RecordSet.h, RecordSet.m, Table.h, Table.m, main.c,
+	  pgCocoaDB_Prefix.pch, version.plist,
+	  English.lproj/InfoPlist.strings, English.lproj/locversion.plist,
+	  pgCocoaDB.xcode/.DS_Store, pgCocoaDB.xcode/project.pbxproj:
+	  Initial Import
+
+2005-03-08 09:45  hawkmoon
+
+	* .DS_Store, Connection.h, COPYRIGHT, Connection.m, DataSource.h,
+	  DataSource.m, Database.h, Database.m, Databases.h, Databases.m,
+	  Field.h, Field.m, Fields.h, Fields.m, Info.plist, Record.h,
+	  Record.m, RecordSet.h, RecordSet.m, Table.h, Table.m, main.c,
+	  pgCocoaDB_Prefix.pch, version.plist,
+	  English.lproj/InfoPlist.strings, English.lproj/locversion.plist,
+	  pgCocoaDB.xcode/.DS_Store, pgCocoaDB.xcode/project.pbxproj:
+	  Initial revision
+
