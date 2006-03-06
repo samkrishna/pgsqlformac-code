@@ -22,12 +22,16 @@
 	self = [super init];
 	connection = theConnection;
 	[connection retain];
-	defaultSchemaName = [[[[NSString alloc] initWithString: @"public"] retain] autorelease];
+	defaultSchemaName = [[NSString alloc] initWithString: @"public"];
 	
 	sql = [NSString stringWithFormat:@"%s", "Select version()"];
 	results = [connection execQuery:sql];
 	versionField = [[[results itemAtIndex:0] fields] itemAtIndex:0];
-	pg_version_found = [[[[NSString alloc] initWithString: [versionField value]] retain] autorelease];
+	pg_version_found = [[NSString alloc] initWithString: [versionField value]];
+
+#if PG_COCOA_DEBUG
+	NSLog(pg_version_found);
+#endif
 
 	//PostgreSQL 8.1.2 on powerpc-apple-darwin8.5.0, compiled by GCC powerpc-apple-darwin8-gcc-4.0.1 (GCC) 4.0.1 (Apple Computer, Inc. build 5250)
 	if ([pg_version_found rangeOfString:@"PostgreSQL 8.1"].location == NSNotFound)
@@ -42,6 +46,22 @@
 
 	}
 	return self;
+}
+
+
+- (void)dealloc
+{	
+	[connection disconnect];
+	[connection release];
+	connection = nil;
+	
+	[defaultSchemaName release];
+	defaultSchemaName = nil;
+	
+	[pg_version_found release];
+	pg_version_found = nil;
+	
+	[super dealloc];
 }
 
 
@@ -65,7 +85,6 @@
 #endif
 
 	results = [connection execQuery:sql];
-	[results autorelease];
 	return results;
 }
 
