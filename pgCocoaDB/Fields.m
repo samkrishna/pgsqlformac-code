@@ -47,6 +47,19 @@
     return [items count];
 }
 
+- (NSString *)getValueFromName:(NSString *)fieldName
+{
+	int i;
+	for (i = 0; i < [items count]; i++)
+	{
+		if ([fieldName compare:[[items objectAtIndex:i] name]] == NSOrderedSame)
+		{
+			return [[items objectAtIndex:i] value];
+		}
+	}
+	return nil;
+}
+
 // table view data source methods
 
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView

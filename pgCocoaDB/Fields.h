@@ -17,5 +17,6 @@
 - (void)removeItemAtIndex:(int)index;
 - (Field *)itemAtIndex:(int)index;
 - (int)count;
+- (NSString *)getValueFromName:(NSString *)fieldName;
 
 @end
