@@ -535,41 +535,45 @@ static BOOL databaseCreated = NO;
 
 - (void)testIndexInfo
 {
-	NSString * correctIndexName = [[NSString alloc] initWithFormat:@"CREATE UNIQUE INDEX name_pkey ON %@.name USING btree (name_id)", PGCocoaTestSchema];
-	NSString * correctIndexAddress = [[NSString alloc] initWithFormat:@"CREATE UNIQUE INDEX address_pkey ON %@.address USING btree (address_id)", PGCocoaTestSchema];
-	RecordSet * indexInfoRecords;
+	NSString * correctIndexSQLName = [[NSString alloc] initWithFormat:@"CREATE UNIQUE INDEX name_pkey ON %@.name USING btree (name_id)", PGCocoaTestSchema];
+	NSString * correctIndexSQLAddress = [[NSString alloc] initWithFormat:@"CREATE UNIQUE INDEX address_pkey ON %@.address USING btree (address_id)", PGCocoaTestSchema];
+	NSString * indexSQL;
 	
 	[self createDatabase];
 
-	indexInfoRecords = [testSchema getIndexSQLFromSchema:PGCocoaTestSchema fromTableName:@"name" fromIndexName:@"name_pkey"];
-	STAssertTrue([indexInfoRecords count] == 1, @"Problem finding index info for table (name) and index name (name_pkey).");
+	indexSQL = [testSchema getIndexSQLFromSchema:PGCocoaTestSchema fromTableName:@"name" fromIndexName:@"name_pkey"];
+	STAssertTrue(indexSQL != nil, @"Problem finding index info for table (name) and index name (name_pkey).");
 	
-	if ([correctIndexName compare:[[[[indexInfoRecords itemAtIndex: 0] fields] itemAtIndex:0] value]] != NSOrderedSame)
+	if ([correctIndexSQLName compare:indexSQL] != NSOrderedSame)
 	{
-		STFail(@"Index info for table (name) and index name (name_pkey) does not match.");		
+		//NSLog(indexSQL);
+		//NSLog(correctIndexSQLName);
+		STFail(@"Index info for table (name) and index name (name_pkey) does not match\n%@\n%2.", correctIndexSQLName, indexSQL);		
 	}
 
-	indexInfoRecords = [testSchema getIndexSQLFromSchema:PGCocoaTestSchema fromTableName:@"address" fromIndexName:@"address_pkey"];
-	STAssertTrue([indexInfoRecords count] == 1, @"Problem finding index info for table (address) and index name (address_pkey).");
+	indexSQL = [testSchema getIndexSQLFromSchema:PGCocoaTestSchema fromTableName:@"address" fromIndexName:@"address_pkey"];
+	STAssertTrue(indexSQL != nil, @"Problem finding index info for table (address) and index name (address_pkey).");
 	
-	if ([correctIndexAddress compare:[[[[indexInfoRecords itemAtIndex: 0] fields] itemAtIndex:0] value]] != NSOrderedSame)
+	if ([correctIndexSQLAddress compare:indexSQL] != NSOrderedSame)
 	{
-		STFail(@"Index info for table (address) and index name (address_pkey) does not match.");		
+		//NSLog(indexSQL);
+		//NSLog(correctIndexSQLAddress);
+		STFail(@"Index info for table (address) and index name (address_pkey) does not match\n%@\n%2.", correctIndexSQLAddress, indexSQL);		
 	}
 	
-	[correctIndexName release];
-	correctIndexName = nil;
+	[correctIndexSQLName release];
+	correctIndexSQLName = nil;
 	
-	[correctIndexAddress release];
-	correctIndexAddress = nil;
+	[correctIndexSQLAddress release];
+	correctIndexSQLAddress = nil;
 }
+
 
 /*
  correct result
  CREATE OR REPLACE VIEW address_book AS SELECT n."first", n."last", a.address FROM pgcocoa_test_schem
  a.name n, pgcocoa_test_schema.address a WHERE (n.name_id = a.name_id) ORDER BY n."last", n."first";
  */
-
 - (void)testViewSQL
 {
 	NSString *theSQL;
@@ -580,6 +584,30 @@ static BOOL databaseCreated = NO;
 	STAssertTrue(theSQL != nil, @"Did not return SQL.");
 	STAssertTrue([theSQL length] == 199, @"SQL not correct length.");
 	
+	NSLog(theSQL);
+}
+
+
+- (void)testTableNameSQL
+{
+	NSString *theSQL;
+	
+	[self createDatabase];
+	
+	theSQL = [testSchema getTableSQLFromSchema:PGCocoaTestSchema fromTableName:@"name"];
+	STAssertTrue(theSQL != nil, @"Did not return SQL.");
+	NSLog(theSQL);
+}
+
+
+- (void)testTableAddressSQL
+{
+	NSString *theSQL;
+	
+	[self createDatabase];
+	
+	theSQL = [testSchema getTableSQLFromSchema:PGCocoaTestSchema fromTableName:@"address"];
+	STAssertTrue(theSQL != nil, @"Did not return SQL.");
 	NSLog(theSQL);
 }
 

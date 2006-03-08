@@ -20,21 +20,25 @@
 
 - initWithConnection:(Connection *) theConnection;
 
+// SQL generating functions
+-(NSString *)getFunctionSQLFromSchema:(NSString *)schemaName fromFunctionName: (NSString *) functionName;
+-(NSString *)getIndexSQLFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName fromIndexName:(NSString *) indexName;
+-(NSString *)getTableSQLFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName;
+-(NSString *)getTriggerSQLFromSchema:(NSString *)schemaName fromTriggerName:(NSString *)triggerName;
+-(NSString *)getViewSQLFromSchema:(NSString *)schemaName fromView:(NSString *)viewName pretty:(int)pretty;
+
+// info functions
 -(RecordSet *)getDatabaseNames;
 -(RecordSet *)getFunctionNamesFromSchema:(NSString *)schemaName;
--(RecordSet *)getFunctionSQLFromSchema:(NSString *)schemaName fromFunctionName: (NSString *) functionName;
--(RecordSet *)getIndexSQLFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName fromIndexName:(NSString *) indexName;
 -(RecordSet *)getIndexNamesFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName;
 -(RecordSet *)getObjectDescriptionFromSchema:(NSString *)schemaName objectType:(NSString *)objectType objectName:(NSString *)objectName;
 -(RecordSet *)getSchemaNames;
 -(RecordSet *)getTableColumnInfoFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName fromColumnName:(NSString *)columnName;
+-(RecordSet *)getTableColumnsInfoFromSchema:(NSString *)schemaName fromTableName:(NSString *)tableName;
 -(RecordSet *)getTableColumnNamesFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName;
 -(RecordSet *)getTableNamesFromSchema:(NSString *)schemaName;
--(NSString *)getTableSQLFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName;
--(NSString *)getTriggerSQLFromSchema:(NSString *)schemaName fromTriggerName:(NSString *)triggerName;
 -(RecordSet *)getTriggerNamesFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName;
 -(RecordSet *)getViewColumnInfoFromSchema:(NSString *)schemaName viewName:(NSString *) viewName;
 -(RecordSet *)getViewNamesFromSchema:(NSString *)schemaName;
--(NSString *)getViewSQLFromSchema:(NSString *)schemaName fromView:(NSString *)viewName pretty:(int)pretty;
 
 @end

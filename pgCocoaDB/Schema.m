@@ -106,10 +106,10 @@
 }
 
 
-// TODO should return NSString *
--(RecordSet *)getFunctionSQLFromSchema:(NSString *)schemaName fromFunctionName: (NSString *) functionName
+-(NSString *)getFunctionSQLFromSchema:(NSString *)schemaName fromFunctionName: (NSString *) functionName
 {
-	NSString *sql;
+	NSString * sql;
+	RecordSet * results;
 	
 	if (schemaName == nil)
 	{
@@ -130,13 +130,19 @@
 	NSLog(sql);
 #endif
 
-	return [connection execQuery:sql];
+	results = [connection execQuery:sql];
+	if ([results count] == 1)
+	{
+		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
+	}	
+	return nil;
 }
 
-// TODO should return NSString *
--(RecordSet *)getIndexSQLFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName fromIndexName:(NSString *) indexName;
+
+-(NSString *)getIndexSQLFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName fromIndexName:(NSString *) indexName;
 {
-	NSString *sql;
+	NSString * sql;
+	RecordSet * results;
 	
 	if (schemaName == nil)
 	{
@@ -152,8 +158,13 @@
 #if PG_COCOA_DEBUG
 	NSLog(sql);
 #endif
-	
-	return [connection execQuery:sql];
+
+	results = [connection execQuery:sql];
+	if ([results count] == 1)
+	{
+		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
+	}	
+	return nil;
 }
 
 
@@ -207,6 +218,7 @@ comment on function get_aggcomment(text, text) is
 'Get comment from aggregate name and argument';
  */
 
+// TODO
 -(RecordSet *)getObjectDescriptionFromSchema:(NSString *)schemaName objectType:(NSString *)objectType objectName:(NSString *)objectName;
 {
 	NSString *sql;
@@ -246,31 +258,100 @@ comment on function get_aggcomment(text, text) is
 }
 
 
--(RecordSet *)getTableColumnInfoFromSchema:(NSString *)schemaName fromTableName:(NSString *)tableName fromColumnName:(NSString *)columnName;
+/*
+ SELECT a.attname as "name", format_type(a.atttypid, a.atttypmod) AS "type",
+ CASE 
+	WHEN a.attnotnull = TRUE THEN 'NOT NULL'
+	else ' '
+ END as "notnull", 
+ CASE
+	WHEN a.atthasdef = '1'  THEN 'DEFAULT '  || cast(pg_catalog.pg_get_expr(d.adbin, attrelid) AS varchar(100))
+	ELSE ' '
+ END as "default"
+ FROM ((pg_class c FULL OUTER JOIN pg_attribute a ON a.attrelid = c.oid)
+	   FULL OUTER JOIN pg_namespace n ON n.oid = c.relnamespace) 
+	LEFT OUTER JOIN pg_attrdef d ON d.adrelid = c.oid AND d.adnum = a.attnum
+ WHERE c.relname = 'name'
+ AND n.nspname = 'pgcocoa_test_schema'
+ AND a.attnum > 0
+ AND a.attisdropped  = FALSE
+ ORDER BY a.attnum
+ */
+
+
+/* returns name, type, notnull, default */
+-(RecordSet *)getTableColumnsInfoFromSchema:(NSString *)schemaName fromTableName:(NSString *)tableName;
 {
 	NSString *sql;
+	NSString *sqlFormat;
 	
-	/*
-	 select column_name, data_type, character_maximum_length, numeric_precision, numeric_scale, column_default
-	 from information_schema.columns
-	 where table_schema = 'pgcocoa_test_schema'
-	 
-	 select * from information_schema.columns
-	 where table_schema = 'pgcocoa_test_schema'
-	 */	
+	sqlFormat = @"SELECT a.attname as \"name\", format_type(a.atttypid, a.atttypmod) AS \"type\", \
+		CASE \
+			WHEN a.attnotnull = TRUE THEN ' NOT NULL' \
+			ELSE NULL \
+		END as \"notnull\", \
+		CASE \
+			WHEN a.atthasdef = '1'  THEN ' DEFAULT '  || cast(pg_catalog.pg_get_expr(d.adbin, attrelid) AS varchar(100)) \
+			ELSE NULL \
+		END as \"default\" \
+		FROM ((pg_class c FULL OUTER JOIN pg_attribute a ON a.attrelid = c.oid) \
+			FULL OUTER JOIN pg_namespace n ON n.oid = c.relnamespace)  \
+			LEFT OUTER JOIN pg_attrdef d ON d.adrelid = c.oid AND d.adnum = a.attnum \
+		WHERE c.relname = '%@' \
+		AND n.nspname = '%@' \
+		AND a.attnum > 0 \
+		AND a.attisdropped = FALSE \
+		ORDER BY a.attnum";
+
 	if (schemaName == nil)
 	{
-		sql = [NSString stringWithFormat:@"%s'%@'%s'%@'%s'%@'",
-		"SELECT data_type, character_maximum_length, numeric_precision, numeric_scale, column_default, ordinal_position, is_nullable \
-		FROM information_schema.columns \
-		WHERE table_schema = ", defaultSchemaName, " AND column_name = ", columnName, " AND table_name = ", tableName];
+		sql = [NSString stringWithFormat:sqlFormat, tableName, defaultSchemaName];
 	}
 	else
 	{
-		sql = [NSString stringWithFormat:@"%s'%@'%s'%@'%s'%@'",
-		"SELECT data_type, character_maximum_length, numeric_precision, numeric_scale, column_default, ordinal_position, is_nullable \
-		FROM information_schema.columns \
-		WHERE table_schema = ", schemaName, " AND column_name = ", columnName, " AND table_name = ", tableName];
+		sql = [NSString stringWithFormat:sqlFormat, tableName, schemaName];
+	}
+	
+#if PG_COCOA_DEBUG
+	NSLog(sql);
+#endif
+	
+	return [connection execQuery:sql];
+}
+
+
+/* returns type, notnull, default */
+-(RecordSet *)getTableColumnInfoFromSchema:(NSString *)schemaName fromTableName:(NSString *)tableName fromColumnName:(NSString *)columnName;
+{
+	NSString *sql;
+	NSString *sqlFormat;
+	
+	sqlFormat = @"SELECT format_type(a.atttypid, a.atttypmod) AS \"type\", \
+	CASE \
+		WHEN a.attnotnull = TRUE THEN ' NOT NULL' \
+		ELSE NULL \
+	END as \"notnull\", \
+	CASE \
+		WHEN a.atthasdef = '1'  THEN ' DEFAULT '  || cast(pg_catalog.pg_get_expr(d.adbin, attrelid) AS varchar(100)) \
+		ELSE NULL \
+	END as \"default\" \
+	FROM ((pg_class c FULL OUTER JOIN pg_attribute a ON a.attrelid = c.oid) \
+		FULL OUTER JOIN pg_namespace n ON n.oid = c.relnamespace)  \
+		LEFT OUTER JOIN pg_attrdef d ON d.adrelid = c.oid AND d.adnum = a.attnum \
+	WHERE c.relname = '%@' \
+	AND n.nspname = '%@' \
+	AND a.attname = '%@' \
+	AND a.attnum > 0 \
+	AND a.attisdropped = FALSE \
+	ORDER BY a.attnum";
+	
+	if (schemaName == nil)
+	{
+		sql = [NSString stringWithFormat:sqlFormat, tableName, defaultSchemaName, columnName];
+	}
+	else
+	{
+		sql = [NSString stringWithFormat:sqlFormat, tableName, schemaName, columnName];
 	}
 	
 #if PG_COCOA_DEBUG
@@ -337,31 +418,40 @@ comment on function get_aggcomment(text, text) is
 
 -(NSString *)getTableSQLFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName
 {
-	NSString *sql;
 	RecordSet *results;
+	int i;
+	NSMutableString * sqlOutput = [[NSMutableString alloc] init];
+	[sqlOutput appendFormat:@"CREATE TABLE %@ ( ", tableName];
 	
-	if (schemaName == nil)
-	{
-		sql = [NSString stringWithFormat:@"%s%@%s",
-			"",
-			defaultSchemaName,
-			""];
+	/* returns name, type, notnull, default */
+	results = [self getTableColumnsInfoFromSchema:schemaName fromTableName:tableName];
+	
+	for (i = 0; i < [results count]; i++)
+	{		
+		if (i != 0)
+		{
+			[sqlOutput appendString:@", "];
+		}
+		
+		/* Attribute name */
+		[sqlOutput appendFormat:@"%@", [[[results itemAtIndex: i] fields] getValueFromName:@"name"]];
+		
+		/* Attribute type */
+		[sqlOutput appendFormat:@" %@", [[[results itemAtIndex: i] fields] getValueFromName:@"type"]];
+		
+		/* if serial then change typename from integer to serial */
+		
+		/* if serial then change typename from bigint to bigserial */
+		
+		/* default value */
+		[sqlOutput appendFormat:@"%@", [[[results itemAtIndex: i] fields] getValueFromName:@"default"]];
+		
+		/* null constraint */
+		[sqlOutput appendFormat:@"%@", [[[results itemAtIndex: i] fields] getValueFromName:@"notnull"]];
 	}
-	else
-	{
-		sql = [NSString stringWithFormat:@"%s%@%s",
-			"",
-			schemaName,
-			""];
-	}
-	
-#if PG_COCOA_DEBUG
-	NSLog(sql);
-#endif
-	
-	results = [connection execQuery:sql];
-	
-	return nil;
+	[sqlOutput appendString:@" );"];
+	[sqlOutput autorelease];
+	return sqlOutput;
 }
 
 
@@ -533,3 +623,5 @@ comment on function get_aggcomment(text, text) is
 }
 
 @end
+
+
