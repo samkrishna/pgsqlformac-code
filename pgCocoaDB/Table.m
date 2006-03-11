@@ -60,12 +60,12 @@
 	hasRules = newHasRules;
 }
 
-- (BOOL)hasRules {
-    return hasRules;
+- (BOOL)hasTriggers {
+    return hasTriggers;
 }
 
-- (void)setHasRules:(BOOL)newHasRules {
-	hasRules = newHasRules;
+- (void)setHasTriggers:(BOOL)newHasTriggers {
+	hasTriggers = newHasTriggers;
 }
 
 
