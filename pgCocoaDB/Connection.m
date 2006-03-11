@@ -52,6 +52,9 @@
 		return NO;
     }
 	
+	if (errorDescription)
+		[errorDescription release];
+	errorDescription = nil;
 	connected = YES;
 	return YES;
 }
