@@ -162,7 +162,7 @@
 
 - (NSString *)userName 
 {
-    return [[host retain] autorelease];
+    return [[userName retain] autorelease];
 }
 
 - (void)setUserName:(NSString *)value 
