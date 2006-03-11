@@ -1,3 +1,54 @@
+2006-03-11 16:32  ntiffin
+
+	* Table.m: Correct copy/paste error.
+
+2006-03-11 16:31  ntiffin
+
+	* Connection.m: Update to remove old error message when a good
+	  connection happens.
+
+2006-03-11 16:22  ntiffin
+
+	* Schema.h, Schema.m, UnitTest/pgCocoaDBSchemaTest.m: Update Schema
+	  code.
+
+2006-03-11 08:37  hawkmoon
+
+	* Connection.m: No log message.
+
+2006-03-08 10:36  ntiffin
+
+	* UnitTest/pgCocoaDBSchemaTest.m, Schema.h, Schema.m: First version
+	  working Schema.
+
+2006-03-08 10:14  ntiffin
+
+	* Fields.h, Fields.m: Add getValueFromName functionality required
+	  by Schema.
+
+2006-03-07 16:56  ntiffin
+
+	* Schema.h, Schema.m, UnitTest/pgCocoaDBSchemaTest.m: Update
+	  Schema.
+
+2006-03-05 18:58  ntiffin
+
+	* Schema.m, UnitTest/pgCocoaDBSchemaTest.h,
+	  UnitTest/pgCocoaDBSchemaTest.m: Schema, more progress.
+
+2006-03-04 18:23  ntiffin
+
+	* Schema.h, Schema.m: Schema work in progress, not working.
+
+2006-03-04 18:19  ntiffin
+
+	* UnitTest/: pgCocoaDBSchemaTest.h, pgCocoaDBSchemaTest.m: Initial
+	  checkin of Schema unit test.
+
+2006-02-26 21:01  ntiffin
+
+	* ChangeLog: Add ChangeLog.
+
 2006-02-26 20:58  ntiffin
 
 	* Schema.h, Schema.m: First pass at Schema.[ch]. Not working.
