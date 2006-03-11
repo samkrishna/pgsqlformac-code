@@ -45,8 +45,9 @@ static BOOL databaseCreated = NO;
 	NSLog(@"Initialize PostgreSQL database.");
 	[self raiseAfterFailure];
 	
-	[conn disconnect];
-	
+	[conn release];	// does not harm
+	conn = [[Connection alloc] init];
+		
 	// set the connection parameters					
 	[conn setUserName:PGCocoaTestUser];
 	[conn setPassword:PGCocoaTestPassword];
@@ -130,7 +131,7 @@ static BOOL databaseCreated = NO;
 		ORDER by n.last, n.first"];
 
 	[conn execQuery:sql];
-	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@.", sql);
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 
 	// TODO check if function exists
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "CREATE or REPLACE FUNCTION ", PGCocoaTestDatabase, PGCocoaTestSchema, "create_time_stamp() RETURNS trigger AS $time_stamp$ \
@@ -140,7 +141,7 @@ static BOOL databaseCreated = NO;
 	END; \
 	$time_stamp$ LANGUAGE plpgsql; "];
 	[conn execQuery:sql];
-	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@.", sql);
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 
 	// TODO check if function exists
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "CREATE or REPLACE FUNCTION ", PGCocoaTestDatabase, PGCocoaTestSchema, "update_time_stamp() RETURNS trigger AS $time_stamp$ \
@@ -150,63 +151,78 @@ static BOOL databaseCreated = NO;
 	END; \
 	$time_stamp$ LANGUAGE plpgsql; "];
 	[conn execQuery:sql];
-	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@.", sql);
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 	
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s%@.%@.%s", "CREATE TRIGGER create_timestamp BEFORE INSERT ON ",
 		PGCocoaTestDatabase, PGCocoaTestSchema, "name \
 	FOR EACH ROW EXECUTE PROCEDURE ", PGCocoaTestDatabase, PGCocoaTestSchema, "create_time_stamp()"];
 	[conn execQuery:sql];
-	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@.", sql);
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 
 	/*
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s%@.%@.%s", "CREATE TRIGGER create_timestamp BEFORE INSERT ON ",
 		PGCocoaTestDatabase, PGCocoaTestSchema, "address \
 	FOR EACH ROW EXECUTE PROCEDURE ", PGCocoaTestDatabase, PGCocoaTestSchema, "create_time_stamp()"];
 	[conn execQuery:sql];
-	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@.", sql);
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 	*/
 	
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s%@.%@.%s", "CREATE TRIGGER update_timestamp BEFORE UPDATE ON ",
 		PGCocoaTestDatabase, PGCocoaTestSchema, "name \
 	FOR EACH ROW EXECUTE PROCEDURE ", PGCocoaTestDatabase, PGCocoaTestSchema, "update_time_stamp()"];
 	[conn execQuery:sql];
-	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@.", sql);
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 	
 	/*
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s%@.%@.%s", "CREATE TRIGGER update_timestamp BEFORE UPDATE ON ",
 		PGCocoaTestDatabase, PGCocoaTestSchema, "address \
 	FOR EACH ROW EXECUTE PROCEDURE ", PGCocoaTestDatabase, PGCocoaTestSchema, "update_time_stamp()"];
 	[conn execQuery:sql];
-	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@.", sql);
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 	*/
 	
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "INSERT INTO ",
 		PGCocoaTestDatabase, PGCocoaTestSchema, "name (first, last) VALUES ( 'Bennie', 'Hill')"];
 	[conn execQuery:sql];
-	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@.", sql);
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "INSERT INTO ",
 		PGCocoaTestDatabase, PGCocoaTestSchema, "address (name_id, address, city, state, zip) VALUES ( 1, '14 Upton Hill', 'London', 'UK', 0)"];
 	[conn execQuery:sql];
-	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@.", sql);
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 	
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "INSERT INTO ",
 		PGCocoaTestDatabase, PGCocoaTestSchema, "name (first, last) VALUES ( 'Marty', 'Zweig')"];
 	[conn execQuery:sql];
-	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@.", sql);
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "INSERT INTO ",
 		PGCocoaTestDatabase, PGCocoaTestSchema, "address (name_id, address, city, state, zip) VALUES ( 2, '100 Wall Street', 'New York', 'NY', 10045)"];
 	[conn execQuery:sql];
-	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@.", sql);
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 	
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "INSERT INTO ",
 		PGCocoaTestDatabase, PGCocoaTestSchema, "name (first, last) VALUES ( 'Mary', 'Otherwise')"];
 	[conn execQuery:sql];
-	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@.", sql);
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "INSERT INTO ",
 		PGCocoaTestDatabase, PGCocoaTestSchema, "address (name_id, address) VALUES ( 3, '1050 Main Street')"];
 	[conn execQuery:sql];
-	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@.", sql);
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 	
+	sql = [NSString stringWithFormat:@"COMMENT ON TABLE %@.address IS 'Multiple Addresses for each name.'",PGCocoaTestSchema];
+	[conn execQuery:sql];
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
+
+	sql = [NSString stringWithFormat:@"COMMENT ON TABLE %@.name IS 'People names only not company names.'",PGCocoaTestSchema];
+	[conn execQuery:sql];
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
+
+	sql = [NSString stringWithFormat:@"COMMENT ON TRIGGER update_timestamp ON %@.name IS 'Keep track of update date and time.'", PGCocoaTestSchema];
+	[conn execQuery:sql];
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
+	
+	[conn disconnect];
+	[conn release];
+	conn = nil;
 	databaseCreated = YES;
 }
 
@@ -214,6 +230,7 @@ static BOOL databaseCreated = NO;
 - (void)setUp
 {
 	[self raiseAfterFailure];
+	[self createDatabase];
 
 	NSLog(@"Execute test setUp");
 	conn = [[Connection alloc] init];
@@ -246,8 +263,6 @@ static BOOL databaseCreated = NO;
 
 - (void)testTriggerZeroBoundry
 {
-	[self createDatabase];
-	
 	RecordSet * results;
 	NSString * sql;
 
@@ -269,8 +284,6 @@ static BOOL databaseCreated = NO;
 {
 	RecordSet * results;
 
-	[self createDatabase];
-
 	results = [testSchema getTriggerNamesFromSchema:PGCocoaTestSchema fromTableName:@"name"];
 	STAssertTrue([results count] == 2, @"Failed to return the correct number of triggers.");
 }
@@ -279,8 +292,6 @@ static BOOL databaseCreated = NO;
 - (void)testTables
 {
 	RecordSet * results;
-
-	[self createDatabase];
 		
 	results = [testSchema getTableNamesFromSchema:PGCocoaTestSchema];
 	STAssertTrue([results count] == 2, @"Failed to return the correct number of tables.");
@@ -293,16 +304,14 @@ static BOOL databaseCreated = NO;
 - (void)testFunctions
 {
 	RecordSet * results;
-
-	[self createDatabase];
+	
+	// TODO
 }
 
 
 - (void)testViews
 {
 	RecordSet * results;
-
-	[self createDatabase];
 		
 	results = [testSchema getViewNamesFromSchema:PGCocoaTestSchema];
 	STAssertTrue([results count] == 1, @"Failed to return the correct number of views.");
@@ -315,8 +324,6 @@ static BOOL databaseCreated = NO;
 - (void)testAddressColumns
 {
 	RecordSet * results;
-
-	[self createDatabase];
 		
 	results = [testSchema getTableColumnNamesFromSchema:PGCocoaTestSchema fromTableName:@"address"];
 	STAssertTrue([results count] == 9, @"Failed to return the correct number of columns from table 'address'.");
@@ -357,12 +364,10 @@ static BOOL databaseCreated = NO;
 }
 
 
-- (void)testNameColumns
+- (void)testTableNameColumns
 {
 	RecordSet * results;
-	
-	[self createDatabase];
-		
+			
 	results = [testSchema getTableColumnNamesFromSchema:PGCocoaTestSchema fromTableName:@"name"];
 	STAssertTrue([results count] == 8, @"Failed to return the correct number of columns from table 'name'.");
 	
@@ -407,9 +412,7 @@ static BOOL databaseCreated = NO;
 	RecordSet * results;
 	NSString* aDatabaseName;
 	int i;
-	
-	[self createDatabase];
-	
+		
 	results = [testSchema getDatabaseNames];
 	bool found = NO;
 	NSLog(@"Found databases:");
@@ -594,7 +597,11 @@ static BOOL databaseCreated = NO;
 	
 	[self createDatabase];
 	
-	theSQL = [testSchema getTableSQLFromSchema:PGCocoaTestSchema fromTableName:@"name"];
+	theSQL = [testSchema getTableSQLFromSchema:PGCocoaTestSchema fromTableName:@"name" pretty:1];
+	STAssertTrue(theSQL != nil, @"Did not return SQL.");
+	NSLog(theSQL);
+
+	theSQL = [testSchema getTableSQLFromSchema:PGCocoaTestSchema fromTableName:@"name" pretty:0];
 	STAssertTrue(theSQL != nil, @"Did not return SQL.");
 	NSLog(theSQL);
 }
@@ -606,10 +613,180 @@ static BOOL databaseCreated = NO;
 	
 	[self createDatabase];
 	
-	theSQL = [testSchema getTableSQLFromSchema:PGCocoaTestSchema fromTableName:@"address"];
+	theSQL = [testSchema getTableSQLFromSchema:PGCocoaTestSchema fromTableName:@"address" pretty:1];
 	STAssertTrue(theSQL != nil, @"Did not return SQL.");
 	NSLog(theSQL);
+	
+	theSQL = [testSchema getTableSQLFromSchema:PGCocoaTestSchema fromTableName:@"address" pretty:0];
+	STAssertTrue(theSQL != nil, @"Did not return SQL.");
+	NSLog(theSQL);
+	
 }
 
+
+- (void)testViewAddressBookColumns
+{
+	RecordSet * results;
+	NSString * view_name = @"address_book";
+	
+	[self createDatabase];
+	
+	results = [testSchema getTableColumnNamesFromSchema:PGCocoaTestSchema fromTableName:view_name];
+	STAssertTrue([results count] == 3, @"Failed to return the correct number of columns from table '%@'.", view_name);
+	
+	int i;
+	NSNumber *aFoundCount = [NSNumber numberWithInt:0];
+	NSString* aColumnName;
+	NSNumber *newValue;
+	NSArray * columnCount = [NSArray arrayWithObjects: aFoundCount, aFoundCount, aFoundCount, nil];
+	NSArray * columnNames = [NSArray arrayWithObjects: @"first", @"last", @"address", nil];
+	NSMutableDictionary * columnLookup = [[NSMutableDictionary alloc] initWithObjects:columnCount forKeys:columnNames];
+	
+	for (i = 0; i < [results count]; i++)
+	{
+		aColumnName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
+		aFoundCount = [columnLookup objectForKey: aColumnName];
+		if (aFoundCount != nil)
+		{
+			newValue =  [NSNumber numberWithInt:[aFoundCount intValue]+1];
+			[columnLookup setObject:newValue forKey:aColumnName];
+		}
+		else
+		{
+			STFail(@"Found extra column name (%@) in table %@.", aColumnName, view_name);
+		}
+	}
+	
+	NSLog(@"Checking columns in table %@:", view_name);
+	NSEnumerator *enumerator = [columnLookup keyEnumerator];
+	while ((aColumnName = [enumerator nextObject])) {
+		aFoundCount = [columnLookup objectForKey: aColumnName];
+		NSLog(@"    %@ count = %d.", aColumnName, [aFoundCount intValue]);
+		STAssertTrue([aFoundCount intValue] == 1, @"Problem finding column name (%@) in table %@.", aColumnName, view_name);
+	}
+	
+	[columnLookup release];
+	columnLookup = nil;
+}
+
+/*
+2006-03-09 09:50:08.986 otest[8324]    address_address_id_seq
+2006-03-09 09:50:08.986 otest[8324]    name_name_id_seq
+*/
+
+- (void)testSequenceNames
+{
+	RecordSet * results;
+	int i;
+	
+	[self createDatabase];
+
+	results = [testSchema getSequenceNamesFromSchema:PGCocoaTestSchema];
+	STAssertTrue([results count] == 2, @"Failed to return the correct number of sequences.");
+
+	NSNumber *aFoundCount = [NSNumber numberWithInt:0];
+	NSString* aSequenceName;
+	NSNumber *newValue;
+	NSArray * sequenceCount = [NSArray arrayWithObjects: aFoundCount, aFoundCount, nil];
+	NSArray * sequenceNames = [NSArray arrayWithObjects: @"address_address_id_seq", @"name_name_id_seq", nil];
+	NSMutableDictionary * SequenceLookup = [[NSMutableDictionary alloc] initWithObjects:sequenceCount forKeys:sequenceNames];
+	
+	for (i = 0; i < [results count]; i++)
+	{
+		aSequenceName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
+		aFoundCount = [SequenceLookup objectForKey: aSequenceName];
+		if (aFoundCount != nil)
+		{
+			newValue =  [NSNumber numberWithInt:[aFoundCount intValue]+1];
+			[SequenceLookup setObject:newValue forKey:aSequenceName];
+		}
+		else
+		{
+			STFail(@"Found extra sequence name (%@).", aSequenceName);
+		}
+	}
+	
+	NSLog(@"Checking sequences:");
+	NSEnumerator *enumerator = [SequenceLookup keyEnumerator];
+	while ((aSequenceName = [enumerator nextObject])) {
+		aFoundCount = [SequenceLookup objectForKey: aSequenceName];
+		NSLog(@"    %@ count = %d.", aSequenceName, [aFoundCount intValue]);
+		STAssertTrue([aFoundCount intValue] == 1, @"Problem finding sequence name (%@).", aSequenceName);
+	}
+}
+
+
+- (void)testSequenceColumnNames
+ {
+	 RecordSet * results;
+	 int i;
+	 
+	 [self createDatabase];
+
+	 results = [testSchema getSequenceColumnNamesFromSchema:PGCocoaTestSchema fromSequence:@"name_name_id_seq"];
+	 NSLog(@"Sequence Column Names = %d", [results count]);
+	 STAssertTrue([results count] == 9, @"Failed to return the correct number of sequence column names.");
+	 
+	 NSNumber *aFoundCount = [NSNumber numberWithInt:0];
+	 NSString* aSequenceName;
+	 NSNumber *newValue;
+	 NSArray * sequenceCount = [NSArray arrayWithObjects: aFoundCount, aFoundCount, aFoundCount,aFoundCount,aFoundCount,aFoundCount,aFoundCount,aFoundCount,aFoundCount,nil];
+	 NSArray * sequenceNames = [NSArray arrayWithObjects: @"sequence_name", @"last_value", @"increment_by", @"max_value",@"min_value",@"cache_value",@"log_cnt",@"is_cycled",@"is_called",nil];
+	 NSMutableDictionary * SequenceLookup = [[NSMutableDictionary alloc] initWithObjects:sequenceCount forKeys:sequenceNames];
+	 
+	 for (i = 0; i < [results count]; i++)
+	 {
+		 aSequenceName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
+		 aFoundCount = [SequenceLookup objectForKey: aSequenceName];
+		 if (aFoundCount != nil)
+		 {
+			 newValue =  [NSNumber numberWithInt:[aFoundCount intValue]+1];
+			 [SequenceLookup setObject:newValue forKey:aSequenceName];
+		 }
+		 else
+		 {
+			 STFail(@"Found extra sequence column name (%@).", aSequenceName);
+		 }
+	 }
+	 
+	 NSLog(@"Checking sequences:");
+	 NSEnumerator *enumerator = [SequenceLookup keyEnumerator];
+	 while ((aSequenceName = [enumerator nextObject])) {
+		 aFoundCount = [SequenceLookup objectForKey: aSequenceName];
+		 NSLog(@"    %@ count = %d.", aSequenceName, [aFoundCount intValue]);
+		 STAssertTrue([aFoundCount intValue] == 1, @"Problem finding sequence column name (%@).", aSequenceName);
+	 }
+ }
+
+- (void)testTriggerCommentTableName
+{
+	NSString * comment;
+	
+	comment = [testSchema getTriggerCommentFromSchema:PGCocoaTestSchema fromTableName:@"name" fromTriggerName:@"update_timestamp"];	
+	if ([comment compare:@"Keep track of update date and time."] != NSOrderedSame)
+	{
+		STFail(@"Trigger wrong comment (%@).", comment);
+	}
+}
+
+- (void)testTableCommentTableName
+{
+	NSString * comment;
+	
+	comment = [testSchema getTableCommentFromSchema:PGCocoaTestSchema fromTableName:@"name"];	
+	if ([comment compare:@"People names only not company names."] != NSOrderedSame)
+	{
+		STFail(@"Trigger wrong comment (%@).", comment);
+	}
+	
+	comment = [testSchema getTableCommentFromSchema:PGCocoaTestSchema fromTableName:@"address"];	
+	if ([comment compare:@"Multiple Addresses for each name."] != NSOrderedSame)
+	{
+		STFail(@"Trigger wrong comment (%@).", comment);
+	}
+	
+}
+
+ 
 @end
 

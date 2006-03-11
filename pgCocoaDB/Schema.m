@@ -27,25 +27,30 @@
 	sql = [NSString stringWithFormat:@"%s", "Select version()"];
 	results = [connection execQuery:sql];
 	versionField = [[[results itemAtIndex:0] fields] itemAtIndex:0];
-	pg_version_found = [[NSString alloc] initWithString: [versionField value]];
-
-#if PG_COCOA_DEBUG
-	NSLog(pg_version_found);
-#endif
+	pgVersionFound = [[NSString alloc] initWithString: [versionField value]];
 
 	//PostgreSQL 8.1.2 on powerpc-apple-darwin8.5.0, compiled by GCC powerpc-apple-darwin8-gcc-4.0.1 (GCC) 4.0.1 (Apple Computer, Inc. build 5250)
-	if ([pg_version_found rangeOfString:@"PostgreSQL 8.1"].location == NSNotFound)
+	if ([pgVersionFound rangeOfString:@"PostgreSQL 8.1"].location == NSNotFound)
 	{
 		// TODO not found raise error?
 
-#if PG_COCOA_DEBUG
 		NSLog(@"Did not find PostgreSQL version 8");
 		NSLog(sql);
-		NSLog(pg_version_found);
-#endif
-
+		NSLog(pgVersionFound);
 	}
 	return self;
+}
+
+
+- (NSString *)defaultSchemaName;
+{
+	return defaultSchemaName;
+}
+
+
+- (NSString *)pgVersionFound;
+{
+	return pgVersionFound;
 }
 
 
@@ -58,49 +63,42 @@
 	[defaultSchemaName release];
 	defaultSchemaName = nil;
 	
-	[pg_version_found release];
-	pg_version_found = nil;
+	[pgVersionFound release];
+	pgVersionFound = nil;
 	
 	[super dealloc];
 }
 
 
--(RecordSet *)getDatabaseNames;
+-(RecordSet *)getNamesFromSchema:(NSString *)schemaName fromType:(NSString *)type;
 {
-	NSString *sql;
+	NSString * sql;
 	
-	sql = [NSString stringWithFormat:@"%s", "SELECT datname FROM pg_catalog.pg_database ORDER BY datname"];
-	
-#if PG_COCOA_DEBUG
-	NSLog(sql);
-#endif
+	sql = [NSString stringWithFormat:@"SELECT relname \
+	FROM pg_catalog.pg_class c, pg_namespace n \
+	WHERE n.nspname = '%@' \
+	AND c.relnamespace = n.oid \
+	AND c.relkind = '%@' ORDER BY c.relname", schemaName, type];
 	
 	return [connection execQuery:sql];
+}
+
+
+-(RecordSet *)getDatabaseNames;
+{
+	return [connection execQuery:@"SELECT datname FROM pg_catalog.pg_database ORDER BY datname"];
 }
 
 
 -(RecordSet *)getFunctionNamesFromSchema:(NSString *)schemaName;
 {
 	NSString *sql;
+	NSString *useSchema;
 	
-	if (schemaName == nil)
-	{
-		sql = [NSString stringWithFormat:@"%s'@s'",
-		"SELECT routine_name \
-		FROM information_schema.routines \
-		WHERE routine_schema = ", defaultSchemaName];
-	}
-	else
-	{
-		sql = [NSString stringWithFormat:@"%s'@s'",
-		"SELECT routine_name \
-		FROM information_schema.routines \
-		WHERE routine_schema = ", schemaName];
-	}
-	
-#if PG_COCOA_DEBUG
-	NSLog(sql);
-#endif
+	sql = [NSString stringWithFormat:@"%s'@s'",
+	"SELECT routine_name \
+	FROM information_schema.routines \
+	WHERE routine_schema = ", useSchema];
 	
 	return [connection execQuery:sql];
 }
@@ -111,24 +109,10 @@
 	NSString * sql;
 	RecordSet * results;
 	
-	if (schemaName == nil)
-	{
-		sql = [NSString stringWithFormat:@"%s'%@''%@'",
-		"SELECT routine_definition FROM information_schema.routines \
-		WHERE routine_schema = ", defaultSchemaName,
-		" AND routine_name = ", functionName];
-	}
-	else
-	{
-		sql = [NSString stringWithFormat:@"%s'%@''%@'",
-		"SELECT routine_definition FROM information_schema.routines \
-		WHERE routine_schema = ", schemaName,
-		" AND routine_name = ", functionName];
-	}
-	
-#if PG_COCOA_DEBUG
-	NSLog(sql);
-#endif
+	sql = [NSString stringWithFormat:@"%s'%@''%@'",
+	"SELECT routine_definition FROM information_schema.routines \
+	WHERE routine_schema = ", schemaName,
+	" AND routine_name = ", functionName];
 
 	results = [connection execQuery:sql];
 	if ([results count] == 1)
@@ -144,20 +128,8 @@
 	NSString * sql;
 	RecordSet * results;
 	
-	if (schemaName == nil)
-	{
-		sql = [NSString stringWithFormat:@"SELECT indexdef FROM pg_catalog.pg_indexes \
-		WHERE schemaname = '%@' AND tablename = '%@' AND indexname = '%@'", defaultSchemaName, tableName, indexName];
-	}
-	else
-	{
-		sql = [NSString stringWithFormat:@"SELECT indexdef FROM pg_catalog.pg_indexes \
-		WHERE schemaname = '%@' AND tablename = '%@' AND indexname = '%@'", schemaName, tableName, indexName];
-	}
-	
-#if PG_COCOA_DEBUG
-	NSLog(sql);
-#endif
+	sql = [NSString stringWithFormat:@"SELECT indexdef FROM pg_catalog.pg_indexes \
+	WHERE schemaname = '%@' AND tablename = '%@' AND indexname = '%@'", schemaName, tableName, indexName];
 
 	results = [connection execQuery:sql];
 	if ([results count] == 1)
@@ -172,89 +144,45 @@
 {
 	NSString *sql;
 	
-	if (schemaName == nil)
-	{
-		sql = [NSMutableString stringWithFormat:@"%s'%@'%s'%@'%s","SELECT indexname \
-		FROM pg_catalog.pg_indexes WHERE schemaname = ", defaultSchemaName, " AND tablename = ", tableName, " ORDER BY indexname ASC"];
-	}
-	else
-	{
-		sql = [NSMutableString stringWithFormat:@"%s'%@'%s'%@'%s","SELECT indexname \
-		FROM pg_catalog.pg_indexes WHERE schemaname = ", schemaName, " AND tablename = ", tableName, " ORDER BY indexname ASC"];
-	}
-	
-#if PG_COCOA_DEBUG
-	NSLog(sql);
-#endif
+	sql = [NSMutableString stringWithFormat:@"%s'%@'%s'%@'%s","SELECT indexname \
+	FROM pg_catalog.pg_indexes WHERE schemaname = ", schemaName, " AND tablename = ", tableName, " ORDER BY indexname ASC"];
+	//return [self getNamesFromSchema:schemaName fromType: @"i"];
 	
 	return [connection execQuery:sql];
 }
-
-/*
-create or replace function get_tablecomment(text)
-returns text as
-'
-select obj_description(oid, ''pg_class'') from pg_class where relname=$1;
-' language 'SQL' ;
-comment on function get_tablecomment(text) is 'Get comment from table name';
-
-create or replace function get_funccomment(text, text) 
-returns text as
-'
-select obj_description(oid,''pg_proc'') from pg_proc 
-where proname = $1 and oidvectortypes(proargtypes) = $2;
-' language 'SQL' ;
-comment on function get_funccomment(text, text) is
-'Get comment from function name and arguments';
-
-
-create or replace function get_aggcomment(text, text) 
-returns text as
-'
-select obj_description(oid,''pg_aggregate'') from pg_proc 
-where proname = $1 and oidvectortypes(proargtypes) = $2;
-' language 'SQL' ;
-comment on function get_aggcomment(text, text) is
-'Get comment from aggregate name and argument';
- */
-
-// TODO
--(RecordSet *)getObjectDescriptionFromSchema:(NSString *)schemaName objectType:(NSString *)objectType objectName:(NSString *)objectName;
-{
-	NSString *sql;
-	
-	/*
-	 SELECT t.typname, d.description
-	 FROM pg_catalog.pg_description d, pg_catalog.pg_type t, pg_catalog.pg_database db
-	 WHERE (d.objoid = t.oid OR d.objoid = db.oid)
-	 */
-	
-	// TODO defaultSchemaName;
-	sql = [NSString stringWithFormat:@"%s%@%s",
-		"SELECT objoid, classoid, objsubid, description \
-		FROM pg_catalog.pg_description d, pg_catalog.pg_type t, pg_catalog.pg_database db \
-		where t.typname = ", objectType,
-		" AND (d.objoid = t.oid OR d.objoid = db.oid)"];
-	
-#if PG_COCOA_DEBUG
-	NSLog(sql);
-#endif
-	
-	return [connection execQuery:sql];
-}
-
 
 -(RecordSet *)getSchemaNames;
 {
-	NSString *sql;
+	return [connection execQuery:@"SELECT schema_name FROM information_schema.schemata ORDER BY schema_name"];
+}
+
+
+/*
+ to get current values
+ select *
+ from pgcocoa_test_schema.address_address_id_seq
+ */
+-(RecordSet *)getSequenceColumnNamesFromSchema:(NSString *)schemaName fromSequence:(NSString *)sequenceName;
+{
+	NSString * sql;
+
+	sql = [NSString stringWithFormat:@"SELECT attname \
+	FROM pg_catalog.pg_class c, pg_catalog.pg_attribute a, pg_namespace n \
+	WHERE relkind = 'S'  AND c.oid = a.attrelid AND attnum > 0 AND c.relnamespace = n.oid \
+	AND c.relname ='%@' AND n.nspname = '%@'", sequenceName, schemaName];
 	
-	sql = [NSString stringWithFormat:@"%s", "SELECT schema_name FROM information_schema.schemata ORDER BY schema_name"];
-	
-#if PG_COCOA_DEBUG
 	NSLog(sql);
-#endif
-	
 	return [connection execQuery:sql];
+}
+
+
+-(RecordSet *)getSequenceNamesFromSchema:(NSString *)schemaName;
+{
+	if (schemaName == nil)
+	{
+		return [self getNamesFromSchema:defaultSchemaName fromType: @"S"];
+	}
+	return [self getNamesFromSchema:schemaName fromType: @"S"];
 }
 
 
@@ -303,19 +231,7 @@ comment on function get_aggcomment(text, text) is
 		AND a.attisdropped = FALSE \
 		ORDER BY a.attnum";
 
-	if (schemaName == nil)
-	{
-		sql = [NSString stringWithFormat:sqlFormat, tableName, defaultSchemaName];
-	}
-	else
-	{
-		sql = [NSString stringWithFormat:sqlFormat, tableName, schemaName];
-	}
-	
-#if PG_COCOA_DEBUG
-	NSLog(sql);
-#endif
-	
+	sql = [NSString stringWithFormat:sqlFormat, tableName, schemaName];
 	return [connection execQuery:sql];
 }
 
@@ -345,19 +261,7 @@ comment on function get_aggcomment(text, text) is
 	AND a.attisdropped = FALSE \
 	ORDER BY a.attnum";
 	
-	if (schemaName == nil)
-	{
-		sql = [NSString stringWithFormat:sqlFormat, tableName, defaultSchemaName, columnName];
-	}
-	else
-	{
-		sql = [NSString stringWithFormat:sqlFormat, tableName, schemaName, columnName];
-	}
-	
-#if PG_COCOA_DEBUG
-	NSLog(sql);
-#endif
-	
+	sql = [NSString stringWithFormat:sqlFormat, tableName, schemaName, columnName];
 	return [connection execQuery:sql];
 }
 
@@ -365,63 +269,34 @@ comment on function get_aggcomment(text, text) is
 -(RecordSet *)getTableColumnNamesFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName;
 {
 	NSString *sql;
-	
-	if (schemaName == nil)
-	{
-		sql = [NSString stringWithFormat:@"%s'%@'%s'%@'%s",
-		"SELECT column_name FROM information_schema.columns \
-		WHERE table_schema = ", defaultSchemaName,
-		" AND table_name = ", tableName,
-		" ORDER BY ordinal_position ASC"];
-	}
-	else
-	{
-		sql = [NSString stringWithFormat:@"%s'%@'%s'%@'%s",
-		"SELECT column_name FROM information_schema.columns \
-		WHERE table_schema = ", schemaName,
-		" AND table_name = ", tableName,
-		" ORDER BY ordinal_position ASC"];
-	}
-	
-#if PG_COCOA_DEBUG
-	NSLog(sql);
-#endif
-	
+
+	sql = [NSString stringWithFormat:@"%s'%@'%s'%@'%s",
+	"SELECT column_name FROM information_schema.columns \
+	WHERE table_schema = ", schemaName,
+	" AND table_name = ", tableName,
+	" ORDER BY ordinal_position ASC"];
+
 	return [connection execQuery:sql];
 }
 
 
 -(RecordSet *)getTableNamesFromSchema:(NSString *)schemaName;
 {
-	NSString *sql;
-
 	if (schemaName == nil)
 	{
-		sql = [NSString stringWithFormat:@"%s'%@'%s",
-		"SELECT table_name FROM information_schema.tables WHERE table_schema = ",defaultSchemaName,
-		" AND table_type = 'BASE TABLE' ORDER BY table_name ASC"];
+		return [self getNamesFromSchema:defaultSchemaName fromType: @"r"];
 	}
-	else
-	{
-		sql = [NSString stringWithFormat:@"%s'%@'%s",
-		"SELECT table_name FROM information_schema.tables WHERE table_schema = ",schemaName,
-		" AND table_type = 'BASE TABLE' ORDER BY table_name ASC"];
-	}
-	
-#if PG_COCOA_DEBUG
-	NSLog(sql);
-#endif
-
-	return [connection execQuery:sql];
+	return [self getNamesFromSchema:schemaName fromType: @"r"];
 }
 
 
--(NSString *)getTableSQLFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName
+-(NSString *)getTableSQLFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName pretty:(int)pretty
 {
 	RecordSet *results;
 	int i;
 	NSMutableString * sqlOutput = [[NSMutableString alloc] init];
-	[sqlOutput appendFormat:@"CREATE TABLE %@ ( ", tableName];
+	[sqlOutput appendFormat:@"CREATE TABLE %@.%@ ( ", schemaName, tableName];
+	if (pretty) [sqlOutput appendString:@"\n"];
 	
 	/* returns name, type, notnull, default */
 	results = [self getTableColumnsInfoFromSchema:schemaName fromTableName:tableName];
@@ -430,8 +305,16 @@ comment on function get_aggcomment(text, text) is
 	{		
 		if (i != 0)
 		{
-			[sqlOutput appendString:@", "];
+			if (pretty)
+			{
+				[sqlOutput appendString:@",\n"];
+			}
+			else
+			{
+				[sqlOutput appendString:@", "];				
+			}
 		}
+		if (pretty) [sqlOutput appendString:@"    "];
 		
 		/* Attribute name */
 		[sqlOutput appendFormat:@"%@", [[[results itemAtIndex: i] fields] getValueFromName:@"name"]];
@@ -439,17 +322,27 @@ comment on function get_aggcomment(text, text) is
 		/* Attribute type */
 		[sqlOutput appendFormat:@" %@", [[[results itemAtIndex: i] fields] getValueFromName:@"type"]];
 		
-		/* if serial then change typename from integer to serial */
-		
-		/* if serial then change typename from bigint to bigserial */
 		
 		/* default value */
+		/* TODO handle serial */
+		/* if serial then change typename from integer to serial */
+		/* if serial then change typename from bigint to bigserial */
 		[sqlOutput appendFormat:@"%@", [[[results itemAtIndex: i] fields] getValueFromName:@"default"]];
 		
+		/* TODO check for foreign key  or primary key values */
 		/* null constraint */
 		[sqlOutput appendFormat:@"%@", [[[results itemAtIndex: i] fields] getValueFromName:@"notnull"]];
+		
+
 	}
-	[sqlOutput appendString:@" );"];
+	if (pretty)
+	{
+		[sqlOutput appendString:@"\n);"];
+	}
+	else
+	{
+		[sqlOutput appendString:@" );"];
+	}
 	[sqlOutput autorelease];
 	return sqlOutput;
 }
@@ -466,10 +359,6 @@ comment on function get_aggcomment(text, text) is
 	FROM pg_catalog.pg_trigger t				\
 	WHERE t.tgname = ", triggerName];
 
-#if PG_COCOA_DEBUG
-	NSLog(sql);
-#endif
-	
 	results = [connection execQuery:sql];
 	if ([results count] == 1)
 	{
@@ -483,51 +372,10 @@ comment on function get_aggcomment(text, text) is
 {
 	NSString *sql;
 	
-	if (schemaName == nil)
-	{
-		sql = [NSString stringWithFormat:@"%s'%@'%s'%@'",
-		"SELECT trigger_name FROM information_schema.triggers \
-		WHERE event_object_schema =", defaultSchemaName, 
-		" AND event_object_table = ", tableName];
-	}
-	else
-	{
-		sql = [NSString stringWithFormat:@"%s'%@'%s'%@'",
-		"SELECT trigger_name FROM information_schema.triggers \
-		WHERE event_object_schema =", schemaName, 
-		" AND event_object_table = ", tableName];
-	}
-	
-#if PG_COCOA_DEBUG
-	NSLog(sql);
-#endif
-	
-	return [connection execQuery:sql];
-}
-
-
--(RecordSet *)getViewColumnInfoFromSchema:(NSString *)schemaName viewName:(NSString *) viewName;
-{
-	NSString *sql;
-
-	if (schemaName == nil)
-	{
-		sql = [NSString stringWithFormat:@"%s%@%s",
-		"",
-		defaultSchemaName,
-		""];
-	}
-	else
-	{
-		sql = [NSString stringWithFormat:@"%s%@%s",
-		"",
-		schemaName,
-		""];
-	}
-	
-#if PG_COCOA_DEBUG
-	NSLog(sql);
-#endif
+	sql = [NSString stringWithFormat:@"%s'%@'%s'%@'",
+	"SELECT trigger_name FROM information_schema.triggers \
+	WHERE event_object_schema =", schemaName, 
+	" AND event_object_table = ", tableName];
 	
 	return [connection execQuery:sql];
 }
@@ -535,26 +383,11 @@ comment on function get_aggcomment(text, text) is
 
 -(RecordSet *)getViewNamesFromSchema:(NSString *)schemaName;
 {
-	NSString *sql;
-	
 	if (schemaName == nil)
 	{
-		sql = [NSString stringWithFormat:@"%s'%@'%s",
-		"SELECT table_name FROM information_schema.tables WHERE table_schema = ", defaultSchemaName,
-		" AND table_type = 'VIEW' ORDER BY table_name ASC"];
+		return [self getNamesFromSchema:defaultSchemaName fromType: @"v"];
 	}
-	else
-	{
-		sql = [NSString stringWithFormat:@"%s'%@'%s",
-		"SELECT table_name FROM information_schema.tables WHERE table_schema = ", schemaName,
-		" AND table_type = 'VIEW' ORDER BY table_name ASC"];
-	}
-	
-#if PG_COCOA_DEBUG
-	NSLog(sql);
-#endif
-	
-	return [connection execQuery:sql];
+	return [self getNamesFromSchema:schemaName fromType: @"v"];
 }
 
 
@@ -577,33 +410,14 @@ comment on function get_aggcomment(text, text) is
 	NSString *sql;
 	RecordSet * results;
 	
-	if (schemaName == nil)
-	{
-		//sql = [NSString stringWithFormat:@"%s'%@.%@'%s%d%s",
-		//"select pg_catalog.pg_get_viewdef(", defaultSchemaName, viewName, ", '", pretty, "')"];
-
-		sql = [NSString stringWithFormat:@"%s'%d'%s'%@'%s'%@'%s",
-		"select pg_get_viewdef(C.oid, ", pretty, ") \
-		from pg_class C, pg_namespace N \
-		where N.nspname = ", defaultSchemaName,
-		"AND C.relname = ", viewName,
-			"AND N.oid = C.relnamespace AND C.relkind = 'v';"];
-	}
-	else
-	{
-		//sql = [NSString stringWithFormat:@"%s'%@.%@'%s%d%s",
-		//"select pg_catalog.pg_get_viewdef(", schemaName, viewName, ", '", pretty, "')"];
-		sql = [NSString stringWithFormat:@"%s'%d'%s'%@'%s'%@'%s",
-		"select pg_get_viewdef(C.oid, ", pretty, ") \
-		from pg_class C, pg_namespace N \
-		where N.nspname = ", schemaName,
-		"AND C.relname = ", viewName,
-		"AND N.oid = C.relnamespace AND C.relkind = 'v';"];
-	}
-	
-#if PG_COCOA_DEBUG
-	NSLog(sql);
-#endif
+	//sql = [NSString stringWithFormat:@"%s'%@.%@'%s%d%s",
+	//"select pg_catalog.pg_get_viewdef(", schemaName, viewName, ", '", pretty, "')"];
+	sql = [NSString stringWithFormat:@"%s'%d'%s'%@'%s'%@'%s",
+	"select pg_get_viewdef(C.oid, ", pretty, ") \
+	from pg_class C, pg_namespace N \
+	where N.nspname = ", schemaName,
+	"AND C.relname = ", viewName,
+	"AND N.oid = C.relnamespace AND C.relkind = 'v';"];
 	
 	results = [connection execQuery:sql];
 	if ([results count] == 1)
@@ -622,6 +436,106 @@ comment on function get_aggcomment(text, text) is
 	return nil;
 }
 
-@end
+// Process Comments
+-(NSString *)getColumnCommentFromSchema:(NSString *)schemaName fromTableName:(NSString *)tableName fromColumnName:(NSString *) columnName;
+{
+	
+	return nil;
+}
 
+
+-(NSString *)getIndexCommentFromSchema:(NSString *)schemaName fromIndexName:(NSString *)indexName;
+{
+	NSString *sql;
+	RecordSet *results;
+	
+	sql = [NSString stringWithFormat:@"select obj_description(t.oid,'pg_class') from pg_catalog.pg_class c, pg_catalog.pg_namespace n\
+	where tgrelid = c.oid AND c.relkind = 'i' AND c.relname = '%@' AND c.relnamespace = n.oid AND n.nspname = '%@'", indexName, schemaName];
+	NSLog(sql);
+	results = [connection execQuery:sql];
+	if ([results count] == 1)
+	{
+		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
+	}
+	return nil;
+}
+
+
+-(NSString *)getTableCommentFromSchema:(NSString *)schemaName fromTableName:(NSString *)tableName;
+{
+	NSString *sql;
+	RecordSet *results;
+	
+	sql = [NSString stringWithFormat:@"select obj_description(t.oid,'pg_class') from pg_catalog.pg_class c, pg_catalog.pg_namespace n\
+	where tgrelid = c.oid AND c.relkind = 'r' AND c.relname = '%@' AND c.relnamespace = n.oid AND n.nspname = '%@'", tableName, schemaName];
+	NSLog(sql);
+	results = [connection execQuery:sql];
+	if ([results count] == 1)
+	{
+		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
+	}
+	return nil;
+}
+
+
+// TODO
+-(NSString *)getObjectCommentFromSchema:(NSString *)schemaName objectType:(NSString *)objectType objectName:(NSString *)objectName;
+{
+	NSString *oidLookupTable;
+		
+	if (([objectType compare:@"table"] == NSOrderedSame)
+		|| ([objectType compare:@"column"] == NSOrderedSame)
+		|| ([objectType compare:@"index"] == NSOrderedSame)
+		|| ([objectType compare:@"sequence"] == NSOrderedSame)
+		|| ([objectType compare:@"View"] == NSOrderedSame))
+	{
+		oidLookupTable = @"pg_class";
+	}
+	else if ([objectType compare:@"aggregate"] == NSOrderedSame)
+	{
+		oidLookupTable = @"pg_aggregate";
+	}
+	else if ([objectType compare:@"constraint"] == NSOrderedSame)
+	{
+		oidLookupTable = @"pg_constraint";
+	}
+	else if ([objectType compare:@"database"] == NSOrderedSame)
+	{
+		oidLookupTable = @"pg_database";
+	}
+	else if ([objectType compare:@"function"] == NSOrderedSame)
+	{
+		oidLookupTable = @"pg_proc";
+	}
+	else if ([objectType compare:@"rule"] == NSOrderedSame)
+	{
+		oidLookupTable = @"pg_rewrite";
+	}
+	else if ([objectType compare:@"schema"] == NSOrderedSame)
+	{
+		oidLookupTable = @"pg_namespace";
+	}
+	
+	return nil;
+}
+
+
+-(NSString *)getTriggerCommentFromSchema:(NSString *)schemaName fromTableName:(NSString *)tableName fromTriggerName:(NSString *)triggerName;
+{
+	NSString *sql;
+	RecordSet *results;
+	
+	sql = [NSString stringWithFormat:@"select obj_description(t.oid,'pg_trigger') from pg_catalog.pg_trigger t, pg_catalog.pg_class c, pg_catalog.pg_namespace n\
+	where tgname = '%@' AND tgrelid = c.oid AND c.relname = '%@' AND c.relnamespace = n.oid AND n.nspname = '%@'", triggerName, tableName, schemaName];
+	NSLog(sql);
+	results = [connection execQuery:sql];
+	if ([results count] == 1)
+	{
+		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
+	}
+	return nil;
+}
+
+
+@end
 
