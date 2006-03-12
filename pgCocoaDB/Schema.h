@@ -14,23 +14,27 @@
 @interface Schema : NSObject {
 
 	Connection *connection;
-	NSString *defaultSchemaName;  // "public"
+	NSString *publicSchemaName;			// is "public"
+	NSString *pgCatalogSchemaName;		// is "pg_catalog"
+	NSString *informationSchemaName;	// is "information_schema"
 	NSString *pgVersionFound;
 }
 
 - initWithConnection:(Connection *) theConnection;
 
-- (NSString *)defaultSchemaName;
+- (NSString *)publicSchemaName;
+- (NSString *)pgCatalogSchemaName;
+- (NSString *)informationSchemaName;
 - (NSString *)pgVersionFound;
 
-// SQL generating functions
+// generate SQL
 -(NSString *)getFunctionSQLFromSchema:(NSString *)schemaName fromFunctionName: (NSString *) functionName;
 -(NSString *)getIndexSQLFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName fromIndexName:(NSString *) indexName;
 -(NSString *)getTableSQLFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName pretty:(int)pretty;
 -(NSString *)getTriggerSQLFromSchema:(NSString *)schemaName fromTriggerName:(NSString *)triggerName;
 -(NSString *)getViewSQLFromSchema:(NSString *)schemaName fromView:(NSString *)viewName pretty:(int)pretty;
 
-// info functions
+// get schema data
 -(RecordSet *)getDatabaseNames;
 -(RecordSet *)getFunctionNamesFromSchema:(NSString *)schemaName;
 -(RecordSet *)getIndexNamesFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName;
@@ -44,11 +48,16 @@
 -(RecordSet *)getTriggerNamesFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName;
 -(RecordSet *)getViewNamesFromSchema:(NSString *)schemaName;
 
-// comment returning functions
+// get comments
 -(NSString *)getColumnCommentFromSchema:(NSString *)schemaName fromTableName:(NSString *)tableName fromColumnName:(NSString *) columnName;
+-(NSString *)getConstraintCommentFromSchema:(NSString *)schemaName fromConstraintName:(NSString *)constraintName;
+-(NSString *)getDatabaseComment:(NSString *)databaseName;
+-(NSString *)getFunctionCommentFromSchema:(NSString *)schemaName fromFunctionName:(NSString *)functionName;
 -(NSString *)getIndexCommentFromSchema:(NSString *)schemaName fromIndexName:(NSString *)indexName;
--(NSString *)getObjectCommentFromSchema:(NSString *)schemaName objectType:(NSString *)objectType objectName:(NSString *)objectName;
+-(NSString *)getSchemaComment:(NSString *)schemaName;
+-(NSString *)getSequenceCommentFromSchema:(NSString *)schemaName fromSequenceName:(NSString *)sequenceName;
 -(NSString *)getTableCommentFromSchema:(NSString *)schemaName fromTableName:(NSString *)tableName;
 -(NSString *)getTriggerCommentFromSchema:(NSString *)schemaName fromTableName:(NSString *)tableName fromTriggerName:(NSString *)triggerName;
+-(NSString *)getViewCommentFromSchema:(NSString *)schemaName fromViewName:(NSString *)viewName;
 
 @end

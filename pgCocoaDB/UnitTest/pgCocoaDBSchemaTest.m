@@ -220,6 +220,46 @@ static BOOL databaseCreated = NO;
 	[conn execQuery:sql];
 	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 	
+	sql = [NSString stringWithFormat:@"COMMENT ON COLUMN %@.name.last IS 'Customers last name.'", PGCocoaTestSchema];
+	[conn execQuery:sql];
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
+
+	sql = [NSString stringWithFormat:@"COMMENT ON COLUMN %@.name.first IS 'Customers first name.'", PGCocoaTestSchema];
+	[conn execQuery:sql];
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
+
+	sql = [NSString stringWithFormat:@"COMMENT ON VIEW %@.address_book IS 'Combined address and name view.'", PGCocoaTestSchema];
+	[conn execQuery:sql];
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
+
+	sql = [NSString stringWithFormat:@"COMMENT ON INDEX %@.address_pkey IS 'Efficient lookup by address.'", PGCocoaTestSchema];
+	[conn execQuery:sql];
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
+
+	sql = [NSString stringWithFormat:@"COMMENT ON INDEX %@.name_pkey IS 'Efficient lookup by name.'", PGCocoaTestSchema];
+	[conn execQuery:sql];
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
+
+	sql = [NSString stringWithFormat:@"COMMENT ON SEQUENCE %@.name_name_id_seq IS 'Keep track of name id numbers.'", PGCocoaTestSchema];
+	[conn execQuery:sql];
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
+	
+	sql = [NSString stringWithFormat:@"COMMENT ON DATABASE pgcocoa_test_database IS 'The test database comment.'"];
+	[conn execQuery:sql];
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
+
+	sql = [NSString stringWithFormat:@"COMMENT ON SCHEMA pgcocoa_test_schema IS 'The test schema comment.'"];
+	[conn execQuery:sql];
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
+
+	sql = [NSString stringWithFormat:@"COMMENT ON CONSTRAINT name_pkey ON %@.name IS 'Constrain the name to pkey values.'", PGCocoaTestSchema];
+	[conn execQuery:sql];
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
+
+	sql = [NSString stringWithFormat:@"COMMENT ON FUNCTION %@.update_time_stamp () IS 'Timestamp all updates function comment. Uses field update_time.'", PGCocoaTestSchema];
+	[conn execQuery:sql];
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
+
 	[conn disconnect];
 	[conn release];
 	conn = nil;
@@ -229,10 +269,11 @@ static BOOL databaseCreated = NO;
 
 - (void)setUp
 {
+	NSLog(@"Starting %@ setUp", [self name]);
+
 	[self raiseAfterFailure];
 	[self createDatabase];
-
-	NSLog(@"Execute test setUp");
+	
 	conn = [[Connection alloc] init];
 	[conn setUserName:PGCocoaTestUser];
 	[conn setPassword:PGCocoaTestPassword];
@@ -244,14 +285,12 @@ static BOOL databaseCreated = NO;
 	STAssertTrue([conn isConnected], @"Failed to connect to database %@.", [conn dbName]);
 
 	testSchema = [[Schema alloc] initWithConnection:conn];
-	STAssertNotNil(testSchema, @"Failed to init Schema object.");
+	STAssertNotNil(testSchema, @"Failed to init testSchema object.");
 }
 
 
 - (void)tearDown
 {
-	//NSLog(@"Execute TearDown");
-
 	[testSchema release];
 	testSchema = nil;
 	
@@ -758,35 +797,165 @@ static BOOL databaseCreated = NO;
 	 }
  }
 
-- (void)testTriggerCommentTableName
+- (void)testTriggerComment
 {
 	NSString * comment;
 	
 	comment = [testSchema getTriggerCommentFromSchema:PGCocoaTestSchema fromTableName:@"name" fromTriggerName:@"update_timestamp"];	
+	STAssertTrue(comment != nil, @"Trigger NULL comment.");
 	if ([comment compare:@"Keep track of update date and time."] != NSOrderedSame)
 	{
 		STFail(@"Trigger wrong comment (%@).", comment);
 	}
 }
 
-- (void)testTableCommentTableName
+- (void)testTableComment
 {
 	NSString * comment;
 	
 	comment = [testSchema getTableCommentFromSchema:PGCocoaTestSchema fromTableName:@"name"];	
+	STAssertTrue(comment != nil, @"Table NULL comment.");
 	if ([comment compare:@"People names only not company names."] != NSOrderedSame)
 	{
-		STFail(@"Trigger wrong comment (%@).", comment);
+		STFail(@"Table wrong comment (%@).", comment);
 	}
 	
-	comment = [testSchema getTableCommentFromSchema:PGCocoaTestSchema fromTableName:@"address"];	
+	comment = [testSchema getTableCommentFromSchema:PGCocoaTestSchema fromTableName:@"address"];
+	STAssertTrue(comment != nil, @"Table NULL comment.");
 	if ([comment compare:@"Multiple Addresses for each name."] != NSOrderedSame)
 	{
-		STFail(@"Trigger wrong comment (%@).", comment);
+		STFail(@"Table wrong comment (%@).", comment);
 	}
 	
 }
 
- 
+- (void)testColumnComment
+{
+	NSString * comment;
+	comment = [testSchema getColumnCommentFromSchema:PGCocoaTestSchema fromTableName:@"name" fromColumnName:@"first"];	
+	STAssertTrue(comment != nil, @"Column has NULL comment.");
+	if ([comment compare:@"Customers first name."] != NSOrderedSame)
+	{
+		STFail(@"Column first name wrong comment (%@).", comment);
+	}
+	comment = [testSchema getColumnCommentFromSchema:PGCocoaTestSchema fromTableName:@"name" fromColumnName:@"last"];	
+	STAssertTrue(comment != nil, @"Column has NULL comment.");
+	if ([comment compare:@"Customers last name."] != NSOrderedSame)
+	{
+		STFail(@"Column last name wrong comment (%@).", comment);
+	}
+}
+
+
+- (void)testViewComment
+{
+	NSString * comment;
+	
+	comment = [testSchema getViewCommentFromSchema:PGCocoaTestSchema fromViewName:@"address_book"];	
+	STAssertTrue(comment != nil, @"View has NULL comment.");
+	if ([comment compare:@"Combined address and name view."] != NSOrderedSame)
+	{
+		STFail(@"View wrong comment (%@).", comment);
+	}
+}
+
+
+- (void)testIndexComment
+{
+	NSString * comment;
+	
+	comment = [testSchema getIndexCommentFromSchema:PGCocoaTestSchema fromIndexName:@"address_pkey"];	
+	STAssertTrue(comment != nil, @"Index has NULL comment.");
+	if ([comment compare:@"Efficient lookup by address."] != NSOrderedSame)
+	{
+		STFail(@"Index wrong comment (%@).", comment);
+	}
+	else
+	{
+		NSLog(comment);
+	}
+}
+
+
+- (void)testSequenceComment
+{
+	NSString * comment;
+	
+	comment = [testSchema getSequenceCommentFromSchema:PGCocoaTestSchema fromSequenceName:@"name_name_id_seq"];	
+	STAssertTrue(comment != nil, @"Sequence has NULL comment.");
+	if ([comment compare:@"Keep track of name id numbers."] != NSOrderedSame)
+	{
+		STFail(@"Sequence wrong comment (%@).", comment);
+	}
+	else
+	{
+		NSLog(comment);
+	}	
+}
+
+-(void)testDatabaseComment
+{
+	NSString * comment;
+	
+	comment = [testSchema getDatabaseComment:@"pgcocoa_test_database"];	
+	STAssertTrue(comment != nil, @"Database has NULL comment.");
+	if ([comment compare:@"The test database comment."] != NSOrderedSame)
+	{
+		STFail(@"Database wrong comment (%@).", comment);
+	}
+	else
+	{
+		NSLog(comment);
+	}	
+}
+
+-(void)testSchemaComment
+{
+	NSString * comment;
+	
+	comment = [testSchema getSchemaComment:@"pgcocoa_test_schema"];	
+	STAssertTrue(comment != nil, @"Schema has NULL comment.");
+	if ([comment compare:@"The test schema comment."] != NSOrderedSame)
+	{
+		STFail(@"Schema wrong comment (%@).", comment);
+	}
+	else
+	{
+		NSLog(comment);
+	}		
+}
+
+-(void)testConstraintComment
+{
+	NSString * comment;
+	
+	comment = [testSchema getConstraintCommentFromSchema:PGCocoaTestSchema fromConstraintName:@"name_pkey"];	
+	STAssertTrue(comment != nil, @"Constraint has NULL comment.");
+	if ([comment compare:@"Constrain the name to pkey values."] != NSOrderedSame)
+	{
+		STFail(@"Constraint wrong comment (%@).", comment);
+	}
+	else
+	{
+		NSLog(comment);
+	}
+}
+
+-(void)testFunctionComment
+{
+	NSString * comment;
+	
+	comment = [testSchema getFunctionCommentFromSchema:PGCocoaTestSchema fromFunctionName:@"update_time_stamp"];	
+	STAssertTrue(comment != nil, @"Function has NULL comment.");
+	if ([comment compare:@"Timestamp all updates function comment. Uses field update_time."] != NSOrderedSame)
+	{
+		STFail(@"Function wrong comment (%@).", comment);
+	}
+	else
+	{
+		NSLog(comment);
+	}
+}
+
 @end
 
