@@ -9,6 +9,7 @@
 
 #import "pgCocoaDBSchemaTest.h"
 #import "Record.h"
+#import "ExplorerModel.h"
 
 //------------------------------------------------------------------
 // Test configuration parameters, Please modify as necessary for
@@ -955,6 +956,13 @@ static BOOL databaseCreated = NO;
 	{
 		NSLog(comment);
 	}
+}
+
+-(void)testExployer
+{
+	ExplorerModel *explorer = [[ExplorerModel alloc] initWithConnection:conn];
+	
+	[explorer printLog];
 }
 
 @end

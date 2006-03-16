@@ -84,6 +84,12 @@
 }
 
 
+-(RecordSet *)getConstraintNamesFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName
+{
+	// TODO
+	return nil;
+}
+
 -(RecordSet *)getNamesFromSchema:(NSString *)schemaName fromType:(NSString *)type;
 {
 	NSString * sql;

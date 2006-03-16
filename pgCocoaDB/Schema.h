@@ -35,6 +35,7 @@
 -(NSString *)getViewSQLFromSchema:(NSString *)schemaName fromView:(NSString *)viewName pretty:(int)pretty;
 
 // get schema data
+-(RecordSet *)getConstraintNamesFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName;
 -(RecordSet *)getDatabaseNames;
 -(RecordSet *)getFunctionNamesFromSchema:(NSString *)schemaName;
 -(RecordSet *)getIndexNamesFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName;
