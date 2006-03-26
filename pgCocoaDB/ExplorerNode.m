@@ -22,7 +22,14 @@
 
 -(void)dealloc
 {
-	/* TODO release each child first */
+	id node;
+	
+	while([children count] != 0)
+	{
+		node = [children lastObject];
+		[children removeLastObject];
+		[node release];
+	}
 	[children release];
 	children = nil;
 	
@@ -78,37 +85,37 @@
 
 -(void)setName:(NSString *)s
 {
+	[s retain];
 	[name release];
 	name = s;
-	[name retain];
 }
 
 -(void)setBaseTable:(NSString *)s;
 {
+	[s retain];
 	[baseTable release];
 	baseTable = s;
-	[baseTable retain];
 }
 
 -(void)setExplorerType:(NSString *)s;
 {
+	[s retain];
 	[explorerType release];
 	explorerType = s;
-	[explorerType retain];
 }
 
 -(void)setDisplayColumn2:(NSString *)s;
 {
+	[s retain];
 	[displayColumn2 release];
 	displayColumn2 = s;
-	[displayColumn2 retain];
 }
 
 -(void)setComment:(NSString *)s;
 {
+	[s retain];
 	[comment release];
 	comment = s;
-	[comment retain];
 }
 
 -(void)setOID:(UInt32)o;
@@ -132,6 +139,7 @@
 - (void)addChild:(ExplorerNode *)n
 {
 	[n setParent:self];
+	[n retain];
     [children addObject:n];	
 }
 
@@ -159,7 +167,14 @@
 	{
 		[spaces appendString:@" "];
 	}
-	NSLog(@"%@%@", spaces, name);
+	if (displayColumn2)
+	{
+		NSLog(@"%@%@ %@", spaces, name, displayColumn2);
+	}
+	else
+	{
+		NSLog(@"%@%@", spaces, name);
+	}
 	for (i = 0; i < [children count]; i++)
 	{
 		[[children objectAtIndex:i] printLog:indent+2 ];

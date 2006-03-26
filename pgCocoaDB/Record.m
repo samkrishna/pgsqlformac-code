@@ -25,5 +25,9 @@
     return [[fields retain] autorelease];
 }
 
+- (NSString *)description
+{
+	return [fields description];
+}
 
 @end

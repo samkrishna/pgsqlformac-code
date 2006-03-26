@@ -44,6 +44,10 @@
     }
 }
 
+- (NSString *)description
+{
+	return [[[NSString alloc] initWithFormat:@"%@ %@", name, value] autorelease];;
+}
 
 
 @end

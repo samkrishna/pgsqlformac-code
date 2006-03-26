@@ -958,11 +958,13 @@ static BOOL databaseCreated = NO;
 	}
 }
 
--(void)testExployer
+-(void)testExplorer
 {
 	ExplorerModel *explorer = [[ExplorerModel alloc] initWithConnection:conn];
 	
 	[explorer printLog];
+	
+	[explorer release];
 }
 
 @end

@@ -46,4 +46,19 @@
     return [items count];
 }
 
+- (NSString *)description
+{
+	unsigned int i;
+	NSMutableString * text;
+	text = [[[NSMutableString alloc] init] autorelease];
+	
+	for (i = 0; i < [items count]; i++)
+	{
+		[text appendString:[[items objectAtIndex:i] description]];
+		[text appendString:@"\n"];
+	}
+	return text;
+}
+
+
 @end

@@ -1,3 +1,18 @@
+2006-03-15 18:01  ntiffin
+
+	* ExplorerModel.h, ExplorerModel.m, ExplorerNode.h, ExplorerNode.m,
+	  Schema.h, Schema.m, UnitTest/pgCocoaDBSchemaTest.m: First pass at
+	  Explorer logic.
+
+2006-03-12 10:33  ntiffin
+
+	* Schema.h, Schema.m, UnitTest/pgCocoaDBSchemaTest.m: Schema
+	  comment functions added and working.
+
+2006-03-11 16:33  ntiffin
+
+	* ChangeLog: Update.
+
 2006-03-11 16:32  ntiffin
 
 	* Table.m: Correct copy/paste error.

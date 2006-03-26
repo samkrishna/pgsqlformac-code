@@ -29,6 +29,8 @@
 		[newNode setDisplayColumn2:@""];
 		[aParent addChild:newNode];
 		//TODO get function info
+		
+		[newNode release];
 	}
 }
 
@@ -39,6 +41,7 @@
 	ExplorerNode * newNode;
 	NSString * sequenceName;
 	int i;
+
 	results = [schema getSequenceNamesFromSchema:schemaName];
 	for (i = 0; i < [results count]; i++)
 	{
@@ -50,7 +53,9 @@
 		[newNode setDisplayColumn2:@""];
 		[aParent addChild:newNode];
 		//TODO get sequence info
-	}
+
+		[newNode release];
+}
 }
 
 
@@ -60,6 +65,7 @@
 	ExplorerNode * newNode;
 	NSString * viewName;
 	int i;
+
 	results = [schema getViewNamesFromSchema:schemaName];
 	for (i = 0; i < [results count]; i++)
 	{
@@ -71,6 +77,8 @@
 		[newNode setDisplayColumn2:@""];
 		[aParent addChild:newNode];
 		//TODO get view info
+
+		[newNode release];
 	}
 }
 
@@ -78,22 +86,48 @@
 - (void)createColumnNodes:(ExplorerNode *)aParent fromSchemaName:(NSString *)schemaName fromTableName:(NSString *)tableName
 {
 	RecordSet * results;
+	RecordSet * columnInfoSet;
 	ExplorerNode * newNode;
 	NSString * columnName;
+	NSString * columnInfoString;
 	int i;
+	ExplorerNode *titleNode;
+	
+	titleNode = [[ExplorerNode alloc] init];
+	[titleNode setName:@"Columns"];
+	[titleNode setExplorerType:@"Column Title"];
+	[titleNode setParent:aParent];
+	[aParent addChild:titleNode];		
+	
+	//NSLog(@"Processing %@ - %@", schemaName, tableName); 
 	results = [schema getTableColumnNamesFromSchema:schemaName fromTableName:tableName];
-	for (i = 0; i < [results count]; i++)
+	//NSLog(@"%@", results);
+	if (results != nil)
 	{
-		newNode = [[ExplorerNode alloc] init];
-		columnName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
-		[newNode setName:columnName];
-		[newNode setExplorerType:@"Column Name"];
-		[newNode setParent:aParent];
-		[newNode setDisplayColumn2:@""];
-		[aParent addChild:newNode];
-		//TODO get column info
+		for (i = 0; i < [results count]; i++)
+		{
+			//NSLog(@"results count = %d", [results count]);
+			newNode = [[ExplorerNode alloc] init];
+			columnName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
+			columnInfoSet = [schema getTableColumnInfoFromSchema:schemaName fromTableName:tableName fromColumnName:columnName];
+			//NSLog(@"%@", columnInfoSet);
+			if (columnInfoSet != nil)
+			{
+				columnInfoString = [[[[columnInfoSet itemAtIndex: 0] fields] itemAtIndex:0] value];
+				//NSLog(@"Processing %@ - %@ - %@ - %@", schemaName, tableName, columnName, columnInfoString); 
+				//NSLog(@"results count = %d", [results count]);
+				[newNode setName:columnName];
+				[newNode setExplorerType:@"Column Name"];
+				[newNode setParent:titleNode];
+				[newNode setDisplayColumn2:columnInfoString];
+				[titleNode addChild:newNode];
+
+				[newNode release];
+			}
+		}
 	}
 }
+
 
 - (void)createTriggerNodes:(ExplorerNode *)aParent fromSchemaName:(NSString *)schemaName fromTableName:(NSString *)tableName
 {
@@ -101,6 +135,14 @@
 	ExplorerNode * newNode;
 	NSString * triggerName;
 	int i;
+	ExplorerNode *titleNode;
+	
+	titleNode = [[ExplorerNode alloc] init];
+	[titleNode setName:@"Triggers"];
+	[titleNode setExplorerType:@"Trigger Title"];
+	[titleNode setParent:aParent];
+	[aParent addChild:titleNode];		
+
 	results = [schema getTriggerNamesFromSchema:schemaName fromTableName:tableName];
 	for (i = 0; i < [results count]; i++)
 	{
@@ -108,12 +150,14 @@
 		triggerName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
 		[newNode setName:triggerName];
 		[newNode setExplorerType:@"Trigger Name"];
-		[newNode setParent:aParent];
-		[newNode setDisplayColumn2:@""];
-		[aParent addChild:newNode];
-		//TODO get trigger info
+		[newNode setParent:titleNode];
+		//[newNode setDisplayColumn2:[schema getTriggerSQLFromSchema:schemaName fromTriggerName:triggerName]];
+		[titleNode addChild:newNode];
+
+		[newNode release];
 	}
 }
+
 
 - (void)createConstraintNodes:(ExplorerNode *)aParent fromSchemaName:(NSString *)schemaName fromTableName:(NSString *)tableName
 {
@@ -121,6 +165,14 @@
 	ExplorerNode * newNode;
 	NSString * constraintName;
 	int i;
+	ExplorerNode *titleNode;
+	
+	titleNode = [[ExplorerNode alloc] init];
+	[titleNode setName:@"Constraints"];
+	[titleNode setExplorerType:@"Constraint Title"];
+	[titleNode setParent:aParent];
+	[aParent addChild:titleNode];		
+
 	results = [schema getConstraintNamesFromSchema:schemaName fromTableName:tableName];
 	for (i = 0; i < [results count]; i++)
 	{
@@ -128,12 +180,15 @@
 		constraintName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
 		[newNode setName:constraintName];
 		[newNode setExplorerType:@"Constraint Name"];
-		[newNode setParent:aParent];
+		[newNode setParent:titleNode];
 		[newNode setDisplayColumn2:@""];
-		[aParent addChild:newNode];
+		[titleNode addChild:newNode];
 		//TODO get constraints info
+
+		[newNode release];
 	}
 }
+
 
 - (void)createIndexNodes:(ExplorerNode *)aParent fromSchemaName:(NSString *)schemaName fromTableName:(NSString *)tableName
 {
@@ -141,6 +196,14 @@
 	ExplorerNode * newNode;
 	NSString * indexName;
 	int i;
+	ExplorerNode *titleNode;
+	
+	titleNode = [[ExplorerNode alloc] init];
+	[titleNode setName:@"Indexes"];
+	[titleNode setExplorerType:@"Index Title"];
+	[titleNode setParent:aParent];
+	[aParent addChild:titleNode];	
+	
 	results = [schema getIndexNamesFromSchema:schemaName fromTableName:tableName];
 	for (i = 0; i < [results count]; i++)
 	{
@@ -148,12 +211,14 @@
 		indexName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
 		[newNode setName:indexName];
 		[newNode setExplorerType:@"Index Name"];
-		[newNode setParent:aParent];
-		[newNode setDisplayColumn2:@""];
-		[aParent addChild:newNode];
-		//TODO get Index info
+		[newNode setParent:titleNode];
+		//[newNode setDisplayColumn2:[schema getIndexSQLFromSchema:schemaName fromTableName:tableName fromIndexName:indexName]];
+		[titleNode addChild:newNode];
+
+		[newNode release];
 	}
 }
+
 
 - (void)createTableNodes:(ExplorerNode *)aParent fromSchemaName:(NSString *)schemaName
 {
@@ -185,6 +250,7 @@
 		[self createIndexNodes:newNode fromSchemaName:schemaName fromTableName:tableName];
 
 		[aParent addChild:newNode];
+		[newNode release];
 	}
 }
 
@@ -224,6 +290,7 @@
 		[newChild setExplorerType:@"Schema Child"];
 		[newChild setParent:newNode];
 		[newNode addChild: newChild];
+		[newChild release];
 		[self createTableNodes:newChild fromSchemaName:schemaName];
 
 		newChild = [[ExplorerNode alloc] init];
@@ -231,6 +298,7 @@
 		[newChild setExplorerType:@"Schema Child"];
 		[newChild setParent:newNode];
 		[newNode addChild: newChild];
+		[newChild release];
 		[self createSequenceNodes:newChild fromSchemaName:schemaName];
 		
 		newChild = [[ExplorerNode alloc] init];
@@ -238,6 +306,7 @@
 		[newChild setExplorerType:@"Schema Child"];
 		[newChild setParent:newNode];
 		[newNode addChild: newChild];
+		[newChild release];
 		[self createViewNodes:newChild fromSchemaName:schemaName];
 		
 		newChild = [[ExplorerNode alloc] init];
@@ -245,10 +314,12 @@
 		[newChild setExplorerType:@"Schema Child"];
 		[newChild setParent:newNode];
 		[newNode addChild: newChild];
+		[newChild release];
 		[self createFunctionNodes:newChild fromSchemaName:schemaName];
 		
 		// add to the root node
 		[rootNode addChild: newNode];
+		[newNode release];
 	}
 	return self;
 }
@@ -256,6 +327,8 @@
 - (void)dealloc
 {
 	// todo release all ExplorerNodes
+	[rootNode release];
+	[schema release];
 	[super dealloc];
 }
 

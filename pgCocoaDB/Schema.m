@@ -122,12 +122,11 @@
 -(RecordSet *)getFunctionNamesFromSchema:(NSString *)schemaName;
 {
 	NSString *sql;
-	NSString *useSchema;
 	
 	sql = [NSString stringWithFormat:@"%s'@s'",
 	"SELECT routine_name \
 	FROM information_schema.routines \
-	WHERE routine_schema = ", useSchema];
+	WHERE routine_schema = ", schemaName];
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
@@ -266,11 +265,11 @@
 	AND a.attnum > 0 \
 	AND a.attisdropped = FALSE \
 	ORDER BY a.attnum";
+	
+	sql = [NSString stringWithFormat:sqlFormat, tableName, schemaName, columnName];
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
-	
-	sql = [NSString stringWithFormat:sqlFormat, tableName, schemaName, columnName];
 	return [connection execQuery:sql];
 }
 

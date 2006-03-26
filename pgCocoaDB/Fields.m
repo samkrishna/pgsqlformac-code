@@ -49,7 +49,7 @@
 
 - (NSString *)getValueFromName:(NSString *)fieldName
 {
-	int i;
+	unsigned int i;
 	for (i = 0; i < [items count]; i++)
 	{
 		if ([fieldName compare:[[items objectAtIndex:i] name]] == NSOrderedSame)
@@ -75,5 +75,20 @@
     Field *anItem = [items objectAtIndex:rowIndex];
     return [anItem valueForKey:ident];
 }
+
+- (NSString *)description
+{
+	unsigned int i;
+	NSMutableString * text;
+	text = [[[NSMutableString alloc] init] autorelease];
+	
+	for (i = 0; i < [items count]; i++)
+	{
+		[text appendString:[[items objectAtIndex:i] description]];
+		[text appendString:@"\n"];
+	}
+	return text;
+}
+
 
 @end
