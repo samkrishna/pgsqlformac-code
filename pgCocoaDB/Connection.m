@@ -305,7 +305,7 @@
 					Field *field = [[rec fields] addItem];
 					[field setName:[NSString stringWithFormat:@"%s", PQfname(res, x)]];
 					[field setValue:[NSString stringWithFormat:@"%s", PQgetvalue(res, i, x)]];
-					[field setDataType:(int)PQftype(res, i)];
+					//[field setDataType:(int)PQftype(res, i)];
 				}
 			}
 			
