@@ -23,6 +23,8 @@
 	NSString		*userName;
 	NSString		*password;
 	
+	Databases		*dbs;
+	
 	NSString		*errorDescription;
 	
 	void			*pgconn;

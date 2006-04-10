@@ -25,6 +25,8 @@
 	tty = [[[[NSString alloc] init] retain] autorelease];
 	dbName = [[[[NSString alloc] initWithString:@"template1"] retain] autorelease];
 	
+	dbs = nil;
+	
 	errorDescription = [[[[NSString alloc] init] retain] autorelease];
 	
 	return self;
@@ -33,6 +35,10 @@
 - (BOOL)connect
 {	
 	// connect to the server (attempt) /// should use PQsetdbLogin()
+	if (dbs != nil) {
+		[dbs release];
+		dbs = nil;
+	}
 	
 	pgconn = (PGconn *)PQsetdbLogin([host cString], [port cString],
 					 [options cString], NULL, 
@@ -78,6 +84,11 @@
 {
 	if (pgconn == nil) { return NO; }
 	if (connected == NO) { return NO; }
+	
+	if (dbs != nil) {
+		[dbs release];
+		dbs = nil;
+	}
 	
 	PQfinish(pgconn);
 	
@@ -198,6 +209,10 @@
 		return nil;
 	}
 	
+	if (dbs != nil) {
+		return dbs;
+	}
+	
 	PGresult	*res;
 	NSString	*sql = @"select * from pg_database where datallowconn = 't' order by datname asc"; 
 	
@@ -212,7 +227,7 @@
     }
 	
 	// build the collection
-	Databases *dbs = [[[[Databases alloc] init] retain] autorelease];
+	dbs = [[[[Databases alloc] init] retain] autorelease];
 	long nFields = PQnfields(res);
 	long nRecords = PQntuples(res);
 	long i = 0;
@@ -244,7 +259,7 @@
 
 - (NSString *)currentDatabase
 {	
-	return [[NSString stringWithCString:PQdb(pgconn)] autorelease];
+	return [[[NSString stringWithCString:PQdb(pgconn)] retain] autorelease];
 }
 
 
@@ -290,6 +305,7 @@
 					Field *field = [[rec fields] addItem];
 					[field setName:[NSString stringWithFormat:@"%s", PQfname(res, x)]];
 					[field setValue:[NSString stringWithFormat:@"%s", PQgetvalue(res, i, x)]];
+					[field setDataType:(int)PQftype(res, i)];
 				}
 			}
 			
