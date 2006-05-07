@@ -9,7 +9,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DataSource.h"
-#import "pgCocoaDB/Connection.h"
+#import "Connection.h"
+#import "ExplorerModel.h"
 
 @interface SqlDocument : NSDocument
 {
@@ -34,6 +35,10 @@
 	IBOutlet NSView			*dbListView;
 	IBOutlet NSPopUpButton  *dbList;
 	
+	// outline schema view
+	IBOutlet NSOutlineView *schemaView;  // ref to the schema outline view object
+
+	ExplorerModel *explorer;   // ref to schema outline view data source
 	
 	NSString				*fileContent;
 	NSData					*fileData;

@@ -17,13 +17,14 @@
                 dataOutput = NSTableView; 
                 dbList = NSPopUpButton; 
                 dbListView = NSView; 
-                dbName = NSTextField; 
+                dbName = NSPopUpButton; 
                 host = NSComboBox; 
                 panelConnect = NSPanel; 
                 password = NSTextField; 
                 port = NSComboBox; 
                 query = NSTextView; 
                 rawOutput = NSTextView; 
+                schemaView = NSOutlineView; 
                 status = NSTextField; 
                 tabs = NSTabView; 
                 userName = NSTextField; 

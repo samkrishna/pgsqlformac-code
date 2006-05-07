@@ -1,0 +1,85 @@
+2006-01-16 10:33  hawkmoon
+
+	* SqlDocument.m, English.lproj/SqlDocument.nib/info.nib,
+	  English.lproj/SqlDocument.nib/keyedobjects.nib: No log message.
+
+2006-01-10 12:17  hawkmoon
+
+	* Query Tool for Postgres.xcodeproj/project.pbxproj, Info.plist,
+	  SqlDocument.h, SqlDocument.m, connect_dlg.png: Added *VERY* basic
+	  syntax highlighting, to be expanded
+
+2005-12-11 18:22  hawkmoon
+
+	* SqlDocument.h, SqlDocument.m, SqlToolbarCategory.m,
+	  English.lproj/MainMenu.nib/info.nib,
+	  English.lproj/MainMenu.nib/objects.nib, Query Tool for
+	  Postgres.xcodeproj/project.pbxproj,
+	  English.lproj/SqlDocument.nib/classes.nib,
+	  English.lproj/SqlDocument.nib/info.nib,
+	  English.lproj/SqlDocument.nib/keyedobjects.nib: Removed Syntax
+	  Highlighting Added Toolbar Database selector
+
+2005-12-01 20:59  hawkmoon
+
+	* Query Tool for Postgres.xcodeproj/project.pbxproj: updated to
+	  xcode 2.2
+
+2005-03-30 17:18  hawkmoon
+
+	* SqlDocument.m: implemented crude syntax highlighting.
+
+2005-03-08 15:50  hawkmoon
+
+	* .DS_Store, about_32.png, connect_32.png, DataSource.h,
+	  DataSource.m, connect_dlg.png, copy_32.png, cut_32.png,
+	  disconnect_32.png, export_data_32.png, icon_postgres.png,
+	  Info.plist, Query Tool for Postgres_Prefix.pch,
+	  icon_query_tool.icns, main.m, open_32.png, paste_32.png,
+	  prefs_32.png, print_32.png, run_script_32.png, savas_32.png,
+	  save_32.png, sql-doc.icns, SqlDocument.h, SqlDocument.m,
+	  SqlMenuCategory.h, SqlMenuCategory.m, SqlToolbarCategory.h,
+	  SqlToolbarCategory.m, sql-doc.png, version.plist,
+	  English.lproj/.DS_Store, English.lproj/Credits.rtf,
+	  English.lproj/InfoPlist.strings, English.lproj/locversion.plist,
+	  English.lproj/MainMenu.nib/classes.nib,
+	  English.lproj/MainMenu.nib/info.nib,
+	  English.lproj/MainMenu.nib/objects.nib,
+	  English.lproj/MainMenu~.nib/classes.nib,
+	  English.lproj/MainMenu~.nib/info.nib,
+	  English.lproj/MainMenu~.nib/objects.nib,
+	  English.lproj/SqlDocument.nib/classes.nib,
+	  English.lproj/SqlDocument.nib/info.nib,
+	  English.lproj/SqlDocument.nib/keyedobjects.nib,
+	  English.lproj/SqlDocument~.nib/classes.nib,
+	  English.lproj/SqlDocument~.nib/info.nib,
+	  English.lproj/SqlDocument~.nib/keyedobjects.nib, Help/.DS_Store,
+	  Help/index.html: Initial Import
+
+2005-03-08 15:50  hawkmoon
+
+	* .DS_Store, about_32.png, connect_32.png, DataSource.h,
+	  DataSource.m, connect_dlg.png, copy_32.png, cut_32.png,
+	  disconnect_32.png, export_data_32.png, icon_postgres.png,
+	  Info.plist, Query Tool for Postgres_Prefix.pch,
+	  icon_query_tool.icns, main.m, open_32.png, paste_32.png,
+	  prefs_32.png, print_32.png, run_script_32.png, savas_32.png,
+	  save_32.png, sql-doc.icns, SqlDocument.h, SqlDocument.m,
+	  SqlMenuCategory.h, SqlMenuCategory.m, SqlToolbarCategory.h,
+	  SqlToolbarCategory.m, sql-doc.png, version.plist,
+	  English.lproj/.DS_Store, English.lproj/Credits.rtf,
+	  English.lproj/InfoPlist.strings, English.lproj/locversion.plist,
+	  English.lproj/MainMenu.nib/classes.nib,
+	  English.lproj/MainMenu.nib/info.nib,
+	  English.lproj/MainMenu.nib/objects.nib,
+	  English.lproj/MainMenu~.nib/classes.nib,
+	  English.lproj/MainMenu~.nib/info.nib,
+	  English.lproj/MainMenu~.nib/objects.nib,
+	  English.lproj/SqlDocument.nib/classes.nib,
+	  English.lproj/SqlDocument.nib/info.nib,
+	  English.lproj/SqlDocument.nib/keyedobjects.nib,
+	  English.lproj/SqlDocument~.nib/classes.nib,
+	  English.lproj/SqlDocument~.nib/info.nib,
+	  English.lproj/SqlDocument~.nib/keyedobjects.nib, Help/.DS_Store,
+	  Help/index.html: Initial revision
+

@@ -20,7 +20,8 @@
 - (NSString *)windowNibName
 {
     // Override returning the nib file name of the document
-    // If you need to use a subclass of NSWindowController or if your document supports multiple NSWindowControllers, you should remove this method and override -makeWindowControllers instead.
+    // If you need to use a subclass of NSWindowController or if your document supports multiple
+	//   NSWindowControllers, you should remove this method and override -makeWindowControllers instead.
     return @"SqlDocument";
 }
 
@@ -86,6 +87,25 @@
 	return fileContent != nil;
 }
 
+-(void)setNewExplorerConn
+{
+	// create the schema explorer
+	if (explorer)	// we have already come through
+	{
+		ExplorerModel *tmp = explorer;
+		
+		explorer =[[ExplorerModel alloc] initWithConnection: conn];
+		[schemaView setDataSource:explorer]; // explorer does the work.
+		[tmp release];
+	}
+	else
+	{
+		explorer =[[ExplorerModel alloc] initWithConnection: conn];
+		[schemaView setDataSource:explorer]; // explorer does the work.
+	}
+	//[explorer printLog];
+}	
+
 - (IBAction)onConnect:(id)sender
 {
     /* read the preferences and add them to the drop downs */
@@ -147,7 +167,10 @@
 			{
 				[dbList selectItemAtIndex:i];
 			}
+
 		}
+		// create the schema explorer
+		[self setNewExplorerConn];			
 		
 	} else {
 		[status setStringValue:@"Connection failed: %@"];
@@ -172,6 +195,10 @@
 	{
 		[conn disconnect];
 		[status setStringValue:@"Connection closed."];
+		
+		[schemaView setDataSource:nil];
+		[explorer release];
+		explorer = nil;
 	}
 }
 
@@ -298,6 +325,8 @@
 	{
 		[status setStringValue:[NSString stringWithFormat:@"Connected to %@ on %@ as %@", 
 			[conn dbName], [conn host], [conn userName]]];
+		// create the schema explorer
+		[self setNewExplorerConn];			
 	} else {
 		[status setStringValue:@"Connection failed."];
 	}
