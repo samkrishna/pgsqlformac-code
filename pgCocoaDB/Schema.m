@@ -691,6 +691,33 @@
 	return nil;
 }
 
+-(RecordSet *)getLocks;
+{
+	NSString *sql;
+	
+	sql = [NSString stringWithString:@"SELECT dbu.usename as locker, l.mode as locktype,\
+	pg_stat_get_backend_pid(S.backendid) as pid,\
+	db.datname||'.'||n.nspname||'.'||r.relname as relation, l.mode,\
+	substring(pg_stat_get_backend_activity(S.backendid ), 0, 30) as query\
+	FROM pg_user dbu,\
+	(SELECT pg_stat_get_backend_idset() AS backendid) AS S,\
+	pg_database db, pg_locks l, pg_class r, pg_namespace n\
+	WHERE db.oid = pg_stat_get_backend_dbid(S.backendid)\
+	AND dbu.usesysid = pg_stat_get_backend_userid(S.backendid)\
+	AND l.pid = pg_stat_get_backend_pid(S.backendid)\
+	AND l.relation = r.oid\
+	AND l.database = db.oid\
+	AND r.relnamespace = n.oid\
+	AND l.granted\
+	ORDER BY db.datname, n.nspname, r.relname, l.mode"];
+	
+#if PGCOCOA_LOG_SQL
+	NSLog(sql);
+#endif
+
+	return [connection execQuery:sql];
+}
+
 
 
 @end

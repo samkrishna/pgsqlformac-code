@@ -1,8 +1,13 @@
+2006-03-26 15:16  ntiffin
+
+	* .DS_Store, ChangeLog, ExplorerModel.m, ExplorerNode.m, Field.m,
+	  Fields.m, Record.m, RecordSet.m, Schema.m,
+	  UnitTest/pgCocoaDBSchemaTest.m: Cleanup Explorer and add
+	  -description to fields, records, field, and recordset.
+
 2006-03-15 18:01  ntiffin
 
-	* ExplorerModel.h, ExplorerModel.m, ExplorerNode.h, ExplorerNode.m,
-	  Schema.h, Schema.m, UnitTest/pgCocoaDBSchemaTest.m: First pass at
-	  Explorer logic.
+	* UnitTest/pgCocoaDBSchemaTest.m: First pass at Explorer logic.
 
 2006-03-12 10:33  ntiffin
 

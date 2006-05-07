@@ -31,14 +31,14 @@
     return newItem;    
 }
 
-- (void)removeItemAtIndex:(int)index
+- (void)removeItemAtIndex:(int)anIndex
 {
-    [items removeObjectAtIndex:index];
+    [items removeObjectAtIndex:anIndex];
 }
 
-- (NSMutableDictionary *)itemAtIndex:(int)index
+- (NSMutableDictionary *)itemAtIndex:(int)anIndex
 {
-    return [items objectAtIndex:index];
+    return [items objectAtIndex:anIndex];
 }
 
 - (int)count

@@ -32,14 +32,14 @@
     return newItem;    
 }
 
-- (void)removeItemAtIndex:(int)index
+- (void)removeItemAtIndex:(int)anIndex
 {
-    [items removeObjectAtIndex:index];
+    [items removeObjectAtIndex:anIndex];
 }
 
-- (Field *)itemAtIndex:(int)index
+- (Field *)itemAtIndex:(int)anIndex
 {
-    return [items objectAtIndex:index];
+    return [items objectAtIndex:anIndex];
 }
 
 - (int)count

@@ -967,5 +967,23 @@ static BOOL databaseCreated = NO;
 	[explorer release];
 }
 
+-(void)testLocks
+{
+	unsigned int i;
+	RecordSet * results;
+	NSString* aColumnName;
+	NSString* aColumnValue;
+		
+	results = [testSchema getLocks];
+	
+	for (i = 0; i < [results count]; i++)
+	{
+		/*
+		aColumnName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
+		aColumnValue =[[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
+		 */
+	}	
+}
+
 @end
 

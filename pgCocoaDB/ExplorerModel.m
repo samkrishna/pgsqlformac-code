@@ -258,6 +258,12 @@
 - (id)initWithConnection:(Connection *) theConnection
 {
 	[super init];
+	
+	showInformationSchema = TRUE;
+	showPGCatalog = TRUE;
+	showPGToast = FALSE;
+	showPGTemps = FALSE;
+	
 	ExplorerNode * newNode;
 	ExplorerNode * newChild;
 	RecordSet * results;
@@ -279,6 +285,37 @@
 	for (i = 0; i < [results count]; i++)
 	{
 		schemaName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
+
+		// skip some schemas
+		if ([schemaName isCaseInsensitiveLike:@"information_schema"])
+		{
+			if (!showInformationSchema)
+			{
+				continue;	//skip this one
+			}
+		}
+		else if ([schemaName isCaseInsensitiveLike:@"pg_catalog"])
+		{
+			if (!showPGCatalog)
+			{
+				continue;	//skip this one
+			}			
+		}
+		else if ([schemaName isCaseInsensitiveLike:@"pg_toast"])
+		{
+			if (!showPGToast)
+			{
+				continue;	//skip this one
+			}
+		}
+		else if ([schemaName isCaseInsensitiveLike:@"pg_temp*"])
+		{
+			if (!showPGTemps)
+			{
+				continue;	//skip this one
+			}
+		}
+		
 		newNode = [[ExplorerNode alloc] init];
 		[newNode setName: schemaName];
 		[newNode setExplorerType:@"Schema"];
@@ -331,6 +368,48 @@
 	[schema release];
 	[super dealloc];
 }
+
+// accessor methods
+- (bool)showInformationSchema
+{
+	return showInformationSchema;
+}
+
+- (bool)showPGCatalog
+{
+	return showPGCatalog;
+}
+
+- (bool)showPGToast
+{
+	return showPGToast;
+}
+
+- (bool)showPGTemps
+{
+	return showPGTemps;
+}
+
+- (void)setShowInformationSchema:(bool)newValue
+{
+	showInformationSchema = newValue;
+}
+
+- (void)setShowPGCatalog:(bool)newValue
+{
+	showPGCatalog = newValue;
+}
+
+- (void)setShowPGToast:(bool)newValue
+{
+	showPGToast = newValue;
+}
+
+- (void)setShowPGTemps:(bool)newValue
+{
+	showPGTemps = newValue;
+}
+
 
 // These methods get called because I am the datasource of the outline view.
 - (id)outlineView:(NSOutlineView *)outlineView child:(int)i ofItem:(id)item
