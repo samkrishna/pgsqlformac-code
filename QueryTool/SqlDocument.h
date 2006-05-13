@@ -11,6 +11,7 @@
 #import "DataSource.h"
 #import "Connection.h"
 #import "ExplorerModel.h"
+#import "MyOutlineView.h"
 
 @interface SqlDocument : NSDocument
 {
@@ -36,7 +37,7 @@
 	IBOutlet NSPopUpButton  *dbList;
 	
 	// outline schema view
-	IBOutlet NSOutlineView *schemaView;  // ref to the schema outline view object
+	IBOutlet MyOutlineView *schemaView;  // ref to the schema outline view object
 
 	ExplorerModel *explorer;   // ref to schema outline view data source
 	
@@ -66,6 +67,7 @@
 - (IBAction)onDisconnect:(id)sender;
 - (IBAction)onSetDatabase:(id)sender;
 
+- (void)onSelectCreateTableMenuItem:(id)sender;
 
 - (BOOL)isValueKeyword:(NSString *)value;
 - (void)setAttributesForWord:(NSRange)rangeOfCurrentWord;

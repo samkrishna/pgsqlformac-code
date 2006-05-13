@@ -1,3 +1,11 @@
+2006-05-07 12:42  ntiffin
+
+	* ChangeLog, SqlDocument.h, SqlDocument.m,
+	  English.lproj/SqlDocument.nib/classes.nib,
+	  English.lproj/SqlDocument.nib/info.nib,
+	  English.lproj/SqlDocument.nib/keyedobjects.nib: Add schema
+	  browser.
+
 2006-01-16 10:33  hawkmoon
 
 	* SqlDocument.m, English.lproj/SqlDocument.nib/info.nib,

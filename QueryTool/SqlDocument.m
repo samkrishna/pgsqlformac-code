@@ -31,7 +31,7 @@
 	NSFont *fixedFont;
 	NSTextContainer *textContainer;
 	NSSize  theSize;
-		
+	
     [super windowControllerDidLoadNib:aController];
 		
 	font = [NSFont fontWithName:@"Lucida Grande" size:10];
@@ -96,12 +96,14 @@
 		
 		explorer =[[ExplorerModel alloc] initWithConnection: conn];
 		[schemaView setDataSource:explorer]; // explorer does the work.
+		[schemaView setMenuActionTarget:self];
 		[tmp release];
 	}
 	else
 	{
 		explorer =[[ExplorerModel alloc] initWithConnection: conn];
 		[schemaView setDataSource:explorer]; // explorer does the work.
+		[schemaView setMenuActionTarget:self];
 	}
 	//[explorer printLog];
 }	
@@ -330,6 +332,17 @@
 	} else {
 		[status setStringValue:@"Connection failed."];
 	}
+}
+
+- (void)onSelectCreateTableMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+
+	NSString *sql = [[explorer schema] getTableSQLFromSchema:schemaName fromTableName:tableName pretty:1];
+	[query setString:sql];
 }
 
 - (BOOL)isValueKeyword:(NSString *)value
