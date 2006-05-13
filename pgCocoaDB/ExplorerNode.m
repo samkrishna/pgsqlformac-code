@@ -77,6 +77,11 @@
 	return comment;
 }
 
+-(NSString *) baseSchema
+{
+	return baseSchema;
+}
+
 
 -(UInt32)oid;
 {
@@ -116,6 +121,13 @@
 	[s retain];
 	[comment release];
 	comment = s;
+}
+
+-(void)setBaseSchema:(NSString *)s;
+{
+	[s retain];
+	[baseSchema release];
+	baseSchema = s;
 }
 
 -(void)setOID:(UInt32)o;

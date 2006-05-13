@@ -24,6 +24,7 @@
 }
 
 - (id)initWithConnection:(Connection *) aConnection;
+- (Schema *)schema;
 - (bool)showInformationSchema;
 - (bool)showPGCatalog;
 - (bool)showPGToast;

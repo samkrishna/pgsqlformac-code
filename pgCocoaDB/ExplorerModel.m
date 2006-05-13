@@ -97,6 +97,8 @@
 	[titleNode setName:@"Columns"];
 	[titleNode setExplorerType:@"Column Title"];
 	[titleNode setParent:aParent];
+	[titleNode setBaseTable:tableName];
+	[titleNode setBaseSchema:schemaName];
 	[aParent addChild:titleNode];		
 	
 	//NSLog(@"Processing %@ - %@", schemaName, tableName); 
@@ -120,6 +122,8 @@
 				[newNode setExplorerType:@"Column Name"];
 				[newNode setParent:titleNode];
 				[newNode setDisplayColumn2:columnInfoString];
+				[newNode setBaseTable:tableName];
+				[newNode setBaseSchema:schemaName];
 				[titleNode addChild:newNode];
 
 				[newNode release];
@@ -151,6 +155,8 @@
 		[newNode setName:triggerName];
 		[newNode setExplorerType:@"Trigger Name"];
 		[newNode setParent:titleNode];
+		[newNode setBaseTable:tableName];
+		[newNode setBaseSchema:schemaName];
 		//[newNode setDisplayColumn2:[schema getTriggerSQLFromSchema:schemaName fromTriggerName:triggerName]];
 		[titleNode addChild:newNode];
 
@@ -182,6 +188,8 @@
 		[newNode setExplorerType:@"Constraint Name"];
 		[newNode setParent:titleNode];
 		[newNode setDisplayColumn2:@""];
+		[newNode setBaseTable:tableName];
+		[newNode setBaseSchema:schemaName];
 		[titleNode addChild:newNode];
 		//TODO get constraints info
 
@@ -212,6 +220,8 @@
 		[newNode setName:indexName];
 		[newNode setExplorerType:@"Index Name"];
 		[newNode setParent:titleNode];
+		[newNode setBaseTable:tableName];
+		[newNode setBaseSchema:schemaName];
 		//[newNode setDisplayColumn2:[schema getIndexSQLFromSchema:schemaName fromTableName:tableName fromIndexName:indexName]];
 		[titleNode addChild:newNode];
 
@@ -233,6 +243,8 @@
 		newNode = [[ExplorerNode alloc] init];
 		tableName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
 		[newNode setName:tableName];
+		[newNode setBaseTable:tableName];
+		[newNode setBaseSchema:schemaName];
 		[newNode setExplorerType:@"Table Name"];
 		[newNode setParent:aParent];
 		[newNode setDisplayColumn2:@""];
@@ -370,6 +382,11 @@
 }
 
 // accessor methods
+- (Schema *)schema
+{
+	return schema;
+}
+
 - (bool)showInformationSchema
 {
 	return showInformationSchema;

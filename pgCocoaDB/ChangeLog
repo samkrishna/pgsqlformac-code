@@ -1,3 +1,23 @@
+2006-05-07 12:32  ntiffin
+
+	* ChangeLog, DataSource.m, Databases.m, ExplorerModel.h,
+	  ExplorerModel.m, Fields.m, RecordSet.m, Schema.h, Schema.m,
+	  UnitTest/pgCocoaDBSchemaTest.m: Updates for schema to work with
+	  query tool and clean up some warning about hidden variables.
+
+2006-04-10 15:54  hawkmoon
+
+	* Connection.m: Removed SetDataType which is incomplete
+
+2006-04-10 15:30  hawkmoon
+
+	* pgCocoaDB.xcodeproj/project.pbxproj: [no log message]
+
+2006-04-10 15:30  hawkmoon
+
+	* Connection.h, Connection.m: Resolved Double Free errors Improved
+	  Performance on Database enum
+
 2006-03-26 15:16  ntiffin
 
 	* .DS_Store, ChangeLog, ExplorerModel.m, ExplorerNode.m, Field.m,

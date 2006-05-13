@@ -20,6 +20,7 @@
 								//	  content depends on explorerType
 	NSString * comment;			// From postgresql comments database
 								//    for display as a tool tip
+	NSString *baseSchema;
 }
 
 	// Accessor methods
@@ -28,6 +29,7 @@
 -(NSString *)explorerType;
 -(NSString *)displayColumn2;
 -(NSString *)comment;
+-(NSString *)baseSchema;
 -(UInt32)oid;
 
 -(void)setName:(NSString *)s;
@@ -35,6 +37,7 @@
 -(void)setExplorerType:(NSString *)s;
 -(void)setDisplayColumn2:(NSString *)s;
 -(void)setComment:(NSString *)s;
+-(void)setBaseSchema:(NSString *)s;
 -(void)setOID:(UInt32)o;
 
 	// Accessors for the parent node
