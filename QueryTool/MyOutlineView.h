@@ -6,6 +6,9 @@
 {
 	NSMenu *tableMenu;
 	NSMenu *columnMenu;
+	NSMenu *indexMenu;
+	NSMenu *functionMenu;
+	NSMenu *viewMenu;
 	
 	id menuActionTarget;
 }

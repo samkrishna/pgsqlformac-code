@@ -67,7 +67,15 @@
 - (IBAction)onDisconnect:(id)sender;
 - (IBAction)onSetDatabase:(id)sender;
 
+// respond to dynamic menus in the object browser
+- (void)onSelectSelectTableMenuItem:(id)sender;
 - (void)onSelectCreateTableMenuItem:(id)sender;
+- (void)onSelectCreateBakTableMenuItem:(id)sender;
+- (void)onSelectAlterTableRenameMenuItem:(id)sender;
+- (void)onSelectVacuumTableMenuItem:(id)sender;
+- (void)onSelectTruncateTableMenuItem:(id)sender;
+- (void)onSelectDropTableMenuItem:(id)sender;
+
 
 - (BOOL)isValueKeyword:(NSString *)value;
 - (void)setAttributesForWord:(NSRange)rangeOfCurrentWord;

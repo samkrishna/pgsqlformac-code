@@ -313,6 +313,9 @@
 	if ([conn isConnected])
 	{
 		[conn disconnect];
+		[schemaView setDataSource:nil];
+		[explorer release];
+		explorer = nil;
 	}
 	
 	if ([[[dbList selectedItem]  title] length] == 0)
@@ -321,7 +324,6 @@
 	} else {
 		[conn setDbName:[[dbList selectedItem] title]];
 	}
-	
 	// perform the connection
 	if ([conn connect])
 	{
@@ -334,6 +336,18 @@
 	}
 }
 
+- (void)onSelectSelectTableMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	
+	// TODO validation, if any.
+	NSString *sql =[NSString stringWithFormat:@"\nSELECT * FROM %@.%@;\n", schemaName, tableName];
+	[query insertText:sql];
+}
+
 - (void)onSelectCreateTableMenuItem:(id)sender
 {
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
@@ -341,8 +355,72 @@
 	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
 	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
 
+	// TODO validation, if any.
 	NSString *sql = [[explorer schema] getTableSQLFromSchema:schemaName fromTableName:tableName pretty:1];
-	[query setString:sql];
+	[query insertText:sql];
+}
+
+- (void)onSelectCreateBakTableMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	
+	// TODO validation, if any.
+	NSCalendarDate *theDate = [NSCalendarDate calendarDate];
+	NSString *datestr = [theDate descriptionWithCalendarFormat:@"%Y_%m_%d_%H%M"];
+	NSString *backupTableName = [NSString stringWithFormat:@"%@.%@_%@", schemaName, tableName, datestr];
+	NSString *sql =[NSString stringWithFormat:@"\nSELECT * INTO TABLE %@\nFROM %@.%@;\n", backupTableName, schemaName, tableName];
+	[query insertText:sql];
+}
+
+- (void)onSelectAlterTableRenameMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	
+	// TODO validation, if any.
+	NSString *sql = [NSString stringWithFormat:@"ALTER TABLE %@.%@ RENAME TO %@.new_name;\n", schemaName, tableName, schemaName];
+	[query insertText:sql];
+}
+
+- (void)onSelectVacuumTableMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	
+	// TODO validation, if any.
+	NSString *sql = [NSString stringWithFormat:@"VACUUM FULL VERBOSE ANALYZE %@.%@;\n", schemaName, tableName];
+	[query insertText:sql];
+}
+
+- (void)onSelectTruncateTableMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	
+	// TODO validation, if any.
+	NSString *sql = [NSString stringWithFormat:@"TRUNCATE TABLE %@.%@;\n", schemaName, tableName];
+	[query insertText:sql];
+}
+
+- (void)onSelectDropTableMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	
+	// TODO validation, if any.
+	NSString *sql = [NSString stringWithFormat:@"DROP TABLE %@.%@;\n", schemaName, tableName];
+	[query insertText:sql];
 }
 
 - (BOOL)isValueKeyword:(NSString *)value
