@@ -259,7 +259,15 @@
 
 - (NSString *)currentDatabase
 {	
-	return [[[NSString stringWithCString:PQdb(pgconn)] retain] autorelease];
+	char * currentDatabase = PQdb(pgconn);
+	if (currentDatabase)
+	{
+		return [[[NSString stringWithCString:currentDatabase] retain] autorelease];
+	}
+	else
+	{
+		return [[NSString alloc] initWithString:@"Current database not defined."];;
+	}
 }
 
 

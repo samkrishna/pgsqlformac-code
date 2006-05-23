@@ -369,11 +369,16 @@
 	int i;
 	NSMutableString * sqlOutput = [[NSMutableString alloc] init];
 	[sqlOutput appendFormat:@"CREATE TABLE %@.%@ ( ", schemaName, tableName];
-	if (pretty) [sqlOutput appendString:@"\n"];
-	
+	if (pretty)
+	{
+		[sqlOutput appendString:@"\n"];
+	}
 	/* returns name, type, notnull, default */
 	results = [self getTableColumnsInfoFromSchema:schemaName fromTableName:tableName];
-	
+	//NSLog(@"get table sql return count: %d", [results count]);
+	//NSLog(@"Column results:%@", [results description]);
+	//NSLog(@"Connection currentDatabase: %@", [connection currentDatabase]);
+	//NSLog(@"Connection dbName: %@", [connection dbName]);
 	for (i = 0; i < [results count]; i++)
 	{		
 		if (i != 0)
@@ -387,25 +392,29 @@
 				[sqlOutput appendString:@", "];				
 			}
 		}
-		if (pretty) [sqlOutput appendString:@"    "];
-		
+		if (pretty)
+		{
+			[sqlOutput appendString:@"    "];
+		}
 		/* Attribute name */
 		[sqlOutput appendFormat:@"%@", [[[results itemAtIndex: i] fields] getValueFromName:@"name"]];
-		
 		/* Attribute type */
 		[sqlOutput appendFormat:@" %@", [[[results itemAtIndex: i] fields] getValueFromName:@"type"]];
-		
 		
 		/* default value */
 		/* TODO handle serial */
 		/* if serial then change typename from integer to serial */
 		/* if serial then change typename from bigint to bigserial */
-		[sqlOutput appendFormat:@"%@", [[[results itemAtIndex: i] fields] getValueFromName:@"default"]];
-		
+		if ([[[[results itemAtIndex: i] fields] getValueFromName:@"default"] compare:@""] != NSOrderedSame)
+		{
+			[sqlOutput appendFormat:@" %@", [[[results itemAtIndex: i] fields] getValueFromName:@"default"]];
+		}
 		/* TODO check for foreign key  or primary key values */
 		/* null constraint */
-		[sqlOutput appendFormat:@"%@", [[[results itemAtIndex: i] fields] getValueFromName:@"notnull"]];
-		
+		if ([[[[results itemAtIndex: i] fields] getValueFromName:@"notnull"] compare:@""] != NSOrderedSame)
+		{
+			[sqlOutput appendFormat:@" %@", [[[results itemAtIndex: i] fields] getValueFromName:@"notnull"]];
+		}
 		
 	}
 	if (pretty)
