@@ -68,6 +68,7 @@
 - (IBAction)onSetDatabase:(id)sender;
 
 // respond to dynamic menus in the object browser
+// tables
 - (void)onSelectSelectTableMenuItem:(id)sender;
 - (void)onSelectCreateTableMenuItem:(id)sender;
 - (void)onSelectCreateBakTableMenuItem:(id)sender;
@@ -76,6 +77,17 @@
 - (void)onSelectTruncateTableMenuItem:(id)sender;
 - (void)onSelectDropTableMenuItem:(id)sender;
 
+// column
+
+// views
+- (void)onSelectCreateViewMenuItem:(id)sender;
+- (void)onSelectCreateViewTemplateMenuItem:(id)sender;
+- (void)onSelectDropViewMenuItem:(id)sender;
+
+// functions
+
+
+// index
 
 - (BOOL)isValueKeyword:(NSString *)value;
 - (void)setAttributesForWord:(NSRange)rangeOfCurrentWord;

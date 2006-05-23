@@ -1,3 +1,13 @@
+2006-05-14 10:30  ntiffin
+
+	* MyOutlineView.h, MyOutlineView.m, SqlDocument.h, SqlDocument.m:
+	  Add table SQL generation commands and stubs for columns, indexes,
+	  functions, and views.
+
+2006-05-13 15:20  ntiffin
+
+	* ChangeLog: Update ChangeLog.
+
 2006-05-13 14:28  ntiffin
 
 	* English.lproj/: MainMenu~.nib/classes.nib,

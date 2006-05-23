@@ -158,11 +158,21 @@
 			[viewMenu addItem: newItem];
 
 			newItem = [[NSMenuItem alloc] init];
+			[newItem setTitle:@"CREATE VIEW <tab> as <query>"];
+			[newItem setTarget: menuActionTarget];
+			[newItem setAction: @selector(onSelectCreateViewMenuItem:)];
+			[viewMenu addItem: newItem];
+
+			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"CREATE VIEW template"];
+			[newItem setTarget: menuActionTarget];
+			[newItem setAction: @selector(onSelectCreateViewTemplateMenuItem:)];
 			[viewMenu addItem: newItem];
 
 			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"DROP VIEW <name>"];
+			[newItem setTarget: menuActionTarget];
+			[newItem setAction: @selector(onSelectDropViewMenuItem:)];
 			[viewMenu addItem: newItem];
 			
 		}

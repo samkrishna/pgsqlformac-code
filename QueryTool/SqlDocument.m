@@ -383,7 +383,7 @@
 	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
 	
 	// TODO validation, if any.
-	NSString *sql = [NSString stringWithFormat:@"ALTER TABLE %@.%@ RENAME TO %@.new_name;\n", schemaName, tableName, schemaName];
+	NSString *sql = [NSString stringWithFormat:@"ALTER TABLE %@.%@ RENAME TO new_name;\n", schemaName, tableName];
 	[query insertText:sql];
 }
 
@@ -422,6 +422,47 @@
 	NSString *sql = [NSString stringWithFormat:@"DROP TABLE %@.%@;\n", schemaName, tableName];
 	[query insertText:sql];
 }
+
+
+// column
+
+// views
+- (void)onSelectCreateViewMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *viewName = [[schemaView itemAtRow:currentRow] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	
+	NSString *sql = [[explorer schema] getViewSQLFromSchema:schemaName fromView:viewName pretty:1];
+	[query insertText:sql];
+}
+
+- (void)onSelectCreateViewTemplateMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	
+	NSString *sql = [NSString stringWithFormat:@"CREATE OR REPLACE VIEW %@.%@ () AS\n    SELECT * FROM <schema>.<table>;\n", schemaName, tableName];
+	[query insertText:sql];
+}
+
+- (void)onSelectDropViewMenuItem:(id)sender;
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	
+	NSString *sql = [NSString stringWithFormat:@"DROP VIEW %@.%@;\n", schemaName, tableName];
+	[query insertText:sql];
+}
+
+// functions
+
+// index
 
 - (BOOL)isValueKeyword:(NSString *)value
 {
