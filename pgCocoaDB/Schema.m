@@ -123,10 +123,8 @@
 {
 	NSString *sql;
 	
-	sql = [NSString stringWithFormat:@"%s'@s'",
-	"SELECT routine_name \
-	FROM information_schema.routines \
-	WHERE routine_schema = ", schemaName];
+	sql = [NSString stringWithFormat:@"%@'%@'",
+	@"SELECT routine_name FROM information_schema.routines WHERE routine_schema = ", schemaName];
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
@@ -321,25 +319,61 @@
 //-----------------------------------------------------------------------------------------
 // generate SQL
 
--(NSString *)getFunctionSQLFromSchema:(NSString *)schemaName fromFunctionName: (NSString *) functionName
+-(NSString *)getFunctionSQLFromSchema:(NSString *)schemaName fromFunctionName: (NSString *) functionName pretty:(int)pretty
 {
 	NSString * sql;
 	RecordSet * results;
+	NSMutableString * sqlOutput = [[[NSMutableString alloc] init] autorelease];
+	/*
+	sql = [NSString stringWithFormat:@"%@'%@'%@'%@'",
+		@"SELECT routine_definition FROM information_schema.routines WHERE routine_schema = ", schemaName, @" AND routine_name = ", functionName];
+	 
+	 SELECT proname, proretset, prosrc, probin, pronargs, proallargtypes, proargmodes, proargnames,
+	 (SELECT typname from pg_catalog.pg_type WHERE oid = prorettype) as rettype,
+	 provolatile, proisstrict, prosecdef,
+	 (SELECT lanname FROM pg_catalog.pg_language WHERE oid = prolang) as lanname 
+	 FROM pg_catalog.pg_proc
+	 */
 	
-	sql = [NSString stringWithFormat:@"%s'%@''%@'",
-		"SELECT routine_definition FROM information_schema.routines \
-	WHERE routine_schema = ", schemaName,
-		" AND routine_name = ", functionName];
+	sql = [NSString stringWithFormat:@"SELECT p.proname, p.proretset, p.prosrc, p.probin, p.pronargs, p.proallargtypes, p.proargmodes, p.proargnames, \
+	p.provolatile, p.proisstrict, p.prosecdef, (SELECT lanname FROM pg_catalog.pg_language l WHERE l.oid = p.prolang) as lanname, \
+	(SELECT typname from pg_catalog.pg_type WHERE oid = p.prorettype) as rettype \
+	FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n \
+	WHERE n.oid = p.pronamespace AND p.proname = '%@' AND n.nspname = '%@'", functionName, schemaName];
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
-	
 	results = [connection execQuery:sql];
-	if ([results count] == 1)
+	
+	if ([results count] != 1)
 	{
-		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
-	}	
-	return nil;
+		NSLog(@"getFunctionSQLFromSchema: Returned too many functions.");
+		return nil;
+	}
+
+	// check for binary or source
+	if ([[[[results itemAtIndex: 0] fields] getValueFromName: @"probin"] compare:@"-"] != NSOrderedSame)
+	{
+		NSLog(@"getFunctionSQLFromSchema: Can not handle binary functions.");
+		return nil;
+	}
+		
+	if ([[[[results itemAtIndex: 0] fields] getValueFromName: @"prosrc"] compare:@"-"] == NSOrderedSame)
+	{
+		NSLog(@"getFunctionSQLFromSchema: No source to return.");
+		return nil;
+	}
+	//TODO implement pretty
+	
+	[sqlOutput appendFormat:@"CREATE or REPLACE FUNCTION %@.%@ ", schemaName, functionName];
+	//TODO get return values and parameters
+
+	[sqlOutput appendString:@" AS $$ "];
+	[sqlOutput appendString:[[[results itemAtIndex: 0] fields] getValueFromName:@"prosrc"];
+	[sqlOutput appendString:@"$$ "];
+	//TODO language & ;
+		
+	return sqlOutput;
 }
 
 
@@ -359,6 +393,29 @@
 	{
 		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
 	}	
+	return nil;
+}
+
+
+-(NSString *)getRuleSQLFromSchema:(NSString *)schemaName fromRuleName:(NSString *)ruleName pretty:(int)pretty
+{
+	NSString * sql;
+	RecordSet * results;
+	
+	// TODO handle schema
+	sql = [NSString stringWithFormat:@"%s%@%s",
+		"SELECT pg_catalog.pg_get_ruledef(t.oid) \
+	FROM pg_catalog.pg_rewrite rw \
+	WHERE rw.rulename = ", ruleName];
+#if PGCOCOA_LOG_SQL
+	NSLog(sql);
+#endif
+	
+	results = [connection execQuery:sql];
+	if ([results count] == 1)
+	{
+		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
+	}
 	return nil;
 }
 

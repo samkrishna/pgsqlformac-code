@@ -145,14 +145,27 @@ static BOOL databaseCreated = NO;
 	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 
 	// TODO check if function exists
-	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "CREATE or REPLACE FUNCTION ", PGCocoaTestDatabase, PGCocoaTestSchema, "update_time_stamp() RETURNS trigger AS $time_stamp$ \
-	BEGIN \
-		NEW.update_time := current_timestamp; \
-		RETURN NEW; \
-	END; \
-	$time_stamp$ LANGUAGE plpgsql; "];
+	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "CREATE or REPLACE FUNCTION ", PGCocoaTestDatabase, PGCocoaTestSchema,
+		"update_time_stamp() RETURNS trigger AS $time_stamp$ \
+BEGIN \
+	NEW.update_time := current_timestamp; \
+	RETURN NEW; \
+END; \
+$time_stamp$ LANGUAGE plpgsql; "];
 	[conn execQuery:sql];
 	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
+	
+	// for testing query tool
+	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "CREATE or REPLACE FUNCTION ", PGCocoaTestDatabase, PGCocoaTestSchema,
+		"sum_n_product(x int, y int, OUT sum int, OUT prod int) AS $$ \
+BEGIN \
+	sum := x + y; \
+	prod := x * y; \
+END; \
+$$ LANGUAGE plpgsql; "];
+	[conn execQuery:sql];
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
+	
 	
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s%@.%@.%s", "CREATE TRIGGER create_timestamp BEFORE INSERT ON ",
 		PGCocoaTestDatabase, PGCocoaTestSchema, "name \

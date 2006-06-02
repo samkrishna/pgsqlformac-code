@@ -24,6 +24,7 @@
 		newNode = [[ExplorerNode alloc] init];
 		functionName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
 		[newNode setName:functionName];
+		[newNode setBaseSchema:schemaName];
 		[newNode setExplorerType:@"Function Name"];
 		[newNode setParent:aParent];
 		[newNode setDisplayColumn2:@""];
@@ -48,6 +49,7 @@
 		newNode = [[ExplorerNode alloc] init];
 		sequenceName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
 		[newNode setName:sequenceName];
+		[newNode setBaseSchema:schemaName];
 		[newNode setExplorerType:@"Sequence Name"];
 		[newNode setParent:aParent];
 		[newNode setDisplayColumn2:@""];
@@ -72,11 +74,16 @@
 		newNode = [[ExplorerNode alloc] init];
 		viewName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
 		[newNode setName:viewName];
+		[newNode setBaseTable:viewName];
+		[newNode setBaseSchema:schemaName];
 		[newNode setExplorerType:@"View Name"];
 		[newNode setParent:aParent];
 		[newNode setDisplayColumn2:@""];
+		// do columns
+		[self createColumnNodes:newNode fromSchemaName:schemaName fromTableName:viewName];
+
+		// TODO get indexes and other ??
 		[aParent addChild:newNode];
-		//TODO get view info
 
 		[newNode release];
 	}

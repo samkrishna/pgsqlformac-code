@@ -1,8 +1,11 @@
-2006-05-13 13:04  ntiffin
+2006-05-22 20:25  ntiffin
 
-	* ChangeLog, ExplorerModel.h, ExplorerModel.m, ExplorerNode.h,
-	  ExplorerNode.m: More tweeks to get Explorer working with
-	  QueryTool. Re-sync after sourceforge cvs outage.
+	* Connection.m, Schema.m: Correct errors encountered during
+	  debuging querytool.
+
+2006-05-13 13:09  ntiffin
+
+	* ChangeLog: Update ChangeLog.
 
 2006-05-07 12:32  ntiffin
 
