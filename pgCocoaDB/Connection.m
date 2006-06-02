@@ -43,7 +43,10 @@
 	pgconn = (PGconn *)PQsetdbLogin([host cString], [port cString],
 					 [options cString], NULL, 
 					 [dbName cString], [userName cString], [password cString]);
-	NSLog(@"Options: %s", PQoptions(pgconn));
+	if (PQoptions(pgconn))
+	{
+		NSLog(@"Options: %s", PQoptions(pgconn));
+	}
 	
 	if (PQstatus(pgconn) == CONNECTION_BAD) 
 	{

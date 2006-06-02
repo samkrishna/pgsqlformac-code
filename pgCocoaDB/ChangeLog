@@ -1,3 +1,10 @@
+2006-06-02 06:48  ntiffin
+
+	* ChangeLog, ExplorerModel.m, Schema.h, Schema.m,
+	  UnitTest/pgCocoaDBSchemaTest.m: Correct missing setBaseSchema,
+	  add view column schema collection, add getRuleSQLFromSchema(),
+	  improve getFunctionSQLFromSchema().
+
 2006-05-22 20:25  ntiffin
 
 	* Connection.m, Schema.m: Correct errors encountered during

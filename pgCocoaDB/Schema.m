@@ -369,7 +369,7 @@
 	//TODO get return values and parameters
 
 	[sqlOutput appendString:@" AS $$ "];
-	[sqlOutput appendString:[[[results itemAtIndex: 0] fields] getValueFromName:@"prosrc"];
+	[sqlOutput appendString:[[[results itemAtIndex: 0] fields] getValueFromName:@"prosrc"]];
 	[sqlOutput appendString:@"$$ "];
 	//TODO language & ;
 		
