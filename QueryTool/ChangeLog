@@ -1,3 +1,9 @@
+2006-05-22 20:35  ntiffin
+
+	* ChangeLog, MyOutlineView.m, SqlDocument.h, SqlDocument.m: Correct
+	  errors in create table and alter table sql. Add view 1st pass
+	  view SQL menu items.
+
 2006-05-14 10:30  ntiffin
 
 	* MyOutlineView.h, MyOutlineView.m, SqlDocument.h, SqlDocument.m:

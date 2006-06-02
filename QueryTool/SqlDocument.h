@@ -85,7 +85,9 @@
 - (void)onSelectDropViewMenuItem:(id)sender;
 
 // functions
-
+- (void)onSelectCreateFunctionMenuItem:(id)sender;
+- (void)onSelectCreateFunctionTemplateMenuItem:(id)sender;
+- (void)onSelectDropFunctionMenuItem:(id)sender;
 
 // index
 

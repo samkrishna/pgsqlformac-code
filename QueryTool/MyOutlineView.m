@@ -117,6 +117,8 @@
 			
 			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"DROP INDEX <name>"];
+			[newItem setTarget: menuActionTarget];
+			[newItem setAction: @selector(onSelectDropIndexMenuItem:)];
 			[indexMenu addItem: newItem];
 									
 		}
@@ -131,14 +133,20 @@
 
 			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"CREATE OR REPLACE FUNCTION template ()"];
+			[newItem setTarget: menuActionTarget];
+			[newItem setAction: @selector(onSelectCreateFunctionTemplateMenuItem:)];
 			[functionMenu addItem: newItem];
 
 			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"CREATE OR REPLACE FUNCTION <name>"];
+			[newItem setTarget: menuActionTarget];
+			[newItem setAction: @selector(onSelectCreateFunctionMenuItem:)];
 			[functionMenu addItem: newItem];
 			
 			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"DROP FUNCTION <name>"];
+			[newItem setTarget: menuActionTarget];
+			[newItem setAction: @selector(onSelectDropFunctionMenuItem:)];
 			[functionMenu addItem: newItem];
 			
 		}

@@ -43,12 +43,16 @@
     theSize.width = 1.0e7;
     [textContainer setContainerSize:theSize];
     [textContainer setWidthTracksTextView:NO];
+
+	// make the query window the first responder
+	[window makeFirstResponder: query];
 	
 	[status setStringValue:[NSString stringWithString:@""]];
 	
 	// set the text view delegate
 	[query setDelegate:self];
 	[[query textStorage] setDelegate:self];
+	
 	
 	// init the keyword arrays
 	NSString *temp = [[NSString alloc] 
@@ -72,6 +76,7 @@
 		[self updateChangeCount:NSChangeCleared];
 	}
 	
+	[query setSelectedRange:NSMakeRange(0,0)];
 	[self performSelector:@selector(onConnect:) withObject:self afterDelay:0.0];
 }
 
@@ -433,6 +438,8 @@
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *viewName = [[schemaView itemAtRow:currentRow] baseTable];
 	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	NSAssert(viewName,@"onSelectCreateViewMenuItem: no view name.");
+	NSAssert(schemaName, @"onSelectCreateViewMenuItem: no schema name.");
 	
 	NSString *sql = [[explorer schema] getViewSQLFromSchema:schemaName fromView:viewName pretty:1];
 	[query insertText:sql];
@@ -449,7 +456,7 @@
 	[query insertText:sql];
 }
 
-- (void)onSelectDropViewMenuItem:(id)sender;
+- (void)onSelectDropViewMenuItem:(id)sender
 {
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
@@ -461,8 +468,68 @@
 }
 
 // functions
+- (void)onSelectCreateFunctionMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *functionName = [[schemaView itemAtRow:currentRow] name];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	NSAssert(functionName,@"onSelectCreateFunctionMenuItem: no function name.");
+	NSAssert(schemaName, @"onSelectCreateFunctionMenuItem: no schema name.");
+	
+	NSString *sql = [[explorer schema] getFunctionSQLFromSchema: schemaName fromFunctionName:functionName];
+	[query insertText:sql];
+}
+
+- (void)onSelectCreateFunctionTemplateMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *functionName = [[schemaView itemAtRow:currentRow] name];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	NSAssert(functionName,@"onSelectCreateFunctionTemplateMenuItem: no function name.");
+	NSAssert(schemaName, @"onSelectCreateFunctionTemplateMenuItem: no schema name.");
+	
+	//TODO put name back into the template
+	NSString *sql = [NSString stringWithFormat:@"CREATE or REPLACE FUNCTION %@.function_name() RETURNS int AS $$ \n\
+DECLARE \n\
+	-- declarations\n\
+	return_val integer := 30;\n\
+BEGIN \n\
+	-- SQL\n\
+	return return_val;\n\
+END; \n\
+$$ LANGUAGE plpgsql; \n", schemaName];
+
+	[query insertText:sql];
+}
+
+- (void)onSelectDropFunctionMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *functionName = [[schemaView itemAtRow:currentRow] name];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	NSAssert(functionName,@"onSelectDropFunctionMenuItem: no function name.");
+	NSAssert(schemaName, @"onSelectDropFunctionMenuItem: no schema name.");
+	
+	NSString *sql = [NSString stringWithFormat:@"DROP FUNCTION %@.%@;\n", schemaName, functionName];
+	[query insertText:sql];
+}
 
 // index
+- (void)onSelectDropIndexMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *indexName = [[schemaView itemAtRow:currentRow] name];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	NSAssert(indexName,@"onSelectDropIndexMenuItem: no index name.");
+	NSAssert(schemaName, @"onSelectDropIndexMenuItem: no schema name.");
+	
+	NSString *sql = [NSString stringWithFormat:@"DROP INDEX %@.%@;\n", schemaName, indexName];
+	[query insertText:sql];
+}
 
 - (BOOL)isValueKeyword:(NSString *)value
 {
