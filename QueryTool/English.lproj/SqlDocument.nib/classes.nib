@@ -10,12 +10,26 @@
                 onConnectOK = id; 
                 onDisconnect = id; 
                 onExecuteQuery = id; 
+                onSelectAlterTableRenameMenuItem = id; 
+                onSelectCreateBakTableMenuItem = id; 
+                onSelectCreateFunctionMenuItem = id; 
+                onSelectCreateFunctionTemplateMenuItem = id; 
+                onSelectCreateTableMenuItem = id; 
+                onSelectCreateViewMenuItem = id; 
+                onSelectCreateViewTemplateMenuItem = id; 
+                onSelectDropFunctionMenuItem = id; 
+                onSelectDropTableMenuItem = id; 
+                onSelectDropViewMenuItem = id; 
+                onSelectSelectTableMenuItem = id; 
+                onSelectTruncateTableMenuItem = id; 
+                onSelectVacuumTableMenuItem = id; 
                 onSetDatabase = id; 
             }; 
             CLASS = SqlDocument; 
             LANGUAGE = ObjC; 
             OUTLETS = {
                 dataOutput = NSTableView; 
+                databaseName = NSTextField; 
                 dbList = NSPopUpButton; 
                 dbListView = NSView; 
                 dbName = NSPopUpButton; 
@@ -25,7 +39,7 @@
                 port = NSComboBox; 
                 query = NSTextView; 
                 rawOutput = NSTextView; 
-                schemaView = NSOutlineView; 
+                schemaView = MyOutlineView; 
                 status = NSTextField; 
                 tabs = NSTabView; 
                 userName = NSTextField; 

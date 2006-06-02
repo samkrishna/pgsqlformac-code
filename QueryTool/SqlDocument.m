@@ -142,7 +142,8 @@
 	// set the connection parameters					
 	[conn setUserName:[userName stringValue]];
 	[conn setPassword:[password stringValue]];
-
+	[conn setDbName:[databaseName stringValue]];
+	
 	[conn setHost:[host stringValue]];
 	[conn setPort:[port stringValue]];
 	
@@ -154,7 +155,6 @@
 	
 	// perform the connection
 	
-	[conn setDbName:@""];	
 	[conn connect];
 	if (![conn isConnected]) 
 	{
@@ -430,6 +430,167 @@
 
 
 // column
+- (void)onSelectColSelectMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned currentIndex = [theRows firstIndex];
+	NSString *tableName = [[schemaView itemAtRow:currentIndex] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentIndex] baseSchema];
+	NSAssert(tableName,@"onSelectColSelectMenuItem: no table name.");
+	NSAssert(schemaName, @"onSelectColSelectMenuItem: no schema name.");
+	bool first = true;
+	
+	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
+	[sql appendString:@"SELECT "];
+	while (currentIndex != NSNotFound) {
+		if (!first)
+		{
+			[sql appendString:@", "];
+		}
+		[sql appendString:[[schemaView itemAtRow:currentIndex] name]];
+		currentIndex = [theRows indexGreaterThanIndex: currentIndex];
+		first = false;
+	}
+	[sql appendFormat:@" FROM %@.%@;",schemaName, tableName];
+	[query insertText:sql];
+}
+
+- (void)onSelectColsMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	bool first = true;
+	
+	unsigned currentIndex = [theRows firstIndex];
+	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
+	while (currentIndex != NSNotFound) {
+		if (!first)
+		{
+			[sql appendString:@", "];
+		}
+		[sql appendString:[[schemaView itemAtRow:currentIndex] name]];
+		currentIndex = [theRows indexGreaterThanIndex: currentIndex];
+		first = false;
+	}	
+	[query insertText:sql];
+}
+
+- (void)onSelectCreateIndexOnColsMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned currentIndex = [theRows firstIndex];
+	NSString *tableName = [[schemaView itemAtRow:currentIndex] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentIndex] baseSchema];
+	NSAssert(tableName,@"onSelectCreateIndexOnColsMenuItem: no table name.");
+	NSAssert(schemaName, @"onSelectCreateIndexOnColsMenuItem: no schema name.");
+	bool first = true;
+	
+	//TODO make number auto determined
+	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
+	[sql appendFormat:@"CREATE INDEX %@_idx1 ON %@.%@ (", tableName, schemaName, tableName];
+	while (currentIndex != NSNotFound) {
+		if (!first)
+		{
+			[sql appendString:@", "];
+		}
+		[sql appendString:[[schemaView itemAtRow:currentIndex] name]];
+		currentIndex = [theRows indexGreaterThanIndex: currentIndex];
+		first = false;
+	}
+	[sql appendFormat:@" );",schemaName, tableName];
+	[query insertText:sql];
+}
+
+- (void)onSelectCreateUniqIndexOnColsMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned currentIndex = [theRows firstIndex];
+	NSString *tableName = [[schemaView itemAtRow:currentIndex] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentIndex] baseSchema];
+	NSAssert(tableName,@"onSelectCreateUniqIndexOnColsMenuItem: no table name.");
+	NSAssert(schemaName, @"onSelectCreateUniqIndexOnColsMenuItem: no schema name.");
+	bool first = true;
+	
+	//TODO make number auto determined
+	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
+	[sql appendFormat:@"CREATE UNIQUE INDEX %@_idx1 ON %@.%@ (", tableName, schemaName, tableName];
+	while (currentIndex != NSNotFound) {
+		if (!first)
+		{
+			[sql appendString:@", "];
+		}
+		[sql appendString:[[schemaView itemAtRow:currentIndex] name]];
+		currentIndex = [theRows indexGreaterThanIndex: currentIndex];
+		first = false;
+	}
+	[sql appendFormat:@" );",schemaName, tableName];
+	[query insertText:sql];
+}
+
+- (void)onSelectAlterAddColMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	NSAssert(tableName,@"onSelectCreateViewMenuItem: no table name.");
+	NSAssert(schemaName, @"onSelectCreateViewMenuItem: no schema name.");
+	
+	NSString *sql = [NSString stringWithFormat:@"TODO %@ %@\n", schemaName, tableName];
+	[query insertText:sql];
+}
+
+- (void)onSelectAlterRenameColMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	NSAssert(tableName,@"onSelectCreateViewMenuItem: no table name.");
+	NSAssert(schemaName, @"onSelectCreateViewMenuItem: no schema name.");
+	
+	NSString *sql = [NSString stringWithFormat:@"TODO %@ %@\n", schemaName, tableName];
+	[query insertText:sql];
+}
+
+- (void)onSelectCreateTabColsMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned currentIndex = [theRows firstIndex];
+	NSString *tableName = [[schemaView itemAtRow:currentIndex] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentIndex] baseSchema];
+	NSAssert(tableName,@"onSelectCreateUniqIndexOnColsMenuItem: no table name.");
+	NSAssert(schemaName, @"onSelectCreateUniqIndexOnColsMenuItem: no schema name.");
+	bool first = true;
+	
+	//TODO make number auto determined
+	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
+	[sql appendFormat:@"CREATE TABLE %@.%@ (\n", schemaName, tableName];
+	while (currentIndex != NSNotFound) {
+		if (!first)
+		{
+			[sql appendString:@",\n"];
+		}
+		[sql appendString:[[schemaView itemAtRow:currentIndex] name]];
+		[sql appendFormat:@" %@", [[schemaView itemAtRow:currentIndex] displayColumn2]];
+		currentIndex = [theRows indexGreaterThanIndex: currentIndex];
+		first = false;
+	}
+	[sql appendFormat:@"\n);",schemaName, tableName];
+	[query insertText:sql];
+}
+
+- (void)onSelectDropColMenuItem:(id)sender
+{
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	NSAssert(tableName,@"onSelectCreateViewMenuItem: no table name.");
+	NSAssert(schemaName, @"onSelectCreateViewMenuItem: no schema name.");
+	
+	NSString *sql = [NSString stringWithFormat:@"TODO %@ %@\n", schemaName, tableName];
+	[query insertText:sql];
+}
 
 // views
 - (void)onSelectCreateViewMenuItem:(id)sender
@@ -477,7 +638,7 @@
 	NSAssert(functionName,@"onSelectCreateFunctionMenuItem: no function name.");
 	NSAssert(schemaName, @"onSelectCreateFunctionMenuItem: no schema name.");
 	
-	NSString *sql = [[explorer schema] getFunctionSQLFromSchema: schemaName fromFunctionName:functionName];
+	NSString *sql = [[explorer schema] getFunctionSQLFromSchema: schemaName fromFunctionName:functionName pretty:0];
 	[query insertText:sql];
 }
 

@@ -9,7 +9,7 @@
 		return [self menu];
 	}
 	
-	id selectedItem = [self itemAtRow:theRow];
+	ExplorerNode *selectedItem = [self itemAtRow:theRow];
 	if ([[selectedItem explorerType] isLike:@"Table Name"])
 	{
 		if (!tableMenu)
@@ -73,30 +73,44 @@
 			
 			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"SELECT <col(s)> FROM <tab>"];
+			[newItem setTarget: menuActionTarget];
+			[newItem setAction: @selector(onSelectColSelectMenuItem:)];
 			[columnMenu addItem: newItem];
 
 			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"col, col, col..."];
+			[newItem setTarget: menuActionTarget];
+			[newItem setAction: @selector(onSelectColsMenuItem:)];
 			[columnMenu addItem: newItem];
 
 			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"CREATE INDEX <name> ON <tab> (<cols>)"];
+			[newItem setTarget: menuActionTarget];
+			[newItem setAction: @selector(onSelectCreateIndexOnColsMenuItem:)];
 			[columnMenu addItem: newItem];
 
 			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"CREATE UNIQUE INDEX <tab01_idx> ON <tab> (<cols>)"];
+			[newItem setTarget: menuActionTarget];
+			[newItem setAction: @selector(onSelectCreateUniqIndexOnColsMenuItem:)];
 			[columnMenu addItem: newItem];
 
 			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"ALTER TABLE <tab> ADD COLUMN <col> <type>"];
+			[newItem setTarget: menuActionTarget];
+			[newItem setAction: @selector(onSelectAlterAddColMenuItem:)];
 			[columnMenu addItem: newItem];
 
 			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"ALTER TABLE <tab> RENAME COLUMN <col> TO <new col>"];
+			[newItem setTarget: menuActionTarget];
+			[newItem setAction: @selector(onSelectAlterRenameColMenuItem:)];
 			[columnMenu addItem: newItem];
 
 			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"CREATE TABLE <tab> (<sel cols>)"];
+			[newItem setTarget: menuActionTarget];
+			[newItem setAction: @selector(onSelectCreateTabColsMenuItem:)];
 			[columnMenu addItem: newItem];
 
 			newItem = [NSMenuItem separatorItem];
@@ -104,6 +118,8 @@
 
 			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"ALTER TABLE <tab> DROP COLUMN <col>"];
+			[newItem setTarget: menuActionTarget];
+			[newItem setAction: @selector(onSelectDropColMenuItem:)];
 			[columnMenu addItem: newItem];
 		}
 		return columnMenu;
@@ -143,6 +159,9 @@
 			[newItem setAction: @selector(onSelectCreateFunctionMenuItem:)];
 			[functionMenu addItem: newItem];
 			
+			newItem = [NSMenuItem separatorItem];
+			[tableMenu addItem: newItem];
+
 			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"DROP FUNCTION <name>"];
 			[newItem setTarget: menuActionTarget];
@@ -176,6 +195,9 @@
 			[newItem setTarget: menuActionTarget];
 			[newItem setAction: @selector(onSelectCreateViewTemplateMenuItem:)];
 			[viewMenu addItem: newItem];
+
+			newItem = [NSMenuItem separatorItem];
+			[tableMenu addItem: newItem];
 
 			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"DROP VIEW <name>"];

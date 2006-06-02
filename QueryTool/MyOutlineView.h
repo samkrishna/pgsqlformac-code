@@ -1,6 +1,7 @@
 /* MyOutlineView */
 
 #import <Cocoa/Cocoa.h>
+#import "ExplorerNode.h"
 
 @interface MyOutlineView : NSOutlineView
 {

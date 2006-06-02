@@ -28,6 +28,7 @@
 	IBOutlet NSPanel		*panelConnect;
 	IBOutlet NSTextField	*userName;
 	IBOutlet NSTextField	*password;
+	IBOutlet NSTextField	*databaseName;
 	IBOutlet NSComboBox		*host;
 	IBOutlet NSComboBox		*port;
 	IBOutlet NSPopUpButton	*dbName;
@@ -67,8 +68,8 @@
 - (IBAction)onDisconnect:(id)sender;
 - (IBAction)onSetDatabase:(id)sender;
 
-// respond to dynamic menus in the object browser
-// tables
+// Respond to dynamic menus in the object browser.
+// Tables
 - (void)onSelectSelectTableMenuItem:(id)sender;
 - (void)onSelectCreateTableMenuItem:(id)sender;
 - (void)onSelectCreateBakTableMenuItem:(id)sender;
@@ -77,20 +78,27 @@
 - (void)onSelectTruncateTableMenuItem:(id)sender;
 - (void)onSelectDropTableMenuItem:(id)sender;
 
-// column
+// Columns
+- (void)onSelectColSelectMenuItem:(id)sender;
+- (void)onSelectColsMenuItem:(id)sender;
+- (void)onSelectCreateIndexOnColsMenuItem:(id)sender;
+- (void)onSelectCreateUniqIndexOnColsMenuItem:(id)sender;
+- (void)onSelectAlterAddColMenuItem:(id)sender;
+- (void)onSelectAlterRenameColMenuItem:(id)sender;
+- (void)onSelectCreateTabColsMenuItem:(id)sender;
+- (void)onSelectDropColMenuItem:(id)sender;
 
-// views
+// Views
 - (void)onSelectCreateViewMenuItem:(id)sender;
 - (void)onSelectCreateViewTemplateMenuItem:(id)sender;
 - (void)onSelectDropViewMenuItem:(id)sender;
 
-// functions
+// Functions
 - (void)onSelectCreateFunctionMenuItem:(id)sender;
 - (void)onSelectCreateFunctionTemplateMenuItem:(id)sender;
 - (void)onSelectDropFunctionMenuItem:(id)sender;
 
-// index
-
+// Indexes
 - (BOOL)isValueKeyword:(NSString *)value;
 - (void)setAttributesForWord:(NSRange)rangeOfCurrentWord;
 - (void)colorRange:(NSRange)rangeToColor;

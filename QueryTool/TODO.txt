@@ -1,0 +1,41 @@
+Neil's Open Items
+
+
+
+TODO - Features, Functions and Warnings (in priority order)
+=======================================
+- 2006-06-02 Column SQL not complete.
+
+- 2006-06-02 Function create or replace does not fully re-create the function.
+
+- 2006-06-02 First column of schema view default width is too small.
+
+- 2006-06-02 Trigger SQL not complete.
+
+- 2006-05-27 Query tool connect box does not receive focus when first opened.
+
+
+FIXME (Known Errors)
+====================
+
+
+
+
+
+Completed
+=========
+- 2006-06-02 View menu did not have separator before drop menu item.
+
+- 2006-05-22 17:15:50.893 Query Tool for Postgres[122] Exception raised during posting of notification.  Ignored.  exception: *** -[NSBigMutableString characterAtIndex:]: Range or index out of bounds (5/22/2006). Fixed my adding default selection when query is initialized.
+
+- 2006-05-22 17:09:27.010 Query Tool for Postgres[122] Connection to database '' failed.(6/2/2006) Added database field to connection.
+
+- 2006-05-22 17:09:27.010 Query Tool for Postgres[122] 	FATAL:  database "ntiffin" does not exist (6/2/2006). Restructured connections to use database field.  If not able to connect then back off to attempt "template1" database.
+
+- 2006-05-22 17:09:27.008 Query Tool for Postgres[122] Options: (6/2/2006). Made NSLog optional if no results.
+
+- 2006-05-27 "SELECT * FROM (null).(null);" result from select * from <tab> for view. (5/27/2006) Fixed.
+
+- Create Table SQL has extra space before "," on each column. (5/22/2006) Fixed.
+
+- Alter Table rename needs to have schema removed from the new name for correct syntax. (5/22/2006) Fixed.
