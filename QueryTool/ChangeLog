@@ -1,3 +1,19 @@
+2006-06-02 12:29  ntiffin
+
+	* MyOutlineView.h, MyOutlineView.m, SqlDocument.h, SqlDocument.m,
+	  TODO.txt, English.lproj/SqlDocument.nib/classes.nib,
+	  English.lproj/SqlDocument.nib/info.nib,
+	  English.lproj/SqlDocument.nib/keyedobjects.nib: Add database
+	  field to connection dialog, add column based sql creation.
+
+2006-06-02 06:52  ntiffin
+
+	* ChangeLog, MyOutlineView.m, SqlDocument.h, SqlDocument.m: Add
+	  onSelectDropIndexMenuItem(), onSelectDropFunctionMenuItem(),
+	  onSelectCreateFunctionTemplateMenuItem(),
+	  onSelectCreateFunctionMenuItem(), and set default selected
+	  position in query window.
+
 2006-05-22 20:35  ntiffin
 
 	* ChangeLog, MyOutlineView.m, SqlDocument.h, SqlDocument.m: Correct
