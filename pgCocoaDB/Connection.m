@@ -379,5 +379,18 @@
 	//return 0;
 }
 
+- (int)cancelQuery
+{
+	int result = 0;
+	char buffer[512];
+	PGcancel * pg_cancel = PQgetCancel(pgconn);
+	
+	result = PQcancel(pg_cancel, buffer, 512);
+	
+	PQfreeCancel(pg_cancel);
+	[errorDescription release];
+	errorDescription = [[NSString alloc] initWithFormat:@"%s", buffer];
+	return result;
+}
 
 @end

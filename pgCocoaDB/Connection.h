@@ -70,4 +70,6 @@
 
 - (NSString *)currentDatabase;
 
+- (int)cancelQuery;
+
 @end
