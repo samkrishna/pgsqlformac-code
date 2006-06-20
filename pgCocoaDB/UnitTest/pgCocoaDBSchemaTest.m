@@ -157,12 +157,7 @@ $time_stamp$ LANGUAGE plpgsql; "];
 	
 	// for testing query tool
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "CREATE or REPLACE FUNCTION ", PGCocoaTestDatabase, PGCocoaTestSchema,
-		"sum_n_product(x int, y int, OUT sum int, OUT prod int) AS $$ \
-BEGIN \
-	sum := x + y; \
-	prod := x * y; \
-END; \
-$$ LANGUAGE plpgsql; "];
+		"sum_n_product(x int, y int, OUT sum int, OUT prod int) AS $$\nBEGIN\n sum := x + y;\n prod := x * y;\nEND; $$ LANGUAGE plpgsql; "];
 	[conn execQuery:sql];
 	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 	

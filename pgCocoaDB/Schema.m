@@ -11,6 +11,8 @@
 
 #import "Schema.h"
 
+bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
+
 @implementation Schema
 
 - initWithConnection:(Connection *) theConnection
@@ -322,7 +324,17 @@
 -(NSString *)getFunctionSQLFromSchema:(NSString *)schemaName fromFunctionName: (NSString *) functionName pretty:(int)pretty
 {
 	NSString * sql;
+	int numberOfArgs;
 	RecordSet * results;
+	RecordSet * results1;
+	char **allargtypes = NULL;
+	char **argmodes = NULL;
+	char **argnames = NULL;
+	int argtypes_nitems = 0;
+	int argmodes_nitems = 0;
+	int argnames_nitems = 0;
+	char buffer[1024];
+	
 	NSMutableString * sqlOutput = [[[NSMutableString alloc] init] autorelease];
 	/*
 	sql = [NSString stringWithFormat:@"%@'%@'%@'%@'",
@@ -367,12 +379,89 @@
 	
 	[sqlOutput appendFormat:@"CREATE or REPLACE FUNCTION %@.%@ ", schemaName, functionName];
 	//TODO get return values and parameters
+	NSLog(@"args: %@", [[[results itemAtIndex: 0] fields] getValueFromName: @"proallargtypes"]);
+	NSLog(@"args: %@", [[[results itemAtIndex: 0] fields] getValueFromName: @"proargmodes"]);
+	NSLog(@"args: %@", [[[results itemAtIndex: 0] fields] getValueFromName: @"proargnames"]);
+	/*
+	 2006-06-17 16:41:42.405 Query Tool for Postgres[28356] args: {23,23,23,23}
+	 2006-06-17 16:41:42.405 Query Tool for Postgres[28356] args: {i,i,o,o}
+	 2006-06-17 16:41:42.405 Query Tool for Postgres[28356] args: {x,y,sum,prod}
+	 2006-06-17 16:41:42.406 Query Tool for Postgres[28356] args: 2
+	*/
+	numberOfArgs = [[[[results itemAtIndex: 0] fields] getValueFromName: @"pronargs"] intValue];
+	
+	[[[[results itemAtIndex: 0] fields] getValueFromName: @"proallargtypes"] getCString:buffer maxLength:1024 encoding:NSASCIIStringEncoding];
+	if (!parsePGArray( buffer, &allargtypes, &argtypes_nitems))
+	{
+		if (allargtypes)
+			free(allargtypes);
+		allargtypes = NULL;
+	}
+	
+	[[[[results itemAtIndex: 0] fields] getValueFromName: @"proargmodes"] getCString:buffer maxLength:1024 encoding:NSASCIIStringEncoding];
+	if (!parsePGArray( buffer, &argmodes, &argmodes_nitems))
+	{
+		if (argmodes)
+			free(argmodes);
+		argmodes = NULL;
+	}
+	
+	[[[[results itemAtIndex: 0] fields] getValueFromName: @"proargnames"] getCString:buffer maxLength:1024 encoding:NSASCIIStringEncoding];
+	if (!parsePGArray( buffer, &argnames, &argnames_nitems))
+	{
+		if (argnames)
+			free(argnames);
+		argnames = NULL;
+	}
 
-	[sqlOutput appendString:@" AS $$ "];
+	if (argnames_nitems != 0)
+	{
+		int i;
+		[sqlOutput appendString:@"("];
+		for (i = 0; i< argnames_nitems; i++)
+		{	
+			char * argmode;
+			if (argmodes)
+			{
+				switch (argmodes[i][0])
+				{
+					case 'i':
+						argmode = "IN";
+						break;
+					case 'o':
+						argmode = "OUT ";
+						break;
+					case 'b':
+						argmode = "INOUT ";
+						break;
+					default:
+						NSLog(@"WARNING: bogus value in proargmodes array");
+						argmode = "";
+						break;
+				}
+			}
+				else
+					argmode = "";
+			
+			if (i != 0)
+			{
+				[sqlOutput appendString:@", "];
+			}
+			sql = [NSString stringWithFormat:@"SELECT pg_catalog.format_type('%s'::pg_catalog.oid, NULL)", allargtypes[i]];
+			results1 = [connection execQuery:sql];
+			if ([results1 count] != 1)
+			{
+				NSLog(@"getFunctionSQLFromSchema: Returned too many functions for type conversion.");
+				return nil;
+			}
+			[sqlOutput appendFormat:@"%s %s %@", argmode, argnames[i], [[[[results1 itemAtIndex: 0] fields] itemAtIndex:0] value]];
+		}
+		[sqlOutput appendString:@") "];
+	}
+	[sqlOutput appendString:@" AS $$\n"];
 	[sqlOutput appendString:[[[results itemAtIndex: 0] fields] getValueFromName:@"prosrc"]];
-	[sqlOutput appendString:@"$$ "];
-	//TODO language & ;
-		
+	[sqlOutput appendString:@"$$"];
+	[sqlOutput appendFormat:@" LANGUAGE %@;", [[[results itemAtIndex: 0] fields] getValueFromName:@"lanname"]];
 	return sqlOutput;
 }
 
@@ -784,6 +873,106 @@
 	return [connection execQuery:sql];
 }
 
+/*
+ * The following code is from
+ *  http://developer.postgresql.org/cvsweb.cgi/pgsql/src/bin/pg_dump/dumputils.c?rev=1.30;content-type=text%2Fx-cvsweb-markup
+ */
+
+/*-------------------------------------------------------------------------
+*
+* Utility routines for SQL dumping
+*	Basically this is stuff that is useful in both pg_dump and pg_dumpall.
+*
+*
+* Portions Copyright (c) 1996-2006, PostgreSQL Global Development Group
+* Portions Copyright (c) 1994, Regents of the University of California
+*
+* $PostgreSQL: pgsql/src/bin/pg_dump/dumputils.c,v 1.30 2006/06/01 00:15:36 tgl Exp $
+*
+*-------------------------------------------------------------------------
+*/
+
+/*
+ * Deconstruct the text representation of a 1-dimensional Postgres array
+ * into individual items.
+ *
+ * On success, returns true and sets *itemarray and *nitems to describe
+ * an array of individual strings.	On parse failure, returns false;
+ * *itemarray may exist or be NULL.
+ *
+ * NOTE: free'ing itemarray is sufficient to deallocate the working storage.
+ */
+bool
+parsePGArray(const char *atext, char ***itemarray, int *nitems)
+{
+	int			inputlen;
+	char	  **items;
+	char	   *strings;
+	int			curitem;
+	
+	/*
+	 * We expect input in the form of "{item,item,item}" where any item is
+	 * either raw data, or surrounded by double quotes (in which case embedded
+														* characters including backslashes and quotes are backslashed).
+	 *
+	 * We build the result as an array of pointers followed by the actual
+	 * string data, all in one malloc block for convenience of deallocation.
+	 * The worst-case storage need is not more than one pointer and one
+	 * character for each input character (consider "{,,,,,,,,,,}").
+	 */
+	*itemarray = NULL;
+	*nitems = 0;
+	inputlen = strlen(atext);
+	if (inputlen < 2 || atext[0] != '{' || atext[inputlen - 1] != '}')
+		return false;			/* bad input */
+	items = (char **) malloc(inputlen * (sizeof(char *) + sizeof(char)));
+	if (items == NULL)
+		return false;			/* out of memory */
+	*itemarray = items;
+	strings = (char *) (items + inputlen);
+	
+	atext++;					/* advance over initial '{' */
+	curitem = 0;
+	while (*atext != '}')
+	{
+		if (*atext == '\0')
+			return false;		/* premature end of string */
+		items[curitem] = strings;
+		while (*atext != '}' && *atext != ',')
+		{
+			if (*atext == '\0')
+				return false;	/* premature end of string */
+			if (*atext != '"')
+				*strings++ = *atext++;	/* copy unquoted data */
+			else
+			{
+				/* process quoted substring */
+				atext++;
+				while (*atext != '"')
+				{
+					if (*atext == '\0')
+						return false;	/* premature end of string */
+					if (*atext == '\\')
+					{
+						atext++;
+						if (*atext == '\0')
+							return false;		/* premature end of string */
+					}
+					*strings++ = *atext++;		/* copy quoted data */
+				}
+				atext++;
+			}
+		}
+		*strings++ = '\0';
+		if (*atext == ',')
+			atext++;
+		curitem++;
+	}
+	if (atext[1] != '\0')
+		return false;			/* bogus syntax (embedded '}') */
+	*nitems = curitem;
+	return true;
+}
 
 
 @end

@@ -235,14 +235,25 @@
 		toBeRun = [query string];
 	}
 	
+	/* FIXME does not correctly handle quoted queries */
+	/* For example:
+		CREATE or REPLACE FUNCTION pgcocoa_test_schema.sum_n_product
+		(IN x integer, IN y integer, OUT  sum integer, OUT  prod integer) AS $$
+		BEGIN
+			sum := x + y;
+			prod := x * y;
+		END; $$ LANGUAGE plpgsql;
+	*/
+	
 	NSArray *arrQuery = [toBeRun componentsSeparatedByString:@";"];
 	
 	int x = 0;
-	for (x = 0; x < [arrQuery count]; x++)
+	//for (x = 0; x < [arrQuery count]; x++)
+	for (x = 0; x < 1; x++)
 	{
-		NSString *sql = [arrQuery objectAtIndex:x];
-		
-		RecordSet *rs = [conn execQuery:sql];
+		//NSString *sql = [arrQuery objectAtIndex:x];
+		//RecordSet *rs = [conn execQuery:sql];
+		RecordSet *rs = [conn execQuery:toBeRun];
 		
 		if (rs == nil) 
 		{

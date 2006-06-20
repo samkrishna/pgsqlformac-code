@@ -1,3 +1,11 @@
+2006-06-17 18:03  ntiffin
+
+	* Connection.h, Connection.m: Add query cancel function.
+
+2006-06-10 13:43  ntiffin
+
+	* ChangeLog: Update ChangeLog.
+
 2006-06-02 12:27  ntiffin
 
 	* ChangeLog, Connection.m, Schema.m: Correct empty options log
