@@ -1,3 +1,8 @@
+2006-06-20 11:26  ntiffin
+
+	* ChangeLog, Schema.m, UnitTest/pgCocoaDBSchemaTest.m: Update for
+	  better round trip function processing.
+
 2006-06-17 18:03  ntiffin
 
 	* Connection.h, Connection.m: Add query cancel function.
