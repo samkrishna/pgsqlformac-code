@@ -116,12 +116,39 @@
 - (IBAction)onConnect:(id)sender
 {
     /* read the preferences and add them to the drop downs */
+	NSString * aDefault;
 	
 	[status setStringValue:[NSString stringWithString:@"Waiting for connection information"]];
 	
-	[host setStringValue:@"localhost"];
-	[port setStringValue:@"5432"];
-    
+	aDefault = [[NSUserDefaults standardUserDefaults] stringForKey:@"PGSqlForMac_DefaultHost"];
+	if (aDefault)
+	{
+		[host setStringValue:aDefault];
+	}
+	else
+	{
+		[host setStringValue:@"localhost"];
+	}
+	aDefault = [[NSUserDefaults standardUserDefaults] stringForKey:@"PGSqlForMac_DefaultUserName"];
+	if (aDefault)
+	{
+		[userName setStringValue:aDefault];
+	}
+	aDefault = [[NSUserDefaults standardUserDefaults] stringForKey:@"PGSqlForMac_DefaultDatabaseName"];
+	if (aDefault)
+	{
+		[databaseName setStringValue:aDefault];
+	}
+	aDefault = [[NSUserDefaults standardUserDefaults] stringForKey:@"PGSqlForMac_DefaultPort"];
+	if (aDefault)
+	{
+		[port setStringValue:aDefault];
+	}
+	else
+	{
+		[port setStringValue:@"5432"];
+	}
+	    
     [NSApp beginSheet:panelConnect 
        modalForWindow:window
         modalDelegate:nil
@@ -147,6 +174,13 @@
 	[conn setHost:[host stringValue]];
 	[conn setPort:[port stringValue]];
 	
+	// update user defaults
+	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[userName stringValue]] forKey:@"PGSqlForMac_DefaultUserName"];
+	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[conn host]] forKey:@"PGSqlForMac_DefaultHost"];
+	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[port stringValue]] forKey:@"PGSqlForMac_DefaultPort"];
+	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[databaseName stringValue]] forKey:@"PGSqlForMac_DefaultDatabaseName"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+		
 	// close the sheet
 	[NSApp stopModal];            
     [NSApp endSheet:panelConnect];
@@ -209,8 +243,8 @@
 	}
 }
 
-// this should be implemented as a thread
-// further, it should also parse the command for multiple statements.
+// TODO this should be implemented as a thread
+// further, it should also parse the command for multiple statements (or should it?  NT)
 
 - (IBAction)onExecuteQuery:(id)sender
 {
@@ -247,7 +281,7 @@
 	
 	NSArray *arrQuery = [toBeRun componentsSeparatedByString:@";"];
 	
-	int x = 0;
+	int x;
 	//for (x = 0; x < [arrQuery count]; x++)
 	for (x = 0; x < 1; x++)
 	{

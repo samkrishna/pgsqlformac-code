@@ -6,10 +6,6 @@ TODO - Features, Functions and Warnings (in priority order)
 =======================================
 - 2006-06-02 Column SQL not complete.
 
-- 2006-06-02 Function create or replace does not fully re-create the function.
-
-- 2006-06-02 First column of schema view default width is too small.
-
 - 2006-06-02 Trigger SQL not complete.
 
 - 2006-05-27 Query tool connect box does not receive focus when first opened.
@@ -18,18 +14,23 @@ TODO - Features, Functions and Warnings (in priority order)
 
 - 2006-06-16 Created function to attempt to cancel a query in pgCocoaDB.  Need to add button to GUI, create icon, and change to async queries.
 
-- 2006-06-20 Does not save last connection parameters for reuse when re-launched.
 
 
 FIXME (Known Errors)
 ====================
 
-- 2006-06-20 separating sql statements by ";" does not correctly handle $$ quoted text required by functions.
-
 
 
 Completed
 =========
+- 2006-06-02 Function create or replace does not fully re-create the function. (2006-06-21)
+
+- 2006-06-20 Does not save last connection parameters for reuse when re-launched. Added NSUserDefaults to connection pane. (2006-06-21)
+
+- 2006-06-20 separating sql statements by ";" does not correctly handle $$ quoted text required by functions. Fixed by removeing the parse of entered data. (2006-06-21)
+
+- 2006-06-02 First column of schema view default width is too small. (2006-06-20)
+
 - 2006-06-02 View menu did not have separator before drop menu item.
 
 - 2006-05-22 17:15:50.893 Query Tool for Postgres[122] Exception raised during posting of notification.  Ignored.  exception: *** -[NSBigMutableString characterAtIndex:]: Range or index out of bounds (5/22/2006). Fixed my adding default selection when query is initialized.

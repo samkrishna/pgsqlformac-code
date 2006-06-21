@@ -1,3 +1,8 @@
+2006-06-20 11:29  ntiffin
+
+	* ChangeLog, SqlDocument.m, TODO.txt: Update for better round trip
+	  function processing.
+
 2006-06-10 13:43  ntiffin
 
 	* ChangeLog: Update ChangeLog.

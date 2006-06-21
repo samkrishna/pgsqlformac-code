@@ -49,6 +49,14 @@
         [item setAction:@selector(onExecuteQuery:)];
     }
 	
+    if ( [itemIdentifier isEqualToString:@"Cancel"] ) {
+        [item setLabel:@"Cancel"];
+        [item setPaletteLabel:[item label]];
+        [item setImage:[NSImage imageNamed:@"cancel_script_32"]];
+        [item setTarget:self];
+        [item setAction:@selector(onCancelQuery:)];
+    }
+
 	if ( [itemIdentifier isEqualToString:@"SelectDB"] ) {
 		NSRect fRect = [dbListView frame];
         [item setLabel:@"Select Database:"];
@@ -64,7 +72,7 @@
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar
 {
     return [NSArray arrayWithObjects:@"Connect", @"Disconnect", @"Execute",
-									 @"SelectDB",
+									 @"Cancel", @"SelectDB",
 	                                 NSToolbarSpaceItemIdentifier,
                                      NSToolbarFlexibleSpaceItemIdentifier,
                                      NSToolbarCustomizeToolbarItemIdentifier, nil];
@@ -73,7 +81,7 @@
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar
 {
     return [NSArray arrayWithObjects:
-        @"Connect", @"Disconnect", @"Execute", @"SelectDB",
+        @"Connect", @"Disconnect", @"Execute", @"Cancel", @"SelectDB",
         NSToolbarFlexibleSpaceItemIdentifier, 
         NSToolbarCustomizeToolbarItemIdentifier, nil];
 }
@@ -96,6 +104,11 @@
         return ([conn isConnected]);
 	}	
 	
+    if ( [theItem action] == @selector(onCancelQuery:) )
+	{
+        return ([conn isConnected]);	//FIXME should only be on if executing a query
+	}	
+
 	//if ( [[theItem itemIdentifier] isEqualToString:@"SelectDB"] )
 	//{
     //    return ([conn isConnected]);
