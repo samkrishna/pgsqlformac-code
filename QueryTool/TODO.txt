@@ -1,28 +1,40 @@
 Neil's Open Items
 
 
-
 TODO - Features, Functions and Warnings (in priority order)
 =======================================
 - 2006-06-02 Column SQL not complete.
 
 - 2006-06-02 Trigger SQL not complete.
 
-- 2006-05-27 Query tool connect box does not receive focus when first opened.
+- 2006-06-16 Use new function to attempt to cancel a query in pgCocoaDB.  Need to change to async queries.
 
-- 2006-06-16 When running VACUUM FULL VERBOSE ANALYZE the resulting text is not displayed in the GUI.
-
-- 2006-06-16 Created function to attempt to cancel a query in pgCocoaDB.  Need to add button to GUI, create icon, and change to async queries.
-
+- 2006-06-24 Add command to clear SQL Log.
 
 
 FIXME (Known Errors)
 ====================
-
+2006-06-22 13:20:17.480 Query Tool for Postgres[5590] -[NSBigMutableString characterAtIndex:] called with out-of-bounds index. For apps linked on Tiger this will raise an exception. For earlier apps it will produce this one-time warning and continue with existing behavior (which is undefined).
+2006-06-22 13:20:17.480 Query Tool for Postgres[5590] Exception raised during posting of notification.  Ignored.  exception: *** -[NSBigMutableString characterAtIndex:]: Range or index out of bounds
 
 
 Completed
 =========
+- 2006-06-16 When running VACUUM FULL VERBOSE ANALYZE the resulting text is not displayed in the GUI. (2006-06-24 added SQL Log).
+
+- 2006-06-22 17:27:23.418 Query Tool for Postgres[5640] CFLog (0): CFMessagePort: bootstrap_register(): failed 1103 (0x44f), port = 0x3103, name = 'com.druware.postgres.QueryTool.ServiceProvider'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+2006-06-22 17:27:23.422 Query Tool for Postgres[5640] CFLog (99): CFMessagePortCreateLocal(): failed to name Mach port (com.druware.postgres.QueryTool.ServiceProvider)
+(not sure what caused this, is not occuring any longer.)
+
+- 2006-05-27 Query tool connect box does not receive focus when first opened. (2006-06-22) Appears to be fixed since connect box is filled in with the results from the last connection.
+
+- 2006-06-22 Added call back notification for server warnings and messages.  Not working yet.
+
+- 2006-06-21 Created temporary icon for cancel script.  Needs to be replaced with better one.
+
+- 2006-06-21 Created function to cancel query.
+
 - 2006-06-02 Function create or replace does not fully re-create the function. (2006-06-21)
 
 - 2006-06-20 Does not save last connection parameters for reuse when re-launched. Added NSUserDefaults to connection pane. (2006-06-21)

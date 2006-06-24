@@ -1,7 +1,13 @@
 {
     IBClasses = (
         {
-            ACTIONS = {onConnect = id; onDisconnect = id; onExecuteQuery = id; }; 
+            ACTIONS = {
+                myAction = id; 
+                onConnect = id; 
+                onDisconnect = id; 
+                onExecuteQuery = id; 
+                onShowSQLLog = id; 
+            }; 
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 
             SUPERCLASS = NSObject; 

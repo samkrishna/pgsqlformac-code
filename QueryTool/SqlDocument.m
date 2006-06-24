@@ -14,6 +14,24 @@
 {
     self = [super init];
 
+	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowInformationSchema"] == nil)
+	{
+		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_ShowInformationSchema"];
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPGCatalogSchema"] == nil)
+	{
+		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_ShowPGCatalogSchema"];
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPGToastSchema"] == nil)
+	{
+		[userDefaults setObject:@"no" forKey:@"PGSqlForMac_QueryTool_ShowPGToastSchema"];
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPGTempsSchema"] == nil)
+	{
+		[userDefaults setObject:@"no" forKey:@"PGSqlForMac_QueryTool_ShowPGTempsSchema"];
+	}
+
     return self;
 }
 
@@ -78,6 +96,7 @@
 	
 	[query setSelectedRange:NSMakeRange(0,0)];
 	[self performSelector:@selector(onConnect:) withObject:self afterDelay:0.0];
+	
 }
 
 - (NSData *)dataRepresentationOfType:(NSString *)aType
@@ -111,6 +130,13 @@
 		[schemaView setMenuActionTarget:self];
 	}
 	//[explorer printLog];
+
+	// set explorer display defaults from NSUserDefaults
+	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+	[explorer setShowInformationSchema:[userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowInformationSchema"]];
+	[explorer setShowPGCatalog:[userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowPGCatalogSchema"]];
+	[explorer setShowPGToast:[userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowPGToastSchema"]];
+	[explorer setShowPGTemps:[userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowPGTempsSchema"]];
 }	
 
 - (IBAction)onConnect:(id)sender
@@ -120,7 +146,7 @@
 	
 	[status setStringValue:[NSString stringWithString:@"Waiting for connection information"]];
 	
-	aDefault = [[NSUserDefaults standardUserDefaults] stringForKey:@"PGSqlForMac_DefaultHost"];
+	aDefault = [[NSUserDefaults standardUserDefaults] stringForKey:@"PGSqlForMac_QueryTool_DefaultHost"];
 	if (aDefault)
 	{
 		[host setStringValue:aDefault];
@@ -129,17 +155,17 @@
 	{
 		[host setStringValue:@"localhost"];
 	}
-	aDefault = [[NSUserDefaults standardUserDefaults] stringForKey:@"PGSqlForMac_DefaultUserName"];
+	aDefault = [[NSUserDefaults standardUserDefaults] stringForKey:@"PGSqlForMac_QueryTool_DefaultUserName"];
 	if (aDefault)
 	{
 		[userName setStringValue:aDefault];
 	}
-	aDefault = [[NSUserDefaults standardUserDefaults] stringForKey:@"PGSqlForMac_DefaultDatabaseName"];
+	aDefault = [[NSUserDefaults standardUserDefaults] stringForKey:@"PGSqlForMac_QueryTool_DefaultDatabaseName"];
 	if (aDefault)
 	{
 		[databaseName setStringValue:aDefault];
 	}
-	aDefault = [[NSUserDefaults standardUserDefaults] stringForKey:@"PGSqlForMac_DefaultPort"];
+	aDefault = [[NSUserDefaults standardUserDefaults] stringForKey:@"PGSqlForMac_QueryTool_DefaultPort"];
 	if (aDefault)
 	{
 		[port setStringValue:aDefault];
@@ -170,17 +196,17 @@
 	[conn setUserName:[userName stringValue]];
 	[conn setPassword:[password stringValue]];
 	[conn setDbName:[databaseName stringValue]];
-	
+
 	[conn setHost:[host stringValue]];
 	[conn setPort:[port stringValue]];
-	
+
 	// update user defaults
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[userName stringValue]] forKey:@"PGSqlForMac_DefaultUserName"];
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[conn host]] forKey:@"PGSqlForMac_DefaultHost"];
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[port stringValue]] forKey:@"PGSqlForMac_DefaultPort"];
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[databaseName stringValue]] forKey:@"PGSqlForMac_DefaultDatabaseName"];
+	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[userName stringValue]] forKey:@"PGSqlForMac_QueryTool_DefaultUserName"];
+	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[host stringValue]] forKey:@"PGSqlForMac_QueryTool_DefaultHost"];
+	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[port stringValue]] forKey:@"PGSqlForMac_QueryTool_DefaultPort"];
+	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[databaseName stringValue]] forKey:@"PGSqlForMac_QueryTool_DefaultDatabaseName"];
 	[[NSUserDefaults standardUserDefaults] synchronize];
-		
+
 	// close the sheet
 	[NSApp stopModal];            
     [NSApp endSheet:panelConnect];
@@ -188,8 +214,9 @@
     [panelConnect close];
 	
 	// perform the connection
-	
 	[conn connect];
+	
+	// if the requested database is not found then try "template1"
 	if (![conn isConnected]) 
 	{
 		[conn setDbName:@"template1"];
@@ -214,9 +241,13 @@
 		[self setNewExplorerConn];			
 		
 	} else {
-		[status setStringValue:@"Connection failed: %@"];
-		// [status setStringValue:[NSString stringWithFormat:@"Connected to %@ as %@", 
-		//	[conn host], [conn userName]]];
+		[status setStringValue:@"Connection failed:"];
+	}
+	if ([conn sqlLog] != nil)
+	{
+		//[[[textView textStorage] mutableString] appendString: string];
+		NSRange myRange = NSMakeRange([[sqlLogPanelTextView textStorage] length], 0);
+		[[sqlLogPanelTextView textStorage] replaceCharactersInRange:myRange withString:[conn sqlLog]];
 	}
 }
 
@@ -279,7 +310,7 @@
 		END; $$ LANGUAGE plpgsql;
 	*/
 	
-	NSArray *arrQuery = [toBeRun componentsSeparatedByString:@";"];
+	//NSArray *arrQuery = [toBeRun componentsSeparatedByString:@";"];
 	
 	int x;
 	//for (x = 0; x < [arrQuery count]; x++)
@@ -288,6 +319,12 @@
 		//NSString *sql = [arrQuery objectAtIndex:x];
 		//RecordSet *rs = [conn execQuery:sql];
 		RecordSet *rs = [conn execQuery:toBeRun];
+		if ([conn sqlLog] != nil)
+		{
+			//[[[textView textStorage] mutableString] appendString: string];
+			NSRange myRange = NSMakeRange([[sqlLogPanelTextView textStorage] length], 0);
+			[[sqlLogPanelTextView textStorage] replaceCharactersInRange:myRange withString:[conn sqlLog]];
+		}
 		
 		if (rs == nil) 
 		{
@@ -360,18 +397,19 @@
 
 - (IBAction)onSetDatabase:(id)sender
 {
+	//NSLog(@"Enter onSetDatabase");
 	if ([conn isConnected])
 	{
 		[conn disconnect];
-		[schemaView setDataSource:nil];
-		[explorer release];
-		explorer = nil;
 	}
 	
+	//NSLog(@"Disconnect Complete");
 	if ([[[dbList selectedItem]  title] length] == 0)
 	{
 		[conn setDbName:@""];
-	} else {
+	}
+	else
+	{
 		[conn setDbName:[[dbList selectedItem] title]];
 	}
 	// perform the connection
@@ -381,10 +419,30 @@
 			[conn dbName], [conn host], [conn userName]]];
 		// create the schema explorer
 		[self setNewExplorerConn];			
-	} else {
+	}
+	else
+	{
 		[status setStringValue:@"Connection failed."];
 	}
+	if ([conn sqlLog] != nil)
+	{
+		//[[[textView textStorage] mutableString] appendString: string];
+		NSRange myRange = NSMakeRange([[sqlLogPanelTextView textStorage] length], 0);
+		[[sqlLogPanelTextView textStorage] replaceCharactersInRange:myRange withString:[conn sqlLog]];
+	}
 }
+
+
+- (IBAction)onShowSQLLog:(id)sender
+{
+	if ([sqlLogPanel isVisible] != 0)
+	{
+		[sqlLogPanel center];
+	}
+	[sqlLogPanel makeKeyAndOrderFront: nil];
+	[sqlLogPanel setFloatingPanel:0];
+}
+
 
 - (void)onSelectSelectTableMenuItem:(id)sender
 {

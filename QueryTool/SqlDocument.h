@@ -37,6 +37,10 @@
 	IBOutlet NSView			*dbListView;
 	IBOutlet NSPopUpButton  *dbList;
 	
+	// SQL Log Panel
+	IBOutlet NSPanel		*sqlLogPanel;
+	IBOutlet NSTextView		*sqlLogPanelTextView;
+	
 	// outline schema view
 	IBOutlet MyOutlineView *schemaView;  // ref to the schema outline view object
 
@@ -67,6 +71,7 @@
 - (IBAction)onConnectCancel:(id)sender;
 - (IBAction)onDisconnect:(id)sender;
 - (IBAction)onSetDatabase:(id)sender;
+- (IBAction)onShowSQLLog:(id)sender;
 
 // Respond to dynamic menus in the object browser.
 // Tables
