@@ -26,6 +26,7 @@
 	Databases		*dbs;
 	
 	NSString		*errorDescription;
+	NSMutableString		*sqlLog;
 	
 	void			*pgconn;
 }
@@ -63,7 +64,13 @@
 
 - (NSString *)errorDescription;
 
+- (NSMutableString *)sqlLog;
+- (void)setSQLLog:(NSString *)value;
+- (void)appendSQLLog:(NSString *)value;
+
 - (RecordSet *)execQuery:(NSString *)sql;
+- (RecordSet *)execQueryNoLog:(NSString *)sql;
+- (RecordSet *)execQuery:(NSString *)sql logInfo:(bool)logInfo logSQL:(bool)logSQL;
 - (NSString *)execCommand:(NSString *)sql;
 
 - (Databases *)databases;

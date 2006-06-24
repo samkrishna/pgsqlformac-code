@@ -9,6 +9,7 @@
 #import "ExplorerModel.h"
 #import "RecordSet.h"
 
+
 @implementation ExplorerModel
 
 
@@ -57,35 +58,6 @@
 		//TODO get sequence info
 
 		[newNode release];
-}
-}
-
-
-- (void)createViewNodes:(ExplorerNode *)aParent fromSchemaName:(NSString *)schemaName
-{
-	RecordSet * results;
-	ExplorerNode * newNode;
-	NSString * viewName;
-	int i;
-
-	results = [schema getViewNamesFromSchema:schemaName];
-	for (i = 0; i < [results count]; i++)
-	{
-		newNode = [[ExplorerNode alloc] init];
-		viewName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
-		[newNode setName:viewName];
-		[newNode setBaseTable:viewName];
-		[newNode setBaseSchema:schemaName];
-		[newNode setExplorerType:@"View Name"];
-		[newNode setParent:aParent];
-		[newNode setDisplayColumn2:@""];
-		// do columns
-		[self createColumnNodes:newNode fromSchemaName:schemaName fromTableName:viewName];
-
-		// TODO get indexes and other ??
-		[aParent addChild:newNode];
-
-		[newNode release];
 	}
 }
 
@@ -132,10 +104,39 @@
 				[newNode setBaseTable:tableName];
 				[newNode setBaseSchema:schemaName];
 				[titleNode addChild:newNode];
-
+				
 				[newNode release];
 			}
 		}
+	}
+}
+
+
+- (void)createViewNodes:(ExplorerNode *)aParent fromSchemaName:(NSString *)schemaName
+{
+	RecordSet * results;
+	ExplorerNode * newNode;
+	NSString * viewName;
+	int i;
+
+	results = [schema getViewNamesFromSchema:schemaName];
+	for (i = 0; i < [results count]; i++)
+	{
+		newNode = [[ExplorerNode alloc] init];
+		viewName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
+		[newNode setName:viewName];
+		[newNode setBaseTable:viewName];
+		[newNode setBaseSchema:schemaName];
+		[newNode setExplorerType:@"View Name"];
+		[newNode setParent:aParent];
+		[newNode setDisplayColumn2:@""];
+		// do columns
+		[self createColumnNodes:newNode fromSchemaName:schemaName fromTableName:viewName];
+
+		// TODO get indexes and other ??
+		[aParent addChild:newNode];
+
+		[newNode release];
 	}
 }
 

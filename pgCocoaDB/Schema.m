@@ -29,7 +29,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	informationSchemaName = [[NSString alloc] initWithString: @"information_schema"];
 	
 	sql = [NSString stringWithFormat:@"%s", "Select version()"];
-	results = [connection execQuery:sql];
+	results = [connection execQueryNoLog:sql];
 	versionField = [[[results itemAtIndex:0] fields] itemAtIndex:0];
 	pgVersionFound = [[NSString alloc] initWithString: [versionField value]];
 
@@ -66,7 +66,6 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 
 - (void)dealloc
 {	
-	[connection disconnect];
 	[connection release];
 	connection = nil;
 	
@@ -105,7 +104,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	NSLog(sql);
 #endif
 	
-	return [connection execQuery:sql];
+	return [connection execQueryNoLog:sql];
 }
 
 
@@ -117,7 +116,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	NSLog(sql);
 #endif
 	
-	return [connection execQuery:sql];
+	return [connection execQueryNoLog:sql];
 }
 
 
@@ -131,7 +130,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	NSLog(sql);
 #endif
 	
-	return [connection execQuery:sql];
+	return [connection execQueryNoLog:sql];
 }
 
 
@@ -146,7 +145,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	NSLog(sql);
 #endif
 	
-	return [connection execQuery:sql];
+	return [connection execQueryNoLog:sql];
 }
 
 -(RecordSet *)getSchemaNames;
@@ -157,7 +156,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	NSLog(sql);
 #endif
 	
-	return [connection execQuery:sql];
+	return [connection execQueryNoLog:sql];
 }
 
 
@@ -178,7 +177,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
-	return [connection execQuery:sql];
+	return [connection execQueryNoLog:sql];
 }
 
 
@@ -237,7 +236,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
-	return [connection execQuery:sql];
+	return [connection execQueryNoLog:sql];
 }
 
 
@@ -270,7 +269,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
-	return [connection execQuery:sql];
+	return [connection execQueryNoLog:sql];
 }
 
 
@@ -287,7 +286,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	NSLog(sql);
 #endif
 	
-	return [connection execQuery:sql];
+	return [connection execQueryNoLog:sql];
 }
 
 
@@ -309,7 +308,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	NSLog(sql);
 #endif
 	
-	return [connection execQuery:sql];
+	return [connection execQueryNoLog:sql];
 }
 
 
@@ -355,7 +354,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
-	results = [connection execQuery:sql];
+	results = [connection execQueryNoLog:sql];
 	
 	if ([results count] != 1)
 	{
@@ -448,7 +447,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 				[sqlOutput appendString:@", "];
 			}
 			sql = [NSString stringWithFormat:@"SELECT pg_catalog.format_type('%s'::pg_catalog.oid, NULL)", allargtypes[i]];
-			results1 = [connection execQuery:sql];
+			results1 = [connection execQueryNoLog:sql];
 			if ([results1 count] != 1)
 			{
 				NSLog(@"getFunctionSQLFromSchema: Returned too many functions for type conversion.");
@@ -477,7 +476,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	NSLog(sql);
 #endif
 	
-	results = [connection execQuery:sql];
+	results = [connection execQueryNoLog:sql];
 	if ([results count] == 1)
 	{
 		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
@@ -500,7 +499,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	NSLog(sql);
 #endif
 	
-	results = [connection execQuery:sql];
+	results = [connection execQueryNoLog:sql];
 	if ([results count] == 1)
 	{
 		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
@@ -590,7 +589,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	NSLog(sql);
 #endif
 	
-	results = [connection execQuery:sql];
+	results = [connection execQueryNoLog:sql];
 	if ([results count] == 1)
 	{
 		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
@@ -614,7 +613,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	NSLog(sql);
 #endif
 	
-	results = [connection execQuery:sql];
+	results = [connection execQueryNoLog:sql];
 	if ([results count] == 1)
 	{
 		if (pretty)
@@ -662,7 +661,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
-	results = [connection execQuery:sql];
+	results = [connection execQueryNoLog:sql];
 	if ([results count] == 1)
 	{
 		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
@@ -682,7 +681,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
-	results = [connection execQuery:sql];
+	results = [connection execQueryNoLog:sql];
 	if ([results count] == 1)
 	{
 		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
@@ -701,7 +700,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
-	results = [connection execQuery:sql];
+	results = [connection execQueryNoLog:sql];
 	if ([results count] == 1)
 	{
 		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
@@ -722,7 +721,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
-	results = [connection execQuery:sql];
+	results = [connection execQueryNoLog:sql];
 	if ([results count] == 1)
 	{
 		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
@@ -741,7 +740,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
-	results = [connection execQuery:sql];
+	results = [connection execQueryNoLog:sql];
 	if ([results count] == 1)
 	{
 		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
@@ -760,7 +759,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
-	results = [connection execQuery:sql];
+	results = [connection execQueryNoLog:sql];
 	if ([results count] == 1)
 	{
 		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
@@ -779,7 +778,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
-	results = [connection execQuery:sql];
+	results = [connection execQueryNoLog:sql];
 	if ([results count] == 1)
 	{
 		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
@@ -798,7 +797,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
-	results = [connection execQuery:sql];
+	results = [connection execQueryNoLog:sql];
 	if ([results count] == 1)
 	{
 		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
@@ -819,7 +818,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
-	results = [connection execQuery:sql];
+	results = [connection execQueryNoLog:sql];
 	if ([results count] == 1)
 	{
 		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
@@ -838,7 +837,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
-	results = [connection execQuery:sql];
+	results = [connection execQueryNoLog:sql];
 	if ([results count] == 1)
 	{
 		return [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value];
@@ -870,7 +869,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	NSLog(sql);
 #endif
 
-	return [connection execQuery:sql];
+	return [connection execQueryNoLog:sql];
 }
 
 /*
