@@ -32,6 +32,38 @@
 		[userDefaults setObject:@"no" forKey:@"PGSqlForMac_QueryTool_ShowPGTempsSchema"];
 	}
 
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_SchemaTableFontName"] == nil)
+	{
+		[userDefaults setObject:@"Lucida Grande" forKey:@"PGSqlForMac_QueryTool_SchemaTableFontName"];
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_SchemaTableFontSize"] == nil)
+	{
+		[userDefaults setFloat:12.0 forKey:@"PGSqlForMac_QueryTool_SchemaTableFontSize"];
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ResultsTableFontName"] == nil)
+	{
+		[userDefaults setObject:@"Lucida Grande" forKey:@"PGSqlForMac_QueryTool_ResultsTableFontName"];
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ResultsTableFontSize"] == nil)
+	{
+		[userDefaults setFloat:12.0 forKey:@"PGSqlForMac_QueryTool_ResultsTableFontSize"];
+	}
+	
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPostgreSQLHelp"] == nil)
+	{
+		if ([fileManager fileExistsAtPath:@"/sw/share/doc/postgresql81/html/index.html"])
+		{
+			[userDefaults setObject:@"file:///sw/share/doc/postgresql81/html/index.html" forKey:@"PGSqlForMac_QueryTool_ShowPostgreSQLHelp"];
+		}
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowSQLCommandHelp"] == nil)
+	{
+		if ([fileManager fileExistsAtPath:@"/sw/share/doc/postgresql81/html/sql-commands.html"])
+		{
+			[userDefaults setObject:@"file:///sw/share/doc/postgresql81/html/sql-commands.html" forKey:@"PGSqlForMac_QueryTool_ShowSQLCommandHelp"];
+		}
+	}
     return self;
 }
 
@@ -71,6 +103,28 @@
 	[query setDelegate:self];
 	[[query textStorage] setDelegate:self];
 	
+	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+
+	// set the font for the schema view
+	font = [NSFont fontWithName:[userDefaults stringForKey:@"PGSqlForMac_QueryTool_SchemaTableFontName"] size:[userDefaults floatForKey:@"PGSqlForMac_QueryTool_SchemaTableFontSize"]];
+	[schemaView setCurrentFont:font];
+	NSEnumerator* columns = [[schemaView tableColumns] objectEnumerator];
+	NSTableColumn* column;
+	while (column = [columns nextObject])
+	{
+		[[column dataCell] setFont: font];
+	}
+	[schemaView setRowHeight: [font defaultLineHeightForFont] + 2];
+	
+	//set the font for the results view
+	font = [NSFont fontWithName:[userDefaults stringForKey:@"PGSqlForMac_QueryTool_ResultsTableFontName"] size:[userDefaults floatForKey:@"PGSqlForMac_QueryTool_ResultsTableFontSize"]];
+	[dataOutput setCurrentFont:font];
+	columns = [[dataOutput tableColumns] objectEnumerator];
+	while (column = [columns nextObject])
+	{
+		[[column dataCell] setFont: font];
+	}
+	[dataOutput setRowHeight: [font defaultLineHeightForFont] + 2];
 	
 	// init the keyword arrays
 	NSString *temp = [[NSString alloc] 
@@ -250,6 +304,58 @@
 		[[sqlLogPanelTextView textStorage] replaceCharactersInRange:myRange withString:[conn sqlLog]];
 	}
 }
+
+- (IBAction)onShowPostgreSQLHTML:(id) sender
+{
+	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[userDefaults  stringForKey:@"PGSqlForMac_QueryTool_ShowPostgreSQLHelp"]]];
+}
+
+
+- (IBAction)onShowSQLHTML:(id) sender
+{
+	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[userDefaults  stringForKey:@"PGSqlForMac_QueryTool_ShowSQLCommandHelp"]]];
+}
+
+
+-(IBAction) setSchemaViewFont:(id) sender
+{
+	NSFontPanel *myFontPanel =[NSFontPanel sharedFontPanel];
+	
+	[window makeFirstResponder:schemaView];
+
+	[myFontPanel setDelegate:self];
+	[myFontPanel setPanelFont: [schemaView currentFont] isMultiple:NO];
+	[myFontPanel setEnabled:YES];
+	[myFontPanel makeKeyAndOrderFront:self];
+}
+
+-(IBAction) setDataOutputViewFont:(id) sender
+{
+	NSFontPanel *myFontPanel =[NSFontPanel sharedFontPanel];
+	
+	[window makeFirstResponder:dataOutput];
+	
+	[myFontPanel setDelegate:self];
+	[myFontPanel setPanelFont: [dataOutput font] isMultiple:NO];
+	[myFontPanel setEnabled:YES];
+	[myFontPanel makeKeyAndOrderFront:self];
+}
+
+-(IBAction) setSQLLogViewFont:(id) sender
+{
+	NSFontPanel *myFontPanel =[NSFontPanel sharedFontPanel];
+	[sqlLogPanelTextView setUsesFontPanel:YES];
+	
+	[window makeFirstResponder:sqlLogPanelTextView];
+		
+	[myFontPanel setDelegate:self];
+	[myFontPanel setPanelFont: [sqlLogPanelTextView font] isMultiple:NO];
+	[myFontPanel setEnabled:YES];
+	[myFontPanel makeKeyAndOrderFront:self];
+}
+
 
 - (IBAction)onConnectCancel:(id)sender
 {
@@ -586,10 +692,10 @@
 	NSAssert(tableName,@"onSelectCreateIndexOnColsMenuItem: no table name.");
 	NSAssert(schemaName, @"onSelectCreateIndexOnColsMenuItem: no schema name.");
 	bool first = true;
+	int indexCount = [[explorer schema] getIndexCountFromSchema:schemaName fromTableName:tableName] + 1;
 	
-	//TODO make number auto determined
 	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
-	[sql appendFormat:@"CREATE INDEX %@_idx1 ON %@.%@ (", tableName, schemaName, tableName];
+	[sql appendFormat:@"CREATE UNIQUE INDEX %@_idx%d ON %@.%@ (", tableName, indexCount, schemaName, tableName];
 	while (currentIndex != NSNotFound) {
 		if (!first)
 		{
@@ -612,10 +718,10 @@
 	NSAssert(tableName,@"onSelectCreateUniqIndexOnColsMenuItem: no table name.");
 	NSAssert(schemaName, @"onSelectCreateUniqIndexOnColsMenuItem: no schema name.");
 	bool first = true;
+	int indexCount = [[explorer schema] getIndexCountFromSchema:schemaName fromTableName:tableName] + 1;
 	
-	//TODO make number auto determined
 	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
-	[sql appendFormat:@"CREATE UNIQUE INDEX %@_idx1 ON %@.%@ (", tableName, schemaName, tableName];
+	[sql appendFormat:@"CREATE UNIQUE INDEX %@_idx%d ON %@.%@ (", tableName, indexCount, schemaName, tableName];
 	while (currentIndex != NSNotFound) {
 		if (!first)
 		{
@@ -852,7 +958,7 @@ $$ LANGUAGE plpgsql; \n", schemaName];
 
  - (void)textViewDidChangeSelection:(NSNotification *)aNotification
 {
-	// based upon the current locatiodn, scan forward and backward to the nearest
+	// based upon the current location, scan forward and backward to the nearest
 	// delimiter and highlight the current word based upon that delimiter	
 	NSTextStorage *ts = [query textStorage];
 	

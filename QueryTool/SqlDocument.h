@@ -12,6 +12,7 @@
 #import "Connection.h"
 #import "ExplorerModel.h"
 #import "MyOutlineView.h"
+#import "MyResultsView.h"
 
 @interface SqlDocument : NSDocument
 {
@@ -19,7 +20,7 @@
 	IBOutlet NSWindow		*window;
 	IBOutlet NSTextView		*query;
 	IBOutlet NSTextView		*rawOutput;
-	IBOutlet NSTableView	*dataOutput;
+	IBOutlet MyResultsView	*dataOutput;
 	IBOutlet NSTabView		*tabs;
 	IBOutlet NSProgressIndicator *working;
 	IBOutlet NSTextField	*status;
@@ -72,6 +73,13 @@
 - (IBAction)onDisconnect:(id)sender;
 - (IBAction)onSetDatabase:(id)sender;
 - (IBAction)onShowSQLLog:(id)sender;
+- (IBAction)onShowPostgreSQLHTML:(id)sender;
+- (IBAction)onShowSQLHTML:(id)sender;
+
+// set view fonts
+- (IBAction)setSchemaViewFont:(id)sender;
+- (IBAction)setDataOutputViewFont:(id)sender;
+- (IBAction)setSQLLogViewFont:(id)sender;
 
 // Respond to dynamic menus in the object browser.
 // Tables

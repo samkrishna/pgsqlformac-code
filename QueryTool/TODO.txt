@@ -12,6 +12,7 @@ TODO - Features, Functions and Warnings (in priority order)
 - 2006-06-24 Add command to clear SQL Log.
 
 
+
 FIXME (Known Errors)
 ====================
 2006-06-22 13:20:17.480 Query Tool for Postgres[5590] -[NSBigMutableString characterAtIndex:] called with out-of-bounds index. For apps linked on Tiger this will raise an exception. For earlier apps it will produce this one-time warning and continue with existing behavior (which is undefined).
@@ -20,6 +21,21 @@ FIXME (Known Errors)
 
 Completed
 =========
+- 2006-07-16 Fix TODO for autoincrementing index names
+
+- 2006-07-16 Use color to separate tables names and other database structure names from actual meta data.
+http://forums.macnn.com/archive/index.php/t-212768.html
+
+- 2006-07-15 font commands do not work in for results view and log view, need to figure out how NSFontPanel works with tables
+		
+	// from	http://www.cocoabuilder.com/archive/message/cocoa/2002/1/10/15632
+	http://www.codecomments.com/message506689.html
+	http://www.codecomments.com/archive242-2005-5-506689.html
+
+- 2006-07-15 Add menu to select postgres docs (file:///sw/share/doc/postgresql81/html/index.html) and to where ever pgCocoa installs them and SQL commands 
+	file:///sw/share/doc/postgresql81/html/sql-commands.html
+  [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http:// ... "]];
+
 - 2006-06-16 When running VACUUM FULL VERBOSE ANALYZE the resulting text is not displayed in the GUI. (2006-06-24 added SQL Log).
 
 - 2006-06-22 17:27:23.418 Query Tool for Postgres[5640] CFLog (0): CFMessagePort: bootstrap_register(): failed 1103 (0x44f), port = 0x3103, name = 'com.druware.postgres.QueryTool.ServiceProvider'

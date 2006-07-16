@@ -1,7 +1,21 @@
-2006-06-20 11:29  ntiffin
+2006-06-24 11:20  ntiffin
 
-	* ChangeLog, SqlDocument.m, TODO.txt: Update for better round trip
-	  function processing.
+	* SqlDocument.h, SqlDocument.m, TODO.txt,
+	  English.lproj/MainMenu.nib/classes.nib,
+	  English.lproj/MainMenu.nib/info.nib,
+	  English.lproj/MainMenu.nib/objects.nib,
+	  English.lproj/SqlDocument.nib/classes.nib,
+	  English.lproj/SqlDocument.nib/info.nib,
+	  English.lproj/SqlDocument.nib/keyedobjects.nib: Add SQL Log
+	  window.
+
+2006-06-21 08:42  ntiffin
+
+	* ChangeLog, SqlDocument.m, SqlToolbarCategory.m, TODO.txt,
+	  cancel_script_32.png, English.lproj/SqlDocument.nib/info.nib,
+	  English.lproj/SqlDocument.nib/keyedobjects.nib: Add
+	  NSUserDefaults, icon for canceling script, fix multiple statement
+	  parsing problem.
 
 2006-06-10 13:43  ntiffin
 

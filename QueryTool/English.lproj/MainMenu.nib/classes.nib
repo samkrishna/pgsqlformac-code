@@ -2,11 +2,17 @@
     IBClasses = (
         {
             ACTIONS = {
-                myAction = id; 
                 onConnect = id; 
                 onDisconnect = id; 
                 onExecuteQuery = id; 
+                onShowPostgreSQLHTML = id; 
+                onShowSQLHTML = id; 
                 onShowSQLLog = id; 
+                setDataOutputViewFont = id; 
+                setQueryViewFont = id; 
+                setSQLLogViewFont = id; 
+                setSchemaViewFont = id; 
+                show = id; 
             }; 
             CLASS = FirstResponder; 
             LANGUAGE = ObjC; 

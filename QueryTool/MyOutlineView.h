@@ -12,8 +12,13 @@
 	NSMenu *viewMenu;
 	
 	id menuActionTarget;
+	
+	NSFont *currentFont;
 }
 
 - (void)setMenuActionTarget:(id)theSQLDocument;
+- (void)changeFont:(id)sender;
+- (NSFont *)currentFont;
+- (void)setCurrentFont:(NSFont *)theFont;
 
 @end
