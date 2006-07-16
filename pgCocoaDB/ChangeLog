@@ -1,3 +1,12 @@
+2006-06-24 11:16  ntiffin
+
+	* Connection.h, Connection.m, ExplorerModel.m, Schema.m: Add SQL
+	  log functions, correct bug in schema dealloc.
+
+2006-06-21 06:47  ntiffin
+
+	* ChangeLog: Test commits mail list.
+
 2006-06-20 11:26  ntiffin
 
 	* ChangeLog, Schema.m, UnitTest/pgCocoaDBSchemaTest.m: Update for

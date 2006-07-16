@@ -62,7 +62,8 @@
 -(NSString *)getTriggerCommentFromSchema:(NSString *)schemaName fromTableName:(NSString *)tableName fromTriggerName:(NSString *)triggerName;
 -(NSString *)getViewCommentFromSchema:(NSString *)schemaName fromViewName:(NSString *)viewName;
 
-// get server info
+// get server info or misc
 -(RecordSet *)getLocks;
+-(int)getIndexCountFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName;
 
 @end

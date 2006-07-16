@@ -11,7 +11,7 @@
 @interface ExplorerNode : NSObject {
 	NSMutableArray * children;
 	ExplorerNode * parent;
-	NSString * name;			// name of this node displayed in column 1
+	NSAttributedString * name;	// name of this node displayed in column 1
 								//    of the outline view
 	NSString * baseTable;		// pg_catalog table where the oid resides
 	UInt32	oid;				// oid entry in the baseTable
@@ -25,6 +25,7 @@
 
 	// Accessor methods
 -(NSString *)name;
+//-(NSAttributedString *) attributedName;
 -(NSString *)baseTable;
 -(NSString *)explorerType;
 -(NSString *)displayColumn2;
@@ -33,6 +34,7 @@
 -(UInt32)oid;
 
 -(void)setName:(NSString *)s;
+-(void)setNameColor:(NSColor *)s;
 -(void)setBaseTable:(NSString *)s;
 -(void)setExplorerType:(NSString *)s;
 -(void)setDisplayColumn2:(NSString *)s;

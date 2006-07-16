@@ -68,10 +68,10 @@ static BOOL databaseCreated = NO;
 	results = [conn execQuery:sql];
 	STAssertTrue([conn errorDescription] == nil, @"Not able to '%@', %@.", sql, [conn errorDescription]);
 
+	sql = [NSString stringWithFormat:@"CREATE DATABASE %@ WITH ENCODING = 'UTF8' TABLESPACE = pg_default;", PGCocoaTestDatabase];
 	if (0 == [results count])
 	{
 		// test database does not exist
-		sql = [NSString stringWithFormat:@"%s%@", "CREATE DATABASE ", PGCocoaTestDatabase];
 		NSLog(sql);
 		[conn execQuery:sql];
 		STAssertTrue([conn errorDescription] == nil, @"Not able to '%@', %@.", sql, [conn errorDescription]);
@@ -82,12 +82,11 @@ static BOOL databaseCreated = NO;
 		// if you are not concerned about automatically dropping the test database you can
 		// add -DDROP_EXISTING_DATABASE=1 to the OTHER_CFLAGS in project builder
 		// or you can uncomment the #define in the configuration area of this file.
-		sql = [NSString stringWithFormat:@"%s%@", "DROP DATABASE ", PGCocoaTestDatabase];
-		NSLog(sql);
-		[conn execQuery:sql];
+		NSString *sql1 = [NSString stringWithFormat:@"%s%@", "DROP DATABASE ", PGCocoaTestDatabase];
+		NSLog(sql1);
+		[conn execQuery:sql1];
 		STAssertTrue([conn errorDescription] == nil, @"Not able to '%@', %@.", sql, [conn errorDescription]);
 
-		sql = [NSString stringWithFormat:@"%s%@", "CREATE DATABASE ", PGCocoaTestDatabase];
 		NSLog(sql);
 		[conn execQuery:sql];
 		STAssertTrue([conn errorDescription] == nil, @"Not able to '%@', %@.", sql, [conn errorDescription]);

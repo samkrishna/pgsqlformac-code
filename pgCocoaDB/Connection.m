@@ -329,6 +329,16 @@ handle_pq_notice(void *arg, const char *message)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 - (RecordSet *)execQuery:(NSString *)sql
 {
+#if PG_COCOA_DEBUG == 1
+	return [self execQuery:sql logInfo:0 logSQL:0];
+#else
+	return [self execQuery:sql logInfo:0 logSQL:0];
+#endif
+}
+
+
+- (RecordSet *)execQueryLog:(NSString *)sql
+{
 	return [self execQuery:sql logInfo:1 logSQL:0];
 }
 

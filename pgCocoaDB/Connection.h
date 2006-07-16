@@ -70,6 +70,7 @@
 
 - (RecordSet *)execQuery:(NSString *)sql;
 - (RecordSet *)execQueryNoLog:(NSString *)sql;
+- (RecordSet *)execQueryLog:(NSString *)sql;
 - (RecordSet *)execQuery:(NSString *)sql logInfo:(bool)logInfo logSQL:(bool)logSQL;
 - (NSString *)execCommand:(NSString *)sql;
 

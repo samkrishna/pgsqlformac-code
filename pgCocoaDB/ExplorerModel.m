@@ -472,7 +472,18 @@
 
     // What is returned depends upon which column it is going to appear.
     if ([identifier isEqual:@"col1"])
-        return [item name];
+	{
+		if ([[item explorerType] isEqualToString:@"Schema Child"] )
+		{
+			NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:[NSColor blueColor], NSForegroundColorAttributeName, nil];
+			NSAttributedString *myString = [[NSAttributedString alloc] initWithString:[item name] attributes: attributes];
+			return myString;
+		}
+		else
+		{
+				return  [item name];
+		}
+	}
 	if ([identifier isEqual:@"col2"])  	
 		return [item displayColumn2];
 		

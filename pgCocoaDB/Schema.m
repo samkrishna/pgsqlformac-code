@@ -21,7 +21,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	RecordSet * results;
 	Field * versionField;
 	
-	self = [super init];
+	[super init];
 	connection = theConnection;
 	[connection retain];
 	publicSchemaName = [[NSString alloc] initWithString: @"public"];
@@ -133,12 +133,24 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	return [connection execQueryNoLog:sql];
 }
 
+-(int)getIndexCountFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName;
+{
+	NSString *sql;
+	
+	sql = [NSString stringWithFormat:@"SELECT count(*) FROM pg_catalog.pg_indexes WHERE schemaname = '%@' AND tablename = '%@'", schemaName, tableName];
+#if PGCOCOA_LOG_SQL
+	NSLog(sql);
+#endif
+	RecordSet * results = [connection execQueryNoLog:sql];
+	
+	return [[[[[results itemAtIndex: 0] fields] itemAtIndex:0] value] intValue];
+}
 
 -(RecordSet *)getIndexNamesFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName;
 {
 	NSString *sql;
 	
-	sql = [NSMutableString stringWithFormat:@"%s'%@'%s'%@'%s","SELECT indexname \
+	sql = [NSString stringWithFormat:@"%s'%@'%s'%@'%s","SELECT indexname \
 	FROM pg_catalog.pg_indexes WHERE schemaname = ", schemaName, " AND tablename = ", tableName, " ORDER BY indexname ASC"];
 	//return [self getNamesFromSchema:schemaName fromType: @"i"];
 #if PGCOCOA_LOG_SQL
@@ -151,7 +163,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 -(RecordSet *)getSchemaNames;
 {
 	NSString * sql;
-	sql = [NSMutableString stringWithString:@"SELECT schema_name FROM information_schema.schemata ORDER BY schema_name"];
+	sql = [NSString stringWithString:@"SELECT schema_name FROM information_schema.schemata ORDER BY schema_name"];
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif

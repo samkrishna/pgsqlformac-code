@@ -51,6 +51,11 @@
 
 -(NSString *) name
 {
+	return [name string];
+}
+
+-(NSAttributedString *) attributedName
+{
 	return name;
 }
 
@@ -90,19 +95,24 @@
 
 -(void)setName:(NSString *)s
 {
-	[s retain];
 	[name release];
-	name = s;
+	name = [[NSAttributedString alloc] initWithString:s];
+	[name retain];
 }
 
--(void)setBaseTable:(NSString *)s;
+-(void)setNameColor:(NSColor *)s
+{
+	; //TODO
+}
+
+-(void)setBaseTable:(NSString *)s
 {
 	[s retain];
 	[baseTable release];
 	baseTable = s;
 }
 
--(void)setExplorerType:(NSString *)s;
+-(void)setExplorerType:(NSString *)s
 {
 	[s retain];
 	[explorerType release];
