@@ -903,7 +903,7 @@ $$ LANGUAGE plpgsql; \n", schemaName];
 
 - (BOOL)isValueKeyword:(NSString *)value
 {
-	int x;
+	unsigned int x;
 	NSString *trimmedValue = [value stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 	for (x = 0; x < [keywords count]; x++)
 	{
@@ -934,7 +934,7 @@ $$ LANGUAGE plpgsql; \n", schemaName];
 - (void)colorRange:(NSRange)rangeToColor
 {
 	// loop through the range, breaking at each delimiter to set the attributes
-	long i;
+	unsigned long i;
 	
 	i = rangeToColor.location;
 	NSRange rangeOfWord;
@@ -975,7 +975,7 @@ $$ LANGUAGE plpgsql; \n", schemaName];
 	}
 	
 	// if the edited range contains no delimiters...
-	long i = rangeOfEdit.location;
+	unsigned long i = rangeOfEdit.location;
 	if (i >= [[ts string] length]) { i = [[ts string] length] - 1; }
 	
 	while ([[ts string] characterAtIndex:i] != ' ')

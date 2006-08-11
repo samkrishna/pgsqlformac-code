@@ -1,3 +1,17 @@
+2006-07-16 18:17  ntiffin
+
+	* ChangeLog, MyOutlineView.h, MyOutlineView.m, MyResultsView.h,
+	  MyResultsView.m, SqlDocument.h, SqlDocument.m, TODO.txt,
+	  English.lproj/MainMenu.nib/classes.nib,
+	  English.lproj/MainMenu.nib/info.nib,
+	  English.lproj/MainMenu.nib/objects.nib,
+	  English.lproj/SqlDocument.nib/classes.nib,
+	  English.lproj/SqlDocument.nib/info.nib,
+	  English.lproj/SqlDocument.nib/keyedobjects.nib: Make font changes
+	  work for schema and results views, make index generation use
+	  autoincrementing index names, add help menu to bring up
+	  postgresql html help files.
+
 2006-06-24 11:20  ntiffin
 
 	* SqlDocument.h, SqlDocument.m, TODO.txt,
@@ -16,6 +30,11 @@
 	  English.lproj/SqlDocument.nib/keyedobjects.nib: Add
 	  NSUserDefaults, icon for canceling script, fix multiple statement
 	  parsing problem.
+
+2006-06-20 11:29  ntiffin
+
+	* ChangeLog, SqlDocument.m, TODO.txt: Update for better round trip
+	  function processing.
 
 2006-06-10 13:43  ntiffin
 
@@ -52,13 +71,6 @@
 2006-05-13 15:20  ntiffin
 
 	* ChangeLog: Update ChangeLog.
-
-2006-05-13 14:28  ntiffin
-
-	* English.lproj/: MainMenu~.nib/classes.nib,
-	  MainMenu~.nib/info.nib, MainMenu~.nib/objects.nib,
-	  SqlDocument~.nib/classes.nib, SqlDocument~.nib/info.nib,
-	  SqlDocument~.nib/keyedobjects.nib: Remove backup files from cvs.
 
 2006-05-13 14:26  ntiffin
 
@@ -125,15 +137,9 @@
 	  English.lproj/MainMenu.nib/classes.nib,
 	  English.lproj/MainMenu.nib/info.nib,
 	  English.lproj/MainMenu.nib/objects.nib,
-	  English.lproj/MainMenu~.nib/classes.nib,
-	  English.lproj/MainMenu~.nib/info.nib,
-	  English.lproj/MainMenu~.nib/objects.nib,
 	  English.lproj/SqlDocument.nib/classes.nib,
 	  English.lproj/SqlDocument.nib/info.nib,
-	  English.lproj/SqlDocument.nib/keyedobjects.nib,
-	  English.lproj/SqlDocument~.nib/classes.nib,
-	  English.lproj/SqlDocument~.nib/info.nib,
-	  English.lproj/SqlDocument~.nib/keyedobjects.nib, Help/.DS_Store,
+	  English.lproj/SqlDocument.nib/keyedobjects.nib, Help/.DS_Store,
 	  Help/index.html: Initial Import
 
 2005-03-08 15:50  hawkmoon
@@ -152,14 +158,8 @@
 	  English.lproj/MainMenu.nib/classes.nib,
 	  English.lproj/MainMenu.nib/info.nib,
 	  English.lproj/MainMenu.nib/objects.nib,
-	  English.lproj/MainMenu~.nib/classes.nib,
-	  English.lproj/MainMenu~.nib/info.nib,
-	  English.lproj/MainMenu~.nib/objects.nib,
 	  English.lproj/SqlDocument.nib/classes.nib,
 	  English.lproj/SqlDocument.nib/info.nib,
-	  English.lproj/SqlDocument.nib/keyedobjects.nib,
-	  English.lproj/SqlDocument~.nib/classes.nib,
-	  English.lproj/SqlDocument~.nib/info.nib,
-	  English.lproj/SqlDocument~.nib/keyedobjects.nib, Help/.DS_Store,
+	  English.lproj/SqlDocument.nib/keyedobjects.nib, Help/.DS_Store,
 	  Help/index.html: Initial revision
 
