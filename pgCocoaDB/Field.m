@@ -21,9 +21,17 @@
     return self;
 }
 
+-(void)dealloc
+{
+	[name release];
+	[value release];
+		
+	[super dealloc];
+}
+
 
 - (NSString *)name {
-    return [[name retain] autorelease];
+    return name;
 }
 
 - (void)setName:(NSString *)newName {
@@ -34,7 +42,7 @@
 }
 
 - (NSString *)value {
-    return [[value retain] autorelease];
+    return value;
 }
 
 - (void)setValue:(NSString *)newValue {
@@ -46,7 +54,7 @@
 
 - (NSString *)description
 {
-	return [[[NSString alloc] initWithFormat:@"%@ %@", name, value] autorelease];;
+	return [NSString stringWithFormat:@"%@ %@", name, value];
 }
 
 

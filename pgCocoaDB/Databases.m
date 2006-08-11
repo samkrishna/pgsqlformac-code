@@ -21,14 +21,21 @@
     return self;
 }
 
+-(void)dealloc
+{
+	[items removeAllObjects];
+	[items release];
+	[super dealloc];
+}
+
 // collection management
 
 - (Database *)addItem
 {
     Database *newItem = [[Database alloc] init];
-    [newItem retain];
     
     [items addObject: newItem];
+	[newItem release];
     return newItem;    
 }
 

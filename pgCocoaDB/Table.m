@@ -11,6 +11,14 @@
 
 @implementation Table
 
+-(void)dealloc
+{
+	[schema release];
+	[name release];
+	[owner release];
+	[super dealloc];
+}
+
 - (NSString *)schema {
     return [[schema retain] autorelease];
 }

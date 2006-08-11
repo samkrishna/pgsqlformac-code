@@ -30,18 +30,38 @@ handle_pq_notice(void *arg, const char *message)
 	
 	connected = NO;
 	
-	host = [[[[NSString alloc] initWithString:@"localhost"] retain] autorelease];
-	port = [[[[NSString alloc] initWithString:@"5432"] retain] autorelease];
-	options = [[[[NSString alloc] init] retain] autorelease];
-	tty = [[[[NSString alloc] init] retain] autorelease];
-	dbName = [[[[NSString alloc] initWithString:@"template1"] retain] autorelease];
+	host = [[NSString alloc] initWithString:@"localhost"];
+	port = [[NSString alloc] initWithString:@"5432"];
+	options = [[NSString alloc] init];
+	tty = [[NSString alloc] init];
+	dbName = [[NSString alloc] initWithString:@"template1"];
 	
 	dbs = nil;
 	
-	errorDescription = [[[[NSString alloc] init] retain] autorelease];
+	errorDescription = nil;
 	sqlLog = [[NSMutableString alloc] init];
 	
 	return self;
+}
+
+-(void)dealloc
+{
+	if (connected)
+	{
+		[self disconnect];
+	}
+	[host release];
+	[port release];
+	[options release];
+	[tty release];
+	[dbName release];
+	[userName release];
+	[password release];
+	[dbs release];
+	[errorDescription release];
+	[sqlLog release];
+	
+	[super dealloc];
 }
 
 - (BOOL)connect
@@ -126,7 +146,7 @@ handle_pq_notice(void *arg, const char *message)
 
 - (NSString *)host 
 {
-    return [[host retain] autorelease];
+    return host;
 }
 
 - (void)setHost:(NSString *)newHost 
@@ -140,7 +160,7 @@ handle_pq_notice(void *arg, const char *message)
 
 - (NSString *)port
 {
-    return [[port retain] autorelease];
+    return port;
 }
 
 - (void)setPort:(NSString *)newPort
@@ -154,7 +174,7 @@ handle_pq_notice(void *arg, const char *message)
 
 - (NSString *)options
 {
-	return [[options retain] autorelease];
+	return options;
 }
 
 - (void)setOptions:(NSString *)newOptions
@@ -168,7 +188,7 @@ handle_pq_notice(void *arg, const char *message)
 
 - (NSString *)tty;
 {
-	return [[tty retain] autorelease];
+	return tty;
 }
 
 - (void)setTty:(NSString *)newTty;
@@ -182,7 +202,7 @@ handle_pq_notice(void *arg, const char *message)
 
 - (NSString *)dbName;
 {
-	return [[dbName retain] autorelease];
+	return dbName;
 }
 
 - (void)setDbName:(NSString *)newDbName;
@@ -196,7 +216,7 @@ handle_pq_notice(void *arg, const char *message)
 
 - (NSString *)userName 
 {
-    return [[userName retain] autorelease];
+    return userName;
 }
 
 - (void)setUserName:(NSString *)value 
@@ -210,7 +230,7 @@ handle_pq_notice(void *arg, const char *message)
 
 - (NSString *)password 
 {
-    return [[password retain] autorelease];
+    return password;
 }
 
 - (void)setPassword:(NSString *)value 
@@ -283,24 +303,31 @@ handle_pq_notice(void *arg, const char *message)
 	char * currentDatabase = PQdb(pgconn);
 	if (currentDatabase)
 	{
-		return [[[NSString stringWithCString:currentDatabase] retain] autorelease];
+		return [NSString stringWithCString:currentDatabase];
 	}
 	else
 	{
-		return [[NSString alloc] initWithString:@"Current database not defined."];;
+		return [NSString stringWithString:@"Current database not defined."];
 	}
 }
 
 
 - (NSString *)errorDescription;
 {
-	return [[errorDescription retain] autorelease];
+	return errorDescription;
+}
+
+- (void)setErrorDescription:(NSString *)ed;
+{
+	[errorDescription release];
+	errorDescription = ed;
+	[errorDescription retain];
 }
 
 
 - (NSMutableString *)sqlLog;
 {
-	return [[sqlLog retain] autorelease];
+	return sqlLog;
 }
 
 
@@ -361,9 +388,7 @@ handle_pq_notice(void *arg, const char *message)
 
 	if (pgconn == nil) 
 	{ 
-		errorDescription = [[NSString alloc] initWithString:@"Object is not Connected."];
-		[[errorDescription retain] autorelease];
-		
+		[self setErrorDescription:@"Object is not Connected."];		
 		return nil; 
 	}
 	gettimeofday(&start, 0);
@@ -386,7 +411,7 @@ handle_pq_notice(void *arg, const char *message)
 		case PGRES_TUPLES_OK:
 		{
 			// build the recordset
-			RecordSet *rs = [[[[RecordSet alloc] init] retain] autorelease];
+			RecordSet *rs = [[[RecordSet alloc] init] autorelease];
 			long nFields = PQnfields(res);
 			long nRecords = PQntuples(res);
 			long i = 0;
@@ -447,9 +472,7 @@ handle_pq_notice(void *arg, const char *message)
 		case PGRES_FATAL_ERROR:
 		default:
 		{
-			errorDescription = [[NSString alloc] initWithFormat:@"PostgreSQL Error: %s",
-				PQresultErrorMessage(res)];
-			[[errorDescription retain] autorelease];
+			[self setErrorDescription:[NSString stringWithFormat:@"PostgreSQL Error: %s", PQresultErrorMessage(res)]];
 			PQclear(res);
 			return nil;
 		}
@@ -464,19 +487,14 @@ handle_pq_notice(void *arg, const char *message)
 	
 	if (pgconn == nil) 
 	{ 
-		[errorDescription release];
-		errorDescription = [[NSString alloc] initWithString:@"Object is not Connected."];
-		[[errorDescription retain] autorelease];
-		
+		[self setErrorDescription:[NSString stringWithString:@"Object is not Connected."]];		
 		return nil; 
 	}
 	
 	res = PQexec(pgconn, [sql cString]);
 	if (PQresultStatus(res) != PGRES_COMMAND_OK) 
 	{
-		[errorDescription release];
-		errorDescription = [[NSString alloc] initWithString:@"Command failed."];
-		[[errorDescription retain] autorelease];
+		[self setErrorDescription:[NSString stringWithString:@"Command failed."]];
 		PQclear(res);
 		return nil;
     }
@@ -495,11 +513,9 @@ handle_pq_notice(void *arg, const char *message)
 	char buffer[512];
 	PGcancel * pg_cancel = PQgetCancel(pgconn);
 	
-	result = PQcancel(pg_cancel, buffer, 512);
-	
+	result = PQcancel(pg_cancel, buffer, 512);	
 	PQfreeCancel(pg_cancel);
-	[errorDescription release];
-	errorDescription = [[NSString alloc] initWithFormat:@"%s", buffer];
+	[self setErrorDescription:[NSString stringWithFormat:@"%s", buffer]];
 	return result;
 }
 

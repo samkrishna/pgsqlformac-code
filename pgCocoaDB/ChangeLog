@@ -1,3 +1,10 @@
+2006-07-16 18:13  ntiffin
+
+	* ChangeLog, Connection.h, Connection.m, ExplorerModel.m,
+	  ExplorerNode.h, ExplorerNode.m, Schema.h, Schema.m,
+	  UnitTest/pgCocoaDBSchemaTest.m: Add color to Explorer View, add
+	  index count function.
+
 2006-06-24 11:16  ntiffin
 
 	* Connection.h, Connection.m, ExplorerModel.m, Schema.m: Add SQL
@@ -41,6 +48,12 @@
 
 	* ChangeLog: Update ChangeLog.
 
+2006-05-13 13:04  ntiffin
+
+	* ChangeLog, ExplorerModel.h, ExplorerModel.m, ExplorerNode.h,
+	  ExplorerNode.m: More tweeks to get Explorer working with
+	  QueryTool. Re-sync after sourceforge cvs outage.
+
 2006-05-07 12:32  ntiffin
 
 	* ChangeLog, DataSource.m, Databases.m, ExplorerModel.h,
@@ -70,7 +83,9 @@
 
 2006-03-15 18:01  ntiffin
 
-	* UnitTest/pgCocoaDBSchemaTest.m: First pass at Explorer logic.
+	* ExplorerModel.h, ExplorerModel.m, ExplorerNode.h, ExplorerNode.m,
+	  Schema.h, Schema.m, UnitTest/pgCocoaDBSchemaTest.m: First pass at
+	  Explorer logic.
 
 2006-03-12 10:33  ntiffin
 

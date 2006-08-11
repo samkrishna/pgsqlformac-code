@@ -78,7 +78,8 @@
 	[titleNode setParent:aParent];
 	[titleNode setBaseTable:tableName];
 	[titleNode setBaseSchema:schemaName];
-	[aParent addChild:titleNode];		
+	[aParent addChild:titleNode];
+	[titleNode release];
 	
 	//NSLog(@"Processing %@ - %@", schemaName, tableName); 
 	results = [schema getTableColumnNamesFromSchema:schemaName fromTableName:tableName];
@@ -154,7 +155,8 @@
 	[titleNode setExplorerType:@"Trigger Title"];
 	[titleNode setParent:aParent];
 	[aParent addChild:titleNode];		
-
+	[titleNode release];
+	
 	results = [schema getTriggerNamesFromSchema:schemaName fromTableName:tableName];
 	for (i = 0; i < [results count]; i++)
 	{
@@ -186,6 +188,7 @@
 	[titleNode setExplorerType:@"Constraint Title"];
 	[titleNode setParent:aParent];
 	[aParent addChild:titleNode];		
+	[titleNode release];
 
 	results = [schema getConstraintNamesFromSchema:schemaName fromTableName:tableName];
 	for (i = 0; i < [results count]; i++)
@@ -219,6 +222,7 @@
 	[titleNode setExplorerType:@"Index Title"];
 	[titleNode setParent:aParent];
 	[aParent addChild:titleNode];	
+	[titleNode release];
 	
 	results = [schema getIndexNamesFromSchema:schemaName fromTableName:tableName];
 	for (i = 0; i < [results count]; i++)
@@ -305,7 +309,6 @@
 	for (i = 0; i < [results count]; i++)
 	{
 		schemaName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
-
 		// skip some schemas
 		if ([schemaName isCaseInsensitiveLike:@"information_schema"])
 		{
@@ -473,12 +476,14 @@
     // What is returned depends upon which column it is going to appear.
     if ([identifier isEqual:@"col1"])
 	{
-		if ([[item explorerType] isEqualToString:@"Schema Child"] )
+		NSRange range = [[item explorerType] rangeOfString:@"Title"];
+		if (([[item explorerType] isEqualToString:@"Schema Child"] ) || (range.length != 0))
 		{
 			NSDictionary *attributes = [[NSDictionary alloc] initWithObjectsAndKeys:[NSColor blueColor], NSForegroundColorAttributeName, nil];
-			NSAttributedString *myString = [[NSAttributedString alloc] initWithString:[item name] attributes: attributes];
+			NSAttributedString *myString = [[[NSAttributedString alloc] initWithString:[item name] attributes: attributes] autorelease];
+			[attributes release];
 			return myString;
-		}
+		}		
 		else
 		{
 				return  [item name];

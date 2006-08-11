@@ -16,5 +16,4 @@
 
 - (Fields *)fields;
 
-
 @end

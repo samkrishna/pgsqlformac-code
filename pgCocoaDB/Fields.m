@@ -21,14 +21,22 @@
     return self;
 }
 
+-(void)dealloc
+{
+	[items removeAllObjects];
+	[items release];
+	
+	[super dealloc];
+}
+
 // collection management
 
 - (Field *)addItem
 {
     Field *newItem = [[Field alloc] init];
-    [newItem retain];
     
     [items addObject: newItem];
+	[newItem release];
     return newItem;    
 }
 

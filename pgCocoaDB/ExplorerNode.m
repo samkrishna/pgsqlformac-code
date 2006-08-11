@@ -22,14 +22,7 @@
 
 -(void)dealloc
 {
-	id node;
-	
-	while([children count] != 0)
-	{
-		node = [children lastObject];
-		[children removeLastObject];
-		[node release];
-	}
+	[children removeAllObjects];	
 	[children release];
 	children = nil;
 	
@@ -161,8 +154,7 @@
 - (void)addChild:(ExplorerNode *)n
 {
 	[n setParent:self];
-	[n retain];
-    [children addObject:n];	
+    [children addObject:n];
 }
 
 - (int)childrenCount

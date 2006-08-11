@@ -63,6 +63,7 @@
 - (void)setPassword:(NSString *)value;
 
 - (NSString *)errorDescription;
+- (void)setErrorDescription:(NSString *)ed;
 
 - (NSMutableString *)sqlLog;
 - (void)setSQLLog:(NSString *)value;

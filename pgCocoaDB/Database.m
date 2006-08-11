@@ -14,14 +14,20 @@
 {
 	self = [super init];
 	
-	name = [[[[NSString alloc] init] retain] autorelease];
+	name = nil;
 	
 	return self;
 }
 
+-(void)dealloc
+{
+	[name release];
+	[super dealloc];
+}
+
 - (NSString *)name 
 {
-    return [[name retain] autorelease];
+    return name;
 }
 
 - (void)setName:(NSString *)newName 

@@ -15,9 +15,16 @@
     [super init];
     
     items = [[NSMutableArray alloc] init];
-    [items retain];
     
     return self;
+}
+
+-(void)dealloc
+{
+	[items removeAllObjects];
+	[items release];
+	
+	[super dealloc];
 }
 
 // collection management
@@ -25,9 +32,9 @@
 - (NSMutableDictionary *)addItem
 {
     NSMutableDictionary *newItem = [[NSMutableDictionary alloc] init];
-    [newItem retain];
     
     [items addObject: newItem];
+	[newItem release];
     return newItem;    
 }
 

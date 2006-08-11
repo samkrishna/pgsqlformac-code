@@ -15,14 +15,21 @@
 {
     [super init];
     
-    fields = [[[[Fields alloc] init] retain] autorelease];
+    fields = [[Fields alloc] init];
     
     return self;
 }
 
+-(void)dealloc
+{
+	[fields release];
+	
+	[super dealloc];
+}
+
 - (Fields *)fields 
 {
-    return [[fields retain] autorelease];
+    return fields;
 }
 
 - (NSString *)description
