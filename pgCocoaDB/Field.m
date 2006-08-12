@@ -15,8 +15,8 @@
 {
     [super init];
     
-    name = [[[[NSString alloc] init] retain] autorelease];
-    value = [[[[NSString alloc] init] retain] autorelease];
+    name = nil;
+    value = nil;
     
     return self;
 }
@@ -37,7 +37,8 @@
 - (void)setName:(NSString *)newName {
     if (name != newName) {
         [name release];
-        name = [newName copy];
+        name = newName;
+		[name retain];
     }
 }
 
@@ -48,7 +49,8 @@
 - (void)setValue:(NSString *)newValue {
     if (value != newValue) {
         [value release];
-        value = [newValue copy];
+        value = newValue;
+		[value retain];
     }
 }
 

@@ -11,6 +11,13 @@
 
 @implementation Table
 
+-(id)init
+{
+	[super init];
+	NSLog(@"Created Table.h");
+	return self;
+}
+
 -(void)dealloc
 {
 	[schema release];

@@ -90,7 +90,6 @@
 {
 	[name release];
 	name = [[NSAttributedString alloc] initWithString:s];
-	[name retain];
 }
 
 -(void)setNameColor:(NSColor *)s

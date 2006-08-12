@@ -168,21 +168,10 @@
 -(void)setNewExplorerConn
 {
 	// create the schema explorer
-	if (explorer)	// we have already come through
-	{
-		ExplorerModel *tmp = explorer;
-		
-		explorer =[[ExplorerModel alloc] initWithConnection: conn];
-		[schemaView setDataSource:explorer]; // explorer does the work.
-		[schemaView setMenuActionTarget:self];
-		[tmp release];
-	}
-	else
-	{
-		explorer =[[ExplorerModel alloc] initWithConnection: conn];
-		[schemaView setDataSource:explorer]; // explorer does the work.
-		[schemaView setMenuActionTarget:self];
-	}
+	[explorer release];
+	explorer =[[ExplorerModel alloc] initWithConnection: conn];
+	[schemaView setDataSource:explorer]; // explorer does the work.
+	[schemaView setMenuActionTarget:self];
 	//[explorer printLog];
 
 	// set explorer display defaults from NSUserDefaults

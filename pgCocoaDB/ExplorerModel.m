@@ -105,9 +105,8 @@
 				[newNode setBaseTable:tableName];
 				[newNode setBaseSchema:schemaName];
 				[titleNode addChild:newNode];
-				
-				[newNode release];
 			}
+			[newNode release];
 		}
 	}
 }

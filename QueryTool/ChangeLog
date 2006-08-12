@@ -1,3 +1,7 @@
+2006-08-11 13:03  ntiffin
+
+	* ChangeLog, SqlDocument.m: Fix some compiler warnings.
+
 2006-07-16 18:17  ntiffin
 
 	* ChangeLog, MyOutlineView.h, MyOutlineView.m, MyResultsView.h,

@@ -32,8 +32,8 @@ handle_pq_notice(void *arg, const char *message)
 	
 	host = [[NSString alloc] initWithString:@"localhost"];
 	port = [[NSString alloc] initWithString:@"5432"];
-	options = [[NSString alloc] init];
-	tty = [[NSString alloc] init];
+	options = nil;
+	tty = nil;
 	dbName = [[NSString alloc] initWithString:@"template1"];
 	
 	dbs = nil;
@@ -84,9 +84,7 @@ handle_pq_notice(void *arg, const char *message)
 	{
 		NSLog(@"Connection to database '%@' failed.", dbName);
 		NSLog(@"\t%s", PQerrorMessage(pgconn));
-		[errorDescription release];
-		errorDescription = [[NSString alloc] initWithFormat:@"%s", PQerrorMessage(pgconn)];
-		[[errorDescription retain] autorelease];
+		[self setErrorDescription:[NSString stringWithFormat:@"%s", PQerrorMessage(pgconn)]];
 		[self appendSQLLog:[NSMutableString stringWithFormat:@"Connection to database %@ Failed.\n", dbName]];
 
 		PQfinish(pgconn);
@@ -259,15 +257,14 @@ handle_pq_notice(void *arg, const char *message)
 	res = PQexec(pgconn, [sql cString]);
 	if (PQresultStatus(res) != PGRES_TUPLES_OK) 
 	{
-		[errorDescription release];
-		errorDescription = [[NSString alloc] initWithString:@"Command did not return any data."];
-		[[errorDescription retain] autorelease];
+		[self setErrorDescription:[NSString stringWithString:@"Command did not return any data."]];
 		PQclear(res);
 		return nil;
     }
 	
 	// build the collection
-	dbs = [[[[Databases alloc] init] retain] autorelease];
+	[dbs release];
+	dbs = [[Databases alloc] init];
 	long nFields = PQnfields(res);
 	long nRecords = PQntuples(res);
 	long i = 0;
@@ -280,7 +277,7 @@ handle_pq_notice(void *arg, const char *message)
 		long x = 0;
 		for  ( x = 0; x < nFields; x++)
 		{
-			NSString *fValue = [[NSString alloc] initWithCString:PQgetvalue(res, i, x)];
+			NSString *fValue = [[[NSString alloc] initWithCString:PQgetvalue(res, i, x)] autorelease];
 			
 			switch (x)
 			{
@@ -319,9 +316,9 @@ handle_pq_notice(void *arg, const char *message)
 
 - (void)setErrorDescription:(NSString *)ed;
 {
+	[ed retain];
 	[errorDescription release];
 	errorDescription = ed;
-	[errorDescription retain];
 }
 
 
@@ -334,16 +331,14 @@ handle_pq_notice(void *arg, const char *message)
 - (void)setSQLLog:(NSString *)value 
 {
 	[sqlLog release];
-	sqlLog = [NSMutableString stringWithString:value];
-	[sqlLog retain];
+	sqlLog = [[NSMutableString alloc] initWithString:value];
 }
 
 - (void)appendSQLLog:(NSString *)value 
 {
 	if (sqlLog == nil)
 	{
-		sqlLog = [NSMutableString stringWithString:value];
-		[sqlLog retain];
+		sqlLog = [[NSMutableString alloc] initWithString:value];
 	}
 	else
 	{
@@ -500,9 +495,9 @@ handle_pq_notice(void *arg, const char *message)
     }
 	if (strlen(PQcmdStatus(res)))
 	{
-		[self appendSQLLog:[[NSString alloc] initWithFormat:@"%s\n", PQcmdStatus(res)]];
+		[self appendSQLLog:[NSString stringWithFormat:@"%s\n", PQcmdStatus(res)]];
 	}
-	results = [[[[NSString alloc] initWithCString:PQcmdTuples(res)] retain] autorelease];
+	results = [[[NSString alloc] initWithCString:PQcmdTuples(res)] autorelease];
 	PQclear(res);	
 	return results;
 }

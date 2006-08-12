@@ -22,6 +22,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	Field * versionField;
 	
 	[super init];
+	[connection release];
 	connection = theConnection;
 	[connection retain];
 	publicSchemaName = [[NSString alloc] initWithString: @"public"];
@@ -38,7 +39,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	{
 		// TODO not found raise error?
 
-		NSLog(@"Did not find PostgreSQL version 8");
+		NSLog(@"Did not find PostgreSQL version 8.1");
 		NSLog(sql);
 		NSLog(pgVersionFound);
 	}
@@ -524,7 +525,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 {
 	RecordSet *results;
 	int i;
-	NSMutableString * sqlOutput = [[NSMutableString alloc] init];
+	NSMutableString * sqlOutput = [[[NSMutableString alloc] init] autorelease];
 	[sqlOutput appendFormat:@"CREATE TABLE %@.%@ ( ", schemaName, tableName];
 	if (pretty)
 	{
@@ -582,7 +583,6 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	{
 		[sqlOutput appendString:@" );"];
 	}
-	[sqlOutput autorelease];
 	return sqlOutput;
 }
 

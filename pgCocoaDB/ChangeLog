@@ -1,3 +1,10 @@
+2006-08-11 13:01  ntiffin
+
+	* ChangeLog, Connection.h, Connection.m, DataSource.m, Database.m,
+	  Databases.m, ExplorerModel.m, ExplorerNode.m, Field.m, Fields.m,
+	  Record.h, Record.m, RecordSet.m, Table.m: Fix a number of memory
+	  issues.
+
 2006-07-16 18:13  ntiffin
 
 	* ChangeLog, Connection.h, Connection.m, ExplorerModel.m,

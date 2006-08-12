@@ -16,7 +16,6 @@
     [super init];
     
     items = [[NSMutableArray alloc] init];
-    [items retain];
     
     return self;
 }
