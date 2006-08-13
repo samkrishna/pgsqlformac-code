@@ -11,7 +11,9 @@ TODO - Features, Functions and Warnings (in priority order)
 
 - 2006-06-24 Add command to clear SQL Log.
 
+- 2006-08-13 SQL Log does not contain enough information.
 
+- 2006-08-13 Move Schema reading to another thread.  Make it load in parallel.
 
 FIXME (Known Errors)
 ====================
@@ -21,6 +23,10 @@ FIXME (Known Errors)
 
 Completed
 =========
+- 2006-08-13 Fix bug with incorrect release of explorer whil display was still using it.
+
+- 2006-08-13 Restructure ExplorerModel initWithConnection to respect display user defaults (ie setShowPGCatalog).
+
 - 2006-07-16 Fix TODO for autoincrementing index names
 
 - 2006-07-16 Use color to separate tables names and other database structure names from actual meta data.

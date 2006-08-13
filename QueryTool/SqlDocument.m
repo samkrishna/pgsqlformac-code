@@ -167,19 +167,24 @@
 
 -(void)setNewExplorerConn
 {
-	// create the schema explorer
-	[explorer release];
+	ExplorerModel *newExplorer = [[ExplorerModel alloc] initRebuilding];
+	[schemaView setDataSource:newExplorer];
+	[explorer autorelease];
+	
+	// change the schema explorer
 	explorer =[[ExplorerModel alloc] initWithConnection: conn];
-	[schemaView setDataSource:explorer]; // explorer does the work.
-	[schemaView setMenuActionTarget:self];
-	//[explorer printLog];
-
 	// set explorer display defaults from NSUserDefaults
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 	[explorer setShowInformationSchema:[userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowInformationSchema"]];
 	[explorer setShowPGCatalog:[userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowPGCatalogSchema"]];
 	[explorer setShowPGToast:[userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowPGToastSchema"]];
 	[explorer setShowPGTemps:[userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowPGTempsSchema"]];
+
+	[explorer buildSchema];
+	[schemaView setDataSource:explorer]; // explorer does the work.
+	[schemaView setMenuActionTarget:self];
+	[newExplorer autorelease];
+	//[explorer printLog];
 }	
 
 - (IBAction)onConnect:(id)sender
