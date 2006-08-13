@@ -277,25 +277,52 @@
 	}
 }
 
+- (id)initRebuilding
+{
+	[super init];
+	
+	schema = nil;
+	connection = nil;
+	rootNode = [[ExplorerNode alloc] init];
+    [rootNode setName: @"Rebuilding"];
+	[rootNode setBaseTable: @""];
+	[rootNode setExplorerType:@"Database"];
+	[rootNode setParent:nil];
+	[rootNode setOID:0];
+	
+	return self;
+}
+
 
 - (id)initWithConnection:(Connection *) theConnection
 {
 	[super init];
 	
+	connection = theConnection;
+	schema = [[Schema alloc] initWithConnection:connection];
 	showInformationSchema = TRUE;
 	showPGCatalog = TRUE;
 	showPGToast = FALSE;
 	showPGTemps = FALSE;
-	
+	return self;
+}
+
+
+- (void)buildSchema
+{
 	ExplorerNode * newNode;
 	ExplorerNode * newChild;
 	RecordSet * results;
 
-	schema = [[Schema alloc] initWithConnection:theConnection];
+	if ((connection == nil) || (schema == nil))
+	{
+		NSLog(@"Attempted to buildSchema without proper init.");
+		return;
+	}
 	
 	// set database level
     rootNode = [[ExplorerNode alloc] init];
-    [rootNode setName: [theConnection currentDatabase]];
+    [rootNode setName: [connection currentDatabase]];
 	[rootNode setBaseTable: @""];
 	[rootNode setExplorerType:@"Database"];
 	[rootNode setParent:nil];
@@ -380,7 +407,7 @@
 		[rootNode addChild: newNode];
 		[newNode release];
 	}
-	return self;
+	return;
 }
 
 - (void)dealloc
@@ -389,6 +416,13 @@
 	[rootNode release];
 	[schema release];
 	[super dealloc];
+}
+
+-(void)setSchema:(Schema *)newSchema
+{
+	[schema release];
+	schema = newSchema;
+	[schema retain];
 }
 
 // accessor methods

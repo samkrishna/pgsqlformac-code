@@ -1,3 +1,9 @@
+2006-08-12 11:38  ntiffin
+
+	* ChangeLog, Connection.m, Databases.m, ExplorerModel.m,
+	  ExplorerNode.m, Field.m, Fields.m, RecordSet.m, Schema.m,
+	  Table.m: More memory cleanup.
+
 2006-08-11 13:01  ntiffin
 
 	* ChangeLog, Connection.h, Connection.m, DataSource.m, Database.m,

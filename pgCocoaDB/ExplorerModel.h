@@ -17,13 +17,17 @@
 	ExplorerNode * rootNode;
 	Connection * connection;
 	Schema * schema;
-	bool showInformationSchema;	//TODO
-	bool showPGCatalog;	//TODO
-	bool showPGToast;	//TODO
-	bool showPGTemps;	//TODO
+	bool showInformationSchema;
+	bool showPGCatalog;
+	bool showPGToast;
+	bool showPGTemps;
 }
 
 - (id)initWithConnection:(Connection *) aConnection;
+- (id)initRebuilding;
+- (void)buildSchema;
+
+-(void)setSchema:(Schema *)newSchema;
 - (Schema *)schema;
 - (bool)showInformationSchema;
 - (bool)showPGCatalog;

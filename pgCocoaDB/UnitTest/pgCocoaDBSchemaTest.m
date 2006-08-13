@@ -968,10 +968,10 @@ $time_stamp$ LANGUAGE plpgsql; "];
 -(void)testExplorer
 {
 	ExplorerModel *explorer = [[ExplorerModel alloc] initWithConnection:conn];
+	[explorer buildSchema];
 	
 	[explorer printLog];
-	
-	[explorer release];
+	[explorer autorelease];
 }
 
 -(void)testLocks
