@@ -97,6 +97,12 @@
 			[columnMenu addItem: newItem];
 
 			newItem = [[NSMenuItem alloc] init];
+			[newItem setTitle:@"ALTER TABLE <tab> ALTER COLUMN <col> TYPE <type>"];
+			[newItem setTarget: menuActionTarget];
+			[newItem setAction: @selector(onSelectAlterTabAlterColMenuItem:)];
+			[columnMenu addItem: newItem];
+
+			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"ALTER TABLE <tab> ADD COLUMN <col> <type>"];
 			[newItem setTarget: menuActionTarget];
 			[newItem setAction: @selector(onSelectAlterAddColMenuItem:)];

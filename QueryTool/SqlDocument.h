@@ -100,6 +100,7 @@
 - (void)onSelectAlterRenameColMenuItem:(id)sender;
 - (void)onSelectCreateTabColsMenuItem:(id)sender;
 - (void)onSelectDropColMenuItem:(id)sender;
+- (void)onSelectAlterTabAlterColMenuItem:(id)sender;
 
 // Views
 - (void)onSelectCreateViewMenuItem:(id)sender;

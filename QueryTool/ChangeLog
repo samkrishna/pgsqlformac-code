@@ -1,3 +1,8 @@
+2006-08-13 18:54  ntiffin
+
+	* ChangeLog, SqlDocument.m, TODO.txt: Fix bug associated with
+	  releaseing explorer too early.
+
 2006-08-12 11:39  ntiffin
 
 	* ChangeLog, DataSource.m, SqlDocument.m: More memory cleanup.

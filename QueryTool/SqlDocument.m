@@ -711,7 +711,7 @@
 	NSString *schemaName = [[schemaView itemAtRow:currentIndex] baseSchema];
 	NSAssert(tableName,@"onSelectCreateUniqIndexOnColsMenuItem: no table name.");
 	NSAssert(schemaName, @"onSelectCreateUniqIndexOnColsMenuItem: no schema name.");
-	bool first = true;
+	BOOL first = true;
 	int indexCount = [[explorer schema] getIndexCountFromSchema:schemaName fromTableName:tableName] + 1;
 	
 	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
@@ -729,8 +729,12 @@
 	[query insertText:sql];
 }
 
-- (void)onSelectAlterAddColMenuItem:(id)sender
+// ALTER TABLE distributors
+//		ALTER COLUMN address TYPE varchar(80),
+//		ALTER COLUMN name TYPE varchar(100);
+- (void)onSelectAlterTabAlterColMenuItem:(id)sender
 {
+	BOOL first = true;
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
@@ -738,12 +742,25 @@
 	NSAssert(tableName,@"onSelectCreateViewMenuItem: no table name.");
 	NSAssert(schemaName, @"onSelectCreateViewMenuItem: no schema name.");
 	
-	NSString *sql = [NSString stringWithFormat:@"TODO %@ %@\n", schemaName, tableName];
+	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
+	[sql appendFormat:@"ALTER TABLE %@.%@\n", schemaName, tableName];
+	while (currentRow != NSNotFound) {
+		if (!first)
+		{
+			[sql appendString:@", \n"];
+		}
+		[sql appendFormat:@"    ALTER COLUMN %@ TYPE %@", [[schemaView itemAtRow:currentRow] name], [[schemaView itemAtRow:currentRow] displayColumn2]];
+		currentRow = [theRows indexGreaterThanIndex: currentRow];
+		first = false;
+	}
+	[sql appendString:@";\n"];
 	[query insertText:sql];
 }
 
-- (void)onSelectAlterRenameColMenuItem:(id)sender
+//ALTER TABLE distributors ADD COLUMN address varchar(30);
+- (void)onSelectAlterAddColMenuItem:(id)sender
 {
+	BOOL first = true;
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
@@ -751,7 +768,44 @@
 	NSAssert(tableName,@"onSelectCreateViewMenuItem: no table name.");
 	NSAssert(schemaName, @"onSelectCreateViewMenuItem: no schema name.");
 	
-	NSString *sql = [NSString stringWithFormat:@"TODO %@ %@\n", schemaName, tableName];
+	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
+	[sql appendFormat:@"ALTER TABLE %@.%@\n", schemaName, tableName];
+	while (currentRow != NSNotFound) {
+		if (!first)
+		{
+			[sql appendString:@", \n"];
+		}
+		[sql appendFormat:@"    ADD COLUMN %@ %@", [[schemaView itemAtRow:currentRow] name], [[schemaView itemAtRow:currentRow] displayColumn2]];
+		currentRow = [theRows indexGreaterThanIndex: currentRow];
+		first = false;
+	}
+	[sql appendString:@";\n"];
+	[query insertText:sql];
+}
+
+//ALTER TABLE distributors RENAME COLUMN address TO city;
+- (void)onSelectAlterRenameColMenuItem:(id)sender
+{
+	BOOL first = true;
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	NSAssert(tableName,@"onSelectCreateViewMenuItem: no table name.");
+	NSAssert(schemaName, @"onSelectCreateViewMenuItem: no schema name.");
+	
+	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
+	[sql appendFormat:@"ALTER TABLE %@.%@\n", schemaName, tableName];
+	while (currentRow != NSNotFound) {
+		if (!first)
+		{
+			[sql appendString:@", \n"];
+		}
+		[sql appendFormat:@"    RENAME COLUMN %@ TO <New Name>", [[schemaView itemAtRow:currentRow] name]];
+		currentRow = [theRows indexGreaterThanIndex: currentRow];
+		first = false;
+	}
+	[sql appendString:@";\n"];
 	[query insertText:sql];
 }
 
@@ -784,6 +838,7 @@
 
 - (void)onSelectDropColMenuItem:(id)sender
 {
+	BOOL first = true;
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
@@ -791,7 +846,18 @@
 	NSAssert(tableName,@"onSelectCreateViewMenuItem: no table name.");
 	NSAssert(schemaName, @"onSelectCreateViewMenuItem: no schema name.");
 	
-	NSString *sql = [NSString stringWithFormat:@"TODO %@ %@\n", schemaName, tableName];
+	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
+	[sql appendFormat:@"ALTER TABLE %@.%@\n", schemaName, tableName];
+	while (currentRow != NSNotFound) {
+		if (!first)
+		{
+			[sql appendString:@", \n"];
+		}
+		[sql appendFormat:@"    DROP COLUMN %@", [[schemaView itemAtRow:currentRow] name]];
+		currentRow = [theRows indexGreaterThanIndex: currentRow];
+		first = false;
+	}
+	[sql appendString:@";\n"];
 	[query insertText:sql];
 }
 
