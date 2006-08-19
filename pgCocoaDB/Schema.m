@@ -285,6 +285,30 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	return [connection execQueryNoLog:sql];
 }
 
+//select indexname from pg_indexes where schemaname = 'public' AND tablename = 'file_monitor_names';
+//SELECT attname FROM pg_catalog.pg_attribute, pg_catalog.pg_class
+//where pg_attribute.attrelid = pg_class.oid
+//AND relname LIKE 'file_monitor_names_file_set_name_key';
+
+-(RecordSet *)getIndexColumnNamesFromSchema:(NSString *)schemaName fromTableName:(NSString *)tableName fromIndexName:(NSString *)indexName
+{
+	NSString *sql;
+	sql = [NSString stringWithFormat:@"SELECT attname \
+	FROM pg_index x \
+	JOIN pg_class c ON c.oid = x.indrelid \
+	JOIN pg_class i ON i.oid = x.indexrelid \
+	JOIN pg_attribute a ON a. attrelid = i.oid \
+	JOIN pg_namespace n ON n.oid = c.relnamespace \
+	WHERE c.relkind = 'r'::\"char\" AND i.relkind = 'i'::\"char\" \
+	AND c.relname = '%@' \
+	AND n.nspname = '%@' \
+	AND i.relname = '%@'", tableName, schemaName, indexName];
+#if PGCOCOA_LOG_SQL
+	NSLog(sql);
+#endif
+		
+	return [connection execQueryNoLog:sql];
+}
 
 -(RecordSet *)getTableColumnNamesFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName;
 {

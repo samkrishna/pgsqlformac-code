@@ -40,6 +40,7 @@
 -(RecordSet *)getDatabaseNames;
 -(RecordSet *)getFunctionNamesFromSchema:(NSString *)schemaName;
 -(RecordSet *)getIndexNamesFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName;
+-(RecordSet *)getIndexColumnNamesFromSchema:(NSString *)schemaName fromTableName:(NSString *)tableName fromIndexName:(NSString *)indexName;
 -(RecordSet *)getSchemaNames;
 -(RecordSet *)getSequenceColumnNamesFromSchema:(NSString *)schemaName fromSequence:(NSString *)sequenceName;
 -(RecordSet *)getSequenceNamesFromSchema:(NSString *)schemaName;

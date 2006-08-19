@@ -208,6 +208,29 @@
 }
 
 
+- (void)createIndexColumnNodes:(ExplorerNode *)aParent fromSchemaName:(NSString *)schemaName fromTableName:(NSString *)tableName fromIndexName:(NSString *)indexName
+{
+	RecordSet * results;
+	ExplorerNode * newNode;
+	NSString * colName;
+	int i;
+		
+	results = [schema getIndexColumnNamesFromSchema:schemaName fromTableName:tableName fromIndexName:indexName];
+	for (i = 0; i < [results count]; i++)
+	{
+		newNode = [[ExplorerNode alloc] init];
+		colName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
+		[newNode setName:colName];
+		[newNode setExplorerType:@"Index Column"];
+		[newNode setParent:aParent];
+		[newNode setBaseTable:tableName];
+		[newNode setBaseSchema:schemaName];
+		[aParent addChild:newNode];
+		
+		[newNode release];
+	}
+}
+
 - (void)createIndexNodes:(ExplorerNode *)aParent fromSchemaName:(NSString *)schemaName fromTableName:(NSString *)tableName
 {
 	RecordSet * results;
@@ -233,9 +256,11 @@
 		[newNode setParent:titleNode];
 		[newNode setBaseTable:tableName];
 		[newNode setBaseSchema:schemaName];
-		//[newNode setDisplayColumn2:[schema getIndexSQLFromSchema:schemaName fromTableName:tableName fromIndexName:indexName]];
+		// TODO this should only display column names.
+		[newNode setDisplayColumn2:[schema getIndexSQLFromSchema:schemaName fromTableName:tableName fromIndexName:indexName]];
 		[titleNode addChild:newNode];
 
+		[self createIndexColumnNodes:newNode fromSchemaName:schemaName fromTableName:tableName fromIndexName:indexName];
 		[newNode release];
 	}
 }

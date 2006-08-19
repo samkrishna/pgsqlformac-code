@@ -20,7 +20,7 @@ NSString* const PGCocoaTestSchema = @"pgcocoa_test_schema";
 NSString* const PGCocoaTestUser = @"ntiffin";
 NSString* const PGCocoaTestPassword = @"";
 NSString* const PGCocoaTestHost = @"localhost";
-NSString* const PGCocoaTestPort = @"5432";
+NSString* const PGCocoaTestPort = @"5433";
 
 // Uncomment the following line to automatically drop and recreate the test database.
 //#define DROP_EXISTING_DATABASE 1
@@ -992,5 +992,41 @@ $time_stamp$ LANGUAGE plpgsql; "];
 	}	
 }
 
+-(void)testIndexColumns
+{
+	RecordSet * results;
+	unsigned int i;
+	NSNumber *aFoundCount = [NSNumber numberWithInt:0];
+	NSArray * columnCount = [NSArray arrayWithObjects: aFoundCount, nil];
+	NSArray * columnNames = [NSArray arrayWithObjects: @"address_id", nil];
+	NSMutableDictionary * columnLookup = [[NSMutableDictionary alloc] initWithObjects:columnCount forKeys:columnNames];
+	NSString* aColumnName;
+	NSNumber *newValue;
+	
+	results = [testSchema getIndexColumnNamesFromSchema:PGCocoaTestSchema fromTableName:@"address" fromIndexName:@"address_pkey"];
+	STAssertTrue([results count] == 1, @"Too many columns for index address_pkey on table address.");
+	for (i = 0; i < [results count]; i++)
+	{
+		aColumnName = [[[[results itemAtIndex: i] fields] itemAtIndex:0] value];
+		aFoundCount = [columnLookup objectForKey: aColumnName];
+		if (aFoundCount != nil)
+		{
+			newValue =  [NSNumber numberWithInt:[aFoundCount intValue]+1];
+			[columnLookup setObject:newValue forKey:aColumnName];
+		}
+		else
+		{
+			STFail(@"Found extra column name (%@) in index %@.", aColumnName, @"address_pkey");
+		}
+	}
+	
+	NSLog(@"Checking columns in index %@:", @"address_pkey");
+	NSEnumerator *enumerator = [columnLookup keyEnumerator];
+	while ((aColumnName = [enumerator nextObject])) {
+		aFoundCount = [columnLookup objectForKey: aColumnName];
+		NSLog(@"    %@ count = %d.", aColumnName, [aFoundCount intValue]);
+		STAssertTrue([aFoundCount intValue] == 1, @"Problem finding column name (%@) in index %@.", aColumnName, @"address_pkey");
+	}
+}
 @end
 

@@ -1,3 +1,9 @@
+2006-08-13 18:50  ntiffin
+
+	* ChangeLog, ExplorerModel.h, ExplorerModel.m,
+	  UnitTest/pgCocoaDBSchemaTest.m: Explorer API change to accomodate
+	  preferences.
+
 2006-08-12 11:38  ntiffin
 
 	* ChangeLog, Connection.m, Databases.m, ExplorerModel.m,
