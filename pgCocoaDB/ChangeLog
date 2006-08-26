@@ -1,3 +1,9 @@
+2006-08-19 07:06  ntiffin
+
+	* ChangeLog, ExplorerModel.m, Schema.h, Schema.m,
+	  UnitTest/pgCocoaDBSchemaTest.m: Add display of index column
+	  names.
+
 2006-08-13 18:50  ntiffin
 
 	* ChangeLog, ExplorerModel.h, ExplorerModel.m,

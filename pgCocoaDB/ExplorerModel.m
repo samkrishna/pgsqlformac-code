@@ -133,7 +133,7 @@
 		// do columns
 		[self createColumnNodes:newNode fromSchemaName:schemaName fromTableName:viewName];
 
-		// TODO get indexes and other ??
+		// TODO get indexes and other for views?
 		[aParent addChild:newNode];
 
 		[newNode release];
@@ -256,7 +256,6 @@
 		[newNode setParent:titleNode];
 		[newNode setBaseTable:tableName];
 		[newNode setBaseSchema:schemaName];
-		// TODO this should only display column names.
 		[newNode setDisplayColumn2:[schema getIndexSQLFromSchema:schemaName fromTableName:tableName fromIndexName:indexName]];
 		[titleNode addChild:newNode];
 
@@ -323,6 +322,7 @@
 {
 	[super init];
 	
+	// TODO clone this connection so we can multi-thread
 	connection = theConnection;
 	schema = [[Schema alloc] initWithConnection:connection];
 	showInformationSchema = TRUE;

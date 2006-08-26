@@ -39,7 +39,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	{
 		// TODO not found raise error?
 
-		NSLog(@"Did not find PostgreSQL version 8.1");
+		NSLog(@"Did not find PostgreSQL version 8.1: %@", pgVersionFound);
 		NSLog(sql);
 		NSLog(pgVersionFound);
 	}

@@ -133,30 +133,29 @@ static BOOL databaseCreated = NO;
 	[conn execQuery:sql];
 	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 
-	// TODO check if function exists
-	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "CREATE or REPLACE FUNCTION ", PGCocoaTestDatabase, PGCocoaTestSchema, "create_time_stamp() RETURNS trigger AS $time_stamp$ \
-	BEGIN \
-		NEW.create_time := current_timestamp; \
-		RETURN NEW; \
-	END; \
-	$time_stamp$ LANGUAGE plpgsql; "];
+	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "CREATE or REPLACE FUNCTION ", PGCocoaTestDatabase, PGCocoaTestSchema,
+		"create_time_stamp() RETURNS trigger AS $time_stamp$\n\
+BEGIN\n\
+    NEW.create_time := current_timestamp;\n\
+    RETURN NEW;\n\
+END;\n\
+$time_stamp$ LANGUAGE plpgsql;\n"];
 	[conn execQuery:sql];
 	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 
-	// TODO check if function exists
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "CREATE or REPLACE FUNCTION ", PGCocoaTestDatabase, PGCocoaTestSchema,
-		"update_time_stamp() RETURNS trigger AS $time_stamp$ \
-BEGIN \
-	NEW.update_time := current_timestamp; \
-	RETURN NEW; \
-END; \
-$time_stamp$ LANGUAGE plpgsql; "];
+		"update_time_stamp() RETURNS trigger AS $time_stamp$\n\
+BEGIN\n\
+    NEW.update_time := current_timestamp;\n\
+    RETURN NEW;\n\
+END;\n\
+$time_stamp$ LANGUAGE plpgsql;\n"];
 	[conn execQuery:sql];
 	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 	
 	// for testing query tool
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "CREATE or REPLACE FUNCTION ", PGCocoaTestDatabase, PGCocoaTestSchema,
-		"sum_n_product(x int, y int, OUT sum int, OUT prod int) AS $$\nBEGIN\n sum := x + y;\n prod := x * y;\nEND; $$ LANGUAGE plpgsql; "];
+		"sum_n_product(x int, y int, OUT sum int, OUT prod int) AS $$\nBEGIN\n sum := x + y;\n prod := x * y;\nEND;\n$$ LANGUAGE plpgsql;\n"];
 	[conn execQuery:sql];
 	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 	

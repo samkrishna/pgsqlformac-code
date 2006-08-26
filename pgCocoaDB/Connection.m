@@ -92,10 +92,16 @@ handle_pq_notice(void *arg, const char *message)
 		return NO;
     }
 	
-	if (errorDescription)
-		[errorDescription release];
-	errorDescription = nil;
+	// TODO if good connection should we remove password from memory
+	//	or should it be encrypted?
 	
+	// TODO password should be asked for in dialog used and then erased?
+	
+	if (errorDescription)
+	{
+		[errorDescription release];
+		errorDescription = nil;
+	}
 	// set up notification
 	PQsetNoticeProcessor(pgconn, handle_pq_notice, self);
 
