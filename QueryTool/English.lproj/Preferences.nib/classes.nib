@@ -1,0 +1,23 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {cancelPreferences = id; defaultPreferences = id; savePreferences = id; }; 
+            CLASS = PreferenceController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                prefLogAllSQL = NSButton; 
+                prefLogInfoMessages = NSButton; 
+                prefPostgresqlHelpURL = NSTextField; 
+                prefPostgresqlSQLURL = NSTextField; 
+                prefShowPGCatalogSchema = NSButton; 
+                prefShowPGInfoSchema = NSButton; 
+                prefShowPGPublicSchema = NSButton; 
+                prefShowPGTempSchema = NSButton; 
+                prefShowPGToastSchema = NSButton; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

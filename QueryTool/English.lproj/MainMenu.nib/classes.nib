@@ -1,6 +1,12 @@
 {
     IBClasses = (
         {
+            ACTIONS = {showPreferencePanel = id; }; 
+            CLASS = AppController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
             ACTIONS = {
                 onConnect = id; 
                 onDisconnect = id; 

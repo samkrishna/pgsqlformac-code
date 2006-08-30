@@ -14,6 +14,8 @@
 #import "MyOutlineView.h"
 #import "MyResultsView.h"
 
+@class PreferenceController;
+
 @interface SqlDocument : NSDocument
 {
 	// query window
@@ -47,6 +49,7 @@
 
 	ExplorerModel *explorer;   // ref to schema outline view data source
 	
+	// Non-Gui
 	NSString				*fileContent;
 	NSData					*fileData;
 	Connection				*conn;
@@ -116,5 +119,7 @@
 - (BOOL)isValueKeyword:(NSString *)value;
 - (void)setAttributesForWord:(NSRange)rangeOfCurrentWord;
 - (void)colorRange:(NSRange)rangeToColor;
+
+#define UNUSED_PARAMETER(x) (void)(x)
 
 @end

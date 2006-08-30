@@ -1,3 +1,8 @@
+2006-08-18 12:46  ntiffin
+
+	* ChangeLog, MyOutlineView.m, SqlDocument.h, SqlDocument.m: Add
+	  missing SQL formation routines.
+
 2006-08-13 18:54  ntiffin
 
 	* ChangeLog, SqlDocument.m, TODO.txt: Fix bug associated with

@@ -3,27 +3,42 @@ Neil's Open Items
 
 TODO - Features, Functions and Warnings (in priority order)
 =======================================
-- 2006-06-02 Column SQL not complete.
-
 - 2006-06-02 Trigger SQL not complete.
 
 - 2006-06-16 Use new function to attempt to cancel a query in pgCocoaDB.  Need to change to async queries.
 
-- 2006-06-24 Add command to clear SQL Log.
-
-- 2006-08-13 SQL Log does not contain enough information.
-
 - 2006-08-13 Move Schema reading to another thread.  Make it load in parallel.
+
+- 2006-08-18 Message during schema load is misleading.
+
+- 2006-08-26 Add save log function.
+
+- 2006-08-26 Add buttons to log to window to clear log and control sql and info display.
+
+- 2006-08-26 Add explain query button.
+
 
 FIXME (Known Errors)
 ====================
 2006-06-22 13:20:17.480 Query Tool for Postgres[5590] -[NSBigMutableString characterAtIndex:] called with out-of-bounds index. For apps linked on Tiger this will raise an exception. For earlier apps it will produce this one-time warning and continue with existing behavior (which is undefined).
 2006-06-22 13:20:17.480 Query Tool for Postgres[5590] Exception raised during posting of notification.  Ignored.  exception: *** -[NSBigMutableString characterAtIndex:]: Range or index out of bounds
 
+2006-08-26 Function return parameters not correctly determined, see below:
+
+			CREATE or REPLACE FUNCTION pgcocoa_test_schema.create_time_stamp  AS $$
+			BEGIN
+				NEW.create_time := current_timestamp;
+				RETURN NEW;
+			END;
+			$$ LANGUAGE plpgsql;
 
 Completed
 =========
-- 2006-08-13 Fix bug with incorrect release of explorer whil display was still using it.
+- 2006-08-13 SQL Log does not contain enough information. (8/24/2006)
+
+- 2006-08-24 SLQ log windows is not updating correctly. (8/24/2006)
+
+- 2006-08-13 Fix bug with incorrect release of explorer while display was still using it.
 
 - 2006-08-13 Restructure ExplorerModel initWithConnection to respect display user defaults (ie setShowPGCatalog).
 

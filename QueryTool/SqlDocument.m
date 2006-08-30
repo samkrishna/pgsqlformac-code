@@ -31,7 +31,20 @@
 	{
 		[userDefaults setObject:@"no" forKey:@"PGSqlForMac_QueryTool_ShowPGTempsSchema"];
 	}
-
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPGPublicSchema"] == nil)
+	{
+		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_ShowPGPublicSchema"];
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_LogSQL"] == nil)
+	{
+		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_LogSQL"];
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_LogQueryInfo"] == nil)
+	{
+		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_LogQueryInfo"];
+	}
+	
+	
 	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_SchemaTableFontName"] == nil)
 	{
 		[userDefaults setObject:@"Lucida Grande" forKey:@"PGSqlForMac_QueryTool_SchemaTableFontName"];
@@ -191,6 +204,7 @@
 {
     /* read the preferences and add them to the drop downs */
 	NSString * aDefault;
+	UNUSED_PARAMETER(sender);
 	
 	[status setStringValue:[NSString stringWithString:@"Waiting for connection information"]];
 	
@@ -233,6 +247,7 @@
 - (IBAction)onConnectOK:(id)sender
 {
 	// make sure we have a connection object
+	UNUSED_PARAMETER(sender);
 	if (conn != nil)
 	{
 		[conn release];
@@ -301,6 +316,7 @@
 
 - (IBAction)onShowPostgreSQLHTML:(id) sender
 {
+	UNUSED_PARAMETER(sender);
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[userDefaults  stringForKey:@"PGSqlForMac_QueryTool_ShowPostgreSQLHelp"]]];
 }
@@ -308,6 +324,7 @@
 
 - (IBAction)onShowSQLHTML:(id) sender
 {
+	UNUSED_PARAMETER(sender);
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[userDefaults  stringForKey:@"PGSqlForMac_QueryTool_ShowSQLCommandHelp"]]];
 }
@@ -315,6 +332,7 @@
 
 -(IBAction) setSchemaViewFont:(id) sender
 {
+	UNUSED_PARAMETER(sender);
 	NSFontPanel *myFontPanel =[NSFontPanel sharedFontPanel];
 	
 	[window makeFirstResponder:schemaView];
@@ -327,6 +345,7 @@
 
 -(IBAction) setDataOutputViewFont:(id) sender
 {
+	UNUSED_PARAMETER(sender);
 	NSFontPanel *myFontPanel =[NSFontPanel sharedFontPanel];
 	
 	[window makeFirstResponder:dataOutput];
@@ -339,6 +358,7 @@
 
 -(IBAction) setSQLLogViewFont:(id) sender
 {
+	UNUSED_PARAMETER(sender);
 	NSFontPanel *myFontPanel =[NSFontPanel sharedFontPanel];
 	[sqlLogPanelTextView setUsesFontPanel:YES];
 	
@@ -353,6 +373,7 @@
 
 - (IBAction)onConnectCancel:(id)sender
 {
+	UNUSED_PARAMETER(sender);
     [NSApp stopModal];            
     [NSApp endSheet:panelConnect];
     [panelConnect orderOut:self];
@@ -362,6 +383,7 @@
 
 - (IBAction)onDisconnect:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 
 	if ([conn isConnected])
 	{
@@ -418,11 +440,11 @@
 	{
 		//NSString *sql = [arrQuery objectAtIndex:x];
 		//RecordSet *rs = [conn execQuery:sql];
-		RecordSet *rs = [conn execQuery:toBeRun];
+		RecordSet *rs = [conn execQueryLogInfoLogSQL:toBeRun];
 		if ([conn sqlLog] != nil)
 		{
 			//[[[textView textStorage] mutableString] appendString: string];
-			NSRange myRange = NSMakeRange([[sqlLogPanelTextView textStorage] length], 0);
+			NSRange myRange = NSMakeRange(0, [[sqlLogPanelTextView textStorage] length]);
 			[[sqlLogPanelTextView textStorage] replaceCharactersInRange:myRange withString:[conn sqlLog]];
 		}
 		
@@ -497,6 +519,7 @@
 
 - (IBAction)onSetDatabase:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	//NSLog(@"Enter onSetDatabase");
 	if ([conn isConnected])
 	{
@@ -535,6 +558,7 @@
 
 - (IBAction)onShowSQLLog:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	if ([sqlLogPanel isVisible] != 0)
 	{
 		[sqlLogPanel center];
@@ -546,6 +570,7 @@
 
 - (void)onSelectSelectTableMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
@@ -558,6 +583,7 @@
 
 - (void)onSelectCreateTableMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
@@ -570,6 +596,7 @@
 
 - (void)onSelectCreateBakTableMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
@@ -585,6 +612,7 @@
 
 - (void)onSelectAlterTableRenameMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
@@ -597,6 +625,7 @@
 
 - (void)onSelectVacuumTableMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
@@ -609,6 +638,7 @@
 
 - (void)onSelectTruncateTableMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
@@ -621,6 +651,7 @@
 
 - (void)onSelectDropTableMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
@@ -635,6 +666,7 @@
 // column
 - (void)onSelectColSelectMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned currentIndex = [theRows firstIndex];
 	NSString *tableName = [[schemaView itemAtRow:currentIndex] baseTable];
@@ -660,6 +692,7 @@
 
 - (void)onSelectColsMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	bool first = true;
 	
@@ -679,6 +712,7 @@
 
 - (void)onSelectCreateIndexOnColsMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned currentIndex = [theRows firstIndex];
 	NSString *tableName = [[schemaView itemAtRow:currentIndex] baseTable];
@@ -705,6 +739,7 @@
 
 - (void)onSelectCreateUniqIndexOnColsMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned currentIndex = [theRows firstIndex];
 	NSString *tableName = [[schemaView itemAtRow:currentIndex] baseTable];
@@ -734,6 +769,7 @@
 //		ALTER COLUMN name TYPE varchar(100);
 - (void)onSelectAlterTabAlterColMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	BOOL first = true;
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
@@ -760,6 +796,7 @@
 //ALTER TABLE distributors ADD COLUMN address varchar(30);
 - (void)onSelectAlterAddColMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	BOOL first = true;
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
@@ -786,6 +823,7 @@
 //ALTER TABLE distributors RENAME COLUMN address TO city;
 - (void)onSelectAlterRenameColMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	BOOL first = true;
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
@@ -811,6 +849,7 @@
 
 - (void)onSelectCreateTabColsMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned currentIndex = [theRows firstIndex];
 	NSString *tableName = [[schemaView itemAtRow:currentIndex] baseTable];
@@ -838,6 +877,7 @@
 
 - (void)onSelectDropColMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	BOOL first = true;
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
@@ -864,6 +904,7 @@
 // views
 - (void)onSelectCreateViewMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *viewName = [[schemaView itemAtRow:currentRow] baseTable];
@@ -877,6 +918,7 @@
 
 - (void)onSelectCreateViewTemplateMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
@@ -888,11 +930,13 @@
 
 - (void)onSelectDropViewMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *tableName = [[schemaView itemAtRow:currentRow] baseTable];
 	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
-	
+	//UNUSED_PARAMETER(sender);
+
 	NSString *sql = [NSString stringWithFormat:@"DROP VIEW %@.%@;\n", schemaName, tableName];
 	[query insertText:sql];
 }
@@ -900,6 +944,7 @@
 // functions
 - (void)onSelectCreateFunctionMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *functionName = [[schemaView itemAtRow:currentRow] name];
@@ -913,6 +958,7 @@
 
 - (void)onSelectCreateFunctionTemplateMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *functionName = [[schemaView itemAtRow:currentRow] name];
@@ -936,6 +982,7 @@ $$ LANGUAGE plpgsql; \n", schemaName];
 
 - (void)onSelectDropFunctionMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *functionName = [[schemaView itemAtRow:currentRow] name];
@@ -950,6 +997,7 @@ $$ LANGUAGE plpgsql; \n", schemaName];
 // index
 - (void)onSelectDropIndexMenuItem:(id)sender
 {
+	UNUSED_PARAMETER(sender);
 	NSIndexSet *theRows =[schemaView selectedRowIndexes];
 	unsigned int currentRow =[theRows firstIndex];
 	NSString *indexName = [[schemaView itemAtRow:currentRow] name];
@@ -1068,5 +1116,6 @@ $$ LANGUAGE plpgsql; \n", schemaName];
 	return nil;
 	
 }
+
 
 @end
