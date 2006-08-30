@@ -86,11 +86,25 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	[super dealloc];
 }
 
-
+/*
+select n.nspname, c.conname, t.relname, c.contype
+from pg_constraint c, pg_namespace n, pg_class t
+where c.connamespace = n.oid
+AND t.oid = c.conrelid;
+*/
 -(RecordSet *)getConstraintNamesFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName
 {
-	// TODO
-	return nil;
+	NSString * sql;
+
+	sql = [NSString stringWithFormat:@"SELECT c.conname \
+	FROM pg_constraint c, pg_namespace n, pg_class t \
+	WHERE n.nspname = '%@' AND t.relname = '%@' AND n.oid = c.connamespace AND t.oid = c.conrelid;", schemaName, tableName ];
+
+#if PGCOCOA_LOG_SQL
+	NSLog(sql);
+#endif
+
+	return [connection execQueryLogInfoLogSQL:sql];;
 }
 
 -(RecordSet *)getNamesFromSchema:(NSString *)schemaName fromType:(NSString *)type;
@@ -262,12 +276,12 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	
 	sqlFormat = @"SELECT format_type(a.atttypid, a.atttypmod) AS \"type\", \
 	CASE \
-		WHEN a.attnotnull = TRUE THEN ' NOT NULL' \
-		ELSE NULL \
+		WHEN a.attnotnull = TRUE THEN ' NOT NULL '  \
+		ELSE ' '  \
 	END as \"notnull\", \
 	CASE \
-		WHEN a.atthasdef = '1'  THEN ' DEFAULT '  || cast(pg_catalog.pg_get_expr(d.adbin, attrelid) AS varchar(100)) \
-		ELSE NULL \
+		WHEN a.atthasdef = TRUE  THEN 'DEFAULT '  || cast(pg_catalog.pg_get_expr(d.adbin, attrelid) AS varchar(200)) \
+		ELSE ' ' \
 	END as \"default\" \
 	FROM ((pg_class c FULL OUTER JOIN pg_attribute a ON a.attrelid = c.oid) \
 		FULL OUTER JOIN pg_namespace n ON n.oid = c.relnamespace)  \
@@ -358,6 +372,37 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 //-----------------------------------------------------------------------------------------
 // generate SQL
 
+/*
+select pg_get_constraintdef(c.oid, false)
+from pg_constraint c, pg_namespace n, pg_class t
+where c.connamespace = n.oid
+AND t.oid = c.conrelid;
+*/
+-(NSString *)getConstraintSQLFromSchema:(NSString *)schemaName fromTable:(NSString *)tableName fromConstraint:(NSString *)constraintName pretty:(int)pretty;
+{
+	NSString *sql;
+	RecordSet * results;
+	
+	// TODO pretty print?
+	sql = [NSString stringWithFormat:@"SELECT pg_get_constraintdef(c.oid, false) \
+	FROM pg_constraint c, pg_namespace n, pg_class t \
+	WHERE n.nspname = '%@' AND t.relname = '%@' AND c.conname = '%@' AND n.oid = c.connamespace AND t.oid = c.conrelid;", schemaName, tableName, constraintName ];
+
+#if PGCOCOA_LOG_SQL
+	NSLog(sql);
+#endif
+	
+	results = [connection execQueryNoLog:sql];
+	if ([results count] == 1)
+	{
+		sql = [[NSString alloc] initWithFormat:@"%@\n", [[[[results itemAtIndex: 0] fields] itemAtIndex:0] value]];
+		[sql autorelease];
+		return sql;
+	}
+	return nil;
+}
+
+
 -(NSString *)getFunctionSQLFromSchema:(NSString *)schemaName fromFunctionName: (NSString *) functionName pretty:(int)pretty
 {
 	NSString * sql;
@@ -389,6 +434,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	(SELECT typname from pg_catalog.pg_type WHERE oid = p.prorettype) as rettype \
 	FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n \
 	WHERE n.oid = p.pronamespace AND p.proname = '%@' AND n.nspname = '%@'", functionName, schemaName];
+
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif
@@ -611,17 +657,22 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	return sqlOutput;
 }
 
+/*
+ select pg_get_triggerdef(tr.oid)
+ from pg_trigger tr, pg_namespace n, pg_class ta
+ where ta.relnamespace = n.oid
+ AND ta.oid = tr.tgrelid;
+ */
 
--(NSString *)getTriggerSQLFromSchema:(NSString *)schemaName fromTriggerName:(NSString *)triggerName
+-(NSString *)getTriggerSQLFromSchema:(NSString *)schemaName fromTableName:(NSString*)tableName fromTriggerName:(NSString *)triggerName
 {
 	NSString * sql;
 	RecordSet * results;
 	
 	// TODO handle schema
-	sql = [NSString stringWithFormat:@"%s%@%s",
-		"SELECT pg_catalog.pg_get_triggerdef(t.oid) \
-	FROM pg_catalog.pg_trigger t				\
-	WHERE t.tgname = ", triggerName];
+	sql = [NSString stringWithFormat:@"SELECT pg_get_triggerdef(tr.oid) \
+	FROM pg_trigger tr, pg_namespace n, pg_class ta \
+	WHERE n.nspname = '%@' AND ta.relname = '%@' AND tr.tgname = '%@' AND n.oid = ta.relnamespace AND ta.oid = tr.tgrelid;", schemaName, tableName, triggerName ];
 #if PGCOCOA_LOG_SQL
 	NSLog(sql);
 #endif

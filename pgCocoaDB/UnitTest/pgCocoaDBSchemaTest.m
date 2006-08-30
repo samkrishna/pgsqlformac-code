@@ -133,6 +133,10 @@ static BOOL databaseCreated = NO;
 	[conn execQuery:sql];
 	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 
+	sql = [NSString stringWithFormat:@"ALTER TABLE %@.name ADD CONSTRAINT name_age_check CHECK ((0 < age) AND (age < 150));", PGCocoaTestSchema];
+	[conn execQuery:sql];
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
+	
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "CREATE or REPLACE FUNCTION ", PGCocoaTestDatabase, PGCocoaTestSchema,
 		"create_time_stamp() RETURNS trigger AS $time_stamp$\n\
 BEGIN\n\

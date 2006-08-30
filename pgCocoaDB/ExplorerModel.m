@@ -68,7 +68,6 @@
 	RecordSet * columnInfoSet;
 	ExplorerNode * newNode;
 	NSString * columnName;
-	NSString * columnInfoString;
 	int i;
 	ExplorerNode *titleNode;
 	
@@ -95,7 +94,13 @@
 			//NSLog(@"%@", columnInfoSet);
 			if (columnInfoSet != nil)
 			{
-				columnInfoString = [[[[columnInfoSet itemAtIndex: 0] fields] itemAtIndex:0] value];
+				int ii;
+				NSMutableString *columnInfoString= [[NSMutableString alloc] init];
+				// interate to find NOT NULL and DEFAULT
+				for (ii = 0; ii < [[[columnInfoSet itemAtIndex: 0] fields] count]; ii++)
+				{
+					[columnInfoString appendString:[[[[columnInfoSet itemAtIndex: 0] fields] itemAtIndex:ii] value]];
+				}
 				//NSLog(@"Processing %@ - %@ - %@ - %@", schemaName, tableName, columnName, columnInfoString); 
 				//NSLog(@"results count = %d", [results count]);
 				[newNode setName:columnName];
@@ -105,6 +110,7 @@
 				[newNode setBaseTable:tableName];
 				[newNode setBaseSchema:schemaName];
 				[titleNode addChild:newNode];
+				[columnInfoString autorelease];
 			}
 			[newNode release];
 		}
@@ -166,7 +172,7 @@
 		[newNode setParent:titleNode];
 		[newNode setBaseTable:tableName];
 		[newNode setBaseSchema:schemaName];
-		//[newNode setDisplayColumn2:[schema getTriggerSQLFromSchema:schemaName fromTriggerName:triggerName]];
+		[newNode setDisplayColumn2:[schema getTriggerSQLFromSchema:schemaName fromTableName:tableName fromTriggerName:triggerName]];
 		[titleNode addChild:newNode];
 
 		[newNode release];
@@ -197,12 +203,12 @@
 		[newNode setName:constraintName];
 		[newNode setExplorerType:@"Constraint Name"];
 		[newNode setParent:titleNode];
-		[newNode setDisplayColumn2:@""];
+		[newNode setDisplayColumn2:[schema getConstraintSQLFromSchema:schemaName fromTable:tableName fromConstraint:constraintName pretty:0]];
 		[newNode setBaseTable:tableName];
 		[newNode setBaseSchema:schemaName];
 		[titleNode addChild:newNode];
-		//TODO get constraints info
-
+		//TODO get constraints info?
+		
 		[newNode release];
 	}
 }

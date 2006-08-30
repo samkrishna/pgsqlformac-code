@@ -1,3 +1,12 @@
+2006-08-30 10:48  ntiffin
+
+	* ChangeLog, Connection.h, Connection.m, DataSource.h, Database.h,
+	  Databases.h, ExplorerModel.h, ExplorerModel.m, ExplorerNode.h,
+	  Field.h, Fields.h, PGCocoaDB.h, Record.h, RecordSet.h, Schema.h,
+	  Schema.m, Table.h, UnitTest-Info.plist,
+	  UnitTest/pgCocoaDBSchemaTest.h, UnitTest/pgCocoaDBSchemaTest.m:
+	  Restructure for schema threaded processing.
+
 2006-08-26 07:25  ntiffin
 
 	* ChangeLog, Connection.m, ExplorerModel.m, Schema.m,

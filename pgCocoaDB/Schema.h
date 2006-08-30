@@ -29,11 +29,12 @@
 - (NSString *)pgVersionFound;
 
 // generate SQL
+-(NSString *)getConstraintSQLFromSchema:(NSString *)schemaName fromTable:(NSString *)tableName fromConstraint:(NSString *)constraintName pretty:(int)pretty;
 -(NSString *)getFunctionSQLFromSchema:(NSString *)schemaName fromFunctionName: (NSString *) functionName pretty:(int)pretty;
 -(NSString *)getIndexSQLFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName fromIndexName:(NSString *) indexName;
 -(NSString *)getRuleSQLFromSchema:(NSString *)schemaName fromRuleName:(NSString *)ruleName pretty:(int)pretty;
 -(NSString *)getTableSQLFromSchema:(NSString *)schemaName fromTableName:(NSString *) tableName pretty:(int)pretty;
--(NSString *)getTriggerSQLFromSchema:(NSString *)schemaName fromTriggerName:(NSString *)triggerName;
+-(NSString *)getTriggerSQLFromSchema:(NSString *)schemaName fromTableName:(NSString*)tableName fromTriggerName:(NSString *)triggerName;
 -(NSString *)getViewSQLFromSchema:(NSString *)schemaName fromView:(NSString *)viewName pretty:(int)pretty;
 
 // get schema data
