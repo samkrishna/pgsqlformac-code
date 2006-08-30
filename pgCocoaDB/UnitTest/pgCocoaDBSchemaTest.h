@@ -9,6 +9,7 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import "Connection.h"
 #import "Schema.h"
+#import "PGCocoaDB.h"
 
 @interface pgCocoaDBSchemaTest : SenTestCase {
 	Connection * conn;

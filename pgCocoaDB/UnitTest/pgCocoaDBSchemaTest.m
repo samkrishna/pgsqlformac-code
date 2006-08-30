@@ -20,7 +20,7 @@ NSString* const PGCocoaTestSchema = @"pgcocoa_test_schema";
 NSString* const PGCocoaTestUser = @"ntiffin";
 NSString* const PGCocoaTestPassword = @"";
 NSString* const PGCocoaTestHost = @"localhost";
-NSString* const PGCocoaTestPort = @"5433";
+NSString* const PGCocoaTestPort = @"5432";
 
 // Uncomment the following line to automatically drop and recreate the test database.
 //#define DROP_EXISTING_DATABASE 1
@@ -967,7 +967,7 @@ $time_stamp$ LANGUAGE plpgsql;\n"];
 -(void)testExplorer
 {
 	ExplorerModel *explorer = [[ExplorerModel alloc] initWithConnection:conn];
-	[explorer buildSchema];
+	[explorer buildSchema:nil];
 	
 	[explorer printLog];
 	[explorer autorelease];

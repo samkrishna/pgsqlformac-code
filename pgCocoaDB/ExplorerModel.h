@@ -11,6 +11,8 @@
 #import "ExplorerNode.h"
 #import "Connection.h"
 #import "Schema.h"
+#import "PGCocoaDB.h"
+
 
 @interface ExplorerModel : NSObject
 {
@@ -21,23 +23,30 @@
 	bool showPGCatalog;
 	bool showPGToast;
 	bool showPGTemps;
+	bool showPublic;
+	
+	NSLock *explorerThreadStatusLock;
+	unsigned int explorerThreadStatus;	// 0 = not inited, 1 = running, 2 = error, 3 = done, 
 }
 
 - (id)initWithConnection:(Connection *) aConnection;
-- (id)initRebuilding;
-- (void)buildSchema;
+- (void)buildSchema:(id)anObject;
 
--(void)setSchema:(Schema *)newSchema;
+- (void)setSchema:(Schema *)newSchema;
 - (Schema *)schema;
 - (bool)showInformationSchema;
 - (bool)showPGCatalog;
 - (bool)showPGToast;
 - (bool)showPGTemps;
+- (bool)showPublic;
+- (unsigned int)explorerThreadStatus;
 
 - (void)setShowInformationSchema:(bool)newValue;
 - (void)setShowPGCatalog:(bool)newValue;
 - (void)setShowPGToast:(bool)newValue;
 - (void)setShowPGTemps:(bool)newValue;
+- (void)setShowPublic:(bool)newValue;
+- (void)setExplorerThreadStatus:(unsigned int)newValue;
 
 	// These methods get called because I am the datasource of the outline view.
 - (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item;

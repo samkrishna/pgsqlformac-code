@@ -1,3 +1,9 @@
+2006-08-26 07:25  ntiffin
+
+	* ChangeLog, Connection.m, ExplorerModel.m, Schema.m,
+	  UnitTest/pgCocoaDBSchemaTest.m: Add some comments and reformat
+	  functions.
+
 2006-08-19 07:06  ntiffin
 
 	* ChangeLog, ExplorerModel.m, Schema.h, Schema.m,

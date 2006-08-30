@@ -301,57 +301,67 @@
 	}
 }
 
-- (id)initRebuilding
-{
-	[super init];
-	
-	schema = nil;
-	connection = nil;
-	rootNode = [[ExplorerNode alloc] init];
-    [rootNode setName: @"Rebuilding"];
-	[rootNode setBaseTable: @""];
-	[rootNode setExplorerType:@"Database"];
-	[rootNode setParent:nil];
-	[rootNode setOID:0];
-	
-	return self;
-}
-
 
 - (id)initWithConnection:(Connection *) theConnection
 {
 	[super init];
+	ExplorerNode * newNode;
 	
 	// TODO clone this connection so we can multi-thread
 	connection = theConnection;
 	schema = [[Schema alloc] initWithConnection:connection];
+
+	explorerThreadStatusLock = [[NSLock alloc] init];
+	explorerThreadStatus = 0;
+
 	showInformationSchema = TRUE;
 	showPGCatalog = TRUE;
 	showPGToast = FALSE;
 	showPGTemps = FALSE;
+
+	// set temporary root node for display
+	rootNode = [[ExplorerNode alloc] init];
+    [rootNode setName: @"Rebuilding"];
+	[rootNode setBaseTable: @"Rebuilding"];
+	[rootNode setExplorerType:@"Rebuilding"];
+	[rootNode setParent:nil];
+	[rootNode setOID:0];
+	
+	newNode = [[ExplorerNode alloc] init];
+	[newNode setName: @"Rebuilding"];
+	[newNode setExplorerType:@"Rebuilding"];
+	[newNode setParent:rootNode];
+	[rootNode addChild: newNode];
+	[newNode release];
+
 	return self;
 }
 
 
-- (void)buildSchema
+- (void)buildSchema:(id)anOutlineView
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	ExplorerNode * newNode;
 	ExplorerNode * newChild;
 	RecordSet * results;
-
+	ExplorerNode * realRootNode;
+	
 	if ((connection == nil) || (schema == nil))
 	{
-		NSLog(@"Attempted to buildSchema without proper init.");
+		NSLog(@"Attempted to build Schema without proper init.");
 		return;
 	}
 	
+	
+	[self setExplorerThreadStatus:1];
+
 	// set database level
-    rootNode = [[ExplorerNode alloc] init];
-    [rootNode setName: [connection currentDatabase]];
-	[rootNode setBaseTable: @""];
-	[rootNode setExplorerType:@"Database"];
-	[rootNode setParent:nil];
-	[rootNode setOID:0];
+    realRootNode = [[ExplorerNode alloc] init];
+    [realRootNode setName: [connection currentDatabase]];
+	[realRootNode setBaseTable: @""];
+	[realRootNode setExplorerType:@"Database"];
+	[realRootNode setParent:nil];
+	[realRootNode setOID:0];
 	
 	// set schema level
 	results = [schema getSchemaNames];
@@ -389,11 +399,18 @@
 				continue;	//skip this one
 			}
 		}
+		else if ([schemaName isCaseInsensitiveLike:@"public*"])
+		{
+			if (!showPublic)
+			{
+				continue;	//skip this one
+			}
+		}
 		
 		newNode = [[ExplorerNode alloc] init];
 		[newNode setName: schemaName];
 		[newNode setExplorerType:@"Schema"];
-		[newNode setParent:rootNode];
+		[newNode setParent:realRootNode];
 
 		// for each schema add children
 		newChild = [[ExplorerNode alloc] init];
@@ -429,15 +446,22 @@
 		[self createFunctionNodes:newChild fromSchemaName:schemaName];
 		
 		// add to the root node
-		[rootNode addChild: newNode];
+		[realRootNode addChild: newNode];
 		[newNode release];
 	}
+	[rootNode autorelease];
+	rootNode = realRootNode;
+	[self setExplorerThreadStatus:3];
+	[(NSOutlineView *)anOutlineView reloadData];
+	[pool release];
 	return;
 }
 
 - (void)dealloc
 {
 	// todo release all ExplorerNodes
+	[explorerThreadStatusLock release];
+
 	[rootNode release];
 	[schema release];
 	[super dealloc];
@@ -476,6 +500,21 @@
 	return showPGTemps;
 }
 
+- (bool)showPublic
+{
+	return showPublic;
+}
+
+- (unsigned int)explorerThreadStatus
+{
+	unsigned int status;
+	
+	[explorerThreadStatusLock lock];
+	status = explorerThreadStatus;
+	[explorerThreadStatusLock unlock];
+	return status;
+}
+
 - (void)setShowInformationSchema:(bool)newValue
 {
 	showInformationSchema = newValue;
@@ -496,32 +535,60 @@
 	showPGTemps = newValue;
 }
 
+- (void)setShowPublic:(bool)newValue
+{
+	showPublic = newValue;
+}
+
+- (void)setExplorerThreadStatus:(unsigned int)newValue
+{
+	[explorerThreadStatusLock lock];
+	explorerThreadStatus = newValue;
+	[explorerThreadStatusLock unlock];
+}
 
 // These methods get called because I am the datasource of the outline view.
 - (id)outlineView:(NSOutlineView *)outlineView child:(int)i ofItem:(id)item
 {
-    if (item)
-        // Return the child
-        return [item childAtIndex:i];
-    else 
-        // Else return the root
-        return [rootNode childAtIndex:i];	
+	UNUSED_PARAMETER(outlineView);
+	
+	if (item == nil)
+	{
+		return [rootNode childAtIndex:i];	
+	}
+	if([self explorerThreadStatus] != 3)
+	{
+		return 0;
+	}
+	return [item childAtIndex:i];
 }
 
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-    // Returns YES if the node has children
+	UNUSED_PARAMETER(outlineView);
+    
+	// Returns YES if the node has children
+	if([self explorerThreadStatus] != 3)
+	{
+		return NO;
+	}
     return [item expandable];	
 }
 
 
 - (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-    if (item == nil) {
+	UNUSED_PARAMETER(outlineView);
+    
+	if (item == nil) {
         // The root object;
         return [rootNode childrenCount];
     }
+	if([self explorerThreadStatus] != 3)
+	{
+		return 0;
+	}
     return [item childrenCount];	
 }
 
@@ -530,7 +597,8 @@
 {
     // Set the identifier of the columns in IB's inspector
     NSString *identifier = [tableColumn identifier];
-
+	UNUSED_PARAMETER(outlineView);
+	
     // What is returned depends upon which column it is going to appear.
     if ([identifier isEqual:@"col1"])
 	{
@@ -555,7 +623,11 @@
 
 - (void)printLog
 {
-	[rootNode printLog:0];
+	if([self explorerThreadStatus] == 3)
+	{
+		[rootNode printLog:0];;
+	}
+	NSLog(@"Explorer still Loading.");
 }
 
 @end

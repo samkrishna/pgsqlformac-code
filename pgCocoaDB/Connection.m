@@ -27,7 +27,7 @@ handle_pq_notice(void *arg, const char *message)
 	self = [super init];
 	
 	pgconn = nil;
-	
+	dbs = nil;	
 	connected = NO;
 	
 	host = [[NSString alloc] initWithString:@"localhost"];
@@ -35,8 +35,6 @@ handle_pq_notice(void *arg, const char *message)
 	options = nil;
 	tty = nil;
 	dbName = [[NSString alloc] initWithString:@"template1"];
-	
-	dbs = nil;
 	
 	errorDescription = nil;
 	sqlLog = [[NSMutableString alloc] init];
@@ -46,10 +44,9 @@ handle_pq_notice(void *arg, const char *message)
 
 -(void)dealloc
 {
-	if (connected)
-	{
-		[self disconnect];
-	}
+
+	[self disconnect];
+	
 	[host release];
 	[port release];
 	[options release];
@@ -66,12 +63,9 @@ handle_pq_notice(void *arg, const char *message)
 
 - (BOOL)connect
 {	
-	// connect to the server (attempt) /// should use PQsetdbLogin()
-	if (dbs != nil) {
-		[dbs release];
-		dbs = nil;
-	}
+	[self disconnect];
 	
+	// connect to the server (attempt) // TODO should use PQconnectdb()
 	pgconn = (PGconn *)PQsetdbLogin([host cString], [port cString],
 					 [options cString], NULL, 
 					 [dbName cString], [userName cString], [password cString]);
@@ -88,6 +82,7 @@ handle_pq_notice(void *arg, const char *message)
 		[self appendSQLLog:[NSMutableString stringWithFormat:@"Connection to database %@ Failed.\n", dbName]];
 
 		PQfinish(pgconn);
+		pgconn = nil;
 		connected = NO;
 		return NO;
     }
@@ -105,7 +100,7 @@ handle_pq_notice(void *arg, const char *message)
 	// set up notification
 	PQsetNoticeProcessor(pgconn, handle_pq_notice, self);
 
-	[self setSQLLog:[NSMutableString stringWithFormat:@"Connected to database %@.\n", dbName]];
+	[self setSQLLog:[NSMutableString stringWithFormat:@"Connected to database %@ on %@.\n", dbName, [[NSCalendarDate calendarDate] description]]];
 	connected = YES;
 	return YES;
 }
@@ -137,6 +132,7 @@ handle_pq_notice(void *arg, const char *message)
 	
 	[self appendSQLLog:[NSMutableString stringWithString:@"Disconnected from database.\n"]];
 	PQfinish(pgconn);
+	pgconn = nil;
 	connected = NO;
 	return YES;
 }
@@ -145,6 +141,8 @@ handle_pq_notice(void *arg, const char *message)
 
 - (BOOL)isConnected
 {
+	// TODO check to make sure connection is still alive
+	// TODO if not alive then should make use PQreset to attempt to re-establish
 	return connected;
 }
 
@@ -260,6 +258,7 @@ handle_pq_notice(void *arg, const char *message)
 	PGresult	*res;
 	NSString	*sql = @"select * from pg_database where datallowconn = 't' order by datname asc"; 
 	
+	// TODO restructure to use [self execQueryNoLog];
 	res = PQexec(pgconn, [sql cString]);
 	if (PQresultStatus(res) != PGRES_TUPLES_OK) 
 	{
@@ -364,16 +363,21 @@ handle_pq_notice(void *arg, const char *message)
 #endif
 }
 
+- (RecordSet *)execQueryNoLog:(NSString *)sql
+{
+	return [self execQuery:sql logInfo:0 logSQL:0];
+}
 
-- (RecordSet *)execQueryLog:(NSString *)sql
+
+- (RecordSet *)execQueryLogInfo:(NSString *)sql
 {
 	return [self execQuery:sql logInfo:1 logSQL:0];
 }
 
 
-- (RecordSet *)execQueryNoLog:(NSString *)sql
+- (RecordSet *)execQueryLogInfoLogSQL:(NSString *)sql
 {
-	return [self execQuery:sql logInfo:0 logSQL:0];
+	return [self execQuery:sql logInfo:1 logSQL:1];
 }
 
 
@@ -389,8 +393,13 @@ handle_pq_notice(void *arg, const char *message)
 
 	if (pgconn == nil) 
 	{ 
-		[self setErrorDescription:@"Object is not Connected."];		
+		[self setErrorDescription:@"Object is not Connected."];	
+		[self appendSQLLog:@"Object is not Connected.\n"];
 		return nil; 
+	}	
+	if (logSQL)
+	{
+		[self appendSQLLog: [NSString stringWithFormat:@"%@\n", [sql stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]];
 	}
 	gettimeofday(&start, 0);
 	res = PQexec(pgconn, [sql cString]);
@@ -433,7 +442,7 @@ handle_pq_notice(void *arg, const char *message)
 			}
 			if (logInfo)
 			{
-				[self appendSQLLog:[NSString stringWithFormat: @"%d rows affected.\n", nRecords]];
+				[self appendSQLLog:[NSString stringWithFormat: @"%d rows affected.\n\n", nRecords]];
 			}
 			PQclear(res);			
 			return rs;
@@ -442,13 +451,19 @@ handle_pq_notice(void *arg, const char *message)
 		
 		case PGRES_COMMAND_OK:
 		{
-			if (strlen(PQcmdStatus(res)))
+			if (logInfo)
 			{
-				[self appendSQLLog:[NSString  stringWithFormat:@"%s\n", PQcmdStatus(res)]];
-			}
-			if ((strlen(PQcmdTuples(res)) > 0) && (logInfo))
-			{
-				[self appendSQLLog:[NSString stringWithFormat: @"%s rows affected.\n", PQcmdTuples(res)]];
+				[self appendSQLLog:@"Query ran successfully.\n"];
+				/* these do not return valuable info.
+				if (strlen(PQcmdStatus(res)))
+				{
+					[self appendSQLLog:[NSString  stringWithFormat:@"Command Status: %s\n", PQcmdStatus(res)]];
+				}
+				if (PQcmdTuples(res))
+				{
+					[self appendSQLLog:[NSString stringWithFormat: @"%d rows affected.\n", PQcmdTuples(res)]];
+				}
+				 */
 			}
 			PQclear(res);
 			return nil;
@@ -457,10 +472,7 @@ handle_pq_notice(void *arg, const char *message)
 
 		case PGRES_EMPTY_QUERY:
 		{
-			if (logInfo)
-			{
-				[self appendSQLLog:@"Postgres reported Empty Query\n"];
-			}
+			[self appendSQLLog:@"Postgres reported Empty Query\n"];
 			PQclear(res);
 			return nil;
 			break;
@@ -474,11 +486,11 @@ handle_pq_notice(void *arg, const char *message)
 		default:
 		{
 			[self setErrorDescription:[NSString stringWithFormat:@"PostgreSQL Error: %s", PQresultErrorMessage(res)]];
+			[self appendSQLLog:[NSString stringWithFormat:@"PostgreSQL Error: %s\n", PQresultErrorMessage(res)]];
 			PQclear(res);
 			return nil;
 		}
 	}
-	
 }
 
 - (NSString *)execCommand:(NSString *)sql

@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Database.h"
+#import "PGCocoaDB.h"
 
 @interface Databases : NSObject 
 {

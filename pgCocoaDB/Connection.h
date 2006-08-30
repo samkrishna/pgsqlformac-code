@@ -10,6 +10,7 @@
 #import "Record.h"
 #import "Recordset.h"
 #import "Databases.h"
+#import "PGCocoaDB.h"
 
 @interface Connection : NSObject 
 {
@@ -70,8 +71,9 @@
 - (void)appendSQLLog:(NSString *)value;
 
 - (RecordSet *)execQuery:(NSString *)sql;
+- (RecordSet *)execQueryLogInfo:(NSString *)sql;
+- (RecordSet *)execQueryLogInfoLogSQL:(NSString *)sql;
 - (RecordSet *)execQueryNoLog:(NSString *)sql;
-- (RecordSet *)execQueryLog:(NSString *)sql;
 - (RecordSet *)execQuery:(NSString *)sql logInfo:(bool)logInfo logSQL:(bool)logSQL;
 - (NSString *)execCommand:(NSString *)sql;
 

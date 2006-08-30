@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PGCocoaDB.h"
 
 @interface DataSource : NSObject 
 {

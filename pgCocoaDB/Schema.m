@@ -34,6 +34,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 	versionField = [[[results itemAtIndex:0] fields] itemAtIndex:0];
 	pgVersionFound = [[NSString alloc] initWithString: [versionField value]];
 
+	// TODO add user default to bypass versions check
 	//PostgreSQL 8.1.2 on powerpc-apple-darwin8.5.0, compiled by GCC powerpc-apple-darwin8-gcc-4.0.1 (GCC) 4.0.1 (Apple Computer, Inc. build 5250)
 	if ([pgVersionFound rangeOfString:@"PostgreSQL 8.1"].location == NSNotFound)
 	{
