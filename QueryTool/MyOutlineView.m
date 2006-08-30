@@ -186,19 +186,19 @@
 			viewMenu = [[NSMenu alloc] init];
 			
 			newItem = [[NSMenuItem alloc] init];
-			[newItem setTitle:@"SELECT * FROM <tab>"];
+			[newItem setTitle:@"SELECT * FROM <view>"];
 			[newItem setTarget: menuActionTarget];
 			[newItem setAction: @selector(onSelectSelectTableMenuItem:)];
 			[viewMenu addItem: newItem];
 
 			newItem = [[NSMenuItem alloc] init];
-			[newItem setTitle:@"CREATE VIEW <tab> as <query>"];
+			[newItem setTitle:@"CREATE VIEW <name> as <query>"];
 			[newItem setTarget: menuActionTarget];
 			[newItem setAction: @selector(onSelectCreateViewMenuItem:)];
 			[viewMenu addItem: newItem];
 
 			newItem = [[NSMenuItem alloc] init];
-			[newItem setTitle:@"CREATE VIEW template"];
+			[newItem setTitle:@"CREATE VIEW from template"];
 			[newItem setTarget: menuActionTarget];
 			[newItem setAction: @selector(onSelectCreateViewTemplateMenuItem:)];
 			[viewMenu addItem: newItem];

@@ -3,13 +3,11 @@ Neil's Open Items
 
 TODO - Features, Functions and Warnings (in priority order)
 =======================================
-- 2006-06-02 Trigger SQL not complete.
+- 2006_08-30 Sequence SQL not complete.
 
-- 2006-06-16 Use new function to attempt to cancel a query in pgCocoaDB.  Need to change to async queries.
+- 2006-08-30 Constraints not tested in unit test pgCocoaDB.
 
-- 2006-08-13 Move Schema reading to another thread.  Make it load in parallel.
-
-- 2006-08-18 Message during schema load is misleading.
+- 2006-06-16 Use function to attempt to cancel a query in pgCocoaDB.  Need to change to async queries.
 
 - 2006-08-26 Add save log function.
 
@@ -34,15 +32,25 @@ FIXME (Known Errors)
 
 Completed
 =========
+- 2006-08-30 Column definitions only show type, not constraints (NOT NULL, UNIQUE, etc). (8/30/2006)
+
+- 2006-08-30 Constraints not in schema. (8/30/2006)
+
+- 2006-06-02 Trigger SQL not complete. (8/30/2006)
+
+- 2006-08-18 Message during schema load is misleading. Not relevant with threaded schema load. (8/30/2006)
+
+- 2006-08-13 Move Schema reading to another thread.  Make it load in parallel. (8/30/2006)
+
 - 2006-08-13 SQL Log does not contain enough information. (8/24/2006)
 
 - 2006-08-24 SLQ log windows is not updating correctly. (8/24/2006)
 
 - 2006-08-13 Fix bug with incorrect release of explorer while display was still using it.
 
-- 2006-08-13 Restructure ExplorerModel initWithConnection to respect display user defaults (ie setShowPGCatalog).
+- 2006-08-13 Restructure ExplorerModel initWithConnection to respect display user defaults (i.e. setShowPGCatalog).
 
-- 2006-07-16 Fix TODO for autoincrementing index names
+- 2006-07-16 Fix TODO for auto incrementing index names
 
 - 2006-07-16 Use color to separate tables names and other database structure names from actual meta data.
 http://forums.macnn.com/archive/index.php/t-212768.html
@@ -62,7 +70,7 @@ http://forums.macnn.com/archive/index.php/t-212768.html
 - 2006-06-22 17:27:23.418 Query Tool for Postgres[5640] CFLog (0): CFMessagePort: bootstrap_register(): failed 1103 (0x44f), port = 0x3103, name = 'com.druware.postgres.QueryTool.ServiceProvider'
 See /usr/include/servers/bootstrap_defs.h for the error codes.
 2006-06-22 17:27:23.422 Query Tool for Postgres[5640] CFLog (99): CFMessagePortCreateLocal(): failed to name Mach port (com.druware.postgres.QueryTool.ServiceProvider)
-(not sure what caused this, is not occuring any longer.)
+(not sure what caused this, is not occurring any longer.)
 
 - 2006-05-27 Query tool connect box does not receive focus when first opened. (2006-06-22) Appears to be fixed since connect box is filled in with the results from the last connection.
 
@@ -76,7 +84,7 @@ See /usr/include/servers/bootstrap_defs.h for the error codes.
 
 - 2006-06-20 Does not save last connection parameters for reuse when re-launched. Added NSUserDefaults to connection pane. (2006-06-21)
 
-- 2006-06-20 separating sql statements by ";" does not correctly handle $$ quoted text required by functions. Fixed by removeing the parse of entered data. (2006-06-21)
+- 2006-06-20 separating sql statements by ";" does not correctly handle $$ quoted text required by functions. Fixed by removing the parse of entered data. (2006-06-21)
 
 - 2006-06-02 First column of schema view default width is too small. (2006-06-20)
 
