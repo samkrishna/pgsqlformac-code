@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "QueryTool.h"
 
 @interface PreferenceController : NSWindowController {	
 	IBOutlet NSButton		*prefShowPGInfoSchema;

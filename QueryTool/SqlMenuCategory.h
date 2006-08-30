@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "SqlDocument.h"
+#import "QueryTool.h"
 
 @interface SqlDocument (SqlMenuCategory)
 

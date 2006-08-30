@@ -7,6 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "QueryTool.h"
+
 @class PreferenceController;
 
 @interface AppController : NSObject {

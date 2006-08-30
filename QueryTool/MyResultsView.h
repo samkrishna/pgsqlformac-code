@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+#import "QueryTool.h"
 
 @interface MyResultsView : NSTableView {
 

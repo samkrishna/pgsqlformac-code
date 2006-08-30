@@ -1,3 +1,15 @@
+2006-08-29 20:06  ntiffin
+
+	* AppController.h, AppController.m, ChangeLog,
+	  PreferenceController.h, PreferenceController.m, SqlDocument.h,
+	  SqlDocument.m, TODO.txt, English.lproj/MainMenu.nib/classes.nib,
+	  English.lproj/MainMenu.nib/info.nib,
+	  English.lproj/MainMenu.nib/objects.nib,
+	  English.lproj/Preferences.nib/classes.nib,
+	  English.lproj/Preferences.nib/info.nib,
+	  English.lproj/Preferences.nib/keyedobjects.nib,
+	  English.lproj/SqlDocument.nib/keyedobjects.nib: Add preferences.
+
 2006-08-18 12:46  ntiffin
 
 	* ChangeLog, MyOutlineView.m, SqlDocument.h, SqlDocument.m: Add

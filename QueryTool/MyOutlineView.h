@@ -2,6 +2,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "ExplorerNode.h"
+#import "QueryTool.h"
 
 @interface MyOutlineView : NSOutlineView
 {

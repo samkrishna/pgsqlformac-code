@@ -7,6 +7,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DataSource.h"
+#import "QueryTool.h"
 
 @implementation DataSource
 

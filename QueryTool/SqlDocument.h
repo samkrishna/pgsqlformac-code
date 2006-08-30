@@ -13,6 +13,7 @@
 #import "ExplorerModel.h"
 #import "MyOutlineView.h"
 #import "MyResultsView.h"
+#import "QueryTool.h"
 
 @class PreferenceController;
 
@@ -119,7 +120,5 @@
 - (BOOL)isValueKeyword:(NSString *)value;
 - (void)setAttributesForWord:(NSRange)rangeOfCurrentWord;
 - (void)colorRange:(NSRange)rangeToColor;
-
-#define UNUSED_PARAMETER(x) (void)(x)
 
 @end
