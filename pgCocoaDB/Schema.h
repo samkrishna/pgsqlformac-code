@@ -14,19 +14,20 @@
 
 @interface Schema : NSObject {
 
-	Connection *connection;
+	Connection * connection;
 	NSString *publicSchemaName;			// is "public"
 	NSString *pgCatalogSchemaName;		// is "pg_catalog"
 	NSString *informationSchemaName;	// is "information_schema"
 	NSString *pgVersionFound;
 }
 
-- initWithConnection:(Connection *) theConnection;
+- initWithConnectionString:(NSString *) theConnection;
 
 - (NSString *)publicSchemaName;
 - (NSString *)pgCatalogSchemaName;
 - (NSString *)informationSchemaName;
 - (NSString *)pgVersionFound;
+- (Connection *)connection;
 
 // generate SQL
 -(NSString *)getConstraintSQLFromSchema:(NSString *)schemaName fromTable:(NSString *)tableName fromConstraint:(NSString *)constraintName pretty:(int)pretty;

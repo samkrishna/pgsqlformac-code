@@ -308,14 +308,12 @@
 }
 
 
-- (id)initWithConnection:(Connection *) theConnection
+- (id)initWithConnectionString:(NSString *) theConnection
 {
 	[super init];
 	ExplorerNode * newNode;
 	
-	// TODO clone this connection so we can multi-thread
-	connection = theConnection;
-	schema = [[Schema alloc] initWithConnection:connection];
+	connectionString = theConnection;
 
 	explorerThreadStatusLock = [[NSLock alloc] init];
 	explorerThreadStatus = 0;
@@ -343,7 +341,7 @@
 	return self;
 }
 
-
+// May be run in a separate thread.
 - (void)buildSchema:(id)anOutlineView
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -351,8 +349,10 @@
 	ExplorerNode * newChild;
 	RecordSet * results;
 	ExplorerNode * realRootNode;
-	
-	if ((connection == nil) || (schema == nil))
+
+	schema = [[Schema alloc] initWithConnectionString:connectionString];
+
+	if (schema == nil)
 	{
 		NSLog(@"Attempted to build Schema without proper init.");
 		return;
@@ -363,7 +363,7 @@
 
 	// set database level
     realRootNode = [[ExplorerNode alloc] init];
-    [realRootNode setName: [connection currentDatabase]];
+    [realRootNode setName: [[schema connection] currentDatabase]];
 	[realRootNode setBaseTable: @""];
 	[realRootNode setExplorerType:@"Database"];
 	[realRootNode setParent:nil];
@@ -459,6 +459,8 @@
 	rootNode = realRootNode;
 	[self setExplorerThreadStatus:3];
 	[(NSOutlineView *)anOutlineView reloadData];
+	[schema release];
+	schema = nil;
 	[pool release];
 	return;
 }

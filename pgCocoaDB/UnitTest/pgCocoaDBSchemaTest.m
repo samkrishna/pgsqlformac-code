@@ -295,7 +295,8 @@ $time_stamp$ LANGUAGE plpgsql;\n"];
 	STAssertTrue([conn errorDescription] == nil, @"Error connecting to database %@: %@.", [conn dbName], [conn errorDescription]);
 	STAssertTrue([conn isConnected], @"Failed to connect to database %@.", [conn dbName]);
 
-	testSchema = [[Schema alloc] initWithConnection:conn];
+	//testSchema = [[Schema alloc] initWithConnection:conn];
+	testSchema = [[Schema alloc] initWithConnectionString:[conn makeConnectionString]];
 	STAssertNotNil(testSchema, @"Failed to init testSchema object.");
 }
 
@@ -970,7 +971,8 @@ $time_stamp$ LANGUAGE plpgsql;\n"];
 
 -(void)testExplorer
 {
-	ExplorerModel *explorer = [[ExplorerModel alloc] initWithConnection:conn];
+	ExplorerModel *explorer =[[ExplorerModel alloc] initWithConnectionString: [conn makeConnectionString]];
+	//ExplorerModel *explorer = [[ExplorerModel alloc] initWithConnection:conn];
 	[explorer buildSchema:nil];
 	
 	[explorer printLog];

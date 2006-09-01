@@ -1,3 +1,9 @@
+2006-08-30 16:26  ntiffin
+
+	* ChangeLog, ExplorerModel.m, Schema.h, Schema.m,
+	  UnitTest/pgCocoaDBSchemaTest.m: Fix constraints, columns,
+	  triggers.
+
 2006-08-30 10:48  ntiffin
 
 	* ChangeLog, Connection.h, Connection.m, DataSource.h, Database.h,

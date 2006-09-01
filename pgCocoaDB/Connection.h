@@ -19,10 +19,15 @@
 	NSString		*host;
 	NSString		*port;
 	NSString		*options;
-	NSString		*tty;
+	NSString		*tty;		// ignored now
 	NSString		*dbName;
 	NSString		*userName;
 	NSString		*password;
+	NSString		*sslMode;	// allow, prefer, require
+	NSString		*service;	// service name
+	NSString		*krbsrvName;
+	
+	NSMutableString		*connectionString;
 	
 	Databases		*dbs;
 	
@@ -33,6 +38,7 @@
 }
 
 - (BOOL)connect;
+- (BOOL)connectUsingString:(NSString *)aConnectionString;
 - (BOOL)connectToHost:(NSString *)toHost
 			  onPort:(NSString *)onPort
 		 withOptions:(NSString *)withOptions
@@ -63,8 +69,20 @@
 - (NSString *)password;
 - (void)setPassword:(NSString *)value;
 
+- (NSString *)sslMode;
+- (void)setSslMode:(NSString *)value;
+
+- (NSString *)service;
+- (void)setService:(NSString *)value;
+
+- (NSString *)krbsrvName;
+- (void)setKrbsrvName:(NSString *)value;
+
 - (NSString *)errorDescription;
 - (void)setErrorDescription:(NSString *)ed;
+
+- (NSString *)connectionString;
+- (void)setConnectionString:(NSString *)ed;
 
 - (NSMutableString *)sqlLog;
 - (void)setSQLLog:(NSString *)value;
@@ -82,5 +100,6 @@
 - (NSString *)currentDatabase;
 
 - (int)cancelQuery;
+- (NSMutableString *)makeConnectionString;
 
 @end

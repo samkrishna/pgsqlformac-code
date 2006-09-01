@@ -80,6 +80,10 @@
 	return baseSchema;
 }
 
+-(NSColor *) nameColor
+{
+	return nameColor;
+}
 
 -(UInt32)oid;
 {
@@ -94,7 +98,9 @@
 
 -(void)setNameColor:(NSColor *)s
 {
-	; //TODO
+	[s retain];
+	[nameColor release];
+	nameColor = s;
 }
 
 -(void)setBaseTable:(NSString *)s

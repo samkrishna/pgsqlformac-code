@@ -15,16 +15,17 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 
 @implementation Schema
 
-- initWithConnection:(Connection *) theConnection
+- initWithConnectionString:(NSString *) theConnectionString
 {
 	NSString *sql;
 	RecordSet * results;
 	Field * versionField;
 	
 	[super init];
-	[connection release];
-	connection = theConnection;
-	[connection retain];
+
+	connection = [[Connection alloc] init];
+	[connection connectUsingString:theConnectionString];
+	
 	publicSchemaName = [[NSString alloc] initWithString: @"public"];
 	pgCatalogSchemaName = [[NSString alloc] initWithString: @"pg_catalog"];
 	informationSchemaName = [[NSString alloc] initWithString: @"information_schema"];
@@ -63,6 +64,10 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 - (NSString *)pgVersionFound;
 {
 	return pgVersionFound;
+}
+- (Connection *)connection;
+{
+	return connection;
 }
 
 

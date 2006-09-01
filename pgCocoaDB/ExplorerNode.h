@@ -22,6 +22,7 @@
 	NSString * comment;			// From postgresql comments database
 								//    for display as a tool tip
 	NSString *baseSchema;
+	NSColor *nameColor;
 }
 
 	// Accessor methods

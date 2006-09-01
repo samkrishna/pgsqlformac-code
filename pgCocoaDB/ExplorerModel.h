@@ -17,7 +17,8 @@
 @interface ExplorerModel : NSObject
 {
 	ExplorerNode * rootNode;
-	Connection * connection;
+	NSString * connectionString;
+	//Connection *connection;
 	Schema * schema;
 	bool showInformationSchema;
 	bool showPGCatalog;
@@ -29,7 +30,7 @@
 	unsigned int explorerThreadStatus;	// 0 = not inited, 1 = running, 2 = error, 3 = done, 
 }
 
-- (id)initWithConnection:(Connection *) aConnection;
+- (id)initWithConnectionString:(NSString *)theConnection;
 - (void)buildSchema:(id)anObject;
 
 - (void)setSchema:(Schema *)newSchema;

@@ -35,6 +35,12 @@ handle_pq_notice(void *arg, const char *message)
 	options = nil;
 	tty = nil;
 	dbName = [[NSString alloc] initWithString:@"template1"];
+	userName = nil;
+	password = nil;
+	sslMode = nil;
+	service = nil;
+	krbsrvName = nil;
+	connectionString = nil;
 	
 	errorDescription = nil;
 	sqlLog = [[NSMutableString alloc] init];
@@ -54,6 +60,10 @@ handle_pq_notice(void *arg, const char *message)
 	[dbName release];
 	[userName release];
 	[password release];
+	[sslMode release];
+	[service release];
+	[krbsrvName release];
+	[connectionString release];
 	[dbs release];
 	[errorDescription release];
 	[sqlLog release];
@@ -61,14 +71,18 @@ handle_pq_notice(void *arg, const char *message)
 	[super dealloc];
 }
 
+
 - (BOOL)connect
-{	
+{
 	[self disconnect];
-	
-	// connect to the server (attempt) // TODO should use PQconnectdb()
-	pgconn = (PGconn *)PQsetdbLogin([host cString], [port cString],
-					 [options cString], NULL, 
-					 [dbName cString], [userName cString], [password cString]);
+
+	if (connectionString == nil)
+	{
+		connectionString = [self makeConnectionString];
+		[connectionString retain];
+	}
+	NSAssert( (connectionString != nil), @"Attempted to connect to PostgreSQL with empty connectionString.");
+	pgconn = (PGconn *)PQconnectdb([connectionString cString]);
 	if (PQoptions(pgconn))
 	{
 		NSLog(@"Options: %s", PQoptions(pgconn));
@@ -80,7 +94,7 @@ handle_pq_notice(void *arg, const char *message)
 		NSLog(@"\t%s", PQerrorMessage(pgconn));
 		[self setErrorDescription:[NSString stringWithFormat:@"%s", PQerrorMessage(pgconn)]];
 		[self appendSQLLog:[NSMutableString stringWithFormat:@"Connection to database %@ Failed.\n", dbName]];
-
+		
 		PQfinish(pgconn);
 		pgconn = nil;
 		connected = NO;
@@ -99,10 +113,16 @@ handle_pq_notice(void *arg, const char *message)
 	}
 	// set up notification
 	PQsetNoticeProcessor(pgconn, handle_pq_notice, self);
-
+	
 	[self setSQLLog:[NSMutableString stringWithFormat:@"Connected to database %@ on %@.\n", dbName, [[NSCalendarDate calendarDate] description]]];
 	connected = YES;
 	return YES;
+}
+
+- (BOOL)connectUsingString:(NSString *)aConnectionString
+{
+	[self setConnectionString:aConnectionString];	
+	return [self connect];
 }
 
 - (BOOL)connectToHost:(NSString *)toHost
@@ -117,6 +137,7 @@ handle_pq_notice(void *arg, const char *message)
 	[self setTty:useTTY];
 	[self setDbName:userDB];
 	
+	[self setConnectionString:nil];
 	return [self connect];
 }
 
@@ -158,6 +179,7 @@ handle_pq_notice(void *arg, const char *message)
         [host release];
         host = [newHost copy];
     }
+	[self setConnectionString:nil];
 }
 
 - (NSString *)port
@@ -172,6 +194,7 @@ handle_pq_notice(void *arg, const char *message)
         [port release];
         port = [newPort copy];
     }
+	[self setConnectionString:nil];
 }
 
 - (NSString *)options
@@ -186,6 +209,7 @@ handle_pq_notice(void *arg, const char *message)
         [options release];
         options = [newOptions copy];
     }
+	[self setConnectionString:nil];
 }
 
 - (NSString *)tty;
@@ -200,6 +224,7 @@ handle_pq_notice(void *arg, const char *message)
         [tty release];
         tty = [newTty copy];
     }
+	[self setConnectionString:nil];
 }
 
 - (NSString *)dbName;
@@ -214,6 +239,7 @@ handle_pq_notice(void *arg, const char *message)
         [dbName release];
         dbName = [newDbName copy];
     }
+	[self setConnectionString:nil];
 }
 
 - (NSString *)userName 
@@ -228,6 +254,7 @@ handle_pq_notice(void *arg, const char *message)
         [userName release];
         userName = [value copy];
     }
+	[self setConnectionString:nil];
 }
 
 - (NSString *)password 
@@ -242,7 +269,65 @@ handle_pq_notice(void *arg, const char *message)
         [password release];
         password = [value copy];
     }
+	[self setConnectionString:nil];
 }
+
+- (NSString *)connectionString 
+{
+    return connectionString;
+}
+
+- (void)setConnectionString:(NSString *)value 
+{
+    if (connectionString != value) 
+	{
+        [connectionString release];
+        connectionString = [value copy];
+    }
+}
+
+- (NSString *)sslMode
+{
+	return sslMode;
+}
+
+- (void)setSslMode:(NSString *)value
+{
+    if (sslMode != value) 
+	{
+        [sslMode release];
+        sslMode = [value copy];
+	}
+}
+
+- (NSString *)service;
+{
+	return service;
+}
+
+- (void)setService:(NSString *)value;
+{
+    if (service != value) 
+	{
+        [service release];
+        service = [value copy];
+	}
+}
+
+- (NSString *)krbsrvName;
+{
+	return krbsrvName;
+}
+
+- (void)setKrbsrvName:(NSString *)value;
+{
+    if (krbsrvName != value) 
+	{
+        [krbsrvName release];
+        krbsrvName = [value copy];
+	}
+}
+
 
 - (Databases *)databases
 {
@@ -531,5 +616,54 @@ handle_pq_notice(void *arg, const char *message)
 	[self setErrorDescription:[NSString stringWithFormat:@"%s", buffer]];
 	return result;
 }
+
+-(NSMutableString *)makeConnectionString
+{
+	NSMutableString *connStr = [[[NSMutableString alloc] init] autorelease];
+	
+	if (connectionString)
+	{
+		[connStr appendString:connectionString];
+		return connStr;
+	}
+	if (host)
+	{
+		[connStr appendFormat:@" host='%@' ", host];
+	}
+	if (port)
+	{
+		[connStr appendFormat:@" port='%@' ", port];
+	}	
+	if (options)
+	{
+		[connStr appendFormat:@" options='%@' ", options];
+	}	
+	if (dbName)
+	{
+		[connStr appendFormat:@" dbname='%@' ", dbName];
+	}	
+	if (userName)
+	{
+		[connStr appendFormat:@" user='%@' ", userName];
+	}	
+	if (password)
+	{
+		[connStr appendFormat:@" password='%@' ", password];
+	}
+	if (sslMode)
+	{
+		[connStr appendFormat:@" sslmode='%@' ", sslMode];
+	}
+	if (service)
+	{
+		[connStr appendFormat:@" service='%@' ", service];
+	}
+	if (krbsrvName)
+	{
+		[connStr appendFormat:@" krbsrvname='%@' ", krbsrvName];
+	}
+	return connStr;
+}
+
 
 @end
