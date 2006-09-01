@@ -1,3 +1,17 @@
+2006-08-30 16:25  ntiffin
+
+	* MyOutlineView.m, TODO.txt,
+	  English.lproj/Preferences.nib/classes.nib,
+	  English.lproj/Preferences.nib/keyedobjects.nib: Improve wording
+	  of menu items.
+
+2006-08-30 10:51  ntiffin
+
+	* AppController.h, ChangeLog, DataSource.m, MyOutlineView.h,
+	  MyResultsView.h, PreferenceController.h, SqlDocument.h,
+	  SqlDocument.m, SqlMenuCategory.h, SqlToolbarCategory.h:
+	  Restructure for schema threading.
+
 2006-08-29 20:06  ntiffin
 
 	* AppController.h, AppController.m, ChangeLog,

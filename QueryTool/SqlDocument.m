@@ -178,12 +178,14 @@
 	return fileContent != nil;
 }
 
+
 -(void)setNewExplorerConn
 {
 	[explorer autorelease];
 	
 	// create the new schema explorer
-	explorer =[[ExplorerModel alloc] initWithConnection: conn];
+	explorer =[[ExplorerModel alloc] initWithConnectionString: [conn makeConnectionString]];
+	
 	// set explorer display defaults from NSUserDefaults
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 	[explorer setShowInformationSchema:[userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowInformationSchema"]];
