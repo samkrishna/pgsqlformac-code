@@ -1,8 +1,10 @@
-2006-08-31 19:56  ntiffin
+2006-09-04 09:22  ntiffin
 
-	* ChangeLog, SqlDocument.m, Help/.DS_Store, Help/index.html: Fix
-	  for PGconn not being thread safe. Migrate to new PQconnectdb API.
-	  Add help text.
+	* AppController.m, ChangeLog, PreferenceController.h,
+	  PreferenceController.m, SqlDocument.m, TODO.txt,
+	  English.lproj/SqlDocument.nib/info.nib,
+	  English.lproj/SqlDocument.nib/keyedobjects.nib: Move Keywords to
+	  and refactor preferences.
 
 2006-08-30 16:25  ntiffin
 
