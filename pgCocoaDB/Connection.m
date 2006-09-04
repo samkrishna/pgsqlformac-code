@@ -94,6 +94,7 @@ handle_pq_notice(void *arg, const char *message)
 		NSLog(@"\t%s", PQerrorMessage(pgconn));
 		[self setErrorDescription:[NSString stringWithFormat:@"%s", PQerrorMessage(pgconn)]];
 		[self appendSQLLog:[NSMutableString stringWithFormat:@"Connection to database %@ Failed.\n", dbName]];
+		[self appendSQLLog:[NSMutableString stringWithFormat:@"Connection string: %@\n\n", connectionString]];
 		
 		PQfinish(pgconn);
 		pgconn = nil;

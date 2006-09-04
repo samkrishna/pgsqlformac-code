@@ -344,6 +344,7 @@
 // May be run in a separate thread.
 - (void)buildSchema:(id)anOutlineView
 {
+	[self retain]; // Make sure self does not dealloc while thread is running.
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	ExplorerNode * newNode;
 	ExplorerNode * newChild;
@@ -354,12 +355,13 @@
 
 	if (schema == nil)
 	{
-		NSLog(@"Attempted to build Schema without proper init.");
+		NSLog(@"Schema init returned error.");
+		[self setExplorerThreadStatus:Error];
 		return;
 	}
 	
 	
-	[self setExplorerThreadStatus:1];
+	[self setExplorerThreadStatus:Running];
 
 	// set database level
     realRootNode = [[ExplorerNode alloc] init];
@@ -457,11 +459,12 @@
 	}
 	[rootNode autorelease];
 	rootNode = realRootNode;
-	[self setExplorerThreadStatus:3];
+	[self setExplorerThreadStatus:Done];
 	[(NSOutlineView *)anOutlineView reloadData];
 	[schema release];
 	schema = nil;
 	[pool release];
+	[self release];
 	return;
 }
 

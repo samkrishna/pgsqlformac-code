@@ -13,6 +13,7 @@
 #import "Schema.h"
 #import "PGCocoaDB.h"
 
+enum thread_status { None, Running, Done, Error };
 
 @interface ExplorerModel : NSObject
 {
@@ -27,7 +28,7 @@
 	bool showPublic;
 	
 	NSLock *explorerThreadStatusLock;
-	unsigned int explorerThreadStatus;	// 0 = not inited, 1 = running, 2 = error, 3 = done, 
+	enum thread_status explorerThreadStatus; 
 }
 
 - (id)initWithConnectionString:(NSString *)theConnection;
