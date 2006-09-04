@@ -1,0 +1,752 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		43303391066135480037D932 /* Connection.h in Headers */ = {isa = PBXBuildFile; fileRef = 4330338F066135480037D932 /* Connection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		43303392066135480037D932 /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 43303390066135480037D932 /* Connection.m */; };
+		433033B7066135EA0037D932 /* Database.h in Headers */ = {isa = PBXBuildFile; fileRef = 433033A7066135EA0037D932 /* Database.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433033B8066135EA0037D932 /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033A8066135EA0037D932 /* Database.m */; };
+		433033B9066135EA0037D932 /* Databases.h in Headers */ = {isa = PBXBuildFile; fileRef = 433033A9066135EA0037D932 /* Databases.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433033BA066135EA0037D932 /* Databases.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033AA066135EA0037D932 /* Databases.m */; };
+		433033BB066135EA0037D932 /* DataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 433033AB066135EA0037D932 /* DataSource.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433033BC066135EA0037D932 /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033AC066135EA0037D932 /* DataSource.m */; };
+		433033BD066135EA0037D932 /* Field.h in Headers */ = {isa = PBXBuildFile; fileRef = 433033AD066135EA0037D932 /* Field.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433033BE066135EA0037D932 /* Field.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033AE066135EA0037D932 /* Field.m */; };
+		433033BF066135EA0037D932 /* Fields.h in Headers */ = {isa = PBXBuildFile; fileRef = 433033AF066135EA0037D932 /* Fields.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433033C0066135EA0037D932 /* Fields.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033B0066135EA0037D932 /* Fields.m */; };
+		433033C1066135EA0037D932 /* Record.h in Headers */ = {isa = PBXBuildFile; fileRef = 433033B1066135EA0037D932 /* Record.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433033C2066135EA0037D932 /* Record.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033B2066135EA0037D932 /* Record.m */; };
+		433033C3066135EA0037D932 /* RecordSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 433033B3066135EA0037D932 /* RecordSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		433033C4066135EA0037D932 /* RecordSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033B4066135EA0037D932 /* RecordSet.m */; };
+		8DC2EF510486A6940098B216 /* pgCocoaDB_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF5E0370ADEE00C91783 /* pgCocoaDB_Prefix.pch */; };
+		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
+		8DC2EF550486A6940098B216 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 08FB77B4FE84181DC02AAC07 /* main.c */; settings = {ATTRIBUTES = (); }; };
+		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
+		CE6BF7F209B26F98000856E5 /* Schema.h in Headers */ = {isa = PBXBuildFile; fileRef = CE6BF7F009B26F98000856E5 /* Schema.h */; };
+		CE6BF7F309B26F98000856E5 /* Schema.m in Sources */ = {isa = PBXBuildFile; fileRef = CE6BF7F109B26F98000856E5 /* Schema.m */; };
+		CE74E3770AA5BBC300D0835A /* PGCocoaDB.h in Headers */ = {isa = PBXBuildFile; fileRef = CE74E3760AA5BBC300D0835A /* PGCocoaDB.h */; };
+		CE76CE0C09B9FD4D0005B7AB /* Table.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033B6066135EA0037D932 /* Table.m */; };
+		CE76CE0D09B9FD550005B7AB /* Schema.m in Sources */ = {isa = PBXBuildFile; fileRef = CE6BF7F109B26F98000856E5 /* Schema.m */; };
+		CE76CE0E09B9FD5C0005B7AB /* RecordSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033B4066135EA0037D932 /* RecordSet.m */; };
+		CE76CE0F09B9FD7D0005B7AB /* Record.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033B2066135EA0037D932 /* Record.m */; };
+		CE76CE1009B9FD810005B7AB /* Fields.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033B0066135EA0037D932 /* Fields.m */; };
+		CE76CE1109B9FD860005B7AB /* Field.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033AE066135EA0037D932 /* Field.m */; };
+		CE76CE1209B9FD8B0005B7AB /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033AC066135EA0037D932 /* DataSource.m */; };
+		CE76CE1309B9FD900005B7AB /* Databases.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033AA066135EA0037D932 /* Databases.m */; };
+		CE76CE1409B9FD990005B7AB /* Database.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033A8066135EA0037D932 /* Database.m */; };
+		CE76CE1509B9FD9D0005B7AB /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 43303390066135480037D932 /* Connection.m */; };
+		CE9B2BC509B9F12200877A0E /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CE9B2B9D09B9F03000877A0E /* SenTestingKit.framework */; };
+		CE9B2BC809B9F19800877A0E /* pgCocoaDBSchemaTest.m in Sources */ = {isa = PBXBuildFile; fileRef = CE9B2BC709B9F19800877A0E /* pgCocoaDBSchemaTest.m */; };
+		CEAC035209C4F5D300B7E379 /* Table.h in Headers */ = {isa = PBXBuildFile; fileRef = 433033B5066135EA0037D932 /* Table.h */; };
+		CEAC035309C4F5D400B7E379 /* Table.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033B6066135EA0037D932 /* Table.m */; };
+		CED62FF909C48EDE00B6B94B /* ExplorerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CED62FF809C48EDE00B6B94B /* ExplorerModel.m */; };
+		CED62FFA09C48EDE00B6B94B /* ExplorerModel.h in Headers */ = {isa = PBXBuildFile; fileRef = CED62FF709C48EDE00B6B94B /* ExplorerModel.h */; };
+		CED62FFB09C48EDE00B6B94B /* ExplorerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = CED62FF809C48EDE00B6B94B /* ExplorerModel.m */; };
+		CED6300009C48EED00B6B94B /* ExplorerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = CED62FFF09C48EED00B6B94B /* ExplorerNode.m */; };
+		CED6300109C48EED00B6B94B /* ExplorerNode.h in Headers */ = {isa = PBXBuildFile; fileRef = CED62FFE09C48EED00B6B94B /* ExplorerNode.h */; };
+		CED6300209C48EED00B6B94B /* ExplorerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = CED62FFF09C48EED00B6B94B /* ExplorerNode.m */; };
+		CED865D30A0E5FCC00F9FD5D /* libpq.4.1.dylib-8.1 in Resources */ = {isa = PBXBuildFile; fileRef = CED865D20A0E5FCC00F9FD5D /* libpq.4.1.dylib-8.1 */; };
+		CED865D40A0E5FCC00F9FD5D /* libpq.4.1.dylib-8.1 in Resources */ = {isa = PBXBuildFile; fileRef = CED865D20A0E5FCC00F9FD5D /* libpq.4.1.dylib-8.1 */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		08FB77B4FE84181DC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		32DBCF5E0370ADEE00C91783 /* pgCocoaDB_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pgCocoaDB_Prefix.pch; sourceTree = "<group>"; };
+		4330338F066135480037D932 /* Connection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Connection.h; sourceTree = "<group>"; };
+		43303390066135480037D932 /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Connection.m; sourceTree = "<group>"; };
+		433033A7066135EA0037D932 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
+		433033A8066135EA0037D932 /* Database.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Database.m; sourceTree = "<group>"; };
+		433033A9066135EA0037D932 /* Databases.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Databases.h; sourceTree = "<group>"; };
+		433033AA066135EA0037D932 /* Databases.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Databases.m; sourceTree = "<group>"; };
+		433033AB066135EA0037D932 /* DataSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
+		433033AC066135EA0037D932 /* DataSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DataSource.m; sourceTree = "<group>"; };
+		433033AD066135EA0037D932 /* Field.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Field.h; sourceTree = "<group>"; };
+		433033AE066135EA0037D932 /* Field.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Field.m; sourceTree = "<group>"; };
+		433033AF066135EA0037D932 /* Fields.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Fields.h; sourceTree = "<group>"; };
+		433033B0066135EA0037D932 /* Fields.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Fields.m; sourceTree = "<group>"; };
+		433033B1066135EA0037D932 /* Record.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Record.h; sourceTree = "<group>"; };
+		433033B2066135EA0037D932 /* Record.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Record.m; sourceTree = "<group>"; };
+		433033B3066135EA0037D932 /* RecordSet.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = RecordSet.h; sourceTree = "<group>"; };
+		433033B4066135EA0037D932 /* RecordSet.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RecordSet.m; sourceTree = "<group>"; };
+		433033B5066135EA0037D932 /* Table.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Table.h; sourceTree = "<group>"; };
+		433033B6066135EA0037D932 /* Table.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Table.m; sourceTree = "<group>"; };
+		434E29C207DDFF62002F9C11 /* COPYRIGHT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYRIGHT; sourceTree = "<group>"; };
+		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8DC2EF5B0486A6940098B216 /* pgCocoaDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = pgCocoaDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE6BF7F009B26F98000856E5 /* Schema.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Schema.h; sourceTree = "<group>"; };
+		CE6BF7F109B26F98000856E5 /* Schema.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Schema.m; sourceTree = "<group>"; };
+		CE74E3760AA5BBC300D0835A /* PGCocoaDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGCocoaDB.h; sourceTree = "<group>"; };
+		CE76CE6A09BA06EE0005B7AB /* SenTestCase_Macros.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SenTestCase_Macros.h; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/SenTestingKit.framework/Versions/A/Headers/SenTestCase_Macros.h; sourceTree = "<absolute>"; };
+		CE9B2B9409B9ECB100877A0E /* UnitTest.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnitTest.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE9B2B9509B9ECB100877A0E /* UnitTest-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "UnitTest-Info.plist"; sourceTree = "<group>"; };
+		CE9B2B9D09B9F03000877A0E /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/SenTestingKit.framework; sourceTree = "<absolute>"; };
+		CE9B2BC609B9F19800877A0E /* pgCocoaDBSchemaTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = pgCocoaDBSchemaTest.h; path = UnitTest/pgCocoaDBSchemaTest.h; sourceTree = "<group>"; };
+		CE9B2BC709B9F19800877A0E /* pgCocoaDBSchemaTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = pgCocoaDBSchemaTest.m; path = UnitTest/pgCocoaDBSchemaTest.m; sourceTree = "<group>"; };
+		CED62FF709C48EDE00B6B94B /* ExplorerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExplorerModel.h; sourceTree = "<group>"; };
+		CED62FF809C48EDE00B6B94B /* ExplorerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExplorerModel.m; sourceTree = "<group>"; };
+		CED62FFE09C48EED00B6B94B /* ExplorerNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExplorerNode.h; sourceTree = "<group>"; };
+		CED62FFF09C48EED00B6B94B /* ExplorerNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExplorerNode.m; sourceTree = "<group>"; };
+		CED865D20A0E5FCC00F9FD5D /* libpq.4.1.dylib-8.1 */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.man; name = "libpq.4.1.dylib-8.1"; path = "/sw/lib/libpq.4.1.dylib-8.1"; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DC2EF560486A6940098B216 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE9B2B9109B9ECB100877A0E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE9B2BC509B9F12200877A0E /* SenTestingKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5B0486A6940098B216 /* pgCocoaDB.framework */,
+				CE9B2B9409B9ECB100877A0E /* UnitTest.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* pgCocoaDB */ = {
+			isa = PBXGroup;
+			children = (
+				CE9B2BA409B9F06D00877A0E /* UnitTests */,
+				434E29C207DDFF62002F9C11 /* COPYRIGHT */,
+				08FB77AEFE84172EC02AAC07 /* Classes */,
+				32C88DFF0371C24200C91783 /* Other Sources */,
+				089C1665FE841158C02AAC07 /* Resources */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DFFF38A50411DB9C8B /* Products */,
+			);
+			name = pgCocoaDB;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
+				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C1665FE841158C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5A0486A6940098B216 /* Info.plist */,
+				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+				CE9B2B9509B9ECB100877A0E /* UnitTest-Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AEFE84172EC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				CED62FFE09C48EED00B6B94B /* ExplorerNode.h */,
+				CED62FFF09C48EED00B6B94B /* ExplorerNode.m */,
+				CED62FF709C48EDE00B6B94B /* ExplorerModel.h */,
+				CED62FF809C48EDE00B6B94B /* ExplorerModel.m */,
+				CE74E3760AA5BBC300D0835A /* PGCocoaDB.h */,
+				4330338F066135480037D932 /* Connection.h */,
+				43303390066135480037D932 /* Connection.m */,
+				433033A7066135EA0037D932 /* Database.h */,
+				433033A8066135EA0037D932 /* Database.m */,
+				433033A9066135EA0037D932 /* Databases.h */,
+				433033AA066135EA0037D932 /* Databases.m */,
+				433033AB066135EA0037D932 /* DataSource.h */,
+				433033AC066135EA0037D932 /* DataSource.m */,
+				433033AD066135EA0037D932 /* Field.h */,
+				433033AE066135EA0037D932 /* Field.m */,
+				433033AF066135EA0037D932 /* Fields.h */,
+				433033B0066135EA0037D932 /* Fields.m */,
+				433033B1066135EA0037D932 /* Record.h */,
+				433033B2066135EA0037D932 /* Record.m */,
+				433033B3066135EA0037D932 /* RecordSet.h */,
+				433033B4066135EA0037D932 /* RecordSet.m */,
+				CE6BF7F009B26F98000856E5 /* Schema.h */,
+				CE6BF7F109B26F98000856E5 /* Schema.m */,
+				433033B5066135EA0037D932 /* Table.h */,
+				433033B6066135EA0037D932 /* Table.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CED865D20A0E5FCC00F9FD5D /* libpq.4.1.dylib-8.1 */,
+				CE9B2B9D09B9F03000877A0E /* SenTestingKit.framework */,
+				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
+				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		32C88DFF0371C24200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				CE76CE6A09BA06EE0005B7AB /* SenTestCase_Macros.h */,
+				32DBCF5E0370ADEE00C91783 /* pgCocoaDB_Prefix.pch */,
+				08FB77B4FE84181DC02AAC07 /* main.c */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		CE9B2BA409B9F06D00877A0E /* UnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				CE9B2BC609B9F19800877A0E /* pgCocoaDBSchemaTest.h */,
+				CE9B2BC709B9F19800877A0E /* pgCocoaDBSchemaTest.m */,
+			);
+			name = UnitTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8DC2EF500486A6940098B216 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF510486A6940098B216 /* pgCocoaDB_Prefix.pch in Headers */,
+				43303391066135480037D932 /* Connection.h in Headers */,
+				433033B7066135EA0037D932 /* Database.h in Headers */,
+				433033B9066135EA0037D932 /* Databases.h in Headers */,
+				433033BB066135EA0037D932 /* DataSource.h in Headers */,
+				433033BD066135EA0037D932 /* Field.h in Headers */,
+				433033BF066135EA0037D932 /* Fields.h in Headers */,
+				433033C1066135EA0037D932 /* Record.h in Headers */,
+				433033C3066135EA0037D932 /* RecordSet.h in Headers */,
+				CE6BF7F209B26F98000856E5 /* Schema.h in Headers */,
+				CED62FFA09C48EDE00B6B94B /* ExplorerModel.h in Headers */,
+				CED6300109C48EED00B6B94B /* ExplorerNode.h in Headers */,
+				CEAC035209C4F5D300B7E379 /* Table.h in Headers */,
+				CE74E3770AA5BBC300D0835A /* PGCocoaDB.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8DC2EF4F0486A6940098B216 /* pgCocoaDB */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43389A460869E11900D5B56D /* Build configuration list for PBXNativeTarget "pgCocoaDB" */;
+			buildPhases = (
+				8DC2EF500486A6940098B216 /* Headers */,
+				8DC2EF520486A6940098B216 /* Resources */,
+				8DC2EF540486A6940098B216 /* Sources */,
+				8DC2EF560486A6940098B216 /* Frameworks */,
+				8DC2EF580486A6940098B216 /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = pgCocoaDB;
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = pgCocoaDB;
+			productReference = 8DC2EF5B0486A6940098B216 /* pgCocoaDB.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		CE9B2B9309B9ECB100877A0E /* UnitTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE9B2B9609B9ECB200877A0E /* Build configuration list for PBXNativeTarget "UnitTest" */;
+			buildPhases = (
+				CE9B2B8F09B9ECB100877A0E /* Resources */,
+				CE9B2B9009B9ECB100877A0E /* Sources */,
+				CE9B2B9109B9ECB100877A0E /* Frameworks */,
+				CE9B2B9209B9ECB100877A0E /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UnitTest;
+			productName = UnitTest;
+			productReference = CE9B2B9409B9ECB100877A0E /* UnitTest.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 43389A4A0869E11900D5B56D /* Build configuration list for PBXProject "pgCocoaDBn" */;
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* pgCocoaDB */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			targets = (
+				8DC2EF4F0486A6940098B216 /* pgCocoaDB */,
+				CE9B2B9309B9ECB100877A0E /* UnitTest */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8DC2EF520486A6940098B216 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
+				CED865D40A0E5FCC00F9FD5D /* libpq.4.1.dylib-8.1 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE9B2B8F09B9ECB100877A0E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CED865D30A0E5FCC00F9FD5D /* libpq.4.1.dylib-8.1 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		8DC2EF580486A6940098B216 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		CE9B2B9209B9ECB100877A0E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DC2EF540486A6940098B216 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF550486A6940098B216 /* main.c in Sources */,
+				43303392066135480037D932 /* Connection.m in Sources */,
+				433033B8066135EA0037D932 /* Database.m in Sources */,
+				433033BA066135EA0037D932 /* Databases.m in Sources */,
+				433033BC066135EA0037D932 /* DataSource.m in Sources */,
+				433033BE066135EA0037D932 /* Field.m in Sources */,
+				433033C0066135EA0037D932 /* Fields.m in Sources */,
+				433033C2066135EA0037D932 /* Record.m in Sources */,
+				433033C4066135EA0037D932 /* RecordSet.m in Sources */,
+				CE6BF7F309B26F98000856E5 /* Schema.m in Sources */,
+				CED62FFB09C48EDE00B6B94B /* ExplorerModel.m in Sources */,
+				CED6300209C48EED00B6B94B /* ExplorerNode.m in Sources */,
+				CEAC035309C4F5D400B7E379 /* Table.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE9B2B9009B9ECB100877A0E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE76CE1509B9FD9D0005B7AB /* Connection.m in Sources */,
+				CE76CE1409B9FD990005B7AB /* Database.m in Sources */,
+				CE76CE1309B9FD900005B7AB /* Databases.m in Sources */,
+				CE76CE1209B9FD8B0005B7AB /* DataSource.m in Sources */,
+				CE76CE1109B9FD860005B7AB /* Field.m in Sources */,
+				CE76CE1009B9FD810005B7AB /* Fields.m in Sources */,
+				CE76CE0F09B9FD7D0005B7AB /* Record.m in Sources */,
+				CE76CE0C09B9FD4D0005B7AB /* Table.m in Sources */,
+				CE76CE0D09B9FD550005B7AB /* Schema.m in Sources */,
+				CE76CE0E09B9FD5C0005B7AB /* RecordSet.m in Sources */,
+				CE9B2BC809B9F19800877A0E /* pgCocoaDBSchemaTest.m in Sources */,
+				CED62FF909C48EDE00B6B94B /* ExplorerModel.m in Sources */,
+				CED6300009C48EED00B6B94B /* ExplorerNode.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C1667FE841158C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		43389A470869E11900D5B56D /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = ppc;
+				COPY_PHASE_STRIP = NO;
+				DEBUGGING_SYMBOLS = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks",
+					/sw/lib,
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = pgCocoaDB_Prefix.pch;
+				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_CHECK_SWITCH_STATEMENTS = YES;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED = YES;
+				GCC_WARN_MISSING_PARENTHESES = YES;
+				GCC_WARN_SHADOW = YES;
+				GCC_WARN_SIGN_COMPARE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				GCC_WARN_UNUSED_VALUE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/sw/include,
+					/sw/include/postgresql,
+				);
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = /sw/lib;
+				LIBRARY_STYLE = Dynamic;
+				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "-DPG_COCOA_DEBUG=1";
+				OTHER_LDFLAGS = (
+					"-lssl",
+					"-lcrypto",
+					"-lkrb5",
+					"-lpq",
+					"-seg1addr",
+					0xb0000000,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = pgCocoaDB;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SECTORDER_FLAGS = "";
+				VERSIONING_SYSTEM = "";
+				WARNING_CFLAGS = "";
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = YES;
+			};
+			name = Development;
+		};
+		43389A480869E11900D5B56D /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = ppc;
+				COPY_PHASE_STRIP = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks",
+					/sw/lib,
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = pgCocoaDB_Prefix.pch;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = (
+					/sw/include,
+					/sw/include/postgresql,
+				);
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = /sw/lib;
+				LIBRARY_STYLE = Dynamic;
+				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_LDFLAGS = (
+					"-lssl",
+					"-lcrypto",
+					"-lkrb5",
+					"-lpq",
+					"-seg1addr",
+					0xb0000000,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = pgCocoaDB;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SECTORDER_FLAGS = "";
+				VERSIONING_SYSTEM = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		43389A490869E11900D5B56D /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = ppc;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks",
+				);
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_TRIGRAPHS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = pgCocoaDB_Prefix.pch;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
+				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
+				GCC_WARN_UNKNOWN_PRAGMAS = NO;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@executable_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				LIBRARY_STYLE = Dynamic;
+				MACH_O_TYPE = mh_dylib;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				OTHER_LDFLAGS = (
+					"-lssl",
+					"-lcrypto",
+					"-lkrb5",
+					"-lpq",
+					"-seg1addr",
+					0xb0000000,
+				);
+				PRODUCT_NAME = pgCocoaDB;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SECTORDER_FLAGS = "";
+				VERSIONING_SYSTEM = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Default;
+		};
+		43389A4B0869E11900D5B56D /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_OPTIMIZATION_LEVEL = 0;
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Development;
+		};
+		43389A4C0869E11900D5B56D /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Deployment;
+		};
+		43389A4D0869E11900D5B56D /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Default;
+		};
+		CE9B2B9709B9ECB200877A0E /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				HEADER_SEARCH_PATHS = (
+					/sw/include,
+					/sw/include/postgresql,
+				);
+				INFOPLIST_FILE = "UnitTest-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = /sw/lib;
+				OTHER_CFLAGS = (
+					"-DDROP_EXISTING_DATABASE=1",
+					"-DPGCOCOA_LOG_SQL",
+				);
+				OTHER_LDFLAGS = (
+					"-lssl",
+					"-lcrypto",
+					"-lkrb5",
+					"-lpq",
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = UnitTest;
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		CE9B2B9809B9ECB200877A0E /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				HEADER_SEARCH_PATHS = (
+					/sw/include/postgresql,
+					/sw/include,
+				);
+				INFOPLIST_FILE = "UnitTest-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = /sw/lib;
+				OTHER_CFLAGS = "-DNEIL_TEST=1";
+				OTHER_LDFLAGS = (
+					"-lpq",
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = UnitTest;
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		CE9B2B9909B9ECB200877A0E /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(FRAMEWORK_SEARCH_PATHS)",
+					"$(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks",
+				);
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
+				INFOPLIST_FILE = "UnitTest-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Cocoa,
+					"-framework",
+					SenTestingKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = UnitTest;
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Default;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		43389A460869E11900D5B56D /* Build configuration list for PBXNativeTarget "pgCocoaDB" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43389A470869E11900D5B56D /* Development */,
+				43389A480869E11900D5B56D /* Deployment */,
+				43389A490869E11900D5B56D /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		43389A4A0869E11900D5B56D /* Build configuration list for PBXProject "pgCocoaDBn" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43389A4B0869E11900D5B56D /* Development */,
+				43389A4C0869E11900D5B56D /* Deployment */,
+				43389A4D0869E11900D5B56D /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		CE9B2B9609B9ECB200877A0E /* Build configuration list for PBXNativeTarget "UnitTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE9B2B9709B9ECB200877A0E /* Development */,
+				CE9B2B9809B9ECB200877A0E /* Deployment */,
+				CE9B2B9909B9ECB200877A0E /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}
