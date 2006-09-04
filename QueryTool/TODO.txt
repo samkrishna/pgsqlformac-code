@@ -1,26 +1,29 @@
 Neil's Open Items
 
 
-TODO - Features, Functions and Warnings (in priority order)
+TODO - Features, Functions and Warnings (in rough priority order)
 =======================================
-- 2006_08-30 Sequence SQL not complete.
+- 2006-08-30 Sequence SQL not complete.
+
+- 2006-09-01 "Query Completed message in main window should show elapsed time and first 30 characters of query.
 
 - 2006-08-30 Constraints not tested in unit test pgCocoaDB.
 
 - 2006-06-16 Use function to attempt to cancel a query in pgCocoaDB.  Need to change to async queries.
 
-- 2006-08-26 Add save log function.
-
-- 2006-08-26 Add buttons to log to window to clear log and control sql and info display.
+- 2006-08-26 Add clear and save log function.
 
 - 2006-08-26 Add explain query button.
+
+- 2006-09-01 Add functinality to edit results.
+
+- 2006-09-01 Rule schema not complete.
+
+- 2006-09-01 Add show locks function.
 
 
 FIXME (Known Errors)
 ====================
-2006-06-22 13:20:17.480 Query Tool for Postgres[5590] -[NSBigMutableString characterAtIndex:] called with out-of-bounds index. For apps linked on Tiger this will raise an exception. For earlier apps it will produce this one-time warning and continue with existing behavior (which is undefined).
-2006-06-22 13:20:17.480 Query Tool for Postgres[5590] Exception raised during posting of notification.  Ignored.  exception: *** -[NSBigMutableString characterAtIndex:]: Range or index out of bounds
-
 2006-08-26 Function return parameters not correctly determined, see below:
 
 			CREATE or REPLACE FUNCTION pgcocoa_test_schema.create_time_stamp  AS $$
@@ -30,8 +33,16 @@ FIXME (Known Errors)
 			END;
 			$$ LANGUAGE plpgsql;
 
+- 2006-09-01 "Save As" always saves the query window, should save the log window if the log window is front most.
+
+2006-06-22 13:20:17.480 Query Tool for Postgres[5590] -[NSBigMutableString characterAtIndex:] called with out-of-bounds index. For apps linked on Tiger this will raise an exception. For earlier apps it will produce this one-time warning and continue with existing behavior (which is undefined).
+2006-06-22 13:20:17.480 Query Tool for Postgres[5590] Exception raised during posting of notification.  Ignored.  exception: *** -[NSBigMutableString characterAtIndex:]: Range or index out of bounds
+
+
 Completed
 =========
+- 2006-09-01 Refactored user defaults in SQLDocument.
+
 - 2006-08-30 Column definitions only show type, not constraints (NOT NULL, UNIQUE, etc). (8/30/2006)
 
 - 2006-08-30 Constraints not in schema. (8/30/2006)
@@ -103,3 +114,191 @@ See /usr/include/servers/bootstrap_defs.h for the error codes.
 - Create Table SQL has extra space before "," on each column. (5/22/2006) Fixed.
 
 - Alter Table rename needs to have schema removed from the new name for correct syntax. (5/22/2006) Fixed.
+
+
+Date/Time:      2006-09-02 11:30:08.073 -0500
+OS Version:     10.4.7 (Build 8J135)
+Report Version: 4
+
+Command: Query Tool for Postgres
+Path:    /Maui-Dev/PostgreSQL_Tools_cvs/QueryTool/build/Development/Query Tool for Postgres.app/Contents/MacOS/Query Tool for Postgres
+Parent:  WindowServer [4102]
+
+Version: 1.0 (8.1)
+
+PID:    4525
+Thread: 2
+
+Exception:  EXC_BAD_ACCESS (0x0001)
+Codes:      KERN_INVALID_ADDRESS (0x0001) at 0x48814100
+
+Thread 0:
+0   libSystem.B.dylib              	0x9000b268 mach_msg_trap + 8
+1   libSystem.B.dylib              	0x9000b1bc mach_msg + 60
+2   com.apple.CoreFoundation       	0x907dbb78 __CFRunLoopRun + 832
+3   com.apple.CoreFoundation       	0x907db47c CFRunLoopRunSpecific + 268
+4   com.apple.HIToolbox            	0x931eb740 RunCurrentEventLoopInMode + 264
+5   com.apple.HIToolbox            	0x931eadd4 ReceiveNextEventCommon + 380
+6   com.apple.HIToolbox            	0x931eac40 BlockUntilNextEventMatchingListInMode + 96
+7   com.apple.AppKit               	0x936eeae4 _DPSNextEvent + 384
+8   com.apple.AppKit               	0x936ee7a8 -[NSApplication nextEventMatchingMask:untilDate:inMode:dequeue:] + 116
+9   com.apple.AppKit               	0x936eacec -[NSApplication run] + 472
+10  com.apple.AppKit               	0x937db87c NSApplicationMain + 452
+11  com.druware.postgres.QueryTool 	0x0000dfa4 main + 60 (main.m:13)
+12  com.druware.postgres.QueryTool 	0x0000224c start + 812
+13  com.druware.postgres.QueryTool 	0x00001f50 start + 48
+
+Thread 1:
+0   libSystem.B.dylib              	0x9002c2e8 semaphore_wait_signal_trap + 8
+1   libSystem.B.dylib              	0x90030dcc pthread_cond_wait + 480
+2   com.apple.Foundation           	0x9294b300 -[NSConditionLock lockWhenCondition:] + 68
+3   com.apple.AppKit               	0x9378b708 -[NSUIHeartBeat _heartBeatThread:] + 324
+4   com.apple.Foundation           	0x92944194 forkThreadForFunction + 108
+5   libSystem.B.dylib              	0x9002bc28 _pthread_body + 96
+
+Thread 2 Crashed:
+0   libobjc.A.dylib                	0x90a3e100 objc_msgSend + 32
+1   com.druware.pgcocoadb          	0xb00025c0 -[Connection setConnectionString:] + 144 (Connection.m:286)
+2   com.druware.pgcocoadb          	0xb0001a68 -[Connection connectUsingString:] + 92 (Connection.m:126)
+3   com.druware.pgcocoadb          	0xb0006270 -[Schema initWithConnectionString:] + 236 (Schema.m:29)
+4   com.druware.pgcocoadb          	0xb000c99c -[ExplorerModel buildSchema:] + 224 (ExplorerModel.m:353)
+5   com.apple.Foundation           	0x92944194 forkThreadForFunction + 108
+6   libSystem.B.dylib              	0x9002bc28 _pthread_body + 96
+
+Thread 2 crashed with PPC Thread State 64:
+  srr0: 0x0000000090a3e100 srr1: 0x000000000200f030                        vrsave: 0x0000000000000000
+    cr: 0x44000428          xer: 0x0000000000000000   lr: 0x00000000b00025c0  ctr: 0x0000000090a3e0e0
+    r0: 0x00000000b00025c0   r1: 0x00000000f0101c50   r2: 0x0000000048814100   r3: 0x0000000000411a80
+    r4: 0x0000000090a4e180   r5: 0x0000000000411a80   r6: 0x0000000000000005   r7: 0x0000000000000006
+    r8: 0x00000000005021ed   r9: 0x0000000000411a80  r10: 0x00000000005001e9  r11: 0x000000006f5ae180
+   r12: 0x000000000000357b  r13: 0x0000000000000000  r14: 0x0000000000000000  r15: 0x0000000000000000
+   r16: 0x0000000000000000  r17: 0x0000000000000000  r18: 0x0000000000000000  r19: 0x0000000000000000
+   r20: 0x0000000000000000  r21: 0x0000000000000000  r22: 0x0000000000000000  r23: 0x0000000000000000
+   r24: 0x0000000000000000  r25: 0x0000000000000000  r26: 0x0000000000000000  r27: 0x0000000001891400
+   r28: 0x0000000000000000  r29: 0x00000000004fd890  r30: 0x00000000f0101c50  r31: 0x00000000b000255c
+
+Binary Images Description:
+    0x1000 -     0xafff com.druware.postgres.QueryTool 1.0 (8.1)	/Maui-Dev/PostgreSQL_Tools_cvs/QueryTool/build/Development/Query Tool for Postgres.app/Contents/MacOS/Query Tool for Postgres
+    0xd000 -     0xdfff com.druware.postgres.QueryTool 1.0 (8.1)	/Maui-Dev/PostgreSQL_Tools_cvs/QueryTool/build/Development/Query Tool for Postgres.app/Contents/MacOS/Query Tool for Postgres
+   0x21000 -    0x39fff libpq.4.dylib 	/sw/lib/libpq.4.dylib
+   0x42000 -    0x72fff libssl.0.9.7.dylib 	/sw/lib/libssl.0.9.7.dylib
+   0xa2000 -    0xadfff com.druware.postgres.QueryTool 1.0 (8.1)	/Maui-Dev/PostgreSQL_Tools_cvs/QueryTool/build/Development/Query Tool for Postgres.app/Contents/MacOS/Query Tool for Postgres
+   0xc9000 -    0xc9fff com.druware.postgres.QueryTool 1.0 (8.1)	/Maui-Dev/PostgreSQL_Tools_cvs/QueryTool/build/Development/Query Tool for Postgres.app/Contents/MacOS/Query Tool for Postgres
+   0xd5000 -    0xd5fff com.druware.postgres.QueryTool 1.0 (8.1)	/Maui-Dev/PostgreSQL_Tools_cvs/QueryTool/build/Development/Query Tool for Postgres.app/Contents/MacOS/Query Tool for Postgres
+   0xf2000 -    0xf4fff com.druware.postgres.QueryTool 1.0 (8.1)	/Maui-Dev/PostgreSQL_Tools_cvs/QueryTool/build/Development/Query Tool for Postgres.app/Contents/MacOS/Query Tool for Postgres
+  0x205000 -   0x2e2fff libcrypto.0.9.7.dylib 	/sw/lib/libcrypto.0.9.7.dylib
+  0x342000 -   0x343fff com.druware.postgres.QueryTool 1.0 (8.1)	/Maui-Dev/PostgreSQL_Tools_cvs/QueryTool/build/Development/Query Tool for Postgres.app/Contents/MacOS/Query Tool for Postgres
+  0x351000 -   0x354fff com.druware.postgres.QueryTool 1.0 (8.1)	/Maui-Dev/PostgreSQL_Tools_cvs/QueryTool/build/Development/Query Tool for Postgres.app/Contents/MacOS/Query Tool for Postgres
+  0x360000 -   0x360fff com.druware.postgres.QueryTool 1.0 (8.1)	/Maui-Dev/PostgreSQL_Tools_cvs/QueryTool/build/Development/Query Tool for Postgres.app/Contents/MacOS/Query Tool for Postgres
+  0x5dc000 -   0x5defff com.unsanity.menuextraenabler Menu Extra Enabler version 1.0.1 (1.0.1)	/Library/InputManagers/Menu Extra Enabler/Menu Extra Enabler.bundle/Contents/MacOS/Menu Extra Enabler
+ 0xd5fa000 -  0xd64ffff com.DivXInc.DivXDecoder 6.0.0	/Library/QuickTime/DivX Fusion Decoder.component/Contents/MacOS/DivX 6 Decoder
+0x8fe00000 - 0x8fe52fff dyld 45.3	/usr/lib/dyld
+0x90000000 - 0x901bbfff libSystem.B.dylib 	/usr/lib/libSystem.B.dylib
+0x90213000 - 0x90218fff libmathCommon.A.dylib 	/usr/lib/system/libmathCommon.A.dylib
+0x9021a000 - 0x90267fff com.apple.CoreText 1.0.2 (???)	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreText.framework/Versions/A/CoreText
+0x90292000 - 0x90343fff ATS 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ATS.framework/Versions/A/ATS
+0x90372000 - 0x9072cfff com.apple.CoreGraphics 1.258.33 (???)	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/CoreGraphics
+0x907b9000 - 0x90892fff com.apple.CoreFoundation 6.4.6 (368.27)	/System/Library/Frameworks/CoreFoundation.framework/Versions/A/CoreFoundation
+0x908db000 - 0x908dbfff com.apple.CoreServices 10.4 (???)	/System/Library/Frameworks/CoreServices.framework/Versions/A/CoreServices
+0x908dd000 - 0x909dffff libicucore.A.dylib 	/usr/lib/libicucore.A.dylib
+0x90a39000 - 0x90abdfff libobjc.A.dylib 	/usr/lib/libobjc.A.dylib
+0x90ae7000 - 0x90b57fff com.apple.framework.IOKit 1.4 (???)	/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit
+0x90b6d000 - 0x90b7ffff libauto.dylib 	/usr/lib/libauto.dylib
+0x90b86000 - 0x90e5dfff com.apple.CoreServices.CarbonCore 681.4	/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CarbonCore.framework/Versions/A/CarbonCore
+0x90ec3000 - 0x90f43fff com.apple.CoreServices.OSServices 4.1	/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/OSServices.framework/Versions/A/OSServices
+0x90f8d000 - 0x90fcefff com.apple.CFNetwork 129.16	/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/CFNetwork.framework/Versions/A/CFNetwork
+0x90fe3000 - 0x90ffbfff com.apple.WebServices 1.1.2 (1.1.0)	/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/WebServicesCore.framework/Versions/A/WebServicesCore
+0x9100b000 - 0x9108cfff com.apple.SearchKit 1.0.5	/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/SearchKit.framework/Versions/A/SearchKit
+0x910d2000 - 0x910fcfff com.apple.Metadata 10.4.4 (121.36)	/System/Library/Frameworks/CoreServices.framework/Versions/A/Frameworks/Metadata.framework/Versions/A/Metadata
+0x9110d000 - 0x9111bfff libz.1.dylib 	/usr/lib/libz.1.dylib
+0x9111e000 - 0x912d8fff com.apple.security 4.4 (27566)	/System/Library/Frameworks/Security.framework/Versions/A/Security
+0x913d6000 - 0x913dffff com.apple.DiskArbitration 2.1	/System/Library/Frameworks/DiskArbitration.framework/Versions/A/DiskArbitration
+0x913e6000 - 0x9140efff com.apple.SystemConfiguration 1.8.3	/System/Library/Frameworks/SystemConfiguration.framework/Versions/A/SystemConfiguration
+0x91421000 - 0x9142cfff libgcc_s.1.dylib 	/usr/lib/libgcc_s.1.dylib
+0x91431000 - 0x91439fff libbsm.dylib 	/usr/lib/libbsm.dylib
+0x9143d000 - 0x914b8fff com.apple.audio.CoreAudio 3.0.4	/System/Library/Frameworks/CoreAudio.framework/Versions/A/CoreAudio
+0x914f5000 - 0x914f5fff com.apple.ApplicationServices 10.4 (???)	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/ApplicationServices
+0x914f7000 - 0x9152ffff com.apple.AE 1.5 (297)	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/AE.framework/Versions/A/AE
+0x9154a000 - 0x91617fff com.apple.ColorSync 4.4.4	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework/Versions/A/ColorSync
+0x9166c000 - 0x916fdfff com.apple.print.framework.PrintCore 4.6 (177.13)	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/PrintCore.framework/Versions/A/PrintCore
+0x91744000 - 0x917fbfff com.apple.QD 3.10.20 (???)	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/QD.framework/Versions/A/QD
+0x91838000 - 0x91896fff com.apple.HIServices 1.5.3 (???)	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/HIServices.framework/Versions/A/HIServices
+0x918c5000 - 0x918e9fff com.apple.LangAnalysis 1.6.1	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/LangAnalysis.framework/Versions/A/LangAnalysis
+0x918fd000 - 0x91922fff com.apple.FindByContent 1.5	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/FindByContent.framework/Versions/A/FindByContent
+0x91935000 - 0x91977fff com.apple.LaunchServices 181	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/LaunchServices.framework/Versions/A/LaunchServices
+0x91993000 - 0x919a7fff com.apple.speech.synthesis.framework 3.3	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/SpeechSynthesis.framework/Versions/A/SpeechSynthesis
+0x919b5000 - 0x919f5fff com.apple.ImageIO.framework 1.4.8	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/ImageIO
+0x91a0b000 - 0x91ad3fff libcrypto.0.9.7.dylib 	/usr/lib/libcrypto.0.9.7.dylib
+0x91b21000 - 0x91b36fff libcups.2.dylib 	/usr/lib/libcups.2.dylib
+0x91b3b000 - 0x91b58fff libJPEG.dylib 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libJPEG.dylib
+0x91b5d000 - 0x91bccfff libJP2.dylib 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libJP2.dylib
+0x91be3000 - 0x91be7fff libGIF.dylib 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libGIF.dylib
+0x91be9000 - 0x91c31fff libRaw.dylib 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libRaw.dylib
+0x91c36000 - 0x91c73fff libTIFF.dylib 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libTIFF.dylib
+0x91c7a000 - 0x91c93fff libPng.dylib 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libPng.dylib
+0x91c98000 - 0x91c9bfff libRadiance.dylib 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework/Versions/A/Resources/libRadiance.dylib
+0x91c9d000 - 0x91c9dfff com.apple.Accelerate 1.2.2 (Accelerate 1.2.2)	/System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate
+0x91c9f000 - 0x91d84fff com.apple.vImage 2.4	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vImage.framework/Versions/A/vImage
+0x91d8c000 - 0x91dabfff com.apple.Accelerate.vecLib 3.2.2 (vecLib 3.2.2)	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/vecLib
+0x91e17000 - 0x91e85fff libvMisc.dylib 	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libvMisc.dylib
+0x91e90000 - 0x91f25fff libvDSP.dylib 	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libvDSP.dylib
+0x91f3f000 - 0x924c7fff libBLAS.dylib 	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
+0x924fa000 - 0x92825fff libLAPACK.dylib 	/System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libLAPACK.dylib
+0x92855000 - 0x928ddfff com.apple.DesktopServices 1.3.4	/System/Library/PrivateFrameworks/DesktopServicesPriv.framework/Versions/A/DesktopServicesPriv
+0x9291e000 - 0x92b49fff com.apple.Foundation 6.4.6 (567.27)	/System/Library/Frameworks/Foundation.framework/Versions/C/Foundation
+0x92c67000 - 0x92d45fff libxml2.2.dylib 	/usr/lib/libxml2.2.dylib
+0x92d65000 - 0x92e53fff libiconv.2.dylib 	/usr/lib/libiconv.2.dylib
+0x92e65000 - 0x92e83fff libGL.dylib 	/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib
+0x92e8e000 - 0x92ee8fff libGLU.dylib 	/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLU.dylib
+0x92f06000 - 0x92f06fff com.apple.Carbon 10.4 (???)	/System/Library/Frameworks/Carbon.framework/Versions/A/Carbon
+0x92f08000 - 0x92f1cfff com.apple.ImageCapture 3.0	/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/ImageCapture.framework/Versions/A/ImageCapture
+0x92f34000 - 0x92f44fff com.apple.speech.recognition.framework 3.4	/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SpeechRecognition.framework/Versions/A/SpeechRecognition
+0x92f50000 - 0x92f65fff com.apple.securityhi 2.0 (203)	/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/SecurityHI.framework/Versions/A/SecurityHI
+0x92f77000 - 0x92ffefff com.apple.ink.framework 101.2 (69)	/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Ink.framework/Versions/A/Ink
+0x93012000 - 0x9301dfff com.apple.help 1.0.3 (32)	/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Help.framework/Versions/A/Help
+0x93027000 - 0x93054fff com.apple.openscripting 1.2.5 (???)	/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/OpenScripting.framework/Versions/A/OpenScripting
+0x9306e000 - 0x9307efff com.apple.print.framework.Print 5.0 (190.1)	/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/Print.framework/Versions/A/Print
+0x9308a000 - 0x930f0fff com.apple.htmlrendering 1.1.2	/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HTMLRendering.framework/Versions/A/HTMLRendering
+0x93121000 - 0x93170fff com.apple.NavigationServices 3.4.4 (3.4.3)	/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/NavigationServices.framework/Versions/A/NavigationServices
+0x9319e000 - 0x931bbfff com.apple.audio.SoundManager 3.9	/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/CarbonSound.framework/Versions/A/CarbonSound
+0x931cd000 - 0x931dafff com.apple.CommonPanels 1.2.2 (73)	/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/CommonPanels.framework/Versions/A/CommonPanels
+0x931e3000 - 0x934f0fff com.apple.HIToolbox 1.4.8 (???)	/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox
+0x9363f000 - 0x9364bfff com.apple.opengl 1.4.7	/System/Library/Frameworks/OpenGL.framework/Versions/A/OpenGL
+0x936e4000 - 0x936e4fff com.apple.Cocoa 6.4 (???)	/System/Library/Frameworks/Cocoa.framework/Versions/A/Cocoa
+0x936e6000 - 0x93d19fff com.apple.AppKit 6.4.7 (824.41)	/System/Library/Frameworks/AppKit.framework/Versions/C/AppKit
+0x940a6000 - 0x94116fff com.apple.CoreData 80	/System/Library/Frameworks/CoreData.framework/Versions/A/CoreData
+0x9414f000 - 0x94212fff com.apple.audio.toolbox.AudioToolbox 1.4.3	/System/Library/Frameworks/AudioToolbox.framework/Versions/A/AudioToolbox
+0x94264000 - 0x94264fff com.apple.audio.units.AudioUnit 1.4	/System/Library/Frameworks/AudioUnit.framework/Versions/A/AudioUnit
+0x94266000 - 0x94419fff com.apple.QuartzCore 1.4.8	/System/Library/Frameworks/QuartzCore.framework/Versions/A/QuartzCore
+0x9446c000 - 0x944a9fff libsqlite3.0.dylib 	/usr/lib/libsqlite3.0.dylib
+0x944b1000 - 0x94501fff libGLImage.dylib 	/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLImage.dylib
+0x946af000 - 0x946befff libCGATS.A.dylib 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Resources/libCGATS.A.dylib
+0x946c6000 - 0x946d2fff libCSync.A.dylib 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Resources/libCSync.A.dylib
+0x94718000 - 0x94730fff libRIP.A.dylib 	/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework/Versions/A/Resources/libRIP.A.dylib
+0x94737000 - 0x949ebfff com.apple.QuickTime 7.1.2	/System/Library/Frameworks/QuickTime.framework/Versions/A/QuickTime
+0x94aaf000 - 0x94b20fff libstdc++.6.dylib 	/usr/lib/libstdc++.6.dylib
+0x94b93000 - 0x94bb3fff libmx.A.dylib 	/usr/lib/libmx.A.dylib
+0x94edc000 - 0x94f0bfff libssl.0.9.7.dylib 	/usr/lib/libssl.0.9.7.dylib
+0x94f1b000 - 0x94f38fff libresolv.9.dylib 	/usr/lib/libresolv.9.dylib
+0x9543d000 - 0x9556bfff edu.mit.Kerberos 5.5.23	/System/Library/Frameworks/Kerberos.framework/Versions/A/Kerberos
+0x96a34000 - 0x96a35fff com.apple.zerolink 1.2 (3)	/System/Library/PrivateFrameworks/ZeroLink.framework/Versions/A/ZeroLink
+0x97458000 - 0x97477fff com.apple.vecLib 3.2.2 (vecLib 3.2.2)	/System/Library/Frameworks/vecLib.framework/Versions/A/vecLib
+0x97c7d000 - 0x97c8afff com.apple.agl 2.5.6 (AGL-2.5.6)	/System/Library/Frameworks/AGL.framework/Versions/A/AGL
+0x9982d000 - 0x9a203fff com.apple.QuickTimeComponents.component 7.1.2	/System/Library/QuickTime/QuickTimeComponents.component/Contents/MacOS/QuickTimeComponents
+0xb0000000 - 0xb0012fff com.druware.pgcocoadb 1.0 (8.0.1c)	/Maui-Dev/PostgreSQL_Tools_cvs/QueryTool/build/Development/Query Tool for Postgres.app/Contents/Frameworks/pgCocoaDB.framework/Versions/A/pgCocoaDB
+
+Model: PowerBook5,7, BootROM 4.9.1f1, 1 processors, PowerPC G4  (1.2), 1.67 GHz, 1.5 GB
+Graphics: ATI Mobility Radeon 9700, ATY,RV360M11, AGP, 128 MB
+Memory Module: SODIMM0/J20STANDARD, 512 MB, DDR SDRAM, PC2700U-25330
+Memory Module: SODIMM1/J23REVERSED, 1 GB, DDR SDRAM, PC2700U-25330
+AirPort: AirPort Extreme, 404.2 (3.90.34.0.p16)
+Modem: LastDash, UCJ, V.92, 4.0, APPLE VERSION 2.6.6
+Bluetooth: Version 1.7.5f10, 2 service, 1 devices, 1 incoming serial ports
+Network Service: Built-in Ethernet, Ethernet, en0
+PCI Card: TXN,PCIXXXX-00, cardbus, PC Card
+Parallel ATA Device: MATSHITADVD-R   UJ-835E, 
+Parallel ATA Device: ST9100823A, 93.16 GB
+USB Device: Bluetooth HCI, , Up to 12 Mb/sec, 500 mA
+USB Device: Apple Internal Keyboard/Trackpad, Apple Computer, Up to 12 Mb/sec, 500 mA
+USB Device: Microsoft IntelliMouse¨ Explorer, Microsoft, Up to 1.5 Mb/sec, 500 mA
+

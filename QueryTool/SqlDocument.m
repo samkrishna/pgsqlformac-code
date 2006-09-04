@@ -7,6 +7,7 @@
 //
 
 #import "SqlDocument.h"
+#import "SqlToolbarCategory.h"
 
 @implementation SqlDocument
 
@@ -14,69 +15,6 @@
 {
     self = [super init];
 
-	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowInformationSchema"] == nil)
-	{
-		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_ShowInformationSchema"];
-	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPGCatalogSchema"] == nil)
-	{
-		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_ShowPGCatalogSchema"];
-	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPGToastSchema"] == nil)
-	{
-		[userDefaults setObject:@"no" forKey:@"PGSqlForMac_QueryTool_ShowPGToastSchema"];
-	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPGTempsSchema"] == nil)
-	{
-		[userDefaults setObject:@"no" forKey:@"PGSqlForMac_QueryTool_ShowPGTempsSchema"];
-	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPGPublicSchema"] == nil)
-	{
-		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_ShowPGPublicSchema"];
-	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_LogSQL"] == nil)
-	{
-		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_LogSQL"];
-	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_LogQueryInfo"] == nil)
-	{
-		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_LogQueryInfo"];
-	}
-	
-	
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_SchemaTableFontName"] == nil)
-	{
-		[userDefaults setObject:@"Lucida Grande" forKey:@"PGSqlForMac_QueryTool_SchemaTableFontName"];
-	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_SchemaTableFontSize"] == nil)
-	{
-		[userDefaults setFloat:12.0 forKey:@"PGSqlForMac_QueryTool_SchemaTableFontSize"];
-	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ResultsTableFontName"] == nil)
-	{
-		[userDefaults setObject:@"Lucida Grande" forKey:@"PGSqlForMac_QueryTool_ResultsTableFontName"];
-	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ResultsTableFontSize"] == nil)
-	{
-		[userDefaults setFloat:12.0 forKey:@"PGSqlForMac_QueryTool_ResultsTableFontSize"];
-	}
-	
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPostgreSQLHelp"] == nil)
-	{
-		if ([fileManager fileExistsAtPath:@"/sw/share/doc/postgresql81/html/index.html"])
-		{
-			[userDefaults setObject:@"file:///sw/share/doc/postgresql81/html/index.html" forKey:@"PGSqlForMac_QueryTool_ShowPostgreSQLHelp"];
-		}
-	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowSQLCommandHelp"] == nil)
-	{
-		if ([fileManager fileExistsAtPath:@"/sw/share/doc/postgresql81/html/sql-commands.html"])
-		{
-			[userDefaults setObject:@"file:///sw/share/doc/postgresql81/html/sql-commands.html" forKey:@"PGSqlForMac_QueryTool_ShowSQLCommandHelp"];
-		}
-	}
     return self;
 }
 
@@ -119,29 +57,34 @@
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 
 	// set the font for the schema view
-	font = [NSFont fontWithName:[userDefaults stringForKey:@"PGSqlForMac_QueryTool_SchemaTableFontName"] size:[userDefaults floatForKey:@"PGSqlForMac_QueryTool_SchemaTableFontSize"]];
+	font = [NSFont fontWithName:[userDefaults stringForKey:@"PGSqlForMac_QueryTool_SchemaTableFontName"] 
+						   size:[userDefaults floatForKey:@"PGSqlForMac_QueryTool_SchemaTableFontSize"]];
 	[schemaView setCurrentFont:font];
 	NSEnumerator* columns = [[schemaView tableColumns] objectEnumerator];
-	NSTableColumn* column;
-	while (column = [columns nextObject])
+	NSTableColumn* column = [columns nextObject];
+	while (column)
 	{
 		[[column dataCell] setFont: font];
+		column = [columns nextObject];
 	}
 	[schemaView setRowHeight: [font defaultLineHeightForFont] + 2];
 	
 	//set the font for the results view
-	font = [NSFont fontWithName:[userDefaults stringForKey:@"PGSqlForMac_QueryTool_ResultsTableFontName"] size:[userDefaults floatForKey:@"PGSqlForMac_QueryTool_ResultsTableFontSize"]];
+	font = [NSFont fontWithName:[userDefaults stringForKey:@"PGSqlForMac_QueryTool_ResultsTableFontName"] 
+						   size:[userDefaults floatForKey:@"PGSqlForMac_QueryTool_ResultsTableFontSize"]];
 	[dataOutput setCurrentFont:font];
 	columns = [[dataOutput tableColumns] objectEnumerator];
-	while (column = [columns nextObject])
+	column = [columns nextObject];
+	while(column)
 	{
 		[[column dataCell] setFont: font];
+		column = [columns nextObject];
 	}
 	[dataOutput setRowHeight: [font defaultLineHeightForFont] + 2];
 	
 	// init the keyword arrays
 	NSString *temp = [[NSString alloc] 
-		initWithString:@"select from where order group by asc desc insert into delete drop create alter table procedure view function"];
+		initWithString:[userDefaults stringForKey:@"PGSqlForMac_QueryTool_Highlight_Keywords"]];
 	
 	keywords = [[NSArray alloc] initWithArray:[temp componentsSeparatedByString:@" "]];
 	[keywords retain];
@@ -166,14 +109,17 @@
 	
 }
 
+
 - (NSData *)dataRepresentationOfType:(NSString *)aType
-{
-	
+{	
+	UNUSED_PARAMETER(aType);
 	return [[query string] dataUsingEncoding:NSASCIIStringEncoding];
 }
 
+
 - (BOOL)readFromFile:(NSString *)fileName ofType:(NSString *)docType
 {
+	UNUSED_PARAMETER(docType);
 	fileContent = [[NSString alloc] initWithContentsOfFile:fileName];
 	return fileContent != nil;
 }
@@ -1066,6 +1012,7 @@ $$ LANGUAGE plpgsql; \n", schemaName];
 
  - (void)textViewDidChangeSelection:(NSNotification *)aNotification
 {
+	UNUSED_PARAMETER(aNotification);
 	// based upon the current location, scan forward and backward to the nearest
 	// delimiter and highlight the current word based upon that delimiter	
 	NSTextStorage *ts = [query textStorage];
@@ -1112,7 +1059,7 @@ $$ LANGUAGE plpgsql; \n", schemaName];
 
 - (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(int *)index
 {
-	// implement the system
+	// TODO implement the system
 	return nil;
 	
 }

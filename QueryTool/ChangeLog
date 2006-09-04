@@ -1,3 +1,9 @@
+2006-08-31 19:56  ntiffin
+
+	* ChangeLog, SqlDocument.m, Help/.DS_Store, Help/index.html: Fix
+	  for PGconn not being thread safe. Migrate to new PQconnectdb API.
+	  Add help text.
+
 2006-08-30 16:25  ntiffin
 
 	* MyOutlineView.m, TODO.txt,

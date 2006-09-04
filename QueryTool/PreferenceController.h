@@ -27,4 +27,6 @@
 -(IBAction)savePreferences:(id)sender;
 -(IBAction)cancelPreferences:(id)sender;
 
+-(void)createApplicationDefaultPreferences;
+
 @end

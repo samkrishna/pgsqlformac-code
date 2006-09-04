@@ -14,6 +14,7 @@
 -(id)init
 {
 	self = [super initWithWindowNibName:@"Preferences"];
+	NSLog(@"Preference Controller init");
 	return self;
 }
 
@@ -93,6 +94,8 @@
 
 -(IBAction)defaultPreferences:(id)sender
 {
+	UNUSED_PARAMETER(sender);
+	
 	[prefShowPGInfoSchema setState:NSOnState];
 	[prefShowPGCatalogSchema setState:NSOnState];
 	[prefShowPGToastSchema setState:NSOffState];
@@ -108,6 +111,7 @@
 
 -(IBAction)savePreferences:(id)sender;
 {
+	UNUSED_PARAMETER(sender);
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 	if ([prefShowPGInfoSchema state])
 	{
@@ -176,9 +180,96 @@
 
 -(IBAction)cancelPreferences:(id)sender;
 {
+	UNUSED_PARAMETER(sender);
 	[self loadUserDefaults];
 	[[self window] close];
 	
+}
+
+-(void)createApplicationDefaultPreferences
+{
+	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
+	
+	// does not track application version numbering, for future use should we need to
+	// drastically change the prefs we will be able to determine what version of prefs
+	// the user has.
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_User_Defaults_Version"] == nil)
+	{
+		[userDefaults setObject:@"1.0.0" forKey:@"PGSqlForMac_QueryTool_Pref_Version"];
+	}
+	
+	
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowInformationSchema"] == nil)
+	{
+		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_ShowInformationSchema"];
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPGCatalogSchema"] == nil)
+	{
+		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_ShowPGCatalogSchema"];
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPGToastSchema"] == nil)
+	{
+		[userDefaults setObject:@"no" forKey:@"PGSqlForMac_QueryTool_ShowPGToastSchema"];
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPGTempsSchema"] == nil)
+	{
+		[userDefaults setObject:@"no" forKey:@"PGSqlForMac_QueryTool_ShowPGTempsSchema"];
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPGPublicSchema"] == nil)
+	{
+		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_ShowPGPublicSchema"];
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_LogSQL"] == nil)
+	{
+		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_LogSQL"];
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_LogQueryInfo"] == nil)
+	{
+		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_LogQueryInfo"];
+	}
+	
+	
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_SchemaTableFontName"] == nil)
+	{
+		[userDefaults setObject:@"Lucida Grande" forKey:@"PGSqlForMac_QueryTool_SchemaTableFontName"];
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_SchemaTableFontSize"] == nil)
+	{
+		[userDefaults setFloat:12.0 forKey:@"PGSqlForMac_QueryTool_SchemaTableFontSize"];
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ResultsTableFontName"] == nil)
+	{
+		[userDefaults setObject:@"Lucida Grande" forKey:@"PGSqlForMac_QueryTool_ResultsTableFontName"];
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ResultsTableFontSize"] == nil)
+	{
+		[userDefaults setFloat:12.0 forKey:@"PGSqlForMac_QueryTool_ResultsTableFontSize"];
+	}
+	
+	
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_Highlight_Keywords"] == nil)
+	{
+		[userDefaults setObject:@"select from where order group by asc desc insert into delete drop create alter table procedure view function"
+						 forKey:@"PGSqlForMac_QueryTool_Highlight_Keywords"];
+	}
+	
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPostgreSQLHelp"] == nil)
+	{
+		if ([fileManager fileExistsAtPath:@"/sw/share/doc/postgresql81/html/index.html"])
+		{
+			[userDefaults setObject:@"file:///sw/share/doc/postgresql81/html/index.html"
+							 forKey:@"PGSqlForMac_QueryTool_ShowPostgreSQLHelp"];
+		}
+	}
+	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowSQLCommandHelp"] == nil)
+	{
+		if ([fileManager fileExistsAtPath:@"/sw/share/doc/postgresql81/html/sql-commands.html"])
+		{
+			[userDefaults setObject:@"file:///sw/share/doc/postgresql81/html/sql-commands.html"
+							 forKey:@"PGSqlForMac_QueryTool_ShowSQLCommandHelp"];
+		}
+	}	
 }
 
 @end

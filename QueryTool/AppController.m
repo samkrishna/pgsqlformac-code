@@ -11,8 +11,19 @@
 
 @implementation AppController
 
+-(id)init
+{
+	[super init];
+	//NSLog(@"AppController init");
+	preferenceController = [[PreferenceController alloc] init];
+	[preferenceController createApplicationDefaultPreferences];
+	return self;
+}
+
 -(IBAction)showPreferencePanel:(id)sender
 {
+	UNUSED_PARAMETER(sender);
+	
 	if(!preferenceController)
 	{
 		preferenceController = [[PreferenceController alloc] init];
