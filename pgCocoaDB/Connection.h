@@ -10,7 +10,6 @@
 #import "Record.h"
 #import "Recordset.h"
 #import "Databases.h"
-#import "PGCocoaDB.h"
 
 @interface Connection : NSObject 
 {

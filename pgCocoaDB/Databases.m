@@ -6,6 +6,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "PGCocoaDB.h"
 #import "Database.h"
 #import "Databases.h"
 

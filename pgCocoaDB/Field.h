@@ -7,17 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "PGCocoaDB.h"
 
 @interface Field : NSObject 
 {
 	NSString *name;
 	NSString *value;
+	NSString *format;
 }
 - (NSString *)name;
 - (void)setName:(NSString *)newName;
 
 - (NSString *)value;
 - (void)setValue:(NSString *)newValue;
+
+- (NSString *)format;
+- (void)setFormat:(NSString *)newValue;
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "PGCocoaDB.h"
 
 @interface ExplorerNode : NSObject {
 	NSMutableArray * children;

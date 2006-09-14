@@ -10,7 +10,6 @@
 #import <Cocoa/Cocoa.h>
 #import "Recordset.h"
 #import "Connection.h"
-#import "PGCocoaDB.h"
 
 @interface Schema : NSObject {
 

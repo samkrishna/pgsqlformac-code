@@ -209,24 +209,24 @@
 			<key>Content</key>
 			<dict>
 				<key>PBXProjectModuleGUID</key>
-				<string>CE8AEB960AA9C266005BF320</string>
+				<string>CE4918160AB9815400B03B4A</string>
 				<key>PBXProjectModuleLabel</key>
-				<string>Connection.m</string>
+				<string>ExplorerModel.m</string>
 				<key>PBXSplitModuleInNavigatorKey</key>
 				<dict>
 					<key>Split0</key>
 					<dict>
 						<key>PBXProjectModuleGUID</key>
-						<string>CE8AEB970AA9C266005BF320</string>
+						<string>CE4918170AB9815400B03B4A</string>
 						<key>PBXProjectModuleLabel</key>
-						<string>Connection.m</string>
+						<string>ExplorerModel.m</string>
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>CE1527530AAA3CFC00AE7D87</string>
+						<string>CE4918180AB9815400B03B4A</string>
 						<key>history</key>
 						<array>
-							<string>CE8AEC4B0AA9D216005BF320</string>
+							<string>CE4917DB0AB97FBD00B03B4A</string>
 						</array>
 					</dict>
 					<key>SplitCount</key>
@@ -238,11 +238,11 @@
 			<key>Geometry</key>
 			<dict>
 				<key>Frame</key>
-				<string>{{0, 20}, {973, 780}}</string>
+				<string>{{0, 20}, {898, 763}}</string>
 				<key>PBXModuleWindowStatusBarHidden2</key>
 				<false/>
 				<key>RubberWindowFrame</key>
-				<string>49 -34 973 821 0 0 1440 878 </string>
+				<string>452 42 898 804 0 0 1440 878 </string>
 			</dict>
 		</dict>
 	</array>
@@ -328,6 +328,8 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
+									<integer>30</integer>
+									<integer>5</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -432,9 +434,9 @@
 			</array>
 			<key>TableOfContents</key>
 			<array>
-				<string>CE1527510AAA3CFC00AE7D87</string>
+				<string>CE4918140AB9815400B03B4A</string>
 				<string>1CE0B1FE06471DED0097A5F4</string>
-				<string>CE1527520AAA3CFC00AE7D87</string>
+				<string>CE4918150AB9815400B03B4A</string>
 				<string>1CE0B20306471E060097A5F4</string>
 				<string>1CE0B20506471E060097A5F4</string>
 			</array>
@@ -553,7 +555,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>178928650.72187501</real>
+	<real>179929428.51703799</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>1</integer>
 	<key>ToolbarIsVisible</key>
@@ -568,7 +570,8 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>CE8AEB960AA9C266005BF320</string>
+		<string>CE4918120AB9814F00B03B4A</string>
+		<string>CE4918160AB9815400B03B4A</string>
 		<string>/Maui-Dev/PostgreSQL_Tools_cvs/pgCocoaDB/pgCocoaDBn.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -602,7 +605,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1178, 119}}</string>
 								<key>RubberWindowFrame</key>
-								<string>128 163 1178 697 0 0 1440 878 </string>
+								<string>23 153 1178 697 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -615,7 +618,7 @@
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXBuildLogShowsTranscriptDefaultKey</key>
-								<string>{{0, 297}, {1178, 235}}</string>
+								<string>{{0, 250}, {1178, 282}}</string>
 								<key>PBXProjectModuleGUID</key>
 								<string>XCMainBuildResultsModuleGUID</string>
 								<key>PBXProjectModuleLabel</key>
@@ -630,7 +633,7 @@
 								<key>Frame</key>
 								<string>{{0, 124}, {1178, 532}}</string>
 								<key>RubberWindowFrame</key>
-								<string>128 163 1178 697 0 0 1440 878 </string>
+								<string>23 153 1178 697 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXBuildResultsModule</string>
@@ -652,19 +655,19 @@
 			<true/>
 			<key>TableOfContents</key>
 			<array>
-				<string>CEEBC0360A967AF80039F258</string>
-				<string>CE0DD60E0AA8CAD3001A1F51</string>
+				<string>CE4918120AB9814F00B03B4A</string>
+				<string>CE4918130AB9814F00B03B4A</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.build</string>
 			<key>WindowString</key>
-			<string>128 163 1178 697 0 0 1440 878 </string>
+			<string>23 153 1178 697 0 0 1440 878 </string>
 			<key>WindowToolGUID</key>
-			<string>CEEBC0360A967AF80039F258</string>
+			<string>CE4918120AB9814F00B03B4A</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>

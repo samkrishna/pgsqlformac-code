@@ -1,3 +1,10 @@
+2006-09-04 09:34  ntiffin
+
+	* ChangeLog, pgCocoaDBn.xcodeproj/ntiffin.mode1,
+	  pgCocoaDBn.xcodeproj/ntiffin.pbxuser,
+	  pgCocoaDBn.xcodeproj/project.pbxproj: Add fink based XCode
+	  project.
+
 2006-09-04 09:24  ntiffin
 
 	* ChangeLog, Connection.m, ExplorerModel.h, ExplorerModel.m,

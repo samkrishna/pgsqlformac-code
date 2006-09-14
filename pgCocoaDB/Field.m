@@ -6,6 +6,7 @@
 //  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
 //
 
+#import "PGCocoaDB.h"
 #import "Field.h"
 
 
@@ -59,5 +60,15 @@
 	return [NSString stringWithFormat:@"'%@' '%@'", name, value];
 }
 
+- (NSString *)format
+{
+	return format;
+}
 
+- (void)setFormat:(NSString *)newValue;
+{
+	[format release];
+	format = newValue;
+	[format retain];
+}
 @end

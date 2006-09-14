@@ -6,9 +6,10 @@
 //  Copyright (c) 2004 Druware Software Designs. All rights reserved.
 //
 
-#import "Connection.h"
 #include "libpq-fe.h"
 #import <sys/time.h>
+#import "Connection.h"
+#import "PGCocoaDB.h"
 
 // When a pqlib notice is raised this function gets called
 void
@@ -122,7 +123,8 @@ handle_pq_notice(void *arg, const char *message)
 
 - (BOOL)connectUsingString:(NSString *)aConnectionString
 {
-	[self setConnectionString:aConnectionString];	
+	[self setConnectionString:aConnectionString];
+	NSLog(@"Connection: connectUsingString: %@", aConnectionString);
 	return [self connect];
 }
 
@@ -523,7 +525,7 @@ handle_pq_notice(void *arg, const char *message)
 					Field *field = [[rec fields] addItem];
 					[field setName:[NSString stringWithFormat:@"%s", PQfname(res, x)]];
 					[field setValue:[NSString stringWithFormat:@"%s", PQgetvalue(res, i, x)]];
-					//[field setDataType:(int)PQftype(res, i)];
+					[field setFormat:[NSString stringWithFormat:@"%s", PQfformat(res, x)]];
 				}
 			}
 			if (logInfo)

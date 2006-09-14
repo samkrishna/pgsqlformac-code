@@ -6,6 +6,7 @@
 //  Copyright 2006 __MyCompanyName__. All rights reserved.
 //
 
+#import "PGCocoaDB.h"
 #import "ExplorerNode.h"
 
 

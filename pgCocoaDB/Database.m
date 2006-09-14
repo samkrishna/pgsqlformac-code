@@ -6,6 +6,7 @@
 //  Copyright (c) 2004 druware software development. All rights reserved.
 //
 
+#import "PGCocoaDB.h"
 #import "Database.h"
 
 @implementation Database

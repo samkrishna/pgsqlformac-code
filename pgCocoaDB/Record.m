@@ -6,6 +6,7 @@
 //  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
 //
 
+#import "PGCocoaDB.h"
 #import "Record.h"
 
 

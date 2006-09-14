@@ -11,9 +11,8 @@
 #import "ExplorerNode.h"
 #import "Connection.h"
 #import "Schema.h"
-#import "PGCocoaDB.h"
 
-enum thread_status { None, Running, Done, Error };
+enum ThreadStatus { None, Running, Done, Error };
 
 @interface ExplorerModel : NSObject
 {
@@ -28,7 +27,7 @@ enum thread_status { None, Running, Done, Error };
 	bool showPublic;
 	
 	NSLock *explorerThreadStatusLock;
-	enum thread_status explorerThreadStatus; 
+	enum ThreadStatus explorerThreadStatus; 
 }
 
 - (id)initWithConnectionString:(NSString *)theConnection;
@@ -41,14 +40,14 @@ enum thread_status { None, Running, Done, Error };
 - (bool)showPGToast;
 - (bool)showPGTemps;
 - (bool)showPublic;
-- (unsigned int)explorerThreadStatus;
+- (enum ThreadStatus)explorerThreadStatus;
 
 - (void)setShowInformationSchema:(bool)newValue;
 - (void)setShowPGCatalog:(bool)newValue;
 - (void)setShowPGToast:(bool)newValue;
 - (void)setShowPGTemps:(bool)newValue;
 - (void)setShowPublic:(bool)newValue;
-- (void)setExplorerThreadStatus:(unsigned int)newValue;
+- (void)setExplorerThreadStatus:(enum ThreadStatus)newValue;
 
 	// These methods get called because I am the datasource of the outline view.
 - (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item;
@@ -56,6 +55,6 @@ enum thread_status { None, Running, Done, Error };
 - (int)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item;
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item;
 
-- (void)printLog;
+- (BOOL)printLog;
 
 @end

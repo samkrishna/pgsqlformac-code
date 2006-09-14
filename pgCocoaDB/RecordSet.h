@@ -7,7 +7,6 @@
 
 #import <Foundation/Foundation.h>
 #import "Record.h"
-#import "PGCocoaDB.h"
 
 @interface RecordSet : NSObject 
 {

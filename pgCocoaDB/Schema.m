@@ -9,6 +9,7 @@
 //	indexes, schemas, columns, and functions in the PostgreSQL database.
 //
 
+#import "PGCocoaDB.h"
 #import "Schema.h"
 
 bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
@@ -25,6 +26,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 
 	connection = [[Connection alloc] init];
 	[connection connectUsingString:theConnectionString];
+	NSLog(@"Schema: initWithConnectionString: %@", theConnectionString);
 	
 	publicSchemaName = [[NSString alloc] initWithString: @"public"];
 	pgCatalogSchemaName = [[NSString alloc] initWithString: @"pg_catalog"];

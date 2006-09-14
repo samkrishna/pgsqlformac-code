@@ -6,6 +6,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "PGCocoaDB.h"
 #import "DataSource.h"
 
 @implementation DataSource

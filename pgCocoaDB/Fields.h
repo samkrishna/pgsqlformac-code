@@ -7,7 +7,6 @@
 
 #import <Foundation/Foundation.h>
 #import "Field.h"
-#import "PGCocoaDB.h"
 
 @interface Fields : NSObject 
 {

@@ -6,6 +6,7 @@
 //  Copyright 2006 Performance Champions Inc. All rights reserved.
 //
 
+#import "PGCocoaDB.h"
 #import "ExplorerModel.h"
 #import "RecordSet.h"
 
@@ -314,9 +315,11 @@
 	ExplorerNode * newNode;
 	
 	connectionString = theConnection;
-
+	[connectionString retain];
+	NSLog(@"ExplorerModel: initWithConnectionString: theConnection");
+	
 	explorerThreadStatusLock = [[NSLock alloc] init];
-	explorerThreadStatus = 0;
+	explorerThreadStatus = None;
 
 	showInformationSchema = TRUE;
 	showPGCatalog = TRUE;
@@ -516,9 +519,9 @@
 	return showPublic;
 }
 
-- (unsigned int)explorerThreadStatus
+- (enum ThreadStatus)explorerThreadStatus
 {
-	unsigned int status;
+	enum ThreadStatus status;
 	
 	[explorerThreadStatusLock lock];
 	status = explorerThreadStatus;
@@ -551,7 +554,7 @@
 	showPublic = newValue;
 }
 
-- (void)setExplorerThreadStatus:(unsigned int)newValue
+- (void)setExplorerThreadStatus:(enum ThreadStatus)newValue
 {
 	[explorerThreadStatusLock lock];
 	explorerThreadStatus = newValue;
@@ -567,7 +570,7 @@
 	{
 		return [rootNode childAtIndex:i];	
 	}
-	if([self explorerThreadStatus] != 3)
+	if([self explorerThreadStatus] != Done)
 	{
 		return 0;
 	}
@@ -580,7 +583,7 @@
 	UNUSED_PARAMETER(outlineView);
     
 	// Returns YES if the node has children
-	if([self explorerThreadStatus] != 3)
+	if([self explorerThreadStatus] != Done)
 	{
 		return NO;
 	}
@@ -596,7 +599,7 @@
         // The root object;
         return [rootNode childrenCount];
     }
-	if([self explorerThreadStatus] != 3)
+	if([self explorerThreadStatus] != Done)
 	{
 		return 0;
 	}
@@ -632,13 +635,15 @@
 	return nil;	
 }
 
-- (void)printLog
+- (BOOL)printLog
 {
-	if([self explorerThreadStatus] == 3)
+	if([self explorerThreadStatus] == Done)
 	{
-		[rootNode printLog:0];;
+		[rootNode printLog:0];
+		return YES;
 	}
 	NSLog(@"Explorer still Loading.");
+	return NO;
 }
 
 @end

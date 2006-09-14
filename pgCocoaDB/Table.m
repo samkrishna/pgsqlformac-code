@@ -6,8 +6,8 @@
 //  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
 //
 
+#import "PGCocoaDB.h"
 #import "Table.h"
-
 
 @implementation Table
 
@@ -26,60 +26,75 @@
 	[super dealloc];
 }
 
-- (NSString *)schema {
+- (NSString *)schema
+{
     return [[schema retain] autorelease];
 }
 
-- (void)setSchema:(NSString *)newSchema {
-    if (schema != newSchema) {
+- (void)setSchema:(NSString *)newSchema
+{
+    if (schema != newSchema)
+	{
         [schema release];
         schema = [newSchema copy];
     }
 }
 
-- (NSString *)name {
+- (NSString *)name
+{
     return [[name retain] autorelease];
 }
 
-- (void)setName:(NSString *)newName {
-    if (name != newName) {
+- (void)setName:(NSString *)newName
+{
+    if (name != newName)
+	{
         [name release];
         name = [newName copy];
     }
 }
 
-- (NSString *)owner {
+- (NSString *)owner
+{
     return [[owner retain] autorelease];
 }
 
-- (void)setOwner:(NSString *)newOwner {
-    if (owner != newOwner) {
+- (void)setOwner:(NSString *)newOwner
+{
+    if (owner != newOwner)
+	{
         [owner release];
         owner = [newOwner copy];
     }
 }
 
-- (BOOL)hasIndexes {
+- (BOOL)hasIndexes
+{
     return hasIndexes;
 }
 
-- (void)setHasIndexes:(BOOL)newHasIndexes {
+- (void)setHasIndexes:(BOOL)newHasIndexes
+{
 	hasIndexes = newHasIndexes;
 }
 
-- (BOOL)hasRules {
+- (BOOL)hasRules
+{
     return hasRules;
 }
 
-- (void)setHasRules:(BOOL)newHasRules {
+- (void)setHasRules:(BOOL)newHasRules
+{
 	hasRules = newHasRules;
 }
 
-- (BOOL)hasTriggers {
+- (BOOL)hasTriggers
+{
     return hasTriggers;
 }
 
-- (void)setHasTriggers:(BOOL)newHasTriggers {
+- (void)setHasTriggers:(BOOL)newHasTriggers
+{
 	hasTriggers = newHasTriggers;
 }
 
