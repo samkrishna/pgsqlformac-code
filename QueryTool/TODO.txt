@@ -3,19 +3,21 @@ Neil's Open Items
 
 TODO - Features, Functions and Warnings (in rough priority order)
 =======================================
-- 2006-08-30 Sequence SQL not complete.
+- 2006-09-17 Error message not reset at the beginning of a query.
 
-- 2006-09-01 "Query Completed message in main window should show elapsed time and first 30 characters of query.
+- 2006-09-01 Query Completed message in main window should show elapsed time and first 30 characters of query.
+
+- 2006-08-30 Sequence SQL not complete.
 
 - 2006-08-30 Constraints not tested in unit test pgCocoaDB.
 
 - 2006-06-16 Use function to attempt to cancel a query in pgCocoaDB.  Need to change to async queries.
 
-- 2006-08-26 Add clear and save log function.
+- 2006-08-26 Add clear and save log function.  Do NOT clear log when changing to a different database.
 
 - 2006-08-26 Add explain query button.
 
-- 2006-09-01 Add functinality to edit results.
+- 2006-09-01 Add functionality to edit results.
 
 - 2006-09-01 Rule schema not complete.
 
@@ -24,7 +26,7 @@ TODO - Features, Functions and Warnings (in rough priority order)
 
 FIXME (Known Errors)
 ====================
-2006-08-26 Function return parameters not correctly determined, see below:
+- 2006-08-26 Function return parameters not correctly determined, see below:
 
 			CREATE or REPLACE FUNCTION pgcocoa_test_schema.create_time_stamp  AS $$
 			BEGIN
@@ -35,12 +37,14 @@ FIXME (Known Errors)
 
 - 2006-09-01 "Save As" always saves the query window, should save the log window if the log window is front most.
 
-2006-06-22 13:20:17.480 Query Tool for Postgres[5590] -[NSBigMutableString characterAtIndex:] called with out-of-bounds index. For apps linked on Tiger this will raise an exception. For earlier apps it will produce this one-time warning and continue with existing behavior (which is undefined).
+- 2006-06-22 13:20:17.480 Query Tool for Postgres[5590] -[NSBigMutableString characterAtIndex:] called with out-of-bounds index. For apps linked on Tiger this will raise an exception. For earlier apps it will produce this one-time warning and continue with existing behavior (which is undefined).
 2006-06-22 13:20:17.480 Query Tool for Postgres[5590] Exception raised during posting of notification.  Ignored.  exception: *** -[NSBigMutableString characterAtIndex:]: Range or index out of bounds
 
 
 Completed
 =========
+- 2006-09-17 Data columns in the results table are not resizing.
+
 - 2006-09-01 Refactored user defaults in SQLDocument.
 
 - 2006-08-30 Column definitions only show type, not constraints (NOT NULL, UNIQUE, etc). (8/30/2006)

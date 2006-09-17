@@ -355,7 +355,8 @@
 	
 	[working startAnimation:sender];
 	[status setStringValue:@"Executing Query"];
-	
+	[window displayIfNeeded];			// this is needed until we convert to threaded queries
+										// to make sure the window is updated before the query starts.
 	NSMutableString *result = [[NSMutableString alloc] init];
 	
 	// get the query from the query window
@@ -380,9 +381,9 @@
 	
 	//NSArray *arrQuery = [toBeRun componentsSeparatedByString:@";"];
 	
-	int x;
+	int xx;
 	//for (x = 0; x < [arrQuery count]; x++)
-	for (x = 0; x < 1; x++)
+	for (xx = 0; xx < 1; xx++)
 	{
 		//NSString *sql = [arrQuery objectAtIndex:x];
 		//RecordSet *rs = [conn execQuery:sql];
@@ -418,10 +419,12 @@
 			[dataSource release];
 		}
 		dataSource = [[DataSource alloc] init];
+		NSMutableArray *maxDataInColumn = [NSMutableArray arrayWithCapacity:20];
 		
 		// Raw View
 		if ([rs count] > 0)
 		{
+			// for each row in the results
 			for (i = 0; i < [rs count]; i++)
 			{
 				// set up the header
@@ -431,6 +434,7 @@
 					for (x = 0; x < [[[rs itemAtIndex:i] fields] count]; x++)
 					{
 						NSTableColumn *tc = [[NSTableColumn alloc] init];
+						// TODO should we set the font here?
 						[tc setIdentifier:[NSString stringWithFormat:@"%d",  x]];
 						[[tc headerCell] setStringValue:[[[[rs itemAtIndex:i] fields] itemAtIndex:x] name]];
 						[dataOutput addTableColumn:tc];
@@ -440,19 +444,62 @@
 				}
 				long x = 0;
 				NSMutableDictionary *dict = [dataSource addItem];
+				// for each field
 				for (x = 0; x < [[[rs itemAtIndex:i] fields] count]; x++)
 				{
+
 					[dict setValue:[[[[rs itemAtIndex:i] fields] itemAtIndex:x] value]
 							 forKey:[NSString stringWithFormat:@"%d",  x]];
 					
 					[result appendFormat:@"%-15s  ", [[[[[rs itemAtIndex:i] fields] itemAtIndex:x] value] cString]];
+					// find longest string for data in a column
+					NSString *fieldLongestString = [[[[rs itemAtIndex:i] fields] itemAtIndex:x] value];
+					if (i == 0)
+					{
+						// first row initialize to first row strings.
+						[maxDataInColumn addObject:fieldLongestString];
+					}
+					else
+					{
+						// this is not exact but close enough for now.
+						if ([[maxDataInColumn objectAtIndex:x] length] < [fieldLongestString length])
+						{
+							// update max string for this column
+							[maxDataInColumn replaceObjectAtIndex:x withObject:fieldLongestString];
+						}
+					}
 				}
 				[result appendString:@"\n"];
 			}
 		}
 		[rawOutput setString:result];
-			
+		
+		// automatically set the width of the result columns
+		int x;
+		NSDictionary *attribDict;	
+		NSArray *columns = [dataOutput tableColumns];
 		[dataOutput setDataSource:dataSource];
+
+		for (x = 0; x < [[[rs itemAtIndex:0] fields] count]; x++)
+		{
+			NSTableColumn *aColumn = [columns objectAtIndex:x];
+			NSCell *aDataCell = [aColumn dataCell];
+			NSCell *aHeaderCell = [aColumn headerCell];
+			NSFont *aFont = [aDataCell font];
+			attribDict = [NSDictionary dictionaryWithObjectsAndKeys: aFont, NSFontAttributeName, nil];	
+			NSAttributedString *attribString = [[NSAttributedString alloc] initWithString:[maxDataInColumn objectAtIndex:x] attributes:attribDict];
+			NSSize textSize = [attribString size];
+			[aColumn setMaxWidth:textSize.width+20.0];
+			if (textSize.width/5.0 < [aHeaderCell cellSize].width/2.0)
+			{
+				[aColumn setMinWidth:[aHeaderCell cellSize].width/2.0];	
+			}
+			else
+			{
+				[aColumn setMinWidth:textSize.width/5.0];				
+			}
+			[aColumn setWidth:textSize.width+10.0];
+		}
 		[dataOutput reloadData];
 		
 		// long recordcount = [conn execCommand:sql];
