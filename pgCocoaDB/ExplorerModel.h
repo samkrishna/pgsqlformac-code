@@ -12,7 +12,7 @@
 #import "Connection.h"
 #import "Schema.h"
 
-enum ThreadStatus { None, Running, Done, Error };
+enum ExplorerThreadStatus { ExplorerNone, ExplorerRunning, ExplorerDone, ExplorerError };
 
 @interface ExplorerModel : NSObject
 {
@@ -27,7 +27,7 @@ enum ThreadStatus { None, Running, Done, Error };
 	bool showPublic;
 	
 	NSLock *explorerThreadStatusLock;
-	enum ThreadStatus explorerThreadStatus; 
+	enum ExplorerThreadStatus explorerThreadStatus; 
 }
 
 - (id)initWithConnectionString:(NSString *)theConnection;
@@ -40,14 +40,14 @@ enum ThreadStatus { None, Running, Done, Error };
 - (bool)showPGToast;
 - (bool)showPGTemps;
 - (bool)showPublic;
-- (enum ThreadStatus)explorerThreadStatus;
+- (enum ExplorerThreadStatus)explorerThreadStatus;
 
 - (void)setShowInformationSchema:(bool)newValue;
 - (void)setShowPGCatalog:(bool)newValue;
 - (void)setShowPGToast:(bool)newValue;
 - (void)setShowPGTemps:(bool)newValue;
 - (void)setShowPublic:(bool)newValue;
-- (void)setExplorerThreadStatus:(enum ThreadStatus)newValue;
+- (void)setExplorerThreadStatus:(enum ExplorerThreadStatus)newValue;
 
 	// These methods get called because I am the datasource of the outline view.
 - (id)outlineView:(NSOutlineView *)outlineView child:(int)index ofItem:(id)item;

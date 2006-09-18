@@ -2,7 +2,7 @@
 {
 	0867D690FE84028FC02AAC07 /* Project object */ = {
 		activeBuildConfigurationName = Development;
-		activeTarget = CE9B2B9309B9ECB100877A0E /* UnitTest */;
+		activeTarget = 8DC2EF4F0486A6940098B216 /* pgCocoaDB */;
 		addToTargets = (
 			8DC2EF4F0486A6940098B216 /* pgCocoaDB */,
 			CE9B2B9309B9ECB100877A0E /* UnitTest */,
@@ -126,12 +126,14 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 179928865;
-			PBXWorkspaceStateSaveDate = 179928865;
+			PBXPerProjectTemplateStateSaveDate = 180287523;
+			PBXWorkspaceStateSaveDate = 180287523;
 		};
 		perUserProjectItems = {
-			CE4917DB0AB97FBD00B03B4A /* PBXBookmark */ = CE4917DB0AB97FBD00B03B4A /* PBXBookmark */;
-			CE4918180AB9815400B03B4A /* PBXTextBookmark */ = CE4918180AB9815400B03B4A /* PBXTextBookmark */;
+			CE0B9E280ABEF84800AD89B4 /* PBXTextBookmark */ = CE0B9E280ABEF84800AD89B4 /* PBXTextBookmark */;
+			CE0B9E2F0ABEF85F00AD89B4 /* PBXTextBookmark */ = CE0B9E2F0ABEF85F00AD89B4 /* PBXTextBookmark */;
+			CE0B9E300ABEF85F00AD89B4 /* PBXTextBookmark */ = CE0B9E300ABEF85F00AD89B4 /* PBXTextBookmark */;
+			CE0B9E310ABEF85F00AD89B4 /* PBXTextBookmark */ = CE0B9E310ABEF85F00AD89B4 /* PBXTextBookmark */;
 		};
 		sourceControlManager = CED43E1C09B0992E0096CAC2 /* Source Control */;
 		userBuildSettings = {
@@ -140,17 +142,17 @@
 	4330338F066135480037D932 /* Connection.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {617, 1470}}";
-			sepNavSelRange = "{250, 0}";
-			sepNavVisRect = "{{0, 0}, {617, 695}}";
-			sepNavWindowFrame = "{{80, 55}, {662, 768}}";
+			sepNavSelRange = "{971, 10}";
+			sepNavVisRect = "{{0, 498}, {617, 695}}";
+			sepNavWindowFrame = "{{692, 46}, {662, 768}}";
 		};
 	};
 	43303390066135480037D932 /* Connection.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {944, 9422}}";
-			sepNavSelRange = "{219, 0}";
-			sepNavVisRect = "{{0, 0}, {928, 748}}";
-			sepNavWindowFrame = "{{242, -5}, {973, 821}}";
+			sepNavSelRange = "{9721, 0}";
+			sepNavVisRect = "{{0, 8484}, {928, 748}}";
+			sepNavWindowFrame = "{{334, 41}, {973, 821}}";
 		};
 	};
 	433033A7066135EA0037D932 /* Database.h */ = {
@@ -284,6 +286,44 @@
 	8DC2EF4F0486A6940098B216 /* pgCocoaDB */ = {
 		activeExec = 0;
 	};
+	CE0B9E280ABEF84800AD89B4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: 'Done' undeclared (first use in this function)";
+		fRef = CED62FF809C48EDE00B6B94B /* ExplorerModel.m */;
+		rLen = 1;
+		rLoc = 638;
+		rType = 1;
+	};
+	CE0B9E2F0ABEF85F00AD89B4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = CED62FF809C48EDE00B6B94B /* ExplorerModel.m */;
+		name = "ExplorerModel.m: 639";
+		rLen = 0;
+		rLoc = 17020;
+		rType = 0;
+		vrLen = 1350;
+		vrLoc = 15773;
+	};
+	CE0B9E300ABEF85F00AD89B4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = CED62FF709C48EDE00B6B94B /* ExplorerModel.h */;
+		name = "ExplorerModel.h: setExplorerThreadStatus:";
+		rLen = 0;
+		rLoc = 1287;
+		rType = 0;
+		vrLen = 1525;
+		vrLoc = 234;
+	};
+	CE0B9E310ABEF85F00AD89B4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = CED62FF709C48EDE00B6B94B /* ExplorerModel.h */;
+		name = ExplorerDone;
+		rLen = 12;
+		rLoc = 336;
+		rType = 0;
+		vrLen = 1525;
+		vrLoc = 234;
+	};
 	CE0EBCA90A4D8CE700003FF7 /* ExplorerModel.m:159 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
@@ -328,20 +368,6 @@
 		location = UnitTest;
 		modificationTime = 179883208.216068;
 		state = 2;
-	};
-	CE4917DB0AB97FBD00B03B4A /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = CED62FF809C48EDE00B6B94B /* ExplorerModel.m */;
-	};
-	CE4918180AB9815400B03B4A /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = CED62FF809C48EDE00B6B94B /* ExplorerModel.m */;
-		name = "ExplorerModel.m: 10";
-		rLen = 0;
-		rLoc = 173;
-		rType = 0;
-		vrLen = 1344;
-		vrLoc = 0;
 	};
 	CE69B18D09D6DBB000910AD1 /* ExplorerModel.m:149 */ = {
 		isa = PBXFileBreakpoint;
@@ -457,6 +483,8 @@
 		fallbackIsa = XCSourceControlManager;
 		isSCMEnabled = 0;
 		scmConfiguration = {
+			CVSToolPath = /sw/bin/cvs;
+			CVSUseSSH = YES;
 		};
 		scmType = "";
 	};
@@ -467,16 +495,16 @@
 	CED62FF709C48EDE00B6B94B /* ExplorerModel.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {728, 854}}";
-			sepNavSelRange = "{276, 0}";
-			sepNavVisRect = "{{0, 0}, {629, 684}}";
-			sepNavWindowFrame = "{{24, 76}, {674, 757}}";
+			sepNavSelRange = "{336, 12}";
+			sepNavVisRect = "{{0, 156}, {629, 684}}";
+			sepNavWindowFrame = "{{22, 12}, {674, 757}}";
 		};
 	};
 	CED62FF809C48EDE00B6B94B /* ExplorerModel.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1004, 9100}}";
-			sepNavSelRange = "{173, 0}";
-			sepNavVisRect = "{{0, 0}, {853, 731}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1004, 9086}}";
+			sepNavSelRange = "{17020, 0}";
+			sepNavVisRect = "{{0, 8355}, {853, 731}}";
 			sepNavWindowFrame = "{{452, 42}, {898, 804}}";
 		};
 	};

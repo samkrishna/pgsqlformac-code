@@ -1,3 +1,15 @@
+2006-09-14 07:26  ntiffin
+
+	* ChangeLog, Connection.h, Connection.m, DataSource.h,
+	  DataSource.m, Database.h, Database.m, Databases.h, Databases.m,
+	  ExplorerModel.h, ExplorerModel.m, ExplorerNode.h, ExplorerNode.m,
+	  Field.h, Field.m, Fields.h, Fields.m, PGCocoaDB.h, Record.h,
+	  Record.m, RecordSet.h, RecordSet.m, Schema.h, Schema.m, Table.h,
+	  Table.m, UnitTest/pgCocoaDBSchemaTest.m,
+	  pgCocoaDBn.xcodeproj/ntiffin.mode1,
+	  pgCocoaDBn.xcodeproj/ntiffin.pbxuser: Fix bug explorer not
+	  showing and PGCocoa.h being pulled into query tool.
+
 2006-09-04 09:34  ntiffin
 
 	* ChangeLog, pgCocoaDBn.xcodeproj/ntiffin.mode1,

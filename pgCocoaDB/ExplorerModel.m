@@ -319,7 +319,7 @@
 	NSLog(@"ExplorerModel: initWithConnectionString: theConnection");
 	
 	explorerThreadStatusLock = [[NSLock alloc] init];
-	explorerThreadStatus = None;
+	explorerThreadStatus = ExplorerNone;
 
 	showInformationSchema = TRUE;
 	showPGCatalog = TRUE;
@@ -354,17 +354,18 @@
 	RecordSet * results;
 	ExplorerNode * realRootNode;
 
+	[schema release];
 	schema = [[Schema alloc] initWithConnectionString:connectionString];
 
 	if (schema == nil)
 	{
 		NSLog(@"Schema init returned error.");
-		[self setExplorerThreadStatus:Error];
+		[self setExplorerThreadStatus:ExplorerError];
 		return;
 	}
 	
 	
-	[self setExplorerThreadStatus:Running];
+	[self setExplorerThreadStatus:ExplorerRunning];
 
 	// set database level
     realRootNode = [[ExplorerNode alloc] init];
@@ -462,10 +463,8 @@
 	}
 	[rootNode autorelease];
 	rootNode = realRootNode;
-	[self setExplorerThreadStatus:Done];
+	[self setExplorerThreadStatus:ExplorerDone];
 	[(NSOutlineView *)anOutlineView reloadData];
-	[schema release];
-	schema = nil;
 	[pool release];
 	[self release];
 	return;
@@ -519,9 +518,9 @@
 	return showPublic;
 }
 
-- (enum ThreadStatus)explorerThreadStatus
+- (enum ExplorerThreadStatus)explorerThreadStatus
 {
-	enum ThreadStatus status;
+	enum ExplorerThreadStatus status;
 	
 	[explorerThreadStatusLock lock];
 	status = explorerThreadStatus;
@@ -554,7 +553,7 @@
 	showPublic = newValue;
 }
 
-- (void)setExplorerThreadStatus:(enum ThreadStatus)newValue
+- (void)setExplorerThreadStatus:(enum ExplorerThreadStatus)newValue
 {
 	[explorerThreadStatusLock lock];
 	explorerThreadStatus = newValue;
@@ -570,7 +569,7 @@
 	{
 		return [rootNode childAtIndex:i];	
 	}
-	if([self explorerThreadStatus] != Done)
+	if([self explorerThreadStatus] != ExplorerDone)
 	{
 		return 0;
 	}
@@ -583,7 +582,7 @@
 	UNUSED_PARAMETER(outlineView);
     
 	// Returns YES if the node has children
-	if([self explorerThreadStatus] != Done)
+	if([self explorerThreadStatus] != ExplorerDone)
 	{
 		return NO;
 	}
@@ -599,7 +598,7 @@
         // The root object;
         return [rootNode childrenCount];
     }
-	if([self explorerThreadStatus] != Done)
+	if([self explorerThreadStatus] != ExplorerDone)
 	{
 		return 0;
 	}
@@ -637,7 +636,7 @@
 
 - (BOOL)printLog
 {
-	if([self explorerThreadStatus] == Done)
+	if([self explorerThreadStatus] == ExplorerDone)
 	{
 		[rootNode printLog:0];
 		return YES;
