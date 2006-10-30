@@ -20,7 +20,7 @@ NSString* const PGCocoaTestSchema = @"pgcocoa_test_schema";
 NSString* const PGCocoaTestUser = @"ntiffin";
 NSString* const PGCocoaTestPassword = @"";
 NSString* const PGCocoaTestHost = @"localhost";
-NSString* const PGCocoaTestPort = @"5433";
+NSString* const PGCocoaTestPort = @"5432";
 
 // Uncomment the following line to automatically drop and recreate the test database.
 //#define DROP_EXISTING_DATABASE 1
@@ -162,7 +162,16 @@ $time_stamp$ LANGUAGE plpgsql;\n"];
 		"sum_n_product(x int, y int, OUT sum int, OUT prod int) AS $$\nBEGIN\n sum := x + y;\n prod := x * y;\nEND;\n$$ LANGUAGE plpgsql;\n"];
 	[conn execQuery:sql];
 	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
-	
+
+	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "CREATE or REPLACE FUNCTION ", PGCocoaTestDatabase, PGCocoaTestSchema,
+		"a_sum(x int, y int) RETURNS int AS $$\nDECLARE\n result int; \nBEGIN\n result := x + y;\n RETURN result;\nEND;\n$$ LANGUAGE plpgsql;\n"];
+	[conn execQuery:sql];
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
+
+	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "CREATE or REPLACE FUNCTION ", PGCocoaTestDatabase, PGCocoaTestSchema,
+		"do_nothing(x int, y int) RETURNS void AS $$\nDECLARE\n result int; \nBEGIN\n result := x + y;\nEND;\n$$ LANGUAGE plpgsql;\n"];
+	[conn execQuery:sql];
+	STAssertTrue([conn errorDescription] == nil, @"Error executing SQL: %@. %@", sql, [conn errorDescription]);
 	
 	sql = [NSString stringWithFormat:@"%s%@.%@.%s%@.%@.%s", "CREATE TRIGGER create_timestamp BEFORE INSERT ON ",
 		PGCocoaTestDatabase, PGCocoaTestSchema, "name \

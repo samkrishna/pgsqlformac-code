@@ -419,7 +419,7 @@ AND t.oid = c.conrelid;
 	char **allargtypes = NULL;
 	char **argmodes = NULL;
 	char **argnames = NULL;
-	int argtypes_nitems = 0;
+	int allargtypes_nitems = 0;
 	int argmodes_nitems = 0;
 	int argnames_nitems = 0;
 	char buffer[1024];
@@ -436,7 +436,9 @@ AND t.oid = c.conrelid;
 	 FROM pg_catalog.pg_proc
 	 */
 	
-	sql = [NSString stringWithFormat:@"SELECT p.proname, p.proretset, p.prosrc, p.probin, p.pronargs, p.proallargtypes, p.proargmodes, p.proargnames, \
+	sql = [NSString stringWithFormat:@"SELECT p.proname, \
+	CASE WHEN p.proretset THEN 'setof ' ELSE '' END || pg_catalog.format_type(p.prorettype, NULL) as \"resulttype\", \
+	p.prosrc, p.probin, p.pronargs, p.proallargtypes, p.proargtypes, p.proargmodes, p.proargnames, \
 	p.provolatile, p.proisstrict, p.prosecdef, (SELECT lanname FROM pg_catalog.pg_language l WHERE l.oid = p.prolang) as lanname, \
 	(SELECT typname from pg_catalog.pg_type WHERE oid = p.prorettype) as rettype \
 	FROM pg_catalog.pg_proc p, pg_catalog.pg_namespace n \
@@ -469,30 +471,43 @@ AND t.oid = c.conrelid;
 	
 	[sqlOutput appendFormat:@"CREATE or REPLACE FUNCTION %@.%@ ", schemaName, functionName];
 	//TODO get return values and parameters
-	NSLog(@"args: %@", [[[results itemAtIndex: 0] fields] getValueFromName: @"proallargtypes"]);
-	NSLog(@"args: %@", [[[results itemAtIndex: 0] fields] getValueFromName: @"proargmodes"]);
-	NSLog(@"args: %@", [[[results itemAtIndex: 0] fields] getValueFromName: @"proargnames"]);
+	NSLog(@"proallargtypes: %@", [[[results itemAtIndex: 0] fields] getValueFromName: @"proallargtypes"]);
+	NSLog(@"   proargmodes: %@", [[[results itemAtIndex: 0] fields] getValueFromName: @"proargmodes"]);
+	NSLog(@"   proargnames: %@", [[[results itemAtIndex: 0] fields] getValueFromName: @"proargnames"]);
+	NSLog(@"   proargtypes: %@", [[[results itemAtIndex: 0] fields] getValueFromName: @"proargtypes"]);
+	NSLog(@"      pronargs: %@", [[[results itemAtIndex: 0] fields] getValueFromName: @"pronargs"]);
 	/*
 	 2006-06-17 16:41:42.405 Query Tool for Postgres[28356] args: {23,23,23,23}
 	 2006-06-17 16:41:42.405 Query Tool for Postgres[28356] args: {i,i,o,o}
 	 2006-06-17 16:41:42.405 Query Tool for Postgres[28356] args: {x,y,sum,prod}
 	 2006-06-17 16:41:42.406 Query Tool for Postgres[28356] args: 2
 	*/
-	numberOfArgs = [[[[results itemAtIndex: 0] fields] getValueFromName: @"pronargs"] intValue];
 	
 	[[[[results itemAtIndex: 0] fields] getValueFromName: @"proallargtypes"] getCString:buffer maxLength:1024 encoding:NSASCIIStringEncoding];
-	if (!parsePGArray( buffer, &allargtypes, &argtypes_nitems))
+	if (!parsePGArray( buffer, &allargtypes, &allargtypes_nitems))
 	{
 		if (allargtypes)
+		{			
 			free(allargtypes);
+		}
 		allargtypes = NULL;
+	}
+
+	NSScanner *theScanner = [NSScanner scannerWithString: [[[results itemAtIndex: 0] fields] getValueFromName: @"proargtypes"]];
+	NSMutableArray * argTypeArray = [NSMutableArray arrayWithCapacity:10];
+	int anInt;
+	while ([theScanner scanInt: &anInt])
+	{
+		[argTypeArray addObject:[NSNumber numberWithInt:anInt]];
 	}
 	
 	[[[[results itemAtIndex: 0] fields] getValueFromName: @"proargmodes"] getCString:buffer maxLength:1024 encoding:NSASCIIStringEncoding];
 	if (!parsePGArray( buffer, &argmodes, &argmodes_nitems))
 	{
-		if (argmodes)
-			free(argmodes);
+		if (argmodes) 
+		{
+			free(argmodes);			
+		}
 		argmodes = NULL;
 	}
 	
@@ -500,23 +515,30 @@ AND t.oid = c.conrelid;
 	if (!parsePGArray( buffer, &argnames, &argnames_nitems))
 	{
 		if (argnames)
-			free(argnames);
+		{
+			free(argnames);			
+		}
 		argnames = NULL;
 	}
-
+	// determine if args are in proargtypes or proallargtypes
+	numberOfArgs = [[[[results itemAtIndex: 0] fields] getValueFromName: @"pronargs"] intValue];
+	if (allargtypes_nitems > numberOfArgs)
+	{
+		numberOfArgs = allargtypes_nitems;
+	}
+	[sqlOutput appendString:@"("];
 	if (argnames_nitems != 0)
 	{
 		int i;
-		[sqlOutput appendString:@"("];
 		for (i = 0; i< argnames_nitems; i++)
 		{	
-			char * argmode;
+			char * argmode = "";
 			if (argmodes)
 			{
 				switch (argmodes[i][0])
 				{
 					case 'i':
-						argmode = "IN";
+						argmode = "IN ";
 						break;
 					case 'o':
 						argmode = "OUT ";
@@ -526,18 +548,13 @@ AND t.oid = c.conrelid;
 						break;
 					default:
 						NSLog(@"WARNING: bogus value in proargmodes array");
-						argmode = "";
 						break;
 				}
 			}
-				else
-					argmode = "";
-			
-			if (i != 0)
-			{
-				[sqlOutput appendString:@", "];
-			}
-			sql = [NSString stringWithFormat:@"SELECT pg_catalog.format_type('%s'::pg_catalog.oid, NULL)", allargtypes[i]];
+			[sqlOutput appendString: (i==0) ? @"" : @", "];
+			// FIXME allargtypes can be NULL, then this faults, need to understand the conditions that lead to this?
+			sql = [NSString stringWithFormat:@"SELECT pg_catalog.format_type('%s'::pg_catalog.oid, NULL)", 
+			   allargtypes ? allargtypes[i] : [[[argTypeArray objectAtIndex:i] stringValue] cStringUsingEncoding:NSASCIIStringEncoding] ];
 			results1 = [connection execQueryNoLog:sql];
 			if ([results1 count] != 1)
 			{
@@ -546,8 +563,9 @@ AND t.oid = c.conrelid;
 			}
 			[sqlOutput appendFormat:@"%s %s %@", argmode, argnames[i], [[[[results1 itemAtIndex: 0] fields] itemAtIndex:0] value]];
 		}
-		[sqlOutput appendString:@") "];
 	}
+	[sqlOutput appendString:@") "];
+	[sqlOutput appendFormat:@"RETURNS %@",  [[[results itemAtIndex: 0] fields] getValueFromName: @"resulttype"]];
 	[sqlOutput appendString:@" AS $$\n"];
 	[sqlOutput appendString:[[[results itemAtIndex: 0] fields] getValueFromName:@"prosrc"]];
 	[sqlOutput appendString:@"$$"];
@@ -619,14 +637,7 @@ AND t.oid = c.conrelid;
 	{		
 		if (i != 0)
 		{
-			if (pretty)
-			{
-				[sqlOutput appendString:@",\n"];
-			}
-			else
-			{
-				[sqlOutput appendString:@", "];				
-			}
+			[sqlOutput appendString: (pretty) ? @",\n" : @", "];				
 		}
 		if (pretty)
 		{
@@ -651,16 +662,8 @@ AND t.oid = c.conrelid;
 		{
 			[sqlOutput appendFormat:@" %@", [[[results itemAtIndex: i] fields] getValueFromName:@"notnull"]];
 		}
-		
 	}
-	if (pretty)
-	{
-		[sqlOutput appendString:@"\n);"];
-	}
-	else
-	{
-		[sqlOutput appendString:@" );"];
-	}
+	[sqlOutput appendString: (pretty) ? @"\n);" : @" );"];
 	return sqlOutput;
 }
 
@@ -1007,7 +1010,7 @@ parsePGArray(const char *atext, char ***itemarray, int *nitems)
 	/*
 	 * We expect input in the form of "{item,item,item}" where any item is
 	 * either raw data, or surrounded by double quotes (in which case embedded
-														* characters including backslashes and quotes are backslashed).
+	 * characters including backslashes and quotes are backslashed).
 	 *
 	 * We build the result as an array of pointers followed by the actual
 	 * string data, all in one malloc block for convenience of deallocation.
