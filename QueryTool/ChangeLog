@@ -1,3 +1,22 @@
+2006-09-17 10:41  ntiffin
+
+	* QueryTool.h, SqlDocument.m, TODO.txt,
+	  English.lproj/SqlDocument.nib/keyedobjects.nib,
+	  QueryToolForPostgresN.xcodeproj/ntiffin.mode1,
+	  QueryToolForPostgresN.xcodeproj/ntiffin.pbxuser: Add automatic
+	  result column resizing.
+
+2006-09-13 18:13  ntiffin
+
+	* QueryTool.h: Add missing global definition.
+
+2006-09-04 09:51  ntiffin
+
+	* ChangeLog, QueryToolForPostgresN.xcodeproj/ntiffin.mode1,
+	  QueryToolForPostgresN.xcodeproj/ntiffin.pbxuser,
+	  QueryToolForPostgresN.xcodeproj/project.pbxproj: Add fink based
+	  XCode project file.
+
 2006-09-04 09:22  ntiffin
 
 	* AppController.m, ChangeLog, PreferenceController.h,
@@ -5,6 +24,12 @@
 	  English.lproj/SqlDocument.nib/info.nib,
 	  English.lproj/SqlDocument.nib/keyedobjects.nib: Move Keywords to
 	  and refactor preferences.
+
+2006-08-31 19:56  ntiffin
+
+	* ChangeLog, SqlDocument.m, Help/.DS_Store, Help/index.html: Fix
+	  for PGconn not being thread safe. Migrate to new PQconnectdb API.
+	  Add help text.
 
 2006-08-30 16:25  ntiffin
 

@@ -23,7 +23,7 @@
 {
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 	
-	if ([userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowInformationSchema"])
+	if ([userDefaults  boolForKey:UDShowInformationSchema])
 	{
 		[prefShowPGInfoSchema setState:NSOnState];
 	}
@@ -31,7 +31,7 @@
 	{
 		[prefShowPGInfoSchema setState:NSOffState];
 	}
-	if ([userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowPGCatalogSchema"])
+	if ([userDefaults  boolForKey:UDShowPGCatalogSchema])
 	{
 		[prefShowPGCatalogSchema setState:NSOnState];
 	}
@@ -39,7 +39,7 @@
 	{
 		[prefShowPGCatalogSchema setState:NSOffState];
 	}
-	if ([userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowPGToastSchema"])
+	if ([userDefaults  boolForKey:UDShowPGToastSchema])
 	{
 		[prefShowPGToastSchema setState:NSOnState];
 	}
@@ -47,7 +47,7 @@
 	{
 		[prefShowPGToastSchema setState:NSOffState];
 	}
-	if ([userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowPGTempsSchema"])
+	if ([userDefaults  boolForKey:UDShowPGTempsSchema])
 	{
 		[prefShowPGTempSchema setState:NSOnState];
 	}
@@ -55,7 +55,7 @@
 	{
 		[prefShowPGTempSchema setState:NSOffState];
 	}
-	if ([userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowPGPublicSchema"])
+	if ([userDefaults  boolForKey:UDShowPGPublicSchema])
 	{
 		[prefShowPGPublicSchema setState:NSOnState];
 	}
@@ -64,7 +64,7 @@
 		[prefShowPGPublicSchema setState:NSOffState];
 	}
 	
-	if ([userDefaults  boolForKey:@"PGSqlForMac_QueryTool_LogSQL"])
+	if ([userDefaults  boolForKey:UDLogSQL])
 	{
 		[prefLogAllSQL setState:NSOnState];
 	}
@@ -72,7 +72,7 @@
 	{
 		[prefLogAllSQL setState:NSOffState];
 	}
-	if ([userDefaults  boolForKey:@"PGSqlForMac_QueryTool_LogQueryInfo"])
+	if ([userDefaults  boolForKey:UDLogQueryInfo])
 	{
 		[prefLogInfoMessages setState:NSOnState];
 	}
@@ -81,8 +81,8 @@
 		[prefLogInfoMessages setState:NSOffState];
 	}
 	
-	[prefPostgresqlHelpURL setStringValue:[userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPostgreSQLHelp"]];
-	[prefPostgresqlSQLURL setStringValue:[userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowSQLCommandHelp"]];	
+	[prefPostgresqlHelpURL setStringValue:[userDefaults stringForKey:UDShowPostgreSQLHelp]];
+	[prefPostgresqlSQLURL setStringValue:[userDefaults stringForKey:UDShowSQLCommandHelp]];	
 }
 
 
@@ -104,8 +104,23 @@
 	[prefLogAllSQL setState:NSOnState];
 	[prefLogInfoMessages setState:NSOnState];
 
-	[prefPostgresqlHelpURL setStringValue:@"file:///sw/share/doc/postgresql81/html/index.html"];
-	[prefPostgresqlSQLURL setStringValue:@"file:///sw/share/doc/postgresql81/html/sql-commands.html"];
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	if ([fileManager fileExistsAtPath:@"/sw/share/doc/postgresql81/html/index.html"])
+	{
+		[prefPostgresqlHelpURL setStringValue:@"file:///sw/share/doc/postgresql81/html/index.html"];
+	}
+	else
+	{
+		[prefPostgresqlHelpURL setStringValue:@""];
+	}
+	if ([fileManager fileExistsAtPath:@"/sw/share/doc/postgresql81/html/sql-commands.html"])
+	{
+		[prefPostgresqlSQLURL setStringValue:@"file:///sw/share/doc/postgresql81/html/sql-commands.html"];
+	}
+	else
+	{
+		[prefPostgresqlSQLURL setStringValue:@""];
+	}
 }
 
 
@@ -115,64 +130,64 @@
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 	if ([prefShowPGInfoSchema state])
 	{
-		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_ShowInformationSchema"];
+		[userDefaults setObject:@"yes" forKey:UDShowInformationSchema];
 	}
 	else
 	{
-		[userDefaults setObject:@"no" forKey:@"PGSqlForMac_QueryTool_ShowInformationSchema"];
+		[userDefaults setObject:@"no" forKey:UDShowInformationSchema];
 	}
 	if ([prefShowPGCatalogSchema state])
 	{
-		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_ShowPGCatalogSchema"];
+		[userDefaults setObject:@"yes" forKey:UDShowPGCatalogSchema];
 	}
 	else
 	{
-		[userDefaults setObject:@"no" forKey:@"PGSqlForMac_QueryTool_ShowPGCatalogSchema"];
+		[userDefaults setObject:@"no" forKey:UDShowPGCatalogSchema];
 	}
 	if ([prefShowPGToastSchema state])
 	{
-		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_ShowPGToastSchema"];
+		[userDefaults setObject:@"yes" forKey:UDShowPGToastSchema];
 	}
 	else
 	{
-		[userDefaults setObject:@"no" forKey:@"PGSqlForMac_QueryTool_ShowPGToastSchema"];
+		[userDefaults setObject:@"no" forKey:UDShowPGToastSchema];
 	}
 	if ([prefShowPGTempSchema state])
 	{
-		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_ShowPGTempsSchema"];
+		[userDefaults setObject:@"yes" forKey:UDShowPGTempsSchema];
 	}
 	else
 	{
-		[userDefaults setObject:@"no" forKey:@"PGSqlForMac_QueryTool_ShowPGTempsSchema"];
+		[userDefaults setObject:@"no" forKey:UDShowPGTempsSchema];
 	}
 	if ([prefShowPGPublicSchema state])
 	{
-		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_ShowPGPublicSchema"];
+		[userDefaults setObject:@"yes" forKey:UDShowPGPublicSchema];
 	}
 	else
 	{
-		[userDefaults setObject:@"no" forKey:@"PGSqlForMac_QueryTool_ShowPGPublicSchema"];
+		[userDefaults setObject:@"no" forKey:UDShowPGPublicSchema];
 	}
 
 	if ([prefLogAllSQL state])
 	{
-		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_LogSQL"];
+		[userDefaults setObject:@"yes" forKey:UDLogSQL];
 	}
 	else
 	{
-		[userDefaults setObject:@"no" forKey:@"PGSqlForMac_QueryTool_LogSQL"];
+		[userDefaults setObject:@"no" forKey:UDLogSQL];
 	}
 	if ([prefLogInfoMessages state])
 	{
-		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_LogQueryInfo"];
+		[userDefaults setObject:@"yes" forKey:UDLogQueryInfo];
 	}
 	else
 	{
-		[userDefaults setObject:@"no" forKey:@"PGSqlForMac_QueryTool_LogQueryInfo"];
+		[userDefaults setObject:@"no" forKey:UDLogQueryInfo];
 	}
 	
-	[userDefaults setObject:[prefPostgresqlHelpURL stringValue] forKey:@"PGSqlForMac_QueryTool_ShowPostgreSQLHelp"];
-	[userDefaults setObject:[prefPostgresqlSQLURL stringValue] forKey:@"PGSqlForMac_QueryTool_ShowSQLCommandHelp"];
+	[userDefaults setObject:[prefPostgresqlHelpURL stringValue] forKey:UDShowPostgreSQLHelp];
+	[userDefaults setObject:[prefPostgresqlSQLURL stringValue] forKey:UDShowSQLCommandHelp];
 	[[NSUserDefaults standardUserDefaults] synchronize];
 	[[self window] close];
 }
@@ -186,90 +201,177 @@
 	
 }
 
+/*
+ NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
+	 host, @"host", 
+	 port, @"port", 
+	 dbName, @"dbname", 
+	 userName, @"user", 
+	 nil];
+	return dict;
+*/
+
+-(IBAction)deleteConnection:(id)sender;
+{
+	UNUSED_PARAMETER(sender);
+	NSLog(@"%s: deleteConnection not implemented.", __FILE__);
+	// TODO
+}
+
+-(IBAction)newConnection:(id)sender;
+{
+	UNUSED_PARAMETER(sender);
+	NSLog(@"%s: newConnection not implemented.", __FILE__);
+	// TODO
+}
+
+-(IBAction)selectConnection:(id)sender;
+{
+	UNUSED_PARAMETER(sender);
+	NSLog(@"%s: selectConnection not implemented.", __FILE__);
+	// TODO
+}
+
+
 -(void)createApplicationDefaultPreferences
 {
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 	
 	// does not track application version numbering, for future use should we need to
-	// drastically change the prefs we will be able to determine what version of prefs
+	// drastically change the prefs we will be able to quickly determine what version of prefs
 	// the user has.
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_User_Defaults_Version"] == nil)
+	if ([userDefaults stringForKey:UDUserDefaultsVersion] == nil)
 	{
-		[userDefaults setObject:@"1.0.0" forKey:@"PGSqlForMac_QueryTool_Pref_Version"];
+		[userDefaults setObject:@"2" forKey:UDUserDefaultsVersion];
+	}
+	if ([userDefaults stringForKey:UDShowInformationSchema] == nil)
+	{
+		[userDefaults setObject:@"yes" forKey:UDShowInformationSchema];
+	}
+	if ([userDefaults stringForKey:UDShowPGCatalogSchema] == nil)
+	{
+		[userDefaults setObject:@"yes" forKey:UDShowPGCatalogSchema];
+	}
+	if ([userDefaults stringForKey:UDShowPGToastSchema] == nil)
+	{
+		[userDefaults setObject:@"no" forKey:UDShowPGToastSchema];
+	}
+	if ([userDefaults stringForKey:UDShowPGTempsSchema] == nil)
+	{
+		[userDefaults setObject:@"no" forKey:UDShowPGTempsSchema];
+	}
+	if ([userDefaults stringForKey:UDShowPGPublicSchema] == nil)
+	{
+		[userDefaults setObject:@"yes" forKey:UDShowPGPublicSchema];
+	}
+	if ([userDefaults stringForKey:UDLogSQL] == nil)
+	{
+		[userDefaults setObject:@"yes" forKey:UDLogSQL];
+	}
+	if ([userDefaults stringForKey:UDLogQueryInfo] == nil)
+	{
+		[userDefaults setObject:@"yes" forKey:UDLogQueryInfo];
 	}
 	
 	
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowInformationSchema"] == nil)
+	if ([userDefaults stringForKey:UDSchemaTableFontName] == nil)
 	{
-		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_ShowInformationSchema"];
+		[userDefaults setObject:@"Lucida Grande" forKey:UDSchemaTableFontName];
 	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPGCatalogSchema"] == nil)
+	if ([userDefaults stringForKey:UDSchemaTableFontSize] == nil)
 	{
-		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_ShowPGCatalogSchema"];
+		[userDefaults setFloat:12.0 forKey:UDSchemaTableFontSize];
 	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPGToastSchema"] == nil)
+	if ([userDefaults stringForKey:UDResultsTableFontName] == nil)
 	{
-		[userDefaults setObject:@"no" forKey:@"PGSqlForMac_QueryTool_ShowPGToastSchema"];
+		[userDefaults setObject:@"Lucida Grande" forKey:UDResultsTableFontName];
 	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPGTempsSchema"] == nil)
+	if ([userDefaults stringForKey:UDResultsTableFontSize] == nil)
 	{
-		[userDefaults setObject:@"no" forKey:@"PGSqlForMac_QueryTool_ShowPGTempsSchema"];
-	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPGPublicSchema"] == nil)
-	{
-		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_ShowPGPublicSchema"];
-	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_LogSQL"] == nil)
-	{
-		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_LogSQL"];
-	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_LogQueryInfo"] == nil)
-	{
-		[userDefaults setObject:@"yes" forKey:@"PGSqlForMac_QueryTool_LogQueryInfo"];
+		[userDefaults setFloat:12.0 forKey:UDResultsTableFontSize];
 	}
 	
 	
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_SchemaTableFontName"] == nil)
-	{
-		[userDefaults setObject:@"Lucida Grande" forKey:@"PGSqlForMac_QueryTool_SchemaTableFontName"];
-	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_SchemaTableFontSize"] == nil)
-	{
-		[userDefaults setFloat:12.0 forKey:@"PGSqlForMac_QueryTool_SchemaTableFontSize"];
-	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ResultsTableFontName"] == nil)
-	{
-		[userDefaults setObject:@"Lucida Grande" forKey:@"PGSqlForMac_QueryTool_ResultsTableFontName"];
-	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ResultsTableFontSize"] == nil)
-	{
-		[userDefaults setFloat:12.0 forKey:@"PGSqlForMac_QueryTool_ResultsTableFontSize"];
-	}
-	
-	
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_Highlight_Keywords"] == nil)
+	if ([userDefaults stringForKey:UDHighlight_Keywords] == nil)
 	{
 		[userDefaults setObject:@"select from where order group by asc desc insert into delete drop create alter table procedure view function"
-						 forKey:@"PGSqlForMac_QueryTool_Highlight_Keywords"];
+						 forKey:UDHighlight_Keywords];
 	}
 	
 	NSFileManager *fileManager = [NSFileManager defaultManager];
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowPostgreSQLHelp"] == nil)
+	if ([userDefaults stringForKey:UDShowPostgreSQLHelp] == nil)
 	{
 		if ([fileManager fileExistsAtPath:@"/sw/share/doc/postgresql81/html/index.html"])
 		{
 			[userDefaults setObject:@"file:///sw/share/doc/postgresql81/html/index.html"
-							 forKey:@"PGSqlForMac_QueryTool_ShowPostgreSQLHelp"];
+							 forKey:UDShowPostgreSQLHelp];
 		}
 	}
-	if ([userDefaults stringForKey:@"PGSqlForMac_QueryTool_ShowSQLCommandHelp"] == nil)
+	if ([userDefaults stringForKey:UDShowSQLCommandHelp] == nil)
 	{
 		if ([fileManager fileExistsAtPath:@"/sw/share/doc/postgresql81/html/sql-commands.html"])
 		{
 			[userDefaults setObject:@"file:///sw/share/doc/postgresql81/html/sql-commands.html"
-							 forKey:@"PGSqlForMac_QueryTool_ShowSQLCommandHelp"];
+							 forKey:UDShowSQLCommandHelp];
 		}
-	}	
+	}
+	if ([userDefaults arrayForKey:UDConnArrayName] == nil)
+	{
+		// Create dictionary with connection details.
+		NSMutableDictionary *aConnDict = [NSMutableDictionary dictionaryWithCapacity:6];
+		
+		[aConnDict setObject:@"" forKey:UDConnUserName];
+		[aConnDict setObject:@"localhost" forKey:UDConnHost];
+		[aConnDict setObject:@"5432" forKey:UDConnPort];
+		[aConnDict setObject:@"" forKey:UDConnDatabaseName];
+		[aConnDict setObject:@"Default" forKey:UDConnName];
+				
+		// Update UserDefaults.
+		NSMutableArray *connArray = [NSMutableArray arrayWithCapacity:1];
+		[connArray addObject:aConnDict];
+		[userDefaults setObject:connArray forKey:UDConnArrayName];
+		NSLog(@"Adding new Connection Array: %s, Line %d", __FILE__, __LINE__);
+		
+		[userDefaults setObject:@"None" forKey:UDLastConn];
+	}
+	
+	/* remove old user defaults */
+	
+	/* Added 2006_11_11 */
+	NSString * const    UDUserDefaultsVersionOLD1 = @"PGSqlForMac_QueryTool_User_Defaults_Version";
+	NSString * const    UDUserDefaultsVersionOLD2 = @"PGSqlForMac_QueryTool_Pref_Version";
+	if ([userDefaults stringForKey:UDUserDefaultsVersionOLD1] != nil)
+	{
+		[userDefaults removeObjectForKey:UDUserDefaultsVersionOLD1];
+	}
+	if ([userDefaults stringForKey:UDUserDefaultsVersionOLD2] != nil)
+	{
+		[userDefaults removeObjectForKey:UDUserDefaultsVersionOLD2];
+	}
+	
+	/* Added 2006_12_01 */
+	NSString * const    UDDefaultUserName = @"PGSqlForMac_QueryTool_DefaultUserName";
+	NSString * const    UDDefaultHost = @"PGSqlForMac_QueryTool_DefaultHost";
+	NSString * const    UDDefaultPort = @"PGSqlForMac_QueryTool_DefaultPort";
+	NSString * const    UDDefaultDatabaseName = @"PGSqlForMac_QueryTool_DefaultDatabaseName";
+	if ([userDefaults stringForKey:UDDefaultUserName] != nil)
+	{
+		[userDefaults removeObjectForKey:UDDefaultUserName];
+	}
+	if ([userDefaults stringForKey:UDDefaultHost] != nil)
+	{
+		[userDefaults removeObjectForKey:UDDefaultHost];
+	}
+	if ([userDefaults stringForKey:UDDefaultPort] != nil)
+	{
+		[userDefaults removeObjectForKey:UDDefaultPort];
+	}
+	if ([userDefaults stringForKey:UDDefaultDatabaseName] != nil)
+	{
+		[userDefaults removeObjectForKey:UDDefaultDatabaseName];
+	}
+	
+	
 }
 
 @end

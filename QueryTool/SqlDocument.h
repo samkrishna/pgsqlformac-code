@@ -14,6 +14,7 @@
 #import "MyOutlineView.h"
 #import "MyResultsView.h"
 #import "QueryTool.h"
+#import "ExecuteQueryThread.h"
 
 @class PreferenceController;
 
@@ -30,11 +31,13 @@
 	
 	//connect dialog
 	IBOutlet NSPanel		*panelConnect;
+	IBOutlet NSComboBox		*connectionName;
+	IBOutlet NSButton		*connectionRemember;
 	IBOutlet NSTextField	*userName;
 	IBOutlet NSTextField	*password;
 	IBOutlet NSTextField	*databaseName;
-	IBOutlet NSComboBox		*host;
-	IBOutlet NSComboBox		*port;
+	IBOutlet NSTextField	*host;
+	IBOutlet NSTextField	*port;
 	IBOutlet NSPopUpButton	*dbName;
 	
 	// toolbar items
@@ -50,6 +53,9 @@
 
 	ExplorerModel *explorer;   // ref to schema outline view data source
 	
+	//threads
+	ExecuteQueryThread *theThread;
+
 	// Non-Gui
 	NSString				*fileContent;
 	NSData					*fileData;
@@ -74,6 +80,7 @@
 - (IBAction)onConnect:(id)sender;
 - (IBAction)onConnectOK:(id)sender;
 - (IBAction)onConnectCancel:(id)sender;
+- (IBAction)onConnectDelete:(id)sender;
 - (IBAction)onDisconnect:(id)sender;
 - (IBAction)onSetDatabase:(id)sender;
 - (IBAction)onShowSQLLog:(id)sender;
@@ -115,10 +122,15 @@
 - (void)onSelectCreateFunctionMenuItem:(id)sender;
 - (void)onSelectCreateFunctionTemplateMenuItem:(id)sender;
 - (void)onSelectDropFunctionMenuItem:(id)sender;
+- (void)onSelectExecuteFunctionMenuItem:(id)sender;
 
 // Indexes
 - (BOOL)isValueKeyword:(NSString *)value;
 - (void)setAttributesForWord:(NSRange)rangeOfCurrentWord;
 - (void)colorRange:(NSRange)rangeToColor;
+
+	// Other
+- (NSString *)currentQuery;
+- (void)threadComplete;
 
 @end

@@ -7,10 +7,22 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {cancelPreferences = id; defaultPreferences = id; savePreferences = id; }; 
+            ACTIONS = {
+                cancelPreferences = id; 
+                defaultPreferences = id; 
+                deleteConnection = id; 
+                newConnection = id; 
+                savePreferences = id; 
+                selectConnection = id; 
+            }; 
             CLASS = PreferenceController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                prefConnDBName = NSTextField; 
+                prefConnPassword = NSTextField; 
+                prefConnPort = NSTextField; 
+                prefConnServer = NSTextField; 
+                prefConnUserName = NSTextField; 
                 prefLogAllSQL = NSButton; 
                 prefLogInfoMessages = NSButton; 
                 prefPostgresqlHelpURL = NSTextField; 

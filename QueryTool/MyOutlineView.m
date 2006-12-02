@@ -1,4 +1,5 @@
 #import "MyOutlineView.h"
+#import "PreferenceController.h"
 
 @implementation MyOutlineView
 
@@ -155,6 +156,12 @@
 			functionMenu = [[NSMenu alloc] init];
 
 			newItem = [[NSMenuItem alloc] init];
+			[newItem setTitle:@"SELECT function()"];
+			[newItem setTarget: menuActionTarget];
+			[newItem setAction: @selector(onSelectExecuteFunctionMenuItem:)];
+			[functionMenu addItem: newItem];
+
+			newItem = [[NSMenuItem alloc] init];
 			[newItem setTitle:@"CREATE OR REPLACE FUNCTION template ()"];
 			[newItem setTarget: menuActionTarget];
 			[newItem setAction: @selector(onSelectCreateFunctionTemplateMenuItem:)];
@@ -238,8 +245,8 @@
 	}
 	[self setRowHeight:[[[theCols objectAtIndex:0] dataCell] cellSize].height];
 	
-	[[NSUserDefaults standardUserDefaults] setObject:[currentFont fontName] forKey:@"PGSqlForMac_QueryTool_SchemaTableFontName"];
-	[[NSUserDefaults standardUserDefaults] setFloat:[currentFont pointSize] forKey:@"PGSqlForMac_QueryTool_SchemaTableFontSize"];
+	[[NSUserDefaults standardUserDefaults] setObject:[currentFont fontName] forKey:UDSchemaTableFontName];
+	[[NSUserDefaults standardUserDefaults] setFloat:[currentFont pointSize] forKey:UDSchemaTableFontSize];
 }
 
 -(NSFont*)currentFont

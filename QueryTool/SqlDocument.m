@@ -8,6 +8,7 @@
 
 #import "SqlDocument.h"
 #import "SqlToolbarCategory.h"
+#import "PreferenceController.h"
 
 @implementation SqlDocument
 
@@ -25,6 +26,41 @@
 	//   NSWindowControllers, you should remove this method and override -makeWindowControllers instead.
     return @"SqlDocument";
 }
+
+
+- (void)connectionNameChanged:(id)sender
+{
+	UNUSED_PARAMETER(sender);
+	NSArray * connArray = [[NSUserDefaults standardUserDefaults] arrayForKey:UDConnArrayName];
+	unsigned int i;
+	NSDictionary *connDict;
+	
+	// NSLog(@"Connection Name Changed.");
+	
+	// Fill the text boxes with the data from the new connection name.
+	if (connArray)
+	{
+		for (i = 0; i < [connArray count]; i++)
+		{
+			connDict = [connArray objectAtIndex:i];
+			NSString *aConnectionName = [NSString stringWithString:[connDict objectForKey:UDConnName]];
+			if ([aConnectionName compare:[connectionName stringValue]] == NSOrderedSame)
+			{
+				[host setStringValue:@""];
+				[userName setStringValue:@""];
+				[databaseName setStringValue:@""];
+				[port setStringValue:@""];
+				
+				[host setStringValue:[connDict objectForKey:UDConnHost]];
+				[userName setStringValue:[connDict objectForKey:UDConnUserName]];
+				[databaseName setStringValue:[connDict objectForKey:UDConnDatabaseName]];
+				[port setStringValue:[connDict objectForKey:UDConnPort]];
+				break;
+			}
+		}
+	}
+}
+
 
 - (void)windowControllerDidLoadNib:(NSWindowController *) aController
 {
@@ -57,8 +93,8 @@
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
 
 	// set the font for the schema view
-	font = [NSFont fontWithName:[userDefaults stringForKey:@"PGSqlForMac_QueryTool_SchemaTableFontName"] 
-						   size:[userDefaults floatForKey:@"PGSqlForMac_QueryTool_SchemaTableFontSize"]];
+	font = [NSFont fontWithName:[userDefaults stringForKey:UDSchemaTableFontName] 
+						   size:[userDefaults floatForKey:UDSchemaTableFontSize]];
 	[schemaView setCurrentFont:font];
 	NSEnumerator* columns = [[schemaView tableColumns] objectEnumerator];
 	NSTableColumn* column = [columns nextObject];
@@ -70,8 +106,8 @@
 	[schemaView setRowHeight: [font defaultLineHeightForFont] + 2];
 	
 	//set the font for the results view
-	font = [NSFont fontWithName:[userDefaults stringForKey:@"PGSqlForMac_QueryTool_ResultsTableFontName"] 
-						   size:[userDefaults floatForKey:@"PGSqlForMac_QueryTool_ResultsTableFontSize"]];
+	font = [NSFont fontWithName:[userDefaults stringForKey:UDResultsTableFontName] 
+						   size:[userDefaults floatForKey:UDResultsTableFontSize]];
 	[dataOutput setCurrentFont:font];
 	columns = [[dataOutput tableColumns] objectEnumerator];
 	column = [columns nextObject];
@@ -84,7 +120,7 @@
 	
 	// init the keyword arrays
 	NSString *temp = [[NSString alloc] 
-		initWithString:[userDefaults stringForKey:@"PGSqlForMac_QueryTool_Highlight_Keywords"]];
+		initWithString:[userDefaults stringForKey:UDHighlight_Keywords]];
 	
 	keywords = [[NSArray alloc] initWithArray:[temp componentsSeparatedByString:@" "]];
 	[keywords retain];
@@ -106,7 +142,11 @@
 	
 	[query setSelectedRange:NSMakeRange(0,0)];
 	[self performSelector:@selector(onConnect:) withObject:self afterDelay:0.0];
-	
+		
+	// Set the connection delegate for when the connection name changes.
+	[connectionName setAction:@selector(connectionNameChanged:)];
+	[connectionName setTarget:self];
+		
 }
 
 
@@ -134,60 +174,112 @@
 	
 	// set explorer display defaults from NSUserDefaults
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-	[explorer setShowInformationSchema:[userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowInformationSchema"]];
-	[explorer setShowPGCatalog:[userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowPGCatalogSchema"]];
-	[explorer setShowPGToast:[userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowPGToastSchema"]];
-	[explorer setShowPGTemps:[userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowPGTempsSchema"]];
-	[explorer setShowPublic:[userDefaults  boolForKey:@"PGSqlForMac_QueryTool_ShowPGPublicSchema"]];
+	[explorer setShowInformationSchema:[userDefaults  boolForKey:UDShowInformationSchema]];
+	[explorer setShowPGCatalog:[userDefaults  boolForKey:UDShowPGCatalogSchema]];
+	[explorer setShowPGToast:[userDefaults  boolForKey:UDShowPGToastSchema]];
+	[explorer setShowPGTemps:[userDefaults  boolForKey:UDShowPGTempsSchema]];
+	[explorer setShowPublic:[userDefaults  boolForKey:UDShowPGPublicSchema]];
 
 	[NSThread detachNewThreadSelector:@selector(buildSchema:) toTarget:explorer withObject:schemaView];
 	
 	[schemaView setDataSource:explorer]; // explorer does the work.
 	[schemaView setMenuActionTarget:self];
-}	
+}
+
 
 - (IBAction)onConnect:(id)sender
 {
-    /* read the preferences and add them to the drop downs */
-	NSString * aDefault;
 	UNUSED_PARAMETER(sender);
 	
 	[status setStringValue:[NSString stringWithString:@"Waiting for connection information"]];
 	
-	aDefault = [[NSUserDefaults standardUserDefaults] stringForKey:@"PGSqlForMac_QueryTool_DefaultHost"];
-	if (aDefault)
+	// Create the connection drop down box.
+	NSArray * connArray = [[NSUserDefaults standardUserDefaults] arrayForKey:UDConnArrayName];
+	unsigned int i;
+	NSDictionary *connDict;
+	
+	[connectionRemember setState:0];
+	if (connArray)
 	{
-		[host setStringValue:aDefault];
+		i = 0;
+		connDict = [connArray objectAtIndex:i];
+		
+		// add names to drop down list
+		[connectionName removeAllItems];
+		for (i = 0; i < [connArray count]; i++)
+		{
+			connDict = [connArray objectAtIndex:i];
+			[connectionName addItemWithObjectValue:[connDict objectForKey:UDConnName]];
+		}
+		
+		// Select the last used connection
+		NSString *lastConnectionName = [[NSUserDefaults standardUserDefaults] stringForKey:UDLastConn];
+		for (i = 0; i < [connArray count]; i++)
+		{	
+			connDict = [connArray objectAtIndex:i];
+			NSString *connDictName = [connDict objectForKey:UDConnName];
+			if ([connDictName compare:lastConnectionName] == NSOrderedSame)
+			{
+				[connectionName setStringValue:[connDict objectForKey:UDConnName]];
+				[connectionName selectItemWithObjectValue:[connDict objectForKey:UDConnName]];
+				break;
+			}
+		}
+		if (i >= [connArray count])
+		{
+			// Use first entry in array if last used is not found.
+			i = 0;
+			connDict = [connArray objectAtIndex:i];
+		}
+		// connDict contains the dict to use for defaults.
+		[host setStringValue:[connDict objectForKey:UDConnHost]];
+		[userName setStringValue:[connDict objectForKey:UDConnUserName]];
+		[databaseName setStringValue:[connDict objectForKey:UDConnDatabaseName]];
+		[port setStringValue:[connDict objectForKey:UDConnPort]];
 	}
 	else
 	{
-		[host setStringValue:@"localhost"];
+		NSLog(@"Count not find connArray: %s, line %d", __FILE__, __LINE__);
 	}
-	aDefault = [[NSUserDefaults standardUserDefaults] stringForKey:@"PGSqlForMac_QueryTool_DefaultUserName"];
-	if (aDefault)
-	{
-		[userName setStringValue:aDefault];
-	}
-	aDefault = [[NSUserDefaults standardUserDefaults] stringForKey:@"PGSqlForMac_QueryTool_DefaultDatabaseName"];
-	if (aDefault)
-	{
-		[databaseName setStringValue:aDefault];
-	}
-	aDefault = [[NSUserDefaults standardUserDefaults] stringForKey:@"PGSqlForMac_QueryTool_DefaultPort"];
-	if (aDefault)
-	{
-		[port setStringValue:aDefault];
-	}
-	else
-	{
-		[port setStringValue:@"5432"];
-	}
-	    
+
     [NSApp beginSheet:panelConnect 
        modalForWindow:window
         modalDelegate:nil
        didEndSelector:nil
           contextInfo:nil];
+}
+
+- (IBAction)onConnectDelete:(id)sender;
+{
+	// Make sure combobox has selection
+	UNUSED_PARAMETER(sender);
+	if ([[connectionName stringValue] length] == 0)
+	{
+		return;
+	}
+	NSMutableArray * connArray = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:UDConnArrayName]];
+	unsigned int i;
+	NSDictionary *connDict;
+	// Remove from user defaults.
+	for (i = 0; i < [connArray count]; i++)
+	{	
+		connDict = [connArray objectAtIndex:i];
+		NSString *aConnectionName = [NSString stringWithString:[connDict objectForKey:UDConnName]];
+		if ([aConnectionName compare:[connectionName stringValue]] == NSOrderedSame)
+		{
+			// If found remove from list.
+			[connArray removeObjectAtIndex:i];
+			
+			// Save the result.
+			[[NSUserDefaults standardUserDefaults] setObject:connArray forKey:UDConnArrayName];
+			break;
+		}
+	}
+	// Atempt to remove from comboBox.
+	[connectionName removeItemWithObjectValue:[connectionName stringValue]];
+	
+	// Clear out selection.
+	[connectionName setStringValue:@""];
 }
 
 - (IBAction)onConnectOK:(id)sender
@@ -208,13 +300,6 @@
 
 	[conn setHost:[host stringValue]];
 	[conn setPort:[port stringValue]];
-
-	// update user defaults
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[userName stringValue]] forKey:@"PGSqlForMac_QueryTool_DefaultUserName"];
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[host stringValue]] forKey:@"PGSqlForMac_QueryTool_DefaultHost"];
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[port stringValue]] forKey:@"PGSqlForMac_QueryTool_DefaultPort"];
-	[[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithString:[databaseName stringValue]] forKey:@"PGSqlForMac_QueryTool_DefaultDatabaseName"];
-	[[NSUserDefaults standardUserDefaults] synchronize];
 
 	// close the sheet
 	[NSApp stopModal];            
@@ -246,10 +331,84 @@
 			}
 
 		}
-		// create the schema explorer
-		[self setNewExplorerConn];			
+		// Create the schema explorer.
+		[self setNewExplorerConn];
 		
-	} else {
+		//  update last connection name
+		if ([[connectionName stringValue] length] != 0)
+		{
+			[[NSUserDefaults standardUserDefaults] setObject:[connectionName stringValue] forKey:UDLastConn];
+		}
+		
+		// Save connection details in userDefaults.
+		if ([connectionRemember state])
+		{
+			unsigned int potentialConnNum = 0;
+			bool foundInComboBox = NO;
+			// If no name then create a name.
+			if ([[connectionName stringValue] length] == 0)
+			{
+				for (potentialConnNum = 1; potentialConnNum < 50; potentialConnNum++)
+				{
+					foundInComboBox = NO;
+					NSString *potentialConnectionName = [NSString stringWithFormat:@"Connection %d", potentialConnNum];
+					for (i = 0; i < [connectionName numberOfItems]; i++)
+					{
+						if ([potentialConnectionName compare:[[connectionName itemObjectValueAtIndex:i] stringValue]] == NSOrderedSame)
+						{
+							foundInComboBox = YES;
+							break;
+						}
+					}
+					if (foundInComboBox == YES)
+					{
+						continue;
+					}
+					// Use the name created.
+					[connectionName setStringValue: potentialConnectionName];
+					break;
+				}
+			}
+			if (potentialConnNum < 50)	// if loop ran-out without finding a good name skip this code.
+			{
+				// figure out if connectionName is already in list, if not add it
+				foundInComboBox = NO;
+				for (i = 0; i < [connectionName numberOfItems]; i++)
+				{
+					if ([[connectionName stringValue] compare:[connectionName itemObjectValueAtIndex:i]] == NSOrderedSame)
+					{
+						foundInComboBox = YES;
+						break;
+					}
+				}
+				if (foundInComboBox == NO)
+				{
+					// Add to combo box.
+					[connectionName addItemWithObjectValue: [connectionName stringValue]];
+					[connectionName selectItemWithObjectValue: [connectionName stringValue]];
+
+					// Create dictionary with connection details.
+					NSMutableDictionary *aConnDict = [NSMutableDictionary dictionaryWithCapacity:6];
+					
+					[aConnDict setObject:[userName stringValue] forKey:UDConnUserName];
+					[aConnDict setObject:[host stringValue] forKey:UDConnHost];
+					[aConnDict setObject:[port stringValue] forKey:UDConnPort];
+					[aConnDict setObject:[databaseName stringValue] forKey:UDConnDatabaseName];
+					[aConnDict setObject:[connectionName stringValue] forKey:UDConnName];
+					
+					// TODO remove all other last connections
+					
+					// Update UserDefaults.
+					NSMutableArray *connArray = [NSMutableArray arrayWithArray:[[NSUserDefaults standardUserDefaults] arrayForKey:UDConnArrayName]];
+					[connArray addObject:aConnDict];
+					[[NSUserDefaults standardUserDefaults] setObject:connArray forKey:UDConnArrayName];
+					[[NSUserDefaults standardUserDefaults] synchronize];
+				}
+			}
+		}
+	}
+	else
+	{
 		[status setStringValue:@"Connection failed:"];
 	}
 	if ([conn sqlLog] != nil)
@@ -264,7 +423,7 @@
 {
 	UNUSED_PARAMETER(sender);
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[userDefaults  stringForKey:@"PGSqlForMac_QueryTool_ShowPostgreSQLHelp"]]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[userDefaults  stringForKey:UDShowPostgreSQLHelp]]];
 }
 
 
@@ -272,7 +431,7 @@
 {
 	UNUSED_PARAMETER(sender);
 	NSUserDefaults * userDefaults = [NSUserDefaults standardUserDefaults];
-	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[userDefaults  stringForKey:@"PGSqlForMac_QueryTool_ShowSQLCommandHelp"]]];
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[userDefaults  stringForKey:UDShowSQLCommandHelp]]];
 }
 
 
@@ -368,25 +527,10 @@
 	} else {
 		toBeRun = [query string];
 	}
-	
-	/* FIXME does not correctly handle quoted queries */
-	/* For example:
-		CREATE or REPLACE FUNCTION pgcocoa_test_schema.sum_n_product
-		(IN x integer, IN y integer, OUT  sum integer, OUT  prod integer) AS $$
-		BEGIN
-			sum := x + y;
-			prod := x * y;
-		END; $$ LANGUAGE plpgsql;
-	*/
-	
-	//NSArray *arrQuery = [toBeRun componentsSeparatedByString:@";"];
-	
+		
 	int xx;
-	//for (x = 0; x < [arrQuery count]; x++)
 	for (xx = 0; xx < 1; xx++)
 	{
-		//NSString *sql = [arrQuery objectAtIndex:x];
-		//RecordSet *rs = [conn execQuery:sql];
 		RecordSet *rs = [conn execQueryLogInfoLogSQL:toBeRun];
 		if ([conn sqlLog] != nil)
 		{
@@ -670,7 +814,8 @@
 	
 	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
 	[sql appendString:@"SELECT "];
-	while (currentIndex != NSNotFound) {
+	while (currentIndex != NSNotFound)
+	{
 		if (!first)
 		{
 			[sql appendString:@", "];
@@ -691,7 +836,8 @@
 	
 	unsigned currentIndex = [theRows firstIndex];
 	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
-	while (currentIndex != NSNotFound) {
+	while (currentIndex != NSNotFound)
+	{
 		if (!first)
 		{
 			[sql appendString:@", "];
@@ -717,7 +863,8 @@
 	
 	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
 	[sql appendFormat:@"CREATE UNIQUE INDEX %@_idx%d ON %@.%@ (", tableName, indexCount, schemaName, tableName];
-	while (currentIndex != NSNotFound) {
+	while (currentIndex != NSNotFound)
+	{
 		if (!first)
 		{
 			[sql appendString:@", "];
@@ -744,7 +891,8 @@
 	
 	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
 	[sql appendFormat:@"CREATE UNIQUE INDEX %@_idx%d ON %@.%@ (", tableName, indexCount, schemaName, tableName];
-	while (currentIndex != NSNotFound) {
+	while (currentIndex != NSNotFound)
+	{
 		if (!first)
 		{
 			[sql appendString:@", "];
@@ -773,7 +921,8 @@
 	
 	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
 	[sql appendFormat:@"ALTER TABLE %@.%@\n", schemaName, tableName];
-	while (currentRow != NSNotFound) {
+	while (currentRow != NSNotFound)
+	{
 		if (!first)
 		{
 			[sql appendString:@", \n"];
@@ -800,7 +949,8 @@
 	
 	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
 	[sql appendFormat:@"ALTER TABLE %@.%@\n", schemaName, tableName];
-	while (currentRow != NSNotFound) {
+	while (currentRow != NSNotFound)
+	{
 		if (!first)
 		{
 			[sql appendString:@", \n"];
@@ -827,7 +977,8 @@
 	
 	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
 	[sql appendFormat:@"ALTER TABLE %@.%@\n", schemaName, tableName];
-	while (currentRow != NSNotFound) {
+	while (currentRow != NSNotFound)
+	{
 		if (!first)
 		{
 			[sql appendString:@", \n"];
@@ -854,7 +1005,8 @@
 	//TODO make number auto determined
 	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
 	[sql appendFormat:@"CREATE TABLE %@.%@ (\n", schemaName, tableName];
-	while (currentIndex != NSNotFound) {
+	while (currentIndex != NSNotFound)
+	{
 		if (!first)
 		{
 			[sql appendString:@",\n"];
@@ -881,7 +1033,8 @@
 	
 	NSMutableString *sql = [[[NSMutableString alloc] init] autorelease];
 	[sql appendFormat:@"ALTER TABLE %@.%@\n", schemaName, tableName];
-	while (currentRow != NSNotFound) {
+	while (currentRow != NSNotFound)
+	{
 		if (!first)
 		{
 			[sql appendString:@", \n"];
@@ -970,6 +1123,20 @@ BEGIN \n\
 END; \n\
 $$ LANGUAGE plpgsql; \n", schemaName];
 
+	[query insertText:sql];
+}
+
+- (void)onSelectExecuteFunctionMenuItem:(id)sender
+{
+	UNUSED_PARAMETER(sender);
+	NSIndexSet *theRows =[schemaView selectedRowIndexes];
+	unsigned int currentRow =[theRows firstIndex];
+	NSString *functionName = [[schemaView itemAtRow:currentRow] name];
+	NSString *schemaName = [[schemaView itemAtRow:currentRow] baseSchema];
+	NSAssert(functionName,@"onSelectCreateFunctionTemplateMenuItem: no function name.");
+	NSAssert(schemaName, @"onSelectCreateFunctionTemplateMenuItem: no schema name.");
+	
+	NSString *sql = [NSString stringWithFormat:@"SELECT %@.%@();\n", schemaName, functionName];
 	[query insertText:sql];
 }
 
@@ -1068,17 +1235,22 @@ $$ LANGUAGE plpgsql; \n", schemaName];
 	NSRange rangeOfCurrentWord = [ts editedRange];
 	
 	
-	if (rangeOfEdit.length == 0) {
+	if (rangeOfEdit.length == 0)
+	{
 		return;
 	}
-	if (rangeOfEdit.length > 1) {
+	if (rangeOfEdit.length > 1)
+	{
 		[self colorRange:rangeOfEdit];
 		return;
 	}
 	
 	// if the edited range contains no delimiters...
 	unsigned long i = rangeOfEdit.location;
-	if (i >= [[ts string] length]) { i = [[ts string] length] - 1; }
+	if (i >= [[ts string] length])
+	{
+		i = [[ts string] length] - 1;
+	}
 	
 	while ([[ts string] characterAtIndex:i] != ' ')
 	{
@@ -1092,7 +1264,10 @@ $$ LANGUAGE plpgsql; \n", schemaName];
 	rangeOfCurrentWord.location = i ;	
 	
 	i = rangeOfEdit.location;
-	if (i >= [[ts string] length]) { i = [[ts string] length] - 1; }
+	if (i >= [[ts string] length])
+	{
+		i = [[ts string] length] - 1;
+	}
 	while ([[ts string] characterAtIndex:i] != ' ')
 	{
 		if (i >= ([[ts string] length] - 1)) { break; }
@@ -1107,8 +1282,21 @@ $$ LANGUAGE plpgsql; \n", schemaName];
 - (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(int *)index
 {
 	// TODO implement the system
+	NSLog(@"%s: textView not implemented.", __FILE__);
 	return nil;
-	
+}
+
+- (NSString *)currentQuery
+{
+	// TODO
+	NSLog(@"%s: currentQuery not implemented.", __FILE__);
+	return nil;
+}
+
+- (void)threadComplete
+{
+	// TODO
+	NSLog(@"%s: threadComplete not implemented.", __FILE__);
 }
 
 

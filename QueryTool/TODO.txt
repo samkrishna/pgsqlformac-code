@@ -3,6 +3,8 @@ Neil's Open Items
 
 TODO - Features, Functions and Warnings (in rough priority order)
 =======================================
+- 2006-11-10 Move threading to library.
+
 - 2006-09-17 Error message not reset at the beginning of a query.
 
 - 2006-09-01 Query Completed message in main window should show elapsed time and first 30 characters of query.
@@ -26,14 +28,6 @@ TODO - Features, Functions and Warnings (in rough priority order)
 
 FIXME (Known Errors)
 ====================
-- 2006-08-26 Function return parameters not correctly determined, see below:
-
-			CREATE or REPLACE FUNCTION pgcocoa_test_schema.create_time_stamp  AS $$
-			BEGIN
-				NEW.create_time := current_timestamp;
-				RETURN NEW;
-			END;
-			$$ LANGUAGE plpgsql;
 
 - 2006-09-01 "Save As" always saves the query window, should save the log window if the log window is front most.
 
@@ -43,6 +37,51 @@ FIXME (Known Errors)
 
 Completed
 =========
+- 2006-11-10 Need to be able to save multiple connections in preferences. (12/02/2006)
+
+- 2006-08-26 Function return parameters not correctly determined, see below: (10/30/2006)
+
+SOURCE:
+
+	sql = [NSString stringWithFormat:@"%s%@.%@.%s", "CREATE or REPLACE FUNCTION ", PGCocoaTestDatabase, PGCocoaTestSchema,
+		"create_time_stamp() RETURNS trigger AS $time_stamp$\n\
+BEGIN\n\
+    NEW.create_time := current_timestamp;\n\
+    RETURN NEW;\n\
+END;\n\
+$time_stamp$ LANGUAGE plpgsql;\n"];
+
+RESULT:
+
+			CREATE or REPLACE FUNCTION pgcocoa_test_schema.create_time_stamp  AS $$
+			BEGIN
+				NEW.create_time := current_timestamp;
+				RETURN NEW;
+			END;
+			$$ LANGUAGE plpgsql;
+
+
+-- psql SQL result of \df
+SELECT n.nspname as "Schema",
+  p.proname as "Name",
+  CASE WHEN p.proretset THEN 'setof ' ELSE '' END || pg_catalog.format_type(p.prorettype, NULL) as "Result data type",
+  pg_catalog.oidvectortypes(p.proargtypes) as "Argument data types",
+  r.rolname as "Owner",
+  l.lanname as "Language",
+  p.prosrc as "Source code",
+  pg_catalog.obj_description(p.oid, 'pg_proc') as "Description"
+FROM pg_catalog.pg_proc p
+     LEFT JOIN pg_catalog.pg_namespace n ON n.oid = p.pronamespace
+     LEFT JOIN pg_catalog.pg_language l ON l.oid = p.prolang
+     JOIN pg_catalog.pg_roles r ON r.oid = p.proowner
+WHERE p.prorettype <> 'pg_catalog.cstring'::pg_catalog.regtype
+      AND (p.proargtypes[0] IS NULL
+      OR   p.proargtypes[0] <> 'pg_catalog.cstring'::pg_catalog.regtype)
+      AND NOT p.proisagg
+      AND p.proname ~ '^create_time_stamp$'
+      AND n.nspname ~ '^pgcocoa_test_schema$'
+ORDER BY 1, 2, 3, 4;
+
 - 2006-09-17 Data columns in the results table are not resizing.
 
 - 2006-09-01 Refactored user defaults in SQLDocument.

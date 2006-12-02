@@ -57,6 +57,8 @@
 		CE9630EE0A8E0ED20091AA4F /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE9630ED0A8E0ED20091AA4F /* libcrypto.dylib */; };
 		CEA465A80A6A8D67008C43D1 /* MyResultsView.h in Headers */ = {isa = PBXBuildFile; fileRef = CEA465A60A6A8D67008C43D1 /* MyResultsView.h */; };
 		CEA465A90A6A8D67008C43D1 /* MyResultsView.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA465A70A6A8D67008C43D1 /* MyResultsView.m */; };
+		CEAC30F60ABDC60C00421BFF /* ExecuteQueryThread.h in Headers */ = {isa = PBXBuildFile; fileRef = CEAC30F40ABDC60C00421BFF /* ExecuteQueryThread.h */; };
+		CEAC30F70ABDC60C00421BFF /* ExecuteQueryThread.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAC30F50ABDC60C00421BFF /* ExecuteQueryThread.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -126,6 +128,8 @@
 		CE9630ED0A8E0ED20091AA4F /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /sw/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
 		CEA465A60A6A8D67008C43D1 /* MyResultsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyResultsView.h; sourceTree = "<group>"; };
 		CEA465A70A6A8D67008C43D1 /* MyResultsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyResultsView.m; sourceTree = "<group>"; };
+		CEAC30F40ABDC60C00421BFF /* ExecuteQueryThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExecuteQueryThread.h; sourceTree = "<group>"; };
+		CEAC30F50ABDC60C00421BFF /* ExecuteQueryThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExecuteQueryThread.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -190,6 +194,8 @@
 				CE7EA7DA0AA4FDB60017B3FB /* AppController.h */,
 				4350CCB90665349000244060 /* DataSource.h */,
 				4350CCBA0665349000244060 /* DataSource.m */,
+				CEAC30F40ABDC60C00421BFF /* ExecuteQueryThread.h */,
+				CEAC30F50ABDC60C00421BFF /* ExecuteQueryThread.m */,
 				CE20F4680A0E9A760066662F /* MyOutlineView.h */,
 				CE20F4690A0E9A760066662F /* MyOutlineView.m */,
 				CEA465A60A6A8D67008C43D1 /* MyResultsView.h */,
@@ -285,6 +291,7 @@
 				CE7EA7D30AA4FD150017B3FB /* PreferenceController.h in Headers */,
 				CE7EA7DC0AA4FDB60017B3FB /* AppController.h in Headers */,
 				CE74E3560AA5BAC500D0835A /* QueryTool.h in Headers */,
+				CEAC30F60ABDC60C00421BFF /* ExecuteQueryThread.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,6 +382,7 @@
 				CEA465A90A6A8D67008C43D1 /* MyResultsView.m in Sources */,
 				CE7EA7D20AA4FD150017B3FB /* PreferenceController.m in Sources */,
 				CE7EA7DB0AA4FDB60017B3FB /* AppController.m in Sources */,
+				CEAC30F70ABDC60C00421BFF /* ExecuteQueryThread.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

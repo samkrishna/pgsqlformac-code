@@ -7,7 +7,7 @@
 //
 
 #import "MyResultsView.h"
-
+#import "PreferenceController.h"
 
 @implementation MyResultsView
 
@@ -24,8 +24,8 @@
 	}
 	[self setRowHeight:[[[theCols objectAtIndex:0] dataCell] cellSize].height];
 	
-	[[NSUserDefaults standardUserDefaults] setObject:[currentFont fontName] forKey:@"PGSqlForMac_QueryTool_ResultsTableFontName"];
-	[[NSUserDefaults standardUserDefaults] setFloat:[currentFont pointSize] forKey:@"PGSqlForMac_QueryTool_ResultsTableFontSize"];
+	[[NSUserDefaults standardUserDefaults] setObject:[currentFont fontName] forKey:UDResultsTableFontName];
+	[[NSUserDefaults standardUserDefaults] setFloat:[currentFont pointSize] forKey:UDResultsTableFontSize];
 }
 
 -(NSFont*)currentFont
