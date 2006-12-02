@@ -1,3 +1,15 @@
+2006-10-30 13:30  ntiffin
+
+	* Schema.m, UnitTest/pgCocoaDBSchemaTest.m: Fix round trip function
+	  SQL.
+
+2006-09-18 12:54  ntiffin
+
+	* ChangeLog, ExplorerModel.h, ExplorerModel.m,
+	  pgCocoaDBn.xcodeproj/ntiffin.mode1,
+	  pgCocoaDBn.xcodeproj/ntiffin.pbxuser: Fix bug in explorer not
+	  creating sql.
+
 2006-09-14 07:26  ntiffin
 
 	* ChangeLog, Connection.h, Connection.m, DataSource.h,
