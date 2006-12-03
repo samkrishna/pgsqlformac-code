@@ -1,3 +1,19 @@
+2006-12-02 08:51  ntiffin
+
+	* ChangeLog, MyOutlineView.m, MyResultsView.m,
+	  PreferenceController.h, PreferenceController.m, SqlDocument.h,
+	  SqlDocument.m, TODO.txt,
+	  English.lproj/Preferences.nib/classes.nib,
+	  English.lproj/Preferences.nib/info.nib,
+	  English.lproj/Preferences.nib/keyedobjects.nib,
+	  English.lproj/SqlDocument.nib/classes.nib,
+	  English.lproj/SqlDocument.nib/info.nib,
+	  English.lproj/SqlDocument.nib/keyedobjects.nib,
+	  QueryToolForPostgresN.xcodeproj/ntiffin.mode1,
+	  QueryToolForPostgresN.xcodeproj/ntiffin.pbxuser,
+	  QueryToolForPostgresN.xcodeproj/project.pbxproj: Add remember
+	  multiple connections.
+
 2006-09-17 10:41  ntiffin
 
 	* QueryTool.h, SqlDocument.m, TODO.txt,
