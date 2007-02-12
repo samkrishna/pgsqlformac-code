@@ -10,32 +10,32 @@
 #import "QueryTool.h"
 
 /* Active NSUserDefaults Key Strings */
-NSString * const    UDUserDefaultsVersion = @"PGSqlForMac_QueryTool_UserDefaultsVersion";
-NSString * const    UDShowInformationSchema = @"PGSqlForMac_QueryTool_ShowInformationSchema";
-NSString * const    UDShowPGCatalogSchema = @"PGSqlForMac_QueryTool_ShowPGCatalogSchema";
-NSString * const    UDShowPGToastSchema = @"PGSqlForMac_QueryTool_ShowPGToastSchema";
-NSString * const    UDShowPGTempsSchema = @"PGSqlForMac_QueryTool_ShowPGTempsSchema";
-NSString * const    UDShowPGPublicSchema = @"PGSqlForMac_QueryTool_ShowPGPublicSchema";
-NSString * const    UDLogSQL = @"PGSqlForMac_QueryTool_LogSQL";
-NSString * const    UDLogQueryInfo = @"PGSqlForMac_QueryTool_LogQueryInfo";
-NSString * const    UDShowPostgreSQLHelp = @"PGSqlForMac_QueryTool_ShowPostgreSQLHelp";
-NSString * const    UDShowSQLCommandHelp = @"PGSqlForMac_QueryTool_ShowSQLCommandHelp";
-NSString * const    UDResultsTableFontName = @"PGSqlForMac_QueryTool_ResultsTableFontName";
-NSString * const    UDResultsTableFontSize = @"PGSqlForMac_QueryTool_ResultsTableFontSize";
-NSString * const    UDHighlight_Keywords = @"PGSqlForMac_QueryTool_Highlight_Keywords";
-NSString * const    UDSchemaTableFontName = @"PGSqlForMac_QueryTool_SchemaTableFontName";
-NSString * const    UDSchemaTableFontSize = @"PGSqlForMac_QueryTool_SchemaTableFontSize";
+extern  NSString * UDUserDefaultsVersion;
+extern  NSString * UDShowInformationSchema;
+extern  NSString * UDShowPGCatalogSchema;
+extern  NSString * UDShowPGToastSchema;
+extern  NSString * UDShowPGTempsSchema;
+extern  NSString * UDShowPGPublicSchema;
+extern  NSString * UDLogSQL;
+extern  NSString * UDLogQueryInfo;
+extern  NSString * UDShowPostgreSQLHelp;
+extern  NSString * UDShowSQLCommandHelp;
+extern  NSString * UDResultsTableFontName;
+extern  NSString * UDResultsTableFontSize;
+extern  NSString * UDHighlight_Keywords;
+extern  NSString * UDSchemaTableFontName;
+extern  NSString * UDSchemaTableFontSize;
 
 // New connection key names for connection dictionary
-NSString * const	UDConnArrayName = @"ConnArray";
-NSString * const    UDConnName = @"Name";
-NSString * const    UDConnUserName = @"UserName";
-NSString * const    UDConnHost = @"Host";
-NSString * const    UDConnPort = @"Port";
-NSString * const    UDConnDatabaseName = @"DatabaseName";
+extern  NSString *     UDConnArrayName;
+extern  NSString *     UDConnName;
+extern  NSString *     UDConnUserName;
+extern  NSString *     UDConnHost;
+extern  NSString *     UDConnPort;
+extern  NSString *     UDConnDatabaseName;
 
 // Last Connection Name
-NSString * const    UDLastConn = @"LastConnection";
+extern  NSString *     UDLastConn;
 
 @interface PreferenceController : NSWindowController {	
 	IBOutlet NSButton		*prefShowPGInfoSchema;

@@ -11,6 +11,31 @@
 
 @implementation PreferenceController
 
+NSString *     UDUserDefaultsVersion = @"PGSqlForMac_QueryTool_UserDefaultsVersion";
+NSString *     UDShowInformationSchema = @"PGSqlForMac_QueryTool_ShowInformationSchema";
+NSString *     UDShowPGCatalogSchema = @"PGSqlForMac_QueryTool_ShowPGCatalogSchema";
+NSString *     UDShowPGToastSchema = @"PGSqlForMac_QueryTool_ShowPGToastSchema";
+NSString *     UDShowPGTempsSchema = @"PGSqlForMac_QueryTool_ShowPGTempsSchema";
+NSString *     UDShowPGPublicSchema = @"PGSqlForMac_QueryTool_ShowPGPublicSchema";
+NSString *     UDLogSQL = @"PGSqlForMac_QueryTool_LogSQL";
+NSString *     UDLogQueryInfo = @"PGSqlForMac_QueryTool_LogQueryInfo";
+NSString *     UDShowPostgreSQLHelp = @"PGSqlForMac_QueryTool_ShowPostgreSQLHelp";
+NSString *     UDShowSQLCommandHelp = @"PGSqlForMac_QueryTool_ShowSQLCommandHelp";
+NSString *     UDResultsTableFontName = @"PGSqlForMac_QueryTool_ResultsTableFontName";
+NSString *     UDResultsTableFontSize = @"PGSqlForMac_QueryTool_ResultsTableFontSize";
+NSString *     UDHighlight_Keywords = @"PGSqlForMac_QueryTool_Highlight_Keywords";
+NSString *     UDSchemaTableFontName = @"PGSqlForMac_QueryTool_SchemaTableFontName";
+NSString *     UDSchemaTableFontSize = @"PGSqlForMac_QueryTool_SchemaTableFontSize";
+
+NSString *	   UDConnArrayName = @"ConnArray";
+NSString *     UDConnName = @"Name";
+NSString *     UDConnUserName = @"UserName";
+NSString *     UDConnHost = @"Host";
+NSString *     UDConnPort = @"Port";
+NSString *     UDConnDatabaseName = @"DatabaseName";
+
+NSString *     UDLastConn = @"LastConnection";
+
 -(id)init
 {
 	self = [super initWithWindowNibName:@"Preferences"];
