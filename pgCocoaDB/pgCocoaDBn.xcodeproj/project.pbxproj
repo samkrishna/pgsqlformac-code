@@ -50,8 +50,8 @@
 		CED6300009C48EED00B6B94B /* ExplorerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = CED62FFF09C48EED00B6B94B /* ExplorerNode.m */; };
 		CED6300109C48EED00B6B94B /* ExplorerNode.h in Headers */ = {isa = PBXBuildFile; fileRef = CED62FFE09C48EED00B6B94B /* ExplorerNode.h */; };
 		CED6300209C48EED00B6B94B /* ExplorerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = CED62FFF09C48EED00B6B94B /* ExplorerNode.m */; };
-		CED865D30A0E5FCC00F9FD5D /* libpq.4.1.dylib-8.1 in Resources */ = {isa = PBXBuildFile; fileRef = CED865D20A0E5FCC00F9FD5D /* libpq.4.1.dylib-8.1 */; };
-		CED865D40A0E5FCC00F9FD5D /* libpq.4.1.dylib-8.1 in Resources */ = {isa = PBXBuildFile; fileRef = CED865D20A0E5FCC00F9FD5D /* libpq.4.1.dylib-8.1 */; };
+		CED865D30A0E5FCC00F9FD5D /* libpq.dylib in Resources */ = {isa = PBXBuildFile; fileRef = CED865D20A0E5FCC00F9FD5D /* libpq.dylib */; };
+		CED865D40A0E5FCC00F9FD5D /* libpq.dylib in Resources */ = {isa = PBXBuildFile; fileRef = CED865D20A0E5FCC00F9FD5D /* libpq.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -95,7 +95,7 @@
 		CED62FF809C48EDE00B6B94B /* ExplorerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExplorerModel.m; sourceTree = "<group>"; };
 		CED62FFE09C48EED00B6B94B /* ExplorerNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExplorerNode.h; sourceTree = "<group>"; };
 		CED62FFF09C48EED00B6B94B /* ExplorerNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExplorerNode.m; sourceTree = "<group>"; };
-		CED865D20A0E5FCC00F9FD5D /* libpq.4.1.dylib-8.1 */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.man; name = "libpq.4.1.dylib-8.1"; path = "/sw/lib/libpq.4.1.dylib-8.1"; sourceTree = "<absolute>"; };
+		CED865D20A0E5FCC00F9FD5D /* libpq.dylib */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = "compiled.mach-o.dylib"; name = libpq.dylib; path = /sw/lib/libpq.dylib; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -195,7 +195,7 @@
 		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				CED865D20A0E5FCC00F9FD5D /* libpq.4.1.dylib-8.1 */,
+				CED865D20A0E5FCC00F9FD5D /* libpq.dylib */,
 				CE9B2B9D09B9F03000877A0E /* SenTestingKit.framework */,
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
 			);
@@ -318,7 +318,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
-				CED865D40A0E5FCC00F9FD5D /* libpq.4.1.dylib-8.1 in Resources */,
+				CED865D40A0E5FCC00F9FD5D /* libpq.dylib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,7 +326,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CED865D30A0E5FCC00F9FD5D /* libpq.4.1.dylib-8.1 in Resources */,
+				CED865D30A0E5FCC00F9FD5D /* libpq.dylib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,7 +416,7 @@
 		43389A470869E11900D5B56D /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = ppc;
+				ARCHS = i386;
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -465,8 +465,8 @@
 				OTHER_LDFLAGS = (
 					"-lssl",
 					"-lcrypto",
-					"-lkrb5",
 					"-lpq",
+					"-lkrb5",
 					"-seg1addr",
 					0xb0000000,
 				);
@@ -484,7 +484,7 @@
 		43389A480869E11900D5B56D /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = ppc;
+				ARCHS = i386;
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -515,8 +515,8 @@
 				OTHER_LDFLAGS = (
 					"-lssl",
 					"-lcrypto",
-					"-lkrb5",
 					"-lpq",
+					"-lkrb5",
 					"-seg1addr",
 					0xb0000000,
 				);
@@ -563,8 +563,8 @@
 				OTHER_LDFLAGS = (
 					"-lssl",
 					"-lcrypto",
-					"-lkrb5",
 					"-lpq",
+					"-lkrb5",
 					"-seg1addr",
 					0xb0000000,
 				);
@@ -584,8 +584,12 @@
 		43389A4B0869E11900D5B56D /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_MODEL_TUNING = "";
 				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = /sw/include;
+				LIBRARY_SEARCH_PATHS = /sw/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				PREBINDING = YES;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Development;
@@ -593,7 +597,11 @@
 		43389A4C0869E11900D5B56D /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_MODEL_TUNING = "";
+				HEADER_SEARCH_PATHS = /sw/include;
+				LIBRARY_SEARCH_PATHS = /sw/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				PREBINDING = YES;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Deployment;
@@ -601,7 +609,11 @@
 		43389A4D0869E11900D5B56D /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_MODEL_TUNING = "";
+				HEADER_SEARCH_PATHS = /sw/include;
+				LIBRARY_SEARCH_PATHS = /sw/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				PREBINDING = YES;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Default;

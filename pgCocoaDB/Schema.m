@@ -39,7 +39,7 @@ bool parsePGArray(const char *atext, char ***itemarray, int *nitems);
 
 	// TODO add user default to bypass versions check
 	//PostgreSQL 8.1.2 on powerpc-apple-darwin8.5.0, compiled by GCC powerpc-apple-darwin8-gcc-4.0.1 (GCC) 4.0.1 (Apple Computer, Inc. build 5250)
-	if ([pgVersionFound rangeOfString:@"PostgreSQL 8.1"].location == NSNotFound)
+	if ([pgVersionFound rangeOfString:@"PostgreSQL 8.2"].location == NSNotFound)
 	{
 		// TODO not found raise error?
 

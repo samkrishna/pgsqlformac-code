@@ -17,7 +17,7 @@
 
 NSString* const PGCocoaTestDatabase = @"pgcocoa_test_database";
 NSString* const PGCocoaTestSchema = @"pgcocoa_test_schema";
-NSString* const PGCocoaTestUser = @"ntiffin";
+NSString* const PGCocoaTestUser = @"neiltiffin";
 NSString* const PGCocoaTestPassword = @"";
 NSString* const PGCocoaTestHost = @"localhost";
 NSString* const PGCocoaTestPort = @"5432";
@@ -28,6 +28,19 @@ NSString* const PGCocoaTestPort = @"5432";
 
 // End of configuration parameters
 //------------------------------------------------------------------
+
+/*
+initdb -D /Maui-Dev/PostgreSQL_Tools_cvs/testdatabase
+
+Success. You can now start the database server using:
+
+    postgres-8.2 -D /Maui-Dev/PostgreSQL_Tools_cvs/testdatabase
+or
+    pg_ctl-8.2 -D /Maui-Dev/PostgreSQL_Tools_cvs/testdatabase -l /Maui-Dev/PostgreSQL_Tools_cvs/testdatabase/logfile start
+
+createlang plpgsql template 1
+pg_ctl-8.2 -D /Maui-Dev/PostgreSQL_Tools_cvs/testdatabase stop
+*/
 
 @implementation pgCocoaDBSchemaTest
 
