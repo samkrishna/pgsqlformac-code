@@ -1,15 +1,15 @@
 //
-//  DataSource.m
+//  QueryDataSource.m
 //
 //  Created by Andy Satori on Sun 02/08/04 05:38 PM
 //  Copyright (c) 2004 __MyCompanyName__. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-#import "DataSource.h"
+#import "QueryDataSource.h"
 #import "QueryTool.h"
 
-@implementation DataSource
+@implementation QueryDataSource
 
 - (id)init
 {

@@ -26,8 +26,8 @@
 		4327F0C407CEBD0000AB5CFE /* save_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 4327F0B207CEBD0000AB5CFE /* save_32.png */; };
 		4327F0C507CEBD0000AB5CFE /* sql-doc.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4327F0B307CEBD0000AB5CFE /* sql-doc.icns */; };
 		4327F0C607CEBD0000AB5CFE /* sql-doc.png in Resources */ = {isa = PBXBuildFile; fileRef = 4327F0B407CEBD0000AB5CFE /* sql-doc.png */; };
-		4350CCBD0665349000244060 /* DataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 4350CCB90665349000244060 /* DataSource.h */; };
-		4350CCBE0665349000244060 /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 4350CCBA0665349000244060 /* DataSource.m */; };
+		4350CCBD0665349000244060 /* QueryDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 4350CCB90665349000244060 /* QueryDataSource.h */; };
+		4350CCBE0665349000244060 /* QueryDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 4350CCBA0665349000244060 /* QueryDataSource.m */; };
 		4350CCBF0665349000244060 /* SqlDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 4350CCBB0665349000244060 /* SqlDocument.h */; };
 		4350CCC00665349000244060 /* SqlDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 4350CCBC0665349000244060 /* SqlDocument.m */; };
 		4350CCCE0665350000244060 /* SqlDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4350CCCC0665350000244060 /* SqlDocument.nib */; };
@@ -52,7 +52,7 @@
 		CE7EA7D30AA4FD150017B3FB /* PreferenceController.h in Headers */ = {isa = PBXBuildFile; fileRef = CE7EA7D10AA4FD150017B3FB /* PreferenceController.h */; };
 		CE7EA7DB0AA4FDB60017B3FB /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = CE7EA7D90AA4FDB60017B3FB /* AppController.m */; };
 		CE7EA7DC0AA4FDB60017B3FB /* AppController.h in Headers */ = {isa = PBXBuildFile; fileRef = CE7EA7DA0AA4FDB60017B3FB /* AppController.h */; };
-		CE9630E60A8E0E310091AA4F /* libpq.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE9630E50A8E0E310091AA4F /* libpq.dylib */; };
+		CE9630E60A8E0E310091AA4F /* libpq.5.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE9630E50A8E0E310091AA4F /* libpq.5.0.dylib */; };
 		CE9630EA0A8E0E870091AA4F /* libssl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE9630E90A8E0E870091AA4F /* libssl.dylib */; };
 		CE9630EE0A8E0ED20091AA4F /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CE9630ED0A8E0ED20091AA4F /* libcrypto.dylib */; };
 		CEA465A80A6A8D67008C43D1 /* MyResultsView.h in Headers */ = {isa = PBXBuildFile; fileRef = CEA465A60A6A8D67008C43D1 /* MyResultsView.h */; };
@@ -102,8 +102,8 @@
 		4327F0B207CEBD0000AB5CFE /* save_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = save_32.png; sourceTree = "<group>"; };
 		4327F0B307CEBD0000AB5CFE /* sql-doc.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "sql-doc.icns"; sourceTree = "<group>"; };
 		4327F0B407CEBD0000AB5CFE /* sql-doc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sql-doc.png"; sourceTree = "<group>"; };
-		4350CCB90665349000244060 /* DataSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
-		4350CCBA0665349000244060 /* DataSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DataSource.m; sourceTree = "<group>"; };
+		4350CCB90665349000244060 /* QueryDataSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QueryDataSource.h; sourceTree = "<group>"; };
+		4350CCBA0665349000244060 /* QueryDataSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = QueryDataSource.m; sourceTree = "<group>"; };
 		4350CCBB0665349000244060 /* SqlDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SqlDocument.h; sourceTree = "<group>"; };
 		4350CCBC0665349000244060 /* SqlDocument.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SqlDocument.m; sourceTree = "<group>"; };
 		4350CCCD0665350000244060 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SqlDocument.nib; sourceTree = "<group>"; };
@@ -123,7 +123,7 @@
 		CE7EA7D10AA4FD150017B3FB /* PreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PreferenceController.h; sourceTree = "<group>"; };
 		CE7EA7D90AA4FDB60017B3FB /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
 		CE7EA7DA0AA4FDB60017B3FB /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
-		CE9630E50A8E0E310091AA4F /* libpq.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpq.dylib; path = /sw/lib/libpq.dylib; sourceTree = "<absolute>"; };
+		CE9630E50A8E0E310091AA4F /* libpq.5.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpq.5.0.dylib; path = /sw/lib/libpq.5.0.dylib; sourceTree = "<absolute>"; };
 		CE9630E90A8E0E870091AA4F /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = /sw/lib/libssl.dylib; sourceTree = "<absolute>"; };
 		CE9630ED0A8E0ED20091AA4F /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = /sw/lib/libcrypto.dylib; sourceTree = "<absolute>"; };
 		CEA465A60A6A8D67008C43D1 /* MyResultsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyResultsView.h; sourceTree = "<group>"; };
@@ -139,7 +139,7 @@
 			files = (
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				439FF4FD093FFDB3003D928C /* pgCocoaDB.framework in Frameworks */,
-				CE9630E60A8E0E310091AA4F /* libpq.dylib in Frameworks */,
+				CE9630E60A8E0E310091AA4F /* libpq.5.0.dylib in Frameworks */,
 				CE9630EA0A8E0E870091AA4F /* libssl.dylib in Frameworks */,
 				CE9630EE0A8E0ED20091AA4F /* libcrypto.dylib in Frameworks */,
 			);
@@ -192,8 +192,8 @@
 				CE74E3550AA5BAC500D0835A /* QueryTool.h */,
 				CE7EA7D90AA4FDB60017B3FB /* AppController.m */,
 				CE7EA7DA0AA4FDB60017B3FB /* AppController.h */,
-				4350CCB90665349000244060 /* DataSource.h */,
-				4350CCBA0665349000244060 /* DataSource.m */,
+				4350CCB90665349000244060 /* QueryDataSource.h */,
+				4350CCBA0665349000244060 /* QueryDataSource.m */,
 				CEAC30F40ABDC60C00421BFF /* ExecuteQueryThread.h */,
 				CEAC30F50ABDC60C00421BFF /* ExecuteQueryThread.m */,
 				CE20F4680A0E9A760066662F /* MyOutlineView.h */,
@@ -269,7 +269,7 @@
 			children = (
 				CE9630ED0A8E0ED20091AA4F /* libcrypto.dylib */,
 				CE9630E90A8E0E870091AA4F /* libssl.dylib */,
-				CE9630E50A8E0E310091AA4F /* libpq.dylib */,
+				CE9630E50A8E0E310091AA4F /* libpq.5.0.dylib */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -282,7 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D15AC290486D014006FF6A4 /* Query Tool for Postgres_Prefix.pch in Headers */,
-				4350CCBD0665349000244060 /* DataSource.h in Headers */,
+				4350CCBD0665349000244060 /* QueryDataSource.h in Headers */,
 				4350CCBF0665349000244060 /* SqlDocument.h in Headers */,
 				4350CD2E0665399300244060 /* SqlMenuCategory.h in Headers */,
 				4350CE0A066540D500244060 /* SqlToolbarCategory.h in Headers */,
@@ -374,7 +374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
-				4350CCBE0665349000244060 /* DataSource.m in Sources */,
+				4350CCBE0665349000244060 /* QueryDataSource.m in Sources */,
 				4350CCC00665349000244060 /* SqlDocument.m in Sources */,
 				4350CD2F0665399300244060 /* SqlMenuCategory.m in Sources */,
 				4350CE0B066540D500244060 /* SqlToolbarCategory.m in Sources */,
@@ -435,7 +435,7 @@
 		439C659B08ECF07900469809 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = ppc;
+				ARCHS = i386;
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -446,6 +446,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = "";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Query Tool for Postgres_Prefix.pch";
@@ -469,10 +470,7 @@
 				HEADER_SEARCH_PATHS = ../pgCocoaDB;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = (
-					"/sw/lib/postgresql-8.1",
-					/sw/lib,
-				);
+				LIBRARY_SEARCH_PATHS = /sw/lib;
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
@@ -488,7 +486,7 @@
 		439C659C08ECF07900469809 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = ppc;
+				ARCHS = i386;
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					../pgCocoaDB/build/Deployment,
@@ -497,6 +495,7 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Query Tool for Postgres_Prefix.pch";
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
@@ -505,10 +504,7 @@
 				HEADER_SEARCH_PATHS = ../pgCocoaDB;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = (
-					"/sw/lib/postgresql-8.1",
-					/sw/lib,
-				);
+				LIBRARY_SEARCH_PATHS = /sw/lib;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "Query Tool for Postgres";
@@ -527,7 +523,7 @@
 		439C659D08ECF07900469809 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = ppc;
+				ARCHS = i386;
 				FRAMEWORK_SEARCH_PATHS = (
 					../pgCocoaDB/build,
 					"$(SRCROOT)",
@@ -562,10 +558,7 @@
 		439C659F08ECF07900469809 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = i386;
 				LIBRARY_SEARCH_PATHS = (
 					"/sw/lib/postgresql-8.1",
 					/sw/lib,
@@ -579,10 +572,7 @@
 		439C65A008ECF07900469809 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = i386;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
@@ -591,10 +581,7 @@
 		439C65A108ECF07900469809 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = i386;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};

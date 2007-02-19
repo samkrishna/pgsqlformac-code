@@ -562,7 +562,7 @@
 		{
 			[dataSource release];
 		}
-		dataSource = [[DataSource alloc] init];
+		dataSource = [[QueryDataSource alloc] init];
 		NSMutableArray *maxDataInColumn = [NSMutableArray arrayWithCapacity:20];
 		
 		// Raw View

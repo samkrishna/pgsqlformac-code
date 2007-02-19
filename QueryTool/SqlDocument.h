@@ -9,6 +9,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DataSource.h"
+#import "QueryDataSource.h"
 #import "Connection.h"
 #import "ExplorerModel.h"
 #import "MyOutlineView.h"
