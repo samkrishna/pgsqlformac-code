@@ -37,6 +37,8 @@ FIXME (Known Errors)
 
 Completed
 =========
+- 2007-03-17 converted to svn.  svn r148 matches cvs head at the time of conversion.
+
 - 2006-11-10 Need to be able to save multiple connections in preferences. (12/02/2006)
 
 - 2006-08-26 Function return parameters not correctly determined, see below: (10/30/2006)
