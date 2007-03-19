@@ -37,6 +37,25 @@ FIXME (Known Errors)
 
 Completed
 =========
+- 2007-03-18 clean up binary/text file converions problems from cvs2svn.
+	
+	$svn propdel svn:eol-style objects.nib
+	property 'svn:eol-style' deleted from 'objects.nib'.
+	
+	$svn -v status objects.nib
+	MM            148      127 ntiffin      objects.nib
+	
+	$svn commit -m "Correct file conversion error." objects.nibSending        objects.nib
+	Transmitting file data .
+	Committed revision 152.
+	
+	$svn propset svn:mime-type application/octet-stream objects.nib
+	property 'svn:mime-type' set on 'objects.nib'
+	
+	$svn commit -m "Correct file conversion error." objects.nib
+	Sending        objects.nib
+	Committed revision 153.
+
 - 2007-03-17 converted to svn.  svn r148 matches cvs head at the time of conversion.
 
 - 2006-11-10 Need to be able to save multiple connections in preferences. (12/02/2006)
