@@ -9,6 +9,11 @@
 # History
 # -------
 #
+# 2007-04-02  Andy Satori <dru@druware.com>
+#             Added manual-restart manual-start options for use with the 
+#             startup manager and allow the user to use hostconfig properly.
+#             (probably last change before moving to launchd for leopard)
+#
 # 2005-02-28  Andy Satori <dru@druwaer.com >
 #             Modified to resolve issues with the Postgres user not having a
 #             Shell defined (su -m)
@@ -52,13 +57,19 @@
 
 StartService ()
 {
-
+	shouldStartPostgres="-NO-"
+	
 	if [ "${POSTGRES:=-YES-}" = "-YES-" ]; then
-
-       
+		shouldStartPostgres="-YES-"
+	fi
+	
+	if [ "$overrideEnvironment" = "-YES-" ]; then
+		shouldStartPostgres="-YES-"
+	fi
+		
+	if [ "$shouldStartPostgres" = "-YES-" ]; then
 	    ConsoleMessage "Starting PostgreSQL database server"
 	    su -m postgres -c '/Library/PostgreSQL8/bin/pg_ctl start -D /Library/PostgreSQL8/data -l /Library/PostgreSQL8/log/PostgreSQL8.log -o -i'
-	    
 	fi
 
 }
@@ -84,5 +95,8 @@ RestartService ()
 }
 
 
+if [ "$2" = "MANUAL" ]; then
+	overrideEnvironment='-YES-'
+fi
 RunService "$1"
 
