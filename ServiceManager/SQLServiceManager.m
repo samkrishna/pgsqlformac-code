@@ -229,11 +229,12 @@
         if (myStatus == errAuthorizationSuccess) 
 		{
 			const char *myToolPath = [pathToHelper cString]; 
-			char *myArguments[3];
+			char *myArguments[4];
 			
 			myArguments[0] = [command cString];
 			myArguments[1] = [operation cString];
-			myArguments[2] = NULL;
+			myArguments[2] = "MANUAL";
+			myArguments[3] = NULL;
 			
 			FILE *myCommunicationsPipe = NULL;
 			char myReadBuffer[128];
