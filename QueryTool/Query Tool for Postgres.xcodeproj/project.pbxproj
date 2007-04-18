@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		431F1BE10BB1721B00701090 /* SqlDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 431F1BDB0BB1721B00701090 /* SqlDocument.nib */; };
 		4327F01807CEB4AA00AB5CFE /* Help in Resources */ = {isa = PBXBuildFile; fileRef = 4327F01607CEB4AA00AB5CFE /* Help */; };
 		4327F0B507CEBD0000AB5CFE /* about_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 4327F0A307CEBD0000AB5CFE /* about_32.png */; };
 		4327F0B607CEBD0000AB5CFE /* connect_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 4327F0A407CEBD0000AB5CFE /* connect_32.png */; };
@@ -26,50 +27,34 @@
 		4327F0C407CEBD0000AB5CFE /* save_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 4327F0B207CEBD0000AB5CFE /* save_32.png */; };
 		4327F0C507CEBD0000AB5CFE /* sql-doc.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4327F0B307CEBD0000AB5CFE /* sql-doc.icns */; };
 		4327F0C607CEBD0000AB5CFE /* sql-doc.png in Resources */ = {isa = PBXBuildFile; fileRef = 4327F0B407CEBD0000AB5CFE /* sql-doc.png */; };
-		4350CCBD0665349000244060 /* DataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 4350CCB90665349000244060 /* DataSource.h */; };
-		4350CCBE0665349000244060 /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 4350CCBA0665349000244060 /* DataSource.m */; };
 		4350CCBF0665349000244060 /* SqlDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 4350CCBB0665349000244060 /* SqlDocument.h */; };
 		4350CCC00665349000244060 /* SqlDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 4350CCBC0665349000244060 /* SqlDocument.m */; };
-		4350CCCE0665350000244060 /* SqlDocument.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4350CCCC0665350000244060 /* SqlDocument.nib */; };
 		4350CD2E0665399300244060 /* SqlMenuCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 4350CD2C0665399300244060 /* SqlMenuCategory.h */; };
 		4350CD2F0665399300244060 /* SqlMenuCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4350CD2D0665399300244060 /* SqlMenuCategory.m */; };
 		4350CE0A066540D500244060 /* SqlToolbarCategory.h in Headers */ = {isa = PBXBuildFile; fileRef = 4350CE08066540D500244060 /* SqlToolbarCategory.h */; };
 		4350CE0B066540D500244060 /* SqlToolbarCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4350CE09066540D500244060 /* SqlToolbarCategory.m */; };
-		439FF4FD093FFDB3003D928C /* pgCocoaDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 439FF4F3093FFDB3003D928C /* pgCocoaDB.framework */; };
-		439FF50D093FFDDD003D928C /* pgCocoaDB.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 439FF4F3093FFDB3003D928C /* pgCocoaDB.framework */; };
+		438CC5480BADD1DF00C69C7C /* AppController.h in Headers */ = {isa = PBXBuildFile; fileRef = 438CC53B0BADD1DF00C69C7C /* AppController.h */; };
+		438CC5490BADD1DF00C69C7C /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 438CC53C0BADD1DF00C69C7C /* AppController.m */; };
+		438CC54A0BADD1DF00C69C7C /* cancel_script_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 438CC53D0BADD1DF00C69C7C /* cancel_script_32.png */; };
+		438CC54B0BADD1DF00C69C7C /* ExecuteQueryThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 438CC53E0BADD1DF00C69C7C /* ExecuteQueryThread.h */; };
+		438CC54C0BADD1DF00C69C7C /* ExecuteQueryThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 438CC53F0BADD1DF00C69C7C /* ExecuteQueryThread.m */; };
+		438CC54D0BADD1DF00C69C7C /* MyOutlineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 438CC5400BADD1DF00C69C7C /* MyOutlineView.h */; };
+		438CC54E0BADD1DF00C69C7C /* MyOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 438CC5410BADD1DF00C69C7C /* MyOutlineView.m */; };
+		438CC54F0BADD1DF00C69C7C /* MyResultsView.h in Headers */ = {isa = PBXBuildFile; fileRef = 438CC5420BADD1DF00C69C7C /* MyResultsView.h */; };
+		438CC5500BADD1DF00C69C7C /* MyResultsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 438CC5430BADD1DF00C69C7C /* MyResultsView.m */; };
+		438CC5510BADD1DF00C69C7C /* PreferenceController.h in Headers */ = {isa = PBXBuildFile; fileRef = 438CC5440BADD1DF00C69C7C /* PreferenceController.h */; };
+		438CC5520BADD1DF00C69C7C /* PreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 438CC5450BADD1DF00C69C7C /* PreferenceController.m */; };
+		438CC5530BADD1DF00C69C7C /* QueryDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 438CC5460BADD1DF00C69C7C /* QueryDataSource.h */; };
+		438CC5540BADD1DF00C69C7C /* QueryDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 438CC5470BADD1DF00C69C7C /* QueryDataSource.m */; };
+		438CC6150BADD3B600C69C7C /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 438CC60F0BADD3B600C69C7C /* Preferences.nib */; };
+		438CC61E0BADD40300C69C7C /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 438CC6180BADD40300C69C7C /* MainMenu.nib */; };
+		43CC25B90BD6830400C21D32 /* pgCocoaDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43CC25AD0BD6830400C21D32 /* pgCocoaDB.framework */; };
 		8D15AC290486D014006FF6A4 /* Query Tool for Postgres_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF750370BD2300C91783 /* Query Tool for Postgres_Prefix.pch */; };
 		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
-		8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXBuildStyle section */
-		4A9504D0FFE6A4CB11CA0CBA /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEBUGGING_SYMBOLS = YES;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OPTIMIZATION_CFLAGS = "-O0";
-				ZERO_LINK = YES;
-			};
-			name = Development;
-		};
-		4A9504D1FFE6A4CB11CA0CBA /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
 
 /* Begin PBXContainerItemProxy section */
 		437FBB74094CD567007D4278 /* PBXContainerItemProxy */ = {
@@ -95,7 +80,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				439FF50D093FFDDD003D928C /* pgCocoaDB.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -105,11 +89,11 @@
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2A37F4B7FDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		2A37F4BAFDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* Query Tool for Postgres_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Query Tool for Postgres_Prefix.pch"; sourceTree = "<group>"; };
+		431F1BDC0BB1721B00701090 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SqlDocument.nib; sourceTree = "<group>"; };
 		4327F01607CEB4AA00AB5CFE /* Help */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Help; sourceTree = "<group>"; };
 		4327F0A307CEBD0000AB5CFE /* about_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about_32.png; sourceTree = "<group>"; };
 		4327F0A407CEBD0000AB5CFE /* connect_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = connect_32.png; sourceTree = "<group>"; };
@@ -129,17 +113,29 @@
 		4327F0B207CEBD0000AB5CFE /* save_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = save_32.png; sourceTree = "<group>"; };
 		4327F0B307CEBD0000AB5CFE /* sql-doc.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "sql-doc.icns"; sourceTree = "<group>"; };
 		4327F0B407CEBD0000AB5CFE /* sql-doc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sql-doc.png"; sourceTree = "<group>"; };
-		4350CCB90665349000244060 /* DataSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
-		4350CCBA0665349000244060 /* DataSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DataSource.m; sourceTree = "<group>"; };
 		4350CCBB0665349000244060 /* SqlDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SqlDocument.h; sourceTree = "<group>"; };
 		4350CCBC0665349000244060 /* SqlDocument.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SqlDocument.m; sourceTree = "<group>"; };
-		4350CCCD0665350000244060 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SqlDocument.nib; sourceTree = "<group>"; };
 		4350CD2C0665399300244060 /* SqlMenuCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqlMenuCategory.h; sourceTree = "<group>"; };
 		4350CD2D0665399300244060 /* SqlMenuCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SqlMenuCategory.m; sourceTree = "<group>"; };
 		4350CE08066540D500244060 /* SqlToolbarCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SqlToolbarCategory.h; sourceTree = "<group>"; };
 		4350CE09066540D500244060 /* SqlToolbarCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SqlToolbarCategory.m; sourceTree = "<group>"; };
+		438CC53B0BADD1DF00C69C7C /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
+		438CC53C0BADD1DF00C69C7C /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
+		438CC53D0BADD1DF00C69C7C /* cancel_script_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cancel_script_32.png; sourceTree = "<group>"; };
+		438CC53E0BADD1DF00C69C7C /* ExecuteQueryThread.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ExecuteQueryThread.h; sourceTree = "<group>"; };
+		438CC53F0BADD1DF00C69C7C /* ExecuteQueryThread.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ExecuteQueryThread.m; sourceTree = "<group>"; };
+		438CC5400BADD1DF00C69C7C /* MyOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MyOutlineView.h; sourceTree = "<group>"; };
+		438CC5410BADD1DF00C69C7C /* MyOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MyOutlineView.m; sourceTree = "<group>"; };
+		438CC5420BADD1DF00C69C7C /* MyResultsView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = MyResultsView.h; sourceTree = "<group>"; };
+		438CC5430BADD1DF00C69C7C /* MyResultsView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = MyResultsView.m; sourceTree = "<group>"; };
+		438CC5440BADD1DF00C69C7C /* PreferenceController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PreferenceController.h; sourceTree = "<group>"; };
+		438CC5450BADD1DF00C69C7C /* PreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PreferenceController.m; sourceTree = "<group>"; };
+		438CC5460BADD1DF00C69C7C /* QueryDataSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QueryDataSource.h; sourceTree = "<group>"; };
+		438CC5470BADD1DF00C69C7C /* QueryDataSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = QueryDataSource.m; sourceTree = "<group>"; };
+		438CC6100BADD3B600C69C7C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Preferences.nib; sourceTree = "<group>"; };
+		438CC6190BADD40300C69C7C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		439FF4EA093FFDA7003D928C /* pgCocoaDB.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = pgCocoaDB.xcodeproj; path = ../pgCocoaDB/pgCocoaDB.xcodeproj; sourceTree = SOURCE_ROOT; };
-		439FF4F3093FFDB3003D928C /* pgCocoaDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = pgCocoaDB.framework; path = ../pgCocoaDB/build/Deployment/pgCocoaDB.framework; sourceTree = SOURCE_ROOT; };
+		43CC25AD0BD6830400C21D32 /* pgCocoaDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = pgCocoaDB.framework; path = /Library/Frameworks/pgCocoaDB.framework; sourceTree = "<absolute>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* Query Tool for Postgres.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Query Tool for Postgres.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -150,7 +146,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
-				439FF4FD093FFDB3003D928C /* pgCocoaDB.framework in Frameworks */,
+				43CC25B90BD6830400C21D32 /* pgCocoaDB.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,7 +156,7 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				439FF4F3093FFDB3003D928C /* pgCocoaDB.framework */,
+				43CC25AD0BD6830400C21D32 /* pgCocoaDB.framework */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -199,8 +195,18 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				4350CCB90665349000244060 /* DataSource.h */,
-				4350CCBA0665349000244060 /* DataSource.m */,
+				438CC53B0BADD1DF00C69C7C /* AppController.h */,
+				438CC53C0BADD1DF00C69C7C /* AppController.m */,
+				438CC53E0BADD1DF00C69C7C /* ExecuteQueryThread.h */,
+				438CC53F0BADD1DF00C69C7C /* ExecuteQueryThread.m */,
+				438CC5400BADD1DF00C69C7C /* MyOutlineView.h */,
+				438CC5410BADD1DF00C69C7C /* MyOutlineView.m */,
+				438CC5420BADD1DF00C69C7C /* MyResultsView.h */,
+				438CC5430BADD1DF00C69C7C /* MyResultsView.m */,
+				438CC5440BADD1DF00C69C7C /* PreferenceController.h */,
+				438CC5450BADD1DF00C69C7C /* PreferenceController.m */,
+				438CC5460BADD1DF00C69C7C /* QueryDataSource.h */,
+				438CC5470BADD1DF00C69C7C /* QueryDataSource.m */,
 				4350CCBB0665349000244060 /* SqlDocument.h */,
 				4350CCBC0665349000244060 /* SqlDocument.m */,
 				4350CD2C0665399300244060 /* SqlMenuCategory.h */,
@@ -223,6 +229,10 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				431F1BDB0BB1721B00701090 /* SqlDocument.nib */,
+				438CC6180BADD40300C69C7C /* MainMenu.nib */,
+				438CC60F0BADD3B600C69C7C /* Preferences.nib */,
+				438CC53D0BADD1DF00C69C7C /* cancel_script_32.png */,
 				4327F0A307CEBD0000AB5CFE /* about_32.png */,
 				4327F0A407CEBD0000AB5CFE /* connect_32.png */,
 				4327F0A507CEBD0000AB5CFE /* connect_dlg.png */,
@@ -243,8 +253,6 @@
 				4327F0B407CEBD0000AB5CFE /* sql-doc.png */,
 				4327F01607CEB4AA00AB5CFE /* Help */,
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
-				2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */,
-				4350CCCC0665350000244060 /* SqlDocument.nib */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
 			);
@@ -276,10 +284,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D15AC290486D014006FF6A4 /* Query Tool for Postgres_Prefix.pch in Headers */,
-				4350CCBD0665349000244060 /* DataSource.h in Headers */,
 				4350CCBF0665349000244060 /* SqlDocument.h in Headers */,
 				4350CD2E0665399300244060 /* SqlMenuCategory.h in Headers */,
 				4350CE0A066540D500244060 /* SqlToolbarCategory.h in Headers */,
+				438CC5480BADD1DF00C69C7C /* AppController.h in Headers */,
+				438CC54B0BADD1DF00C69C7C /* ExecuteQueryThread.h in Headers */,
+				438CC54D0BADD1DF00C69C7C /* MyOutlineView.h in Headers */,
+				438CC54F0BADD1DF00C69C7C /* MyResultsView.h in Headers */,
+				438CC5510BADD1DF00C69C7C /* PreferenceController.h in Headers */,
+				438CC5530BADD1DF00C69C7C /* QueryDataSource.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,30 +311,6 @@
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = ../pgCocoaDB/build;
-				GCC_ENABLE_TRIGRAPHS = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Query Tool for Postgres_Prefix.pch";
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = ../pgCocoaDB;
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "$(HOME)/Applications";
-				LIBRARY_SEARCH_PATHS = "";
-				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
-				PRODUCT_NAME = "Query Tool for Postgres";
-				SECTORDER_FLAGS = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = app;
-			};
 			dependencies = (
 				437FBB75094CD567007D4278 /* PBXTargetDependency */,
 			);
@@ -337,12 +326,6 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 439C659E08ECF07900469809 /* Build configuration list for PBXProject "Query Tool for Postgres" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				4A9504D0FFE6A4CB11CA0CBA /* Development */,
-				4A9504D1FFE6A4CB11CA0CBA /* Deployment */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* Query Tool for Postgres */;
 			projectDirPath = "";
@@ -374,9 +357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */,
-				8D15AC2D0486D014006FF6A4 /* MainMenu.nib in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
-				4350CCCE0665350000244060 /* SqlDocument.nib in Resources */,
 				4327F01807CEB4AA00AB5CFE /* Help in Resources */,
 				4327F0B507CEBD0000AB5CFE /* about_32.png in Resources */,
 				4327F0B607CEBD0000AB5CFE /* connect_32.png in Resources */,
@@ -396,6 +377,10 @@
 				4327F0C407CEBD0000AB5CFE /* save_32.png in Resources */,
 				4327F0C507CEBD0000AB5CFE /* sql-doc.icns in Resources */,
 				4327F0C607CEBD0000AB5CFE /* sql-doc.png in Resources */,
+				438CC54A0BADD1DF00C69C7C /* cancel_script_32.png in Resources */,
+				438CC6150BADD3B600C69C7C /* Preferences.nib in Resources */,
+				438CC61E0BADD40300C69C7C /* MainMenu.nib in Resources */,
+				431F1BE10BB1721B00701090 /* SqlDocument.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -407,10 +392,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
-				4350CCBE0665349000244060 /* DataSource.m in Sources */,
 				4350CCC00665349000244060 /* SqlDocument.m in Sources */,
 				4350CD2F0665399300244060 /* SqlMenuCategory.m in Sources */,
 				4350CE0B066540D500244060 /* SqlToolbarCategory.m in Sources */,
+				438CC5490BADD1DF00C69C7C /* AppController.m in Sources */,
+				438CC54C0BADD1DF00C69C7C /* ExecuteQueryThread.m in Sources */,
+				438CC54E0BADD1DF00C69C7C /* MyOutlineView.m in Sources */,
+				438CC5500BADD1DF00C69C7C /* MyResultsView.m in Sources */,
+				438CC5520BADD1DF00C69C7C /* PreferenceController.m in Sources */,
+				438CC5540BADD1DF00C69C7C /* QueryDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,14 +423,6 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				2A37F4B7FDCFA73011CA2CEA /* English */,
-			);
-			name = MainMenu.nib;
-			sourceTree = "<group>";
-		};
 		2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -449,12 +431,28 @@
 			name = Credits.rtf;
 			sourceTree = "<group>";
 		};
-		4350CCCC0665350000244060 /* SqlDocument.nib */ = {
+		431F1BDB0BB1721B00701090 /* SqlDocument.nib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				4350CCCD0665350000244060 /* English */,
+				431F1BDC0BB1721B00701090 /* English */,
 			);
 			name = SqlDocument.nib;
+			sourceTree = "<group>";
+		};
+		438CC60F0BADD3B600C69C7C /* Preferences.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				438CC6100BADD3B600C69C7C /* English */,
+			);
+			name = Preferences.nib;
+			sourceTree = "<group>";
+		};
+		438CC6180BADD40300C69C7C /* MainMenu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				438CC6190BADD40300C69C7C /* English */,
+			);
+			name = MainMenu.nib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -469,10 +467,7 @@
 				);
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					../pgCocoaDB/build,
-					"$(SRCROOT)/../pgCocoaDB/build/Deployment",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_ENABLE_TRIGRAPHS = NO;
@@ -483,13 +478,14 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = ../pgCocoaDB;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
 				PRODUCT_NAME = "Query Tool for Postgres";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -510,10 +506,7 @@
 					i386,
 				);
 				COPY_PHASE_STRIP = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					../pgCocoaDB/build,
-					"$(SRCROOT)/../pgCocoaDB/build/Deployment",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -522,12 +515,13 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = ../pgCocoaDB;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
 				PRODUCT_NAME = "Query Tool for Postgres";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -547,10 +541,7 @@
 					ppc,
 					i386,
 				);
-				FRAMEWORK_SEARCH_PATHS = (
-					../pgCocoaDB/build,
-					"$(SRCROOT)/../pgCocoaDB/build/Deployment",
-				);
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_ENABLE_TRIGRAPHS = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -558,12 +549,13 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
 				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = ../pgCocoaDB;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
 				PRODUCT_NAME = "Query Tool for Postgres";
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = (
@@ -590,10 +582,7 @@
 		439C65A008ECF07900469809 /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = i386;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};

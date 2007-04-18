@@ -331,6 +331,7 @@
 			}
 
 		}
+		
 		// Create the schema explorer.
 		[self setNewExplorerConn];
 		

@@ -8,10 +8,10 @@
 
 
 #import <Cocoa/Cocoa.h>
-#import "DataSource.h"
+#import <pgCocoaDB/PGCocoaDB.h>
+#import <pgCocoaDB/ExplorerModel.h>
+
 #import "QueryDataSource.h"
-#import "Connection.h"
-#import "ExplorerModel.h"
 #import "MyOutlineView.h"
 #import "MyResultsView.h"
 #import "QueryTool.h"

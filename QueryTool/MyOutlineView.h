@@ -1,7 +1,7 @@
 /* MyOutlineView */
 
 #import <Cocoa/Cocoa.h>
-#import "ExplorerNode.h"
+#import <pgCocoaDB/ExplorerModel.h>
 #import "QueryTool.h"
 
 @interface MyOutlineView : NSOutlineView

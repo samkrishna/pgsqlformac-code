@@ -7,8 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "Connection.h"
-#import "RecordSet.h"
+#import <pgCocoaDB/PGCocoaDB.h>
 
 enum QueryToolQueryStatus { QueryNoStatus, QueryRunning, QueryCompleted, QueryError };
 enum QueryToolConnectionStatus { ConnNoStatus, Connected, ConnError };
