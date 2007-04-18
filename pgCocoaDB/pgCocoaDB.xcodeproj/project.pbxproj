@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		43069B510BC2DB6300BD6D0B /* PGCocoaDB.h in Headers */ = {isa = PBXBuildFile; fileRef = 43069B500BC2DB6300BD6D0B /* PGCocoaDB.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43303391066135480037D932 /* Connection.h in Headers */ = {isa = PBXBuildFile; fileRef = 4330338F066135480037D932 /* Connection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43303392066135480037D932 /* Connection.m in Sources */ = {isa = PBXBuildFile; fileRef = 43303390066135480037D932 /* Connection.m */; };
 		433033B7066135EA0037D932 /* Database.h in Headers */ = {isa = PBXBuildFile; fileRef = 433033A7066135EA0037D932 /* Database.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -23,37 +24,34 @@
 		433033C2066135EA0037D932 /* Record.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033B2066135EA0037D932 /* Record.m */; };
 		433033C3066135EA0037D932 /* RecordSet.h in Headers */ = {isa = PBXBuildFile; fileRef = 433033B3066135EA0037D932 /* RecordSet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		433033C4066135EA0037D932 /* RecordSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033B4066135EA0037D932 /* RecordSet.m */; };
+		43AD0FE00BADCDFC0049BDA4 /* ExplorerModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 43AD0FDA0BADCDFC0049BDA4 /* ExplorerModel.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		43AD0FE10BADCDFC0049BDA4 /* ExplorerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 43AD0FDB0BADCDFC0049BDA4 /* ExplorerModel.m */; };
+		43AD0FE20BADCDFC0049BDA4 /* ExplorerNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 43AD0FDC0BADCDFC0049BDA4 /* ExplorerNode.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		43AD0FE30BADCDFC0049BDA4 /* ExplorerNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 43AD0FDD0BADCDFC0049BDA4 /* ExplorerNode.m */; };
+		43AD0FE40BADCDFC0049BDA4 /* Schema.h in Headers */ = {isa = PBXBuildFile; fileRef = 43AD0FDE0BADCDFC0049BDA4 /* Schema.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		43AD0FE50BADCDFC0049BDA4 /* Schema.m in Sources */ = {isa = PBXBuildFile; fileRef = 43AD0FDF0BADCDFC0049BDA4 /* Schema.m */; };
+		43AD0FE70BADCEFD0049BDA4 /* Table.h in Headers */ = {isa = PBXBuildFile; fileRef = 433033B5066135EA0037D932 /* Table.h */; };
+		43AD0FE80BADCEFE0049BDA4 /* Table.m in Sources */ = {isa = PBXBuildFile; fileRef = 433033B6066135EA0037D932 /* Table.m */; };
+		43CC257E0BD681D100C21D32 /* pgCocoaDB.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* pgCocoaDB.framework */; };
 		8DC2EF510486A6940098B216 /* pgCocoaDB_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF5E0370ADEE00C91783 /* pgCocoaDB_Prefix.pch */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF550486A6940098B216 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 08FB77B4FE84181DC02AAC07 /* main.c */; settings = {ATTRIBUTES = (); }; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXBuildStyle section */
-		014CEA440018CDF011CA2923 /* Development */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				DEBUGGING_SYMBOLS = YES;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				OPTIMIZATION_CFLAGS = "-O0";
-				ZERO_LINK = YES;
-			};
-			name = Development;
+/* Begin PBXCopyFilesBuildPhase section */
+		43CC257C0BD681A000C21D32 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			comments = "Copy to the Common Frameworks folder\n";
+			dstPath = /Library/Frameworks;
+			dstSubfolderSpec = 0;
+			files = (
+				43CC257E0BD681D100C21D32 /* pgCocoaDB.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
 		};
-		014CEA450018CDF011CA2923 /* Deployment */ = {
-			isa = PBXBuildStyle;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				ZERO_LINK = NO;
-			};
-			name = Deployment;
-		};
-/* End PBXBuildStyle section */
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -62,7 +60,7 @@
 		08FB77B4FE84181DC02AAC07 /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF5E0370ADEE00C91783 /* pgCocoaDB_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pgCocoaDB_Prefix.pch; sourceTree = "<group>"; };
-		430CA1710825BC7800F43A7D /* pgCocoaDB.xcclassmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcclassmodel; path = pgCocoaDB.xcclassmodel; sourceTree = "<group>"; };
+		43069B500BC2DB6300BD6D0B /* PGCocoaDB.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PGCocoaDB.h; sourceTree = "<group>"; };
 		4330338F066135480037D932 /* Connection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Connection.h; sourceTree = "<group>"; };
 		43303390066135480037D932 /* Connection.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Connection.m; sourceTree = "<group>"; };
 		433033A7066135EA0037D932 /* Database.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Database.h; sourceTree = "<group>"; };
@@ -86,6 +84,12 @@
 		433033F7066137830037D932 /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o"; name = libssl.dylib; path = /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/libssl.dylib; sourceTree = "<absolute>"; };
 		4330341C066138050037D932 /* libkrb5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o"; name = libkrb5.dylib; path = /Developer/SDKs/MacOSX10.4u.sdk/usr/lib/libkrb5.dylib; sourceTree = "<absolute>"; };
 		434E29C207DDFF62002F9C11 /* COPYRIGHT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYRIGHT; sourceTree = "<group>"; };
+		43AD0FDA0BADCDFC0049BDA4 /* ExplorerModel.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ExplorerModel.h; sourceTree = "<group>"; };
+		43AD0FDB0BADCDFC0049BDA4 /* ExplorerModel.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ExplorerModel.m; sourceTree = "<group>"; };
+		43AD0FDC0BADCDFC0049BDA4 /* ExplorerNode.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ExplorerNode.h; sourceTree = "<group>"; };
+		43AD0FDD0BADCDFC0049BDA4 /* ExplorerNode.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ExplorerNode.m; sourceTree = "<group>"; };
+		43AD0FDE0BADCDFC0049BDA4 /* Schema.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = Schema.h; sourceTree = "<group>"; };
+		43AD0FDF0BADCDFC0049BDA4 /* Schema.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = Schema.m; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* pgCocoaDB.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = pgCocoaDB.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -119,7 +123,6 @@
 				089C1665FE841158C02AAC07 /* Resources */,
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				034768DFFF38A50411DB9C8B /* Products */,
-				430CA1710825BC7800F43A7D /* pgCocoaDB.xcclassmodel */,
 			);
 			name = pgCocoaDB;
 			sourceTree = "<group>";
@@ -145,6 +148,13 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				43AD0FDA0BADCDFC0049BDA4 /* ExplorerModel.h */,
+				43069B500BC2DB6300BD6D0B /* PGCocoaDB.h */,
+				43AD0FDB0BADCDFC0049BDA4 /* ExplorerModel.m */,
+				43AD0FDC0BADCDFC0049BDA4 /* ExplorerNode.h */,
+				43AD0FDD0BADCDFC0049BDA4 /* ExplorerNode.m */,
+				43AD0FDE0BADCDFC0049BDA4 /* Schema.h */,
+				43AD0FDF0BADCDFC0049BDA4 /* Schema.m */,
 				4330338F066135480037D932 /* Connection.h */,
 				43303390066135480037D932 /* Connection.m */,
 				433033A7066135EA0037D932 /* Database.h */,
@@ -213,6 +223,11 @@
 				433033BF066135EA0037D932 /* Fields.h in Headers */,
 				433033C1066135EA0037D932 /* Record.h in Headers */,
 				433033C3066135EA0037D932 /* RecordSet.h in Headers */,
+				43AD0FE00BADCDFC0049BDA4 /* ExplorerModel.h in Headers */,
+				43AD0FE20BADCDFC0049BDA4 /* ExplorerNode.h in Headers */,
+				43AD0FE40BADCDFC0049BDA4 /* Schema.h in Headers */,
+				43AD0FE70BADCEFD0049BDA4 /* Table.h in Headers */,
+				43069B510BC2DB6300BD6D0B /* PGCocoaDB.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -228,41 +243,10 @@
 				8DC2EF540486A6940098B216 /* Sources */,
 				8DC2EF560486A6940098B216 /* Frameworks */,
 				8DC2EF580486A6940098B216 /* Rez */,
+				43CC257C0BD681A000C21D32 /* CopyFiles */,
 			);
 			buildRules = (
 			);
-			buildSettings = {
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				FRAMEWORK_SEARCH_PATHS = "";
-				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_TRIGRAPHS = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = pgCocoaDB_Prefix.pch;
-				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
-				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
-				GCC_WARN_UNKNOWN_PRAGMAS = NO;
-				HEADER_SEARCH_PATHS = "\"$(LOCAL_LIBRARY_DIR)/PostgreSQL8/include\"";
-				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "@executable_path/../Frameworks";
-				LIBRARY_SEARCH_PATHS = "\"$(LOCAL_LIBRARY_DIR)/PostgreSQL8/lib\"";
-				LIBRARY_STYLE = Dynamic;
-				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OTHER_LDFLAGS = (
-					"-seg1addr",
-					0xb0000000,
-				);
-				PRODUCT_NAME = pgCocoaDB;
-				SECTORDER_FLAGS = "";
-				VERSIONING_SYSTEM = "";
-				WARNING_CFLAGS = (
-					"-Wmost",
-					"-Wno-four-char-constants",
-					"-Wno-unknown-pragmas",
-				);
-				WRAPPER_EXTENSION = framework;
-			};
 			dependencies = (
 			);
 			name = pgCocoaDB;
@@ -277,12 +261,6 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 43389A4A0869E11900D5B56D /* Build configuration list for PBXProject "pgCocoaDB" */;
-			buildSettings = {
-			};
-			buildStyles = (
-				014CEA440018CDF011CA2923 /* Development */,
-				014CEA450018CDF011CA2923 /* Deployment */,
-			);
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* pgCocoaDB */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -328,6 +306,10 @@
 				433033C0066135EA0037D932 /* Fields.m in Sources */,
 				433033C2066135EA0037D932 /* Record.m in Sources */,
 				433033C4066135EA0037D932 /* RecordSet.m in Sources */,
+				43AD0FE10BADCDFC0049BDA4 /* ExplorerModel.m in Sources */,
+				43AD0FE30BADCDFC0049BDA4 /* ExplorerNode.m in Sources */,
+				43AD0FE50BADCDFC0049BDA4 /* Schema.m in Sources */,
+				43AD0FE80BADCEFE0049BDA4 /* Table.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,7 +330,10 @@
 		43389A470869E11900D5B56D /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = (
+					i386,
+					ppc,
+				);
 				COPY_PHASE_STRIP = NO;
 				DEBUGGING_SYMBOLS = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -381,6 +366,7 @@
 					"-seg1addr",
 					0xb0000000,
 				);
+				PREBINDING = NO;
 				PRODUCT_NAME = pgCocoaDB;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SECTORDER_FLAGS = "";
@@ -398,7 +384,10 @@
 		43389A480869E11900D5B56D /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = (
+					i386,
+					ppc,
+				);
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -427,6 +416,7 @@
 					"-seg1addr",
 					0xb0000000,
 				);
+				PREBINDING = NO;
 				PRODUCT_NAME = pgCocoaDB;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SECTORDER_FLAGS = "";
@@ -444,7 +434,10 @@
 		43389A490869E11900D5B56D /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = i386;
+				ARCHS = (
+					i386,
+					ppc,
+				);
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -471,6 +464,7 @@
 					"-seg1addr",
 					0xb0000000,
 				);
+				PREBINDING = NO;
 				PRODUCT_NAME = pgCocoaDB;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 				SECTORDER_FLAGS = "";
@@ -487,6 +481,10 @@
 		43389A4B0869E11900D5B56D /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
@@ -497,9 +495,14 @@
 		43389A4C0869E11900D5B56D /* Deployment */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
 			name = Deployment;
@@ -507,6 +510,10 @@
 		43389A4D0869E11900D5B56D /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				LIBRARY_SEARCH_PATHS = /opt/local/lib;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;

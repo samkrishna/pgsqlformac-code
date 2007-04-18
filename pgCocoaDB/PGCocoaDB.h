@@ -7,6 +7,8 @@
  *
  */
 
+#import "Connection.h"
+#import "DataSource.h"
 
 // To tell other that parpameters are purposesly not used and remove compiler warning.
 #define UNUSED_PARAMETER(x) (void)(x)
