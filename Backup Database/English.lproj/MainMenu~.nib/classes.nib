@@ -1,0 +1,55 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                onBack = id; 
+                onBrowseForFolder = id; 
+                onCancel = id; 
+                onDataOnly = id; 
+                onNext = id; 
+                onRestrictSchema = id; 
+                onRestrictTable = id; 
+                onSchemaOnly = id; 
+                onSelectDatabase = id; 
+                onUseEncoding = id; 
+            }; 
+            CLASS = PGBackupController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                asFile = NSTextField; 
+                backButton = NSButton; 
+                backupFormat = NSPopUpButton; 
+                databaseList = NSPopUpButton; 
+                encodingList = NSPopUpButton; 
+                nextButton = NSButton; 
+                password = NSSecureTextField; 
+                port = NSTextField; 
+                progress = NSProgressIndicator; 
+                results = NSTextView; 
+                schemaList = NSPopUpButton; 
+                server = NSTextField; 
+                tableList = NSPopUpButton; 
+                tabs = NSTabView; 
+                toFolder = NSTextField; 
+                useClean = NSButton; 
+                useCreateDatabase = NSButton; 
+                useDataOnly = NSButton; 
+                useDollarQuoting = NSButton; 
+                useEncoding = NSButton; 
+                useInsert = NSButton; 
+                useInsertWithColumns = NSButton; 
+                useOIDs = NSButton; 
+                usePreventBackups = NSButton; 
+                usePreventOwnership = NSButton; 
+                useRestrictSchema = NSButton; 
+                useRestrictTable = NSButton; 
+                useSchemaOnly = NSButton; 
+                useVacuumDB = NSButton; 
+                userName = NSTextField; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
