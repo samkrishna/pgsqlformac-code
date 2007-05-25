@@ -33,19 +33,20 @@ if (test -d $BASEPATH/Installers/PostgreSQL8/Files/Applications) then
 fi
 
 mkdir -p $BASEPATH/temp/Files/Library/PostgreSQL8/bin
-cp -r /Library/PostgreSQL8/bin/* $BASEPATH/temp/Files/Library/PostgreSQL8/bin
+cp -r ~/Desktop/Workflow\ Support/PostgreSQL8/Universal/Library/PostgreSQL8/bin/* $BASEPATH/temp/Files/Library/PostgreSQL8/bin
 mkdir -p $BASEPATH/temp/Files/Library/PostgreSQL8/doc
-cp -r /Library/PostgreSQL8/doc/* $BASEPATH/temp/Files/Library/PostgreSQL8/doc
+cp -r ~/Desktop/Workflow\ Support/PostgreSQL8/Universal/Library/PostgreSQL8/doc/* $BASEPATH/temp/Files/Library/PostgreSQL8/doc
 mkdir -p $BASEPATH/temp/Files/Library/PostgreSQL8/include
-cp -r /Library/PostgreSQL8/include/* $BASEPATH/temp/Files/Library/PostgreSQL8/include
+cp -r ~/Desktop/Workflow\ Support/PostgreSQL8/Universal/Library/PostgreSQL8/include/* $BASEPATH/temp/Files/Library/PostgreSQL8/include
 mkdir -p $BASEPATH/temp/Files/Library/PostgreSQL8/man
-cp -r /Library/PostgreSQL8/man/* $BASEPATH/temp/Files/Library/PostgreSQL8/man
+cp -r ~/Desktop/Workflow\ Support/PostgreSQL8/Universal/Library/PostgreSQL8/man/* $BASEPATH/temp/Files/Library/PostgreSQL8/man
 mkdir -p $BASEPATH/temp/Files/Library/PostgreSQL8/share
-cp -r /Library/PostgreSQL8/share/* $BASEPATH/temp/Files/Library/PostgreSQL8/share
+cp -r ~/Desktop/Workflow\ Support/PostgreSQL8/Universal/Library/PostgreSQL8/share/* $BASEPATH/temp/Files/Library/PostgreSQL8/share
 mkdir -p $BASEPATH/temp/Files/Library/PostgreSQL8/lib
-cp -r /Library/PostgreSQL8/lib/* $BASEPATH/temp/Files/Library/PostgreSQL8/lib
+cp -r ~/Desktop/Workflow\ Support/PostgreSQL8/Universal/Library/PostgreSQL8/lib/* $BASEPATH/temp/Files/Library/PostgreSQL8/lib
 mkdir -p $BASEPATH/temp/Files/Applications/PostgreSQL
 cp -r $BASEPATH/ServiceManager/build/Deployment/Service\ Manager.app $BASEPATH/temp/Files/Applications/PostgreSQL
+cp -r $BASEPATH/Backup\ Database/build/Release/Backup\ Database.app $BASEPATH/temp/Files/Applications/PostgreSQL
 cp -r $BASEPATH/BuildScripts/Clean-Installation.sh $BASEPATH/temp/Files/Applications/PostgreSQL/Uninstall-PostgreSQL.sh
 
 find $BASEPATH/temp/ -name ".DS_Store" -exec rm -f {} \; 
@@ -54,7 +55,12 @@ find $BASEPATH/temp/ -name ".DS_Store" -exec rm -f {} \;
 chown -R root:admin $BASEPATH/temp/Files/*
 
 # build the .pkg
-/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $BASEPATH/dist/PostgreSQL/packages/PostgreSQL8.pkg -f $BASEPATH/temp/Files -r $BASEPATH/Installers/PostgreSQL8/Resources -d $BASEPATH/Installers/PostgreSQL8/Description.plist -i $BASEPATH/Installers/PostgreSQL8/Info.plist
+/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker \
+	-build -p $BASEPATH/dist/PostgreSQL/packages/PostgreSQL8.pkg \
+	-f $BASEPATH/temp/Files \
+	-r $BASEPATH/Installers/PostgreSQL8/Resources \
+	-d $BASEPATH/Installers/PostgreSQL8/Description.plist \
+	-i $BASEPATH/Installers/PostgreSQL8/Info.plist
 
 # clean up after ourselves
 rm -rf $BASEPATH/temp/Files/*
@@ -81,10 +87,42 @@ sudo find $BASEPATH/temp/ -name ".DS_Store" -exec rm -f {} \;
 chown -R root:wheel $BASEPATH/Installers/StartupItem/Files/*
 
 # build the .pkg
-/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $BASEPATH/dist/PostgreSQL/packages/Postgres\ Startup\ Item.pkg -f $BASEPATH/temp/Files -r $BASEPATH/temp/Resources -d $BASEPATH/Installers/StartupItem/Description.plist -i $BASEPATH/Installers/StartupItem/Info.plist
+/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker \
+	-build -p $BASEPATH/dist/PostgreSQL/packages/Postgres\ Startup\ Item.pkg \
+	-f $BASEPATH/temp/Files \
+	-r $BASEPATH/temp/Resources \
+	-d $BASEPATH/Installers/StartupItem/Description.plist \
+	-i $BASEPATH/Installers/StartupItem/Info.plist
 
 # clean up after ourselves
 rm -rf $BASEPATH/temp
+
+# ************************************************************* Client tools.pkg
+
+# copy the files into the temp storage.
+mkdir -p $BASEPATH/temp/Files/Applications/PostgreSQL
+
+cp -r $BASEPATH/CreateDatabase/build/Deployment/Create\ Database.app $BASEPATH/temp/Files/Applications/PostgreSQL
+cp -r $BASEPATH/CreateUser/build/Deployment/Create\ User.app $BASEPATH/temp/Files/Applications/PostgreSQL
+cp -r $BASEPATH/QueryTool/build/Deployment/Query\ Tool\ for\ Postgres.app $BASEPATH/temp/Files/Applications/PostgreSQL
+
+sudo find $BASEPATH/temp/ -name ".DS_Store" -exec rm -f {} \; 
+
+# fix permissions so that they get installed correctly.
+chown -R root:admin $BASEPATH/temp/Files/*
+
+# build the .pkg
+/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build \
+	-p $BASEPATH/dist/PostgreSQL/packages/Client\ Tools.pkg \
+	-f $BASEPATH/temp/Files \
+	-r $BASEPATH/Installers/ClientTools/Resources \
+	-d $BASEPATH/Installers/ClientTools/Description.plist \
+	-i $BASEPATH/Installers/ClientTools/Info.plist
+
+# clean up after ourselves
+rm -rf $BASEPATH/temp
+
+exit
 
 # ************************************************************** JDBC Driver.pkg
 
@@ -109,25 +147,6 @@ chown -R root:admin $BASEPATH/temp/Files/*
 rm -rf $BASEPATH/temp
 
 # ************************************************************** ODBC Driver.pkg
-# ************************************************************* Client tools.pkg
-
-# copy the files into the temp storage.
-mkdir -p $BASEPATH/temp/Files/Applications/PostgreSQL
-
-cp -r $BASEPATH/CreateDatabase/build/Deployment/Create\ Database.app $BASEPATH/temp/Files/Applications/PostgreSQL
-cp -r $BASEPATH/CreateUser/build/Deployment/Create\ User.app $BASEPATH/temp/Files/Applications/PostgreSQL
-cp -r $BASEPATH/QueryTool/build/Deployment/Query\ Tool\ for\ Postgres.app $BASEPATH/temp/Files/Applications/PostgreSQL
-
-sudo find $BASEPATH/temp/ -name ".DS_Store" -exec rm -f {} \; 
-
-# fix permissions so that they get installed correctly.
-chown -R root:admin $BASEPATH/temp/Files/*
-
-# build the .pkg
-/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $BASEPATH/dist/PostgreSQL/packages/Client\ Tools.pkg -f $BASEPATH/temp/Files -r $BASEPATH/Installers/ClientTools/Resources -d $BASEPATH/Installers/ClientTools/Description.plist -i $BASEPATH/Installers/ClientTools/Info.plist
-
-# clean up after ourselves
-rm -rf $BASEPATH/temp
 
 # ************************************************************** Admin Tools.pkg
 
@@ -137,38 +156,38 @@ rm -rf $BASEPATH/temp
 # ********************************************************** Migration Tools.pkg
 # *************************************************************** SQL-Ledger.pkg
 
-mkdir -p $BASEPATH/temp/Files/Applications/SQL-Ledger
-mkdir -p $BASEPATH/temp/Files/Library/Perl/5.8.1/darwin-thread-multi-2level
-mkdir -p $BASEPATH/temp/Files/Library/WebServer/Documents/sql-ledger
-mkdir -p $BASEPATH/temp/Files/private/etc/httpd/users
-mkdir -p $BASEPATH/temp/Files/usr/bin
+#mkdir -p $BASEPATH/temp/Files/Applications/SQL-Ledger
+#mkdir -p $BASEPATH/temp/Files/Library/Perl/5.8.1/darwin-thread-multi-2level
+#mkdir -p $BASEPATH/temp/Files/Library/WebServer/Documents/sql-ledger
+#mkdir -p $BASEPATH/temp/Files/private/etc/httpd/users
+#mkdir -p $BASEPATH/temp/Files/usr/bin
 
-cp -r $BASEPATH/Installers/SQL-Ledger/Files/Applications/SQL-Ledger.scpt $BASEPATH/temp/Files/Applications/SQL-Ledger
-cp -r $BASEPATH/Installers/SQL-Ledger/Files/Applications/SQL-Ledger\ Admin.scpt $BASEPATH/temp/Files/Applications/SQL-Ledger
-cp -r $BASEPATH/Installers/SQL-Ledger/Files/Library/Perl/5.8.1/darwin-thread-multi-2level/* $BASEPATH/temp/Files/Library/Perl/5.8.1/darwin-thread-multi-2level
-cp -r $BASEPATH/Installers/SQL-Ledger/Files/private/etc/httpd/users/sql-ledger.conf $BASEPATH/temp/Files/private/etc/httpd/users
-cp -r $BASEPATH/Installers/SQL-Ledger/Files/usr/bin/dbiproxy $BASEPATH/temp/Files/usr/bin
-cp -r $BASEPATH/Installers/SQL-Ledger/Files/usr/bin/dbish $BASEPATH/temp/Files/usr/bin
+#cp -r $BASEPATH/Installers/SQL-Ledger/Files/Applications/SQL-Ledger.scpt $BASEPATH/temp/Files/Applications/SQL-Ledger
+#cp -r $BASEPATH/Installers/SQL-Ledger/Files/Applications/SQL-Ledger\ Admin.scpt $BASEPATH/temp/Files/Applications/SQL-Ledger
+#cp -r $BASEPATH/Installers/SQL-Ledger/Files/Library/Perl/5.8.1/darwin-thread-multi-2level/* $BASEPATH/temp/Files/Library/Perl/5.8.1/darwin-thread-multi-2level
+#cp -r $BASEPATH/Installers/SQL-Ledger/Files/private/etc/httpd/users/sql-ledger.conf $BASEPATH/temp/Files/private/etc/httpd/users
+#cp -r $BASEPATH/Installers/SQL-Ledger/Files/usr/bin/dbiproxy $BASEPATH/temp/Files/usr/bin
+#cp -r $BASEPATH/Installers/SQL-Ledger/Files/usr/bin/dbish $BASEPATH/temp/Files/usr/bin
 
-cd $BASEPATH/temp/Files/Library/WebServer/Documents/
-curl -O http://www.sql-ledger.com/source/sql-ledger-2.4.11.tar.gz
-cd $BASEPATH
+#cd $BASEPATH/temp/Files/Library/WebServer/Documents/
+#curl -O http://www.sql-ledger.com/source/sql-ledger-2.4.11.tar.gz
+#cd $BASEPATH
  
-sudo find $BASEPATH/temp -name ".DS_Store" -exec rm -f {} \;
+#sudo find $BASEPATH/temp -name ".DS_Store" -exec rm -f {} \;
 
 # fix permissions so that they get installed correctly.
-chown -R root:admin $BASEPATH/temp/*
+#chown -R root:admin $BASEPATH/temp/*
 
-mkdir -p $BASEPATH/dist/SQL-Ledger
+#mkdir -p $BASEPATH/dist/SQL-Ledger
 
-rm -rf $BASEPATH/dist/SQL-Ledger/packages
-cp -r $BASEPATH/dist/PostgreSQL/packages $BASEPATH/dist/SQL-Ledger/
+#rm -rf $BASEPATH/dist/SQL-Ledger/packages
+#cp -r $BASEPATH/dist/PostgreSQL/packages $BASEPATH/dist/SQL-Ledger/
 
 # build the .pkg
-/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $BASEPATH/dist/SQL-Ledger/packages/SQL-Ledger.pkg -f $BASEPATH/temp/Files -r $BASEPATH/Installers/SQL-Ledger/Resources -d $BASEPATH/Installers/SQL-Ledger/Description.plist -i $BASEPATH/Installers/SQL-Ledger/Info.plist
+#/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $BASEPATH/dist/SQL-Ledger/packages/SQL-Ledger.pkg -f $BASEPATH/temp/Files -r $BASEPATH/Installers/SQL-Ledger/Resources -d $BASEPATH/Installers/SQL-Ledger/Description.plist -i $BASEPATH/Installers/SQL-Ledger/Info.plist
 
 # clean up after ourselves
-rm -rf $BASEPATH/temp
+#rm -rf $BASEPATH/temp
 
 # ************************************************************** pgAdmin/III.pkg
 
@@ -183,7 +202,7 @@ mkdir -p $BASEPATH/temp
 # ************************************************* SQL-Ledger Meta Package.mpkg
 
 # build the .pkg
-mkdir -p $BASEPATH/temp
+#mkdir -p $BASEPATH/temp
 
-/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $BASEPATH/dist/SQL-Ledger/SQL-Ledger.mpkg -f $BASEPATH/temp -r $BASEPATH/Installers/SQL-LedgerMP/Resources -d $BASEPATH/Installers/SQL-LedgerMP/Description.plist -i $BASEPATH/Installers/SQL-LedgerMP/Info.plist
+#/Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker -build -p $BASEPATH/dist/SQL-Ledger/SQL-Ledger.mpkg -f $BASEPATH/temp -r $BASEPATH/Installers/SQL-LedgerMP/Resources -d $BASEPATH/Installers/SQL-LedgerMP/Description.plist -i $BASEPATH/Installers/SQL-LedgerMP/Info.plist
 
