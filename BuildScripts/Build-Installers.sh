@@ -84,7 +84,7 @@ cp  $BASEPATH/Installers/StartupItem/Resources/postflight $BASEPATH/temp/Resourc
 sudo find $BASEPATH/temp/ -name ".DS_Store" -exec rm -f {} \; 
 
 # fix permissions so that they get installed correctly.
-chown -R root:wheel $BASEPATH/Installers/StartupItem/Files/*
+chown -R root:admin $BASEPATH/Installers/StartupItem/Files/*
 
 # build the .pkg
 /Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker \
