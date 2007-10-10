@@ -3,17 +3,17 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleGetInfoString</key>
-	<string>PostgreSQL Startup 8.0.1</string>
+	<string>PostgreSQL Startup 8.2.5</string>
 	<key>CFBundleIdentifier</key>
 	<string>org.postgresql.startupitem</string>
 	<key>CFBundleName</key>
 	<string>PostgreSQL Startup Item</string>
 	<key>CFBundleShortVersionString</key>
-	<string>8.0.1</string>
+	<string>8.2.5</string>
 	<key>IFMajorVersion</key>
 	<integer>8</integer>
 	<key>IFMinorVersion</key>
-	<integer>0</integer>
+	<integer>2</integer>
 	<key>IFPkgFlagAllowBackRev</key>
 	<false/>
 	<key>IFPkgFlagAuthorizationAction</key>
