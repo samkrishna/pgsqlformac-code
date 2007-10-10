@@ -56,23 +56,6 @@
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		437FBB74094CD567007D4278 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 439FF4EA093FFDA7003D928C /* pgCocoaDB.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = pgCocoaDB;
-		};
-		439FF4F1093FFDA7003D928C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 439FF4EA093FFDA7003D928C /* pgCocoaDB.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = pgCocoaDB;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
 		4327F0CC07CEBD3500AB5CFE /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -134,7 +117,6 @@
 		438CC5470BADD1DF00C69C7C /* QueryDataSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = QueryDataSource.m; sourceTree = "<group>"; };
 		438CC6100BADD3B600C69C7C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Preferences.nib; sourceTree = "<group>"; };
 		438CC6190BADD40300C69C7C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		439FF4EA093FFDA7003D928C /* pgCocoaDB.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = pgCocoaDB.xcodeproj; path = ../pgCocoaDB/pgCocoaDB.xcodeproj; sourceTree = SOURCE_ROOT; };
 		43CC25AD0BD6830400C21D32 /* pgCocoaDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = pgCocoaDB.framework; path = /Library/Frameworks/pgCocoaDB.framework; sourceTree = "<absolute>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* Query Tool for Postgres.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Query Tool for Postgres.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -187,7 +169,6 @@
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
-				439FF4EA093FFDA7003D928C /* pgCocoaDB.xcodeproj */,
 			);
 			name = "Query Tool for Postgres";
 			sourceTree = "<group>";
@@ -268,14 +249,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		439FF4EB093FFDA7003D928C /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				439FF4F2093FFDA7003D928C /* pgCocoaDB.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -312,7 +285,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				437FBB75094CD567007D4278 /* PBXTargetDependency */,
 			);
 			name = "Query Tool for Postgres";
 			productInstallPath = "$(HOME)/Applications";
@@ -329,27 +301,11 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* Query Tool for Postgres */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 439FF4EB093FFDA7003D928C /* Products */;
-					ProjectRef = 439FF4EA093FFDA7003D928C /* pgCocoaDB.xcodeproj */;
-				},
-			);
 			targets = (
 				8D15AC270486D014006FF6A4 /* Query Tool for Postgres */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		439FF4F2093FFDA7003D928C /* pgCocoaDB.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = pgCocoaDB.framework;
-			remoteRef = 439FF4F1093FFDA7003D928C /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D15AC2B0486D014006FF6A4 /* Resources */ = {
@@ -405,14 +361,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		437FBB75094CD567007D4278 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = pgCocoaDB;
-			targetProxy = 437FBB74094CD567007D4278 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C165FFE840EACC02AAC07 /* InfoPlist.strings */ = {

@@ -18,9 +18,10 @@ fi
 if (! test -d $BASEPATH/dist/PostgreSQL/packages) then
 	mkdir -p $BASEPATH/dist/PostgreSQL/packages
 fi
-if (! test -d $BASEPATH/dist/SQL\-Ledger/packages) then
-	mkdir -p $BASEPATH/dist/SQL\-Ledger/packages
-fi
+
+#if (! test -d $BASEPATH/dist/SQL\-Ledger/packages) then
+#	mkdir -p $BASEPATH/dist/SQL\-Ledger/packages
+#fi
 
 # ************************************************************** PostgreSQL8.pkg
 
@@ -84,7 +85,7 @@ cp  $BASEPATH/Installers/StartupItem/Resources/postflight $BASEPATH/temp/Resourc
 sudo find $BASEPATH/temp/ -name ".DS_Store" -exec rm -f {} \; 
 
 # fix permissions so that they get installed correctly.
-chown -R root:admin $BASEPATH/Installers/StartupItem/Files/*
+chown -R root:admin $BASEPATH/temp/Files/*
 
 # build the .pkg
 /Developer/Applications/Utilities/PackageMaker.app/Contents/MacOS/PackageMaker \
@@ -121,8 +122,6 @@ chown -R root:admin $BASEPATH/temp/Files/*
 
 # clean up after ourselves
 rm -rf $BASEPATH/temp
-
-exit
 
 # ************************************************************** JDBC Driver.pkg
 

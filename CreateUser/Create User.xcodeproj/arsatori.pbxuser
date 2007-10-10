@@ -16,7 +16,7 @@
 					20,
 					247,
 					20,
-					48.1626,
+					48,
 					43,
 					43,
 					20,
@@ -31,8 +31,8 @@
 					PBXFileDataSource_Target_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 213672500;
-			PBXWorkspaceStateSaveDate = 213672500;
+			PBXPerProjectTemplateStateSaveDate = 213680096;
+			PBXWorkspaceStateSaveDate = 213680096;
 		};
 		sourceControlManager = 43F67E700CBC623B00B36845 /* Source Control */;
 		userBuildSettings = {
@@ -51,6 +51,7 @@
 		customDataFormattersEnabled = 1;
 		debuggerPlugin = GDBDebugging;
 		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
 		enableDebugStr = 1;
 		environmentEntries = (
 		);
@@ -58,6 +59,8 @@
 		executableUserSymbolLevel = 0;
 		libgmallocEnabled = 0;
 		name = "Create User";
+		savedGlobals = {
+		};
 		sourceDirectories = (
 		);
 	};
