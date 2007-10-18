@@ -1,0 +1,397 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4313978C0C31BAF600E596BA /* PGSQLColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = 439F7B670C1894AA001CA5A4 /* PGSQLColumn.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4313978D0C31BAF600E596BA /* PGSQLColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = 439F7B680C1894AA001CA5A4 /* PGSQLColumn.m */; };
+		431397B60C31BC1000E596BA /* PGSQLField.m in Sources */ = {isa = PBXBuildFile; fileRef = 439F7B600C18947C001CA5A4 /* PGSQLField.m */; };
+		431397B70C31BC1000E596BA /* PGSQLField.h in Headers */ = {isa = PBXBuildFile; fileRef = 439F7B5F0C18947C001CA5A4 /* PGSQLField.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4324B38A0BF36227001F6E5E /* PGSQLKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* PGSQLKit.framework */; };
+		432A8C110C47074F00CA8F33 /* PGSQLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 439656720BE8C779003EDC3D /* PGSQLKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		43318B370BF1227A008C2560 /* PGSQL Login.nib in Resources */ = {isa = PBXBuildFile; fileRef = 43318B350BF1227A008C2560 /* PGSQL Login.nib */; };
+		4349A2B20C31D47100DACE65 /* PGSQLRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 439F7B630C189495001CA5A4 /* PGSQLRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4349A2B30C31D47100DACE65 /* PGSQLRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 439F7B640C189495001CA5A4 /* PGSQLRecord.m */; };
+		4349A2BB0C31D57700DACE65 /* PGSQLRecordset.h in Headers */ = {isa = PBXBuildFile; fileRef = 4325688D0C0D122F007E8DE8 /* PGSQLRecordset.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4349A2BC0C31D57800DACE65 /* PGSQLRecordset.m in Sources */ = {isa = PBXBuildFile; fileRef = 4325688E0C0D122F007E8DE8 /* PGSQLRecordset.m */; };
+		4349A2C90C31DD5700DACE65 /* PGSQLConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 43318B520BF16497008C2560 /* PGSQLConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4349A2CA0C31DD5800DACE65 /* PGSQLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 43318B530BF16497008C2560 /* PGSQLConnection.m */; };
+		4349A2E60C31EAA700DACE65 /* PGSQLLogin.h in Headers */ = {isa = PBXBuildFile; fileRef = 43CBC57C0BF11AC300A5E5AF /* PGSQLLogin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4349A2E70C31EAA800DACE65 /* PGSQLLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CBC57D0BF11AC300A5E5AF /* PGSQLLogin.m */; };
+		439774040C7D29140009F0B4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 439774030C7D29140009F0B4 /* Security.framework */; };
+		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
+		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		4324B36A0BF36104001F6E5E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /Library/Frameworks;
+			dstSubfolderSpec = 0;
+			files = (
+				4324B38A0BF36227001F6E5E /* PGSQLKit.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		32DBCF5E0370ADEE00C91783 /* PGSQLKit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLKit_Prefix.pch; sourceTree = "<group>"; };
+		4325688D0C0D122F007E8DE8 /* PGSQLRecordset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLRecordset.h; sourceTree = "<group>"; };
+		4325688E0C0D122F007E8DE8 /* PGSQLRecordset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLRecordset.m; sourceTree = "<group>"; };
+		43318B360BF1227A008C2560 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = "English.lproj/PGSQL Login.nib"; sourceTree = "<group>"; };
+		43318B520BF16497008C2560 /* PGSQLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLConnection.h; sourceTree = "<group>"; };
+		43318B530BF16497008C2560 /* PGSQLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLConnection.m; sourceTree = "<group>"; };
+		439656720BE8C779003EDC3D /* PGSQLKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLKit.h; sourceTree = "<group>"; };
+		439774030C7D29140009F0B4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
+		439F7B5F0C18947C001CA5A4 /* PGSQLField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLField.h; sourceTree = "<group>"; };
+		439F7B600C18947C001CA5A4 /* PGSQLField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLField.m; sourceTree = "<group>"; };
+		439F7B630C189495001CA5A4 /* PGSQLRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLRecord.h; sourceTree = "<group>"; };
+		439F7B640C189495001CA5A4 /* PGSQLRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLRecord.m; sourceTree = "<group>"; };
+		439F7B670C1894AA001CA5A4 /* PGSQLColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLColumn.h; sourceTree = "<group>"; };
+		439F7B680C1894AA001CA5A4 /* PGSQLColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLColumn.m; sourceTree = "<group>"; };
+		43CBC57C0BF11AC300A5E5AF /* PGSQLLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLLogin.h; sourceTree = "<group>"; };
+		43CBC57D0BF11AC300A5E5AF /* PGSQLLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLLogin.m; sourceTree = "<group>"; };
+		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8DC2EF5B0486A6940098B216 /* PGSQLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGSQLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8DC2EF560486A6940098B216 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
+				439774040C7D29140009F0B4 /* Security.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DFFF38A50411DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8DC2EF5B0486A6940098B216 /* PGSQLKit.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* PGSQLKit */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AEFE84172EC02AAC07 /* Classes */,
+				32C88DFF0371C24200C91783 /* Other Sources */,
+				089C1665FE841158C02AAC07 /* Resources */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DFFF38A50411DB9C8B /* Products */,
+			);
+			name = PGSQLKit;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */,
+				1058C7B2FEA5585E11CA2CBB /* Other Frameworks */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C1665FE841158C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				43318B350BF1227A008C2560 /* PGSQL Login.nib */,
+				8DC2EF5A0486A6940098B216 /* Info.plist */,
+				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AEFE84172EC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				439F7B670C1894AA001CA5A4 /* PGSQLColumn.h */,
+				439F7B680C1894AA001CA5A4 /* PGSQLColumn.m */,
+				439F7B5F0C18947C001CA5A4 /* PGSQLField.h */,
+				439F7B600C18947C001CA5A4 /* PGSQLField.m */,
+				439F7B630C189495001CA5A4 /* PGSQLRecord.h */,
+				439F7B640C189495001CA5A4 /* PGSQLRecord.m */,
+				4325688D0C0D122F007E8DE8 /* PGSQLRecordset.h */,
+				4325688E0C0D122F007E8DE8 /* PGSQLRecordset.m */,
+				43318B520BF16497008C2560 /* PGSQLConnection.h */,
+				43318B530BF16497008C2560 /* PGSQLConnection.m */,
+				43CBC57C0BF11AC300A5E5AF /* PGSQLLogin.h */,
+				43CBC57D0BF11AC300A5E5AF /* PGSQLLogin.m */,
+				43AEC8BD0C306B38009B1479 /* Incomplete */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7B0FEA5585E11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				439774030C7D29140009F0B4 /* Security.framework */,
+				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
+				D2F7E79907B2D74100F64583 /* CoreData.framework */,
+				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		32C88DFF0371C24200C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF5E0370ADEE00C91783 /* PGSQLKit_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		43AEC8BD0C306B38009B1479 /* Incomplete */ = {
+			isa = PBXGroup;
+			children = (
+				439656720BE8C779003EDC3D /* PGSQLKit.h */,
+			);
+			name = Incomplete;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8DC2EF500486A6940098B216 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4313978C0C31BAF600E596BA /* PGSQLColumn.h in Headers */,
+				431397B70C31BC1000E596BA /* PGSQLField.h in Headers */,
+				4349A2B20C31D47100DACE65 /* PGSQLRecord.h in Headers */,
+				4349A2BB0C31D57700DACE65 /* PGSQLRecordset.h in Headers */,
+				4349A2C90C31DD5700DACE65 /* PGSQLConnection.h in Headers */,
+				4349A2E60C31EAA700DACE65 /* PGSQLLogin.h in Headers */,
+				432A8C110C47074F00CA8F33 /* PGSQLKit.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8DC2EF4F0486A6940098B216 /* PGSQLKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "PGSQLKit" */;
+			buildPhases = (
+				8DC2EF500486A6940098B216 /* Headers */,
+				8DC2EF520486A6940098B216 /* Resources */,
+				8DC2EF540486A6940098B216 /* Sources */,
+				8DC2EF560486A6940098B216 /* Frameworks */,
+				4324B36A0BF36104001F6E5E /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PGSQLKit;
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = PGSQLKit;
+			productReference = 8DC2EF5B0486A6940098B216 /* PGSQLKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "PGSQLKit" */;
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* PGSQLKit */;
+			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8DC2EF4F0486A6940098B216 /* PGSQLKit */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8DC2EF520486A6940098B216 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
+				43318B370BF1227A008C2560 /* PGSQL Login.nib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8DC2EF540486A6940098B216 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4313978D0C31BAF600E596BA /* PGSQLColumn.m in Sources */,
+				431397B60C31BC1000E596BA /* PGSQLField.m in Sources */,
+				4349A2B30C31D47100DACE65 /* PGSQLRecord.m in Sources */,
+				4349A2BC0C31D57800DACE65 /* PGSQLRecordset.m in Sources */,
+				4349A2CA0C31DD5800DACE65 /* PGSQLConnection.m in Sources */,
+				4349A2E70C31EAA800DACE65 /* PGSQLLogin.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C1667FE841158C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		43318B350BF1227A008C2560 /* PGSQL Login.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				43318B360BF1227A008C2560 /* English */,
+			);
+			name = "PGSQL Login.nib";
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB91AE08733DA50010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks\"";
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = PGSQLKit_Prefix.pch;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_LDFLAGS = (
+					"-lssl",
+					"-lkrb5",
+					"-lcrypto",
+					"-lpq",
+				);
+				PRODUCT_NAME = PGSQLKit;
+				WRAPPER_EXTENSION = framework;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		1DEB91AF08733DA50010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SYSTEM_DEVELOPER_DIR)/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks\"";
+				FRAMEWORK_VERSION = A;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = PGSQLKit_Prefix.pch;
+				HEADER_SEARCH_PATHS = /opt/local/include;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "@loader_path/../Frameworks";
+				LIBRARY_SEARCH_PATHS = /opt/local/lib;
+				OTHER_LDFLAGS = (
+					"-lssl",
+					"-lkrb5",
+					"-lcrypto",
+					"-lpq",
+				);
+				PRODUCT_NAME = PGSQLKit;
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		1DEB91B208733DA50010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Debug;
+		};
+		1DEB91B308733DA50010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "PGSQLKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB91AE08733DA50010E9CD /* Debug */,
+				1DEB91AF08733DA50010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "PGSQLKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB91B208733DA50010E9CD /* Debug */,
+				1DEB91B308733DA50010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}
