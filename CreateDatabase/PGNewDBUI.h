@@ -1,10 +1,7 @@
 /* PGNewDBUI */
 
 #import <Cocoa/Cocoa.h>
-#import <pgCocoaDB/Connection.h>
-#import <pgCocoaDB/Databases.h>
-#import <pgCocoaDB/RecordSet.h>
-
+#import <PGSQLKit/PGSQLKit.h>
 
 @interface PGNewDBUI : NSObject
 {
@@ -24,10 +21,13 @@
     IBOutlet NSTextField *user;
     IBOutlet NSWindow *window;
 	IBOutlet NSButton *versionSevenFeaturesOnly;
-	Connection *_conn;
+	
+	PGSQLConnection *conn;
 }
 - (IBAction)onBack:(id)sender;
 - (IBAction)onCancel:(id)sender;
 - (IBAction)onNext:(id)sender;
+
+- (void)createDatabase;
 
 @end

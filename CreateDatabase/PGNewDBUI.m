@@ -6,7 +6,7 @@
 {
     [super init];
 	
-	_conn = nil;
+	conn = nil;
 	
     return self;
 }
@@ -15,13 +15,12 @@
 {
 	BOOL isRunning = NO;
 		
-	_conn = [[[[Connection alloc] init] autorelease] retain];
+	conn = [[[[PGSQLConnection alloc] init] autorelease] retain];
 	
 	// set the defaults
 	[encoding removeAllItems];
 	[encoding addItemWithTitle:@"- default -"];
-	// load the rest from a plist
-	
+	// load the rest from a plist	
 
 	return;
 }
@@ -46,20 +45,20 @@
 			if ([[server stringValue] length] == 0) { return; }
 			if ([[port stringValue] length] == 0) { return; }
 			if ([[user stringValue] length] == 0) { return; }
-			
-			[_conn setUserName:[user stringValue]];
-			[_conn setHost:[server stringValue]];
-			[_conn setPort:[port stringValue]];
-			[_conn setPassword:[password stringValue]];
-			
-			if (![_conn connect])
+						
+			[conn setUserName:[user stringValue]];
+			[conn setServer:[server stringValue]];
+			[conn setPort:[port stringValue]];
+			[conn setPassword:[password stringValue]];
+						
+			if (![conn connect])
 			{
 				// show an alert because it failed to connect.
 				
 				NSAlert *alert = [NSAlert 
 					alertWithMessageText:@"Database Connection failed" 
 					defaultButton:@"OK" alternateButton:nil 
-					otherButton:nil informativeTextWithFormat:@"%@", [_conn errorDescription]]; 
+					otherButton:nil informativeTextWithFormat:@"%@", [conn lastError]]; 
 				[alert beginSheetModalForWindow:[NSApp mainWindow] modalDelegate:nil didEndSelector:nil contextInfo:nil];
 				return;
 			}
@@ -68,12 +67,14 @@
 			[templates addItemWithTitle:@"- default -"];
 			// load the rest from a quick query of the database
 			
-			RecordSet *rs = [_conn execQuery:@"select datname from pg_database where datistemplate = 't' and datallowconn = 't'"];
-			int i ;
-			for (i = 0; i < [rs count]; i++)
+			PGSQLRecordset *rs = [conn open:@"select datname from pg_database where datistemplate = 't' and datallowconn = 't'"];
+			while (![rs isEOF])
 			{
-				[templates addItemWithTitle:[[[[rs itemAtIndex:i] fields] itemAtIndex:0] value]];
+				[templates addItemWithTitle:[[rs fieldByIndex:0] asString]];
+				[rs moveNext];
 			}
+			[rs close];
+			
 			
 			[back setEnabled:YES];
 		
@@ -136,7 +137,7 @@
 	[resultOutput setString:[NSString stringWithFormat:@"executing sql command: %@\n", 
 		cmd]];
 		
-	[_conn execCommand:cmd];
+	[conn execCommand:cmd];
 	
 	[resultOutput setString:@"Database Created."];
 	
@@ -151,11 +152,11 @@
 
 - (void)windowWillClose:(NSNotification *)aNotification
 {
-	if ([_conn isConnected])
+	if ([conn isConnected])
 	{
-		[_conn disconnect];
-		[_conn release];
-		_conn = nil;
+		[conn close];
+		[conn release];
+		conn = nil;
 	}
 
     [NSApp terminate:self];
