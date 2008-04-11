@@ -82,7 +82,7 @@
 	}
 	currentRowIndex++;
 	
-	if (currentRowIndex > rowCount) {
+	if (currentRowIndex >= rowCount) {
 		isEOF = true;
 		currentRecord = nil;
 		return nil;

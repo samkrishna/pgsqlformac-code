@@ -284,9 +284,6 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 		[self appendSQLLog: [NSString stringWithFormat:@"%@\n", [sql stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]];
 	}
 	
-	
-	
-	
 	gettimeofday(&start, 0);
 	res = PQexec(pgconn, [sql cString]);
 	if (logInfo)

@@ -123,6 +123,7 @@
 	if (data != nil) {
 		return ([data bytes] == 't');
 	}
+	return NO;
 }
 
 
