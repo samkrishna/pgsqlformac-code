@@ -89,6 +89,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	[krbsrvName release];
 	[connectionString release];
 	[errorDescription release];
+	[commandStatus release];
 	[sqlLog release];
 	
 	[super dealloc];
@@ -141,12 +142,15 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	
 	if (PQstatus(pgconn) == CONNECTION_BAD) 
 	{
-		NSLog(@"Connection to database '%@' failed.", dbName);
-		NSLog(@"\t%s", PQerrorMessage(pgconn));
 		errorDescription = [NSString stringWithFormat:@"%s", PQerrorMessage(pgconn)];
-		[self appendSQLLog:[NSMutableString stringWithFormat:@"Connection to database %@ Failed.\n", dbName]];
-		[self appendSQLLog:[NSMutableString stringWithFormat:@"Connection string: %@\n\n", connectionString]];
-		
+		[errorDescription retain];
+
+		NSLog(@"Connection to database '%@' failed.", dbName);
+		NSLog(@"\t%@", errorDescription);
+		[self appendSQLLog:[NSMutableString stringWithFormat:@"Connection to database %@ Failed.\n", dbName]]; // why NSMutableString ??
+		[self appendSQLLog:[NSMutableString stringWithFormat:@"Connection string: %@\n\n", connectionString]]; // why NSMutableString ??
+		// append error too??
+
 		PQfinish(pgconn);
 		pgconn = nil;
 		isConnected = NO;
@@ -204,6 +208,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	NSNumber *recordCount = [[NSNumber alloc] initWithInt:[self execCommand:sql]];
 	[info setValue:recordCount forKey:@"RecordCount"];
 	[info setValue:[self lastError] forKey:@"Error"];
+	[info setValue:[self lastCmdStatus] forKey:@"Status"];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:PGSQLCommandDidCompleteNotification
 														object:nil
@@ -215,22 +220,41 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 {
 	PGresult* res;
 	
+	if(errorDescription) {
+		[errorDescription release];
+		errorDescription = nil;	
+	}
+	if(commandStatus) {
+		[commandStatus release];
+		commandStatus = nil;	
+	}
 	if (pgconn == nil) 
 	{ 
 		errorDescription = [NSString stringWithString:@"Object is not Connected."];		
-		return nil; 
+		[errorDescription retain];
+		return NO; 
 	}
 	
 	res = PQexec(pgconn, [sql cString]);
+	if (res == nil) 
+	{ 
+		errorDescription = [NSString stringWithString:@"ERROR: No response (PGRES_FATAL_ERROR)"];		
+		[errorDescription retain];
+		return NO; 
+	}
 	if (PQresultStatus(res) != PGRES_COMMAND_OK) 
 	{
-		errorDescription = [NSString stringWithString:@"Command failed."];
+		errorDescription = [NSString stringWithFormat:@"%s", PQerrorMessage(pgconn)];
+		[errorDescription retain];
+
 		PQclear(res);
 		return NO;
     }
 	if (strlen(PQcmdStatus(res)))
 	{
-		[self appendSQLLog:[NSString stringWithFormat:@"%s\n", PQcmdStatus(res)]];
+		commandStatus = [NSString stringWithFormat:@"%s", PQcmdStatus(res)];
+		[commandStatus retain];
+		[self appendSQLLog:[NSString stringWithFormat:@"%@\n", commandStatus]];
 	}
 //	results = [[[NSString alloc] initWithCString:PQcmdTuples(res)] autorelease];
 	
@@ -343,7 +367,8 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 		default:
 		{
 			errorDescription = [NSString stringWithFormat:@"PostgreSQL Error: %s", PQresultErrorMessage(res)];
-			[self appendSQLLog:[NSString stringWithFormat:@"PostgreSQL Error: %s\n", PQresultErrorMessage(res)]];
+			[errorDescription retain];
+			[self appendSQLLog:[NSString stringWithFormat:@"%@\n", errorDescription]];
 			PQclear(res);
 			return nil;
 		}
@@ -487,6 +512,9 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 
 - (NSString *)lastError {
     return errorDescription;
+}
+-(NSString *)lastCmdStatus {
+	return commandStatus;
 }
 
 - (NSMutableString *)sqlLog {
