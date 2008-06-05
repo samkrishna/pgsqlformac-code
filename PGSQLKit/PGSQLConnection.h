@@ -34,6 +34,8 @@
 	NSString		*sslMode;	// allow, prefer, require
 	NSString		*service;	// service name
 	NSString		*krbsrvName;
+		
+	NSString		*commandStatus;
 }
 
 +(id)defaultConnection;
@@ -71,11 +73,12 @@
 
 -(NSMutableString *)sqlLog;
 -(void)appendSQLLog:(NSString *)value;
-
+	
+-(NSString *)lastCmdStatus;
 
 FOUNDATION_EXPORT NSString * const PGSQLConnectionDidCompleteNotification;
 FOUNDATION_EXPORT NSString * const PGSQLCommandDidCompleteNotification;	
 
 @end
 
-static PGSQLConnection *globalConnection;
+static PGSQLConnection *globalPGSQLConnection;

@@ -31,12 +31,12 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 
 +(id)defaultConnection
 {
-	if (globalConnection == nil)
+	if (globalPGSQLConnection == nil)
 	{
 		return nil;
 	}
 	
-	return globalConnection;
+	return globalPGSQLConnection;
 }
 
 #pragma mark Instance Methods
@@ -63,10 +63,12 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 		krbsrvName = nil;
 		connectionString = nil;
 		
-		if (globalConnection == nil)
+		commandStatus = nil;
+		
+		if (globalPGSQLConnection == nil)
 		{
 			[self retain];
-			globalConnection = self;
+			globalPGSQLConnection = self;
 		}
 	}
 	    
@@ -513,6 +515,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 - (NSString *)lastError {
     return errorDescription;
 }
+
 -(NSString *)lastCmdStatus {
 	return commandStatus;
 }
