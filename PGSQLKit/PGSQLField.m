@@ -40,16 +40,23 @@
 
 -(NSString *)asString
 {	
-	if (data != nil) {
-		if ([data length] <= 0)
+	NSString* result = @"";
+	if (data != nil)
+	{
+		int dataLength = [data length];
+		if (dataLength > 0)
 		{
-			return nil;
+			// check for null terminator
+			char* ptr = (char*)[data bytes];
+			char lastChar = ptr[dataLength];
+			if (lastChar == '\0')
+				dataLength--;
+			if (dataLength > 0)
+				result = [[[NSString alloc] initWithBytes:[data bytes] length:dataLength encoding:NSMacOSRomanStringEncoding] autorelease];
 		}
-		return [[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSMacOSRomanStringEncoding];	
 	}
-	return @""; 
+	return result; 
 }
-
 
 -(NSNumber *)asNumber
 {
