@@ -105,7 +105,7 @@
 			
 			value = [NSString stringWithFormat:@"%@ +0000", value];
 		}
-		NSDate *newDate = [[NSDate alloc] initWithString:value];
+		NSDate *newDate = [[[NSDate alloc] initWithString:value] autorelease];
 		
 		return newDate;
 	}
