@@ -53,7 +53,6 @@
     return self;
 }
 
-
 -(PGSQLField *)fieldByName:(NSString *)fieldName
 {
 	return [currentRecord fieldByName:fieldName];
@@ -110,6 +109,7 @@
 	PGSQLRecord *result = [[PGSQLRecord alloc] initWithResult:pgResult
 														atRow:currentRowIndex
 													  columns:columns];
+	isEOF = false;
 	currentRecord = result;
 	return result;
 }
@@ -149,6 +149,7 @@
 	PGSQLRecord *result = [[PGSQLRecord alloc] initWithResult:pgResult
 														atRow:currentRowIndex
 													  columns:columns];
+	isEOF = false;
 	currentRecord = result;
 	return result;
 }
