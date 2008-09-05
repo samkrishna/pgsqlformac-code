@@ -31,6 +31,8 @@
 
 -(NSArray *)columns;
 
+- (long)recordCount;
+
 -(PGSQLRecord *)moveFirst;
 -(PGSQLRecord *)movePrevious;
 -(PGSQLRecord *)moveNext;	

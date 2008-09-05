@@ -69,6 +69,11 @@
 	return columns;
 }
 
+- (long)recordCount
+{
+	return rowCount;
+}
+
 - (PGSQLRecord *)moveNext
 {
 	if (rowCount == 0) {
