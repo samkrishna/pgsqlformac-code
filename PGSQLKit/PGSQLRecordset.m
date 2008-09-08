@@ -13,43 +13,45 @@
 
 -(id)initWithResult:(void *)result
 {
-    [super init];
-	
-	isOpen = YES;
-	isEOF = YES;
-	
-	columns = [[[[NSMutableArray alloc] init] retain] autorelease];
-	
-	pgResult = result;
-	
-	rowCount = -1;
-	rowCount = PQntuples(pgResult);
-	
-	// cache the colum list for faster data access via lookups by name
-	// Loop through and get the fields into Field Item Classes
-	PGSQLColumn *column;
-	
-	int iCols = 0;
-	iCols = PQnfields(pgResult);
-	
-    int i;
-    for ( i = 0; i < iCols; i++)
+    self = [super init];
+	if (self != nil)
 	{
-		column = [[[[PGSQLColumn alloc] initWithResult:pgResult 
-											   atIndex:i] retain] autorelease];
-		[columns addObject:column];
-	}
-	
-	if (iCols == 0)
-	{
+		isOpen = YES;
 		isEOF = YES;
-		return self;
+		
+		columns = [[[[NSMutableArray alloc] init] retain] autorelease];
+		
+		pgResult = result;
+		
+		rowCount = -1;
+		rowCount = PQntuples(pgResult);
+		
+		// cache the colum list for faster data access via lookups by name
+		// Loop through and get the fields into Field Item Classes
+		PGSQLColumn *column;
+		
+		int iCols = 0;
+		iCols = PQnfields(pgResult);
+		
+		int i;
+		for ( i = 0; i < iCols; i++)
+		{
+			column = [[[[PGSQLColumn alloc] initWithResult:pgResult 
+												   atIndex:i] retain] autorelease];
+			[columns addObject:column];
+		}
+		
+		if (iCols == 0)
+		{
+			isEOF = YES;
+			return self;
+		}
+		
+		isEOF = NO;
+		
+		// move to the first record (and check EOF / BOF state)
+		[self moveFirst];
 	}
-	
-	isEOF = NO;
-	
-	// move to the first record (and check EOF / BOF state)
-	[self moveFirst];
     return self;
 }
 
@@ -73,6 +75,14 @@
 	return rowCount;
 }
 
+- (void)setCurrentRecordWithRowIndex:(long)rowIndex
+{
+	[currentRecord release];
+	currentRecord = [[PGSQLRecord alloc] initWithResult:pgResult
+														atRow:rowIndex
+													  columns:columns];
+}
+
 - (PGSQLRecord *)moveNext
 {
 	if (rowCount == 0) {
@@ -88,15 +98,13 @@
 	
 	if (currentRowIndex >= rowCount) {
 		isEOF = true;
+		[currentRecord release];
 		currentRecord = nil;
 		return nil;
 	}
 	
-	PGSQLRecord *result = [[PGSQLRecord alloc] initWithResult:pgResult
-														atRow:currentRowIndex
-													  columns:columns];
-	currentRecord = result;
-	return result;
+	[self setCurrentRecordWithRowIndex:currentRowIndex];
+	return [[currentRecord retain] autorelease];
 }
 
 - (PGSQLRecord *)moveFirst
@@ -105,13 +113,10 @@
 		return nil;
 	}
 	long currentRowIndex = 0;
-	
-	PGSQLRecord *result = [[PGSQLRecord alloc] initWithResult:pgResult
-														atRow:currentRowIndex
-													  columns:columns];
 	isEOF = false;
-	currentRecord = result;
-	return result;
+	
+	[self setCurrentRecordWithRowIndex:currentRowIndex];
+	return [[currentRecord retain] autorelease];
 }
 
 - (PGSQLRecord *)movePrevious
@@ -132,11 +137,8 @@
 		return nil;
 	}
 	
-	PGSQLRecord *result = [[PGSQLRecord alloc] initWithResult:pgResult
-														atRow:currentRowIndex
-													  columns:columns];
-	currentRecord = result;
-	return result;
+	[self setCurrentRecordWithRowIndex:currentRowIndex];
+	return [[currentRecord retain] autorelease];
 }
 
 - (PGSQLRecord *)moveLast
@@ -145,13 +147,10 @@
 		return nil;
 	}
 	long currentRowIndex = rowCount;
-	
-	PGSQLRecord *result = [[PGSQLRecord alloc] initWithResult:pgResult
-														atRow:currentRowIndex
-													  columns:columns];
 	isEOF = false;
-	currentRecord = result;
-	return result;
+
+	[self setCurrentRecordWithRowIndex:currentRowIndex];
+	return [[currentRecord retain] autorelease];
 }
 
 -(void)close
@@ -162,6 +161,8 @@
 		PQclear(pgResult);
 		pgResult = nil;
 	}
+	[currentRecord release];
+	currentRecord = nil;
 	isOpen = NO;
 }
 
@@ -228,7 +229,7 @@
 				break;
 		}
 	}
-	NSDictionary *result = [[[[NSDictionary alloc] initWithDictionary:dict] autorelease] retain];
+	NSDictionary *result = [[[NSDictionary alloc] initWithDictionary:dict] autorelease];
 	return result;
 }
 
