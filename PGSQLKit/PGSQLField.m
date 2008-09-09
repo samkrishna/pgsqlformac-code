@@ -48,7 +48,7 @@
 		{
 			// check for null terminator
 			char* ptr = (char*)[data bytes];
-			char lastChar = ptr[dataLength];
+			char lastChar = ptr[dataLength - 1];
 			if (lastChar == '\0')
 				dataLength--;
 			if (dataLength > 0)
