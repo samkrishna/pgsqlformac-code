@@ -16,7 +16,7 @@
     [super init];
 	
 	index = columnIndex;
-	name = [[[[NSString alloc] initWithCString:PQfname(result, columnIndex)] retain] autorelease];
+	name = [[NSString alloc] initWithCString:PQfname(result, columnIndex)];
 	type = PQftype(result, columnIndex);
 	size = PQfsize(result, columnIndex);
 	offset = PQfmod(result, columnIndex);
@@ -24,7 +24,14 @@
 	return self;
 }
 
-- (NSString *)name {
+- (void)dealloc
+{
+	[name release];
+	[super dealloc];
+}
+
+- (NSString *)name
+{
     return [[name retain] autorelease];
 }
 
