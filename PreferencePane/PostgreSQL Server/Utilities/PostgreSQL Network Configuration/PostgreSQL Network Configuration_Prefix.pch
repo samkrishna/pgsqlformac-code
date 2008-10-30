@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'PostgreSQL Network Configuration' target in the 'PostgreSQL Network Configuration' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
