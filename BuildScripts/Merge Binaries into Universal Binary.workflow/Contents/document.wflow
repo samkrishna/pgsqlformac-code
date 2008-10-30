@@ -1,0 +1,637 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AMApplicationBuild</key>
+	<string>160</string>
+	<key>AMApplicationVersion</key>
+	<string>2.0.2</string>
+	<key>AMDocumentVersion</key>
+	<string>2</string>
+	<key>actions</key>
+	<array>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.cocoa.path</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.1</string>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>fileNames</key>
+					<dict/>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.cocoa.path</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Get Specified Finder Items.action</string>
+				<key>ActionName</key>
+				<string>Get Specified Finder Items</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>fileNames</key>
+					<array>
+						<string>/private/var/tmp/merge/Universal/Library/PostgreSQL8/bin</string>
+						<string>/private/var/tmp/merge/Universal/Library/PostgreSQL8/lib</string>
+						<string>/private/var/tmp/merge/Universal/Library/PostgreSQL8/lib/postgresql</string>
+						<string>/private/var/tmp/merge/Universal/opt/local/bin</string>
+						<string>/private/var/tmp/merge/Universal/opt/local/lib</string>
+					</array>
+				</dict>
+				<key>Application</key>
+				<array>
+					<string>Finder</string>
+				</array>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.SpecifiedFiles</string>
+				<key>CFBundleVersion</key>
+				<string>1.1</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<false/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryFilesAndFolders</string>
+				</array>
+				<key>Class Name</key>
+				<string>SpecifiedFilesAction</string>
+				<key>InputUUID</key>
+				<string>448C419D-65A1-4897-B5E0-D45FF9BEDF5F</string>
+				<key>Keywords</key>
+				<array>
+					<string>File</string>
+					<string>Choose</string>
+					<string>Find</string>
+					<string>Get</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>7E5F0522-96C0-438E-80D9-C9DAFD282825</string>
+				<key>UUID</key>
+				<string>DEC8DF21-54CE-41BF-9A8D-2ACD2096A92E</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Finder</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<array/>
+						<key>name</key>
+						<string>fileNames</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+				</dict>
+				<key>isViewVisible</key>
+				<false/>
+				<key>location</key>
+				<string>423.500000:958.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Get Specified Finder Items.action/Contents/Resources/English.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<false/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.cocoa.path</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.0</string>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>recurse</key>
+					<dict/>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.cocoa.path</string>
+					</array>
+				</dict>
+				<key>AMRequiredResources</key>
+				<array/>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Get Folder Contents.action</string>
+				<key>ActionName</key>
+				<string>Get Folder Contents</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>recurse</key>
+					<false/>
+				</dict>
+				<key>Application</key>
+				<array>
+					<string>Finder</string>
+				</array>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.GetFolderContents</string>
+				<key>CFBundleVersion</key>
+				<string>1.0</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<true/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryFilesAndFolders</string>
+				</array>
+				<key>Class Name</key>
+				<string>GetFolderContents</string>
+				<key>InputUUID</key>
+				<string>E69E26BF-5E29-445E-8961-B905BCFB277D</string>
+				<key>Keywords</key>
+				<array>
+					<string>File</string>
+					<string>Folder</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>BCDED0AC-FE5E-4D3B-AE3B-C80C0BF6D2DB</string>
+				<key>UUID</key>
+				<string>6C920410-E14B-4E24-B278-AAD5BE6AFB3C</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Finder</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<false/>
+						<key>name</key>
+						<string>recurse</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+				</dict>
+				<key>isViewVisible</key>
+				<false/>
+				<key>location</key>
+				<string>423.500000:916.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Get Folder Contents.action/Contents/Resources/English.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.alias-object</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.1.1</string>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>comparisonOperator</key>
+					<dict/>
+					<key>comparisonProperty</key>
+					<dict/>
+					<key>comparisonValue</key>
+					<dict/>
+					<key>findingName</key>
+					<dict/>
+					<key>whoseSettings</key>
+					<dict/>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.alias-object</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Filter Finder Items.action</string>
+				<key>ActionName</key>
+				<string>Filter Finder Items</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>comparisonOperator</key>
+					<string>contains</string>
+					<key>comparisonProperty</key>
+					<string>name</string>
+					<key>comparisonValue</key>
+					<string></string>
+					<key>findingName</key>
+					<string>files</string>
+					<key>whoseSettings</key>
+					<array>
+						<dict>
+							<key>property</key>
+							<string>name</string>
+							<key>qualifier</key>
+							<string>is not equal to</string>
+							<key>type</key>
+							<string></string>
+							<key>value</key>
+							<string>pgxs</string>
+						</dict>
+						<dict>
+							<key>property</key>
+							<string>name</string>
+							<key>qualifier</key>
+							<string>is not equal to</string>
+							<key>type</key>
+							<string>string</string>
+							<key>value</key>
+							<string>ipcclean</string>
+						</dict>
+						<dict>
+							<key>property</key>
+							<string>name</string>
+							<key>qualifier</key>
+							<string>does not contain</string>
+							<key>type</key>
+							<string>string</string>
+							<key>value</key>
+							<string>pltcl_</string>
+						</dict>
+					</array>
+				</dict>
+				<key>Application</key>
+				<array>
+					<string>Finder</string>
+				</array>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.FilterFinderItems</string>
+				<key>CFBundleVersion</key>
+				<string>1.1.1</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<true/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryFilesAndFolders</string>
+				</array>
+				<key>Class Name</key>
+				<string>FilterFinderItemsAction</string>
+				<key>InputUUID</key>
+				<string>B56D6A12-AEB1-42AB-ACFE-6EF402ADFEB2</string>
+				<key>Keywords</key>
+				<array>
+					<string>Filter</string>
+					<string>File</string>
+					<string>Folder</string>
+					<string>Kind</string>
+					<string>Type</string>
+					<string>Name</string>
+					<string>Extension</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>83D5721C-3285-40B6-859E-19161348CF2F</string>
+				<key>UUID</key>
+				<string>3ECCB147-5CB4-437C-B26E-3EAC0D3B84DA</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Finder</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<string>name</string>
+						<key>name</key>
+						<string>comparisonProperty</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+					<key>1</key>
+					<dict>
+						<key>default value</key>
+						<string></string>
+						<key>name</key>
+						<string>comparisonValue</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>1</string>
+					</dict>
+					<key>2</key>
+					<dict>
+						<key>default value</key>
+						<string>contains</string>
+						<key>name</key>
+						<string>comparisonOperator</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>2</string>
+					</dict>
+				</dict>
+				<key>isViewVisible</key>
+				<false/>
+				<key>location</key>
+				<string>423.500000:874.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Filter Finder Items.action/Contents/Resources/English.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<false/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.0</string>
+				<key>AMParameterProperties</key>
+				<dict>
+					<key>source</key>
+					<dict/>
+				</dict>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>com.apple.applescript.object</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/Run AppleScript.action</string>
+				<key>ActionName</key>
+				<string>Run AppleScript</string>
+				<key>ActionParameters</key>
+				<dict>
+					<key>source</key>
+					<string>on run {input, parameters}	set output to {}		set myHomeDirectory to "/var/tmp/merge"		-- bin	repeat with aFile in input		set filePath to POSIX path of aFile		set lipoCmd to ""				set AppleScript's text item delimiters to "/"		set pathElements to every text item of filePath		set AppleScript's text item delimiters to ""		set fileName to last item of pathElements				if fileName is not "" then			-- plperl needs to be stripped into a 'thin' arch file to then use lipo on it.			-- so let's strip it first.			if filePath contains "/Library/" then				if fileName contains "plperl.so" then					set infoCmd to "lipo -info \"" &amp; myHomeDirectory &amp; "/32/x86/Library/PostgreSQL8/lib/postgresql/plperl.so\""					set info to (do shell script infoCmd)					set output to output &amp; infoCmd &amp; ("Results: " &amp; info)					if info contains "Architectures in the fat file" then						set lipoCmd to "lipo \"" &amp; myHomeDirectory &amp; "/x86/Library/PostgreSQL8/lib/postgresql/plperl.so\" -thin i386 -output \"" &amp; myHomeDirectory &amp; "/x86/Library/PostgreSQL8/lib/postgresql/plperl.so\""						set output to output &amp; lipoCmd &amp; ("Results: " &amp; (do shell script lipoCmd))					end if										set infoCmd to "lipo -info \"" &amp; myHomeDirectory &amp; "/32/ppc/Library/PostgreSQL8/lib/postgresql/plperl.so\""					set info to (do shell script infoCmd)					set output to output &amp; infoCmd &amp; ("Results: " &amp; info)					if info contains "Architectures in the fat file" then						set lipoCmd to "lipo \"" &amp; myHomeDirectory &amp; "/32/PPC/Library/PostgreSQL8/lib/postgresql/plperl.so\" -thin ppc -output \"" &amp; myHomeDirectory &amp; "/32/PPC/Library/PostgreSQL8/lib/postgresql/plperl.so\""						set output to output &amp; lipoCmd &amp; ("Results: " &amp; (do shell script lipoCmd))					end if										set infoCmd to "lipo -info \"" &amp; myHomeDirectory &amp; "/64/Library/PostgreSQL8/lib/postgresql/plperl.so\""					set info to (do shell script infoCmd)					set output to output &amp; infoCmd &amp; ("Results: " &amp; info)					if info contains "i386" then						set lipoCmd to "lipo -remove ppc \"" &amp; myHomeDirectory &amp; "/64/Library/PostgreSQL8/lib/postgresql/plperl.so\" -output \"" &amp; myHomeDirectory &amp; "/64/Library/PostgreSQL8/lib/postgresql/plperl.so\""						set output to output &amp; lipoCmd &amp; ("Results: " &amp; (do shell script lipoCmd))						set lipoCmd to "lipo -remove i386 \"" &amp; myHomeDirectory &amp; "/64/Library/PostgreSQL8/lib/postgresql/plperl.so\" -output \"" &amp; myHomeDirectory &amp; "/64/Library/PostgreSQL8/lib/postgresql/plperl.so\""						set output to output &amp; lipoCmd &amp; ("Results: " &amp; (do shell script lipoCmd))					end if									end if								-- Library tree				if filePath contains "PostgreSQL8/bin" then					set lipoCmd to "lipo -create \"" &amp; myHomeDirectory &amp; "/32/ppc/Library/PostgreSQL8/bin/" &amp; fileName &amp; "\" \"" &amp; myHomeDirectory &amp; "/32/x86/Library/PostgreSQL8/bin/" &amp; fileName &amp; "\" \"" &amp; myHomeDirectory &amp; "/64/Library/PostgreSQL8/bin/" &amp; fileName &amp; "\" -output \"" &amp; myHomeDirectory &amp; "/Universal/Library/PostgreSQL8/bin/" &amp; fileName &amp; "\""				else					if filePath contains "/lib/post" then						set lipoCmd to "lipo -create \"" &amp; myHomeDirectory &amp; "/32/PPC/Library/PostgreSQL8/lib/postgresql/" &amp; fileName &amp; "\" \"" &amp; myHomeDirectory &amp; "/32/x86/Library/PostgreSQL8/lib/postgresql/" &amp; fileName &amp; "\" \"" &amp; myHomeDirectory &amp; "/64/Library/PostgreSQL8/lib/postgresql/" &amp; fileName &amp; "\" -output \"" &amp; myHomeDirectory &amp; "/Universal/Library/PostgreSQL8/lib/postgresql/" &amp; fileName &amp; "\""					else						set lipoCmd to "lipo -create \"" &amp; myHomeDirectory &amp; "/32/PPC/Library/PostgreSQL8/lib/" &amp; fileName &amp; "\" \"" &amp; myHomeDirectory &amp; "/32/x86/Library/PostgreSQL8/lib/" &amp; fileName &amp; "\" \"" &amp; myHomeDirectory &amp; "/64/Library/PostgreSQL8/lib/" &amp; fileName &amp; "\" -output \"" &amp; myHomeDirectory &amp; "/Universal/Library/PostgreSQL8/lib/" &amp; fileName &amp; "\""					end if				end if			else								-- opt tree				if filePath contains "bin" then					set lipoCmd to "lipo -create \"" &amp; myHomeDirectory &amp; "/32/opt/local/bin/" &amp; fileName &amp; "\" \"" &amp; myHomeDirectory &amp; "/64/opt/local/bin/" &amp; fileName &amp; "\" -output \"" &amp; myHomeDirectory &amp; "/Universal/opt/local/bin/" &amp; fileName &amp; "\""				end if								if filePath contains "lib" then					if filePath contains "lib/postgresql" then						set lipoCmd to "lipo -create \"" &amp; myHomeDirectory &amp; "/32/opt/local/lib/postgresql/" &amp; fileName &amp; "\" \"" &amp; myHomeDirectory &amp; "/64/opt/local/lib/postgresql/" &amp; fileName &amp; "\" -output \"" &amp; myHomeDirectory &amp; "/Universal/opt/local/lib/postgresql/" &amp; fileName &amp; "\""					else						set lipoCmd to "lipo -create \"" &amp; myHomeDirectory &amp; "/32/opt/local/lib/" &amp; fileName &amp; "\" \"" &amp; myHomeDirectory &amp; "/64/opt/local/lib/" &amp; fileName &amp; "\" -output \"" &amp; myHomeDirectory &amp; "/Universal/opt/local/lib/" &amp; fileName &amp; "\""					end if				end if			end if			set output to output &amp; lipoCmd &amp; ("Results: " &amp; (do shell script lipoCmd))			--set output to output &amp; lipoCmd -- &amp; ("Results: " &amp; (do shell script lipoCmd))					end if			end repeat		return outputend run</string>
+				</dict>
+				<key>Application</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.RunScript</string>
+				<key>CFBundleVersion</key>
+				<string>1.0</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<false/>
+				<key>CanShowWhenRun</key>
+				<true/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>RunScriptAction</string>
+				<key>Disabled</key>
+				<false/>
+				<key>InputUUID</key>
+				<string>5319D29E-4E19-4767-B799-BDE5435FF7BF</string>
+				<key>Keywords</key>
+				<array>
+					<string>Run</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>8261D2E6-AE68-4088-A9A6-6B3C9EE9EF92</string>
+				<key>UUID</key>
+				<string>2F265481-54FF-4682-A6E0-6491210C3374</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict>
+					<key>0</key>
+					<dict>
+						<key>default value</key>
+						<string>on run {input, parameters}
+	
+	(* Your script goes here *)
+	
+	return input
+end run</string>
+						<key>name</key>
+						<string>source</string>
+						<key>required</key>
+						<string>0</string>
+						<key>type</key>
+						<string>0</string>
+						<key>uuid</key>
+						<string>0</string>
+					</dict>
+				</dict>
+				<key>isViewVisible</key>
+				<true/>
+				<key>location</key>
+				<string>423.500000:832.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/English.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>action</key>
+			<dict>
+				<key>AMAccepts</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Optional</key>
+					<true/>
+					<key>Types</key>
+					<array>
+						<string>*</string>
+					</array>
+				</dict>
+				<key>AMActionVersion</key>
+				<string>1.0</string>
+				<key>AMParameterProperties</key>
+				<dict/>
+				<key>AMProvides</key>
+				<dict>
+					<key>Container</key>
+					<string>List</string>
+					<key>Types</key>
+					<array>
+						<string>*</string>
+					</array>
+				</dict>
+				<key>ActionBundlePath</key>
+				<string>/System/Library/Automator/View Results.action</string>
+				<key>ActionName</key>
+				<string>View Results</string>
+				<key>ActionParameters</key>
+				<dict/>
+				<key>Application</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>BundleIdentifier</key>
+				<string>com.apple.Automator.LogOutput</string>
+				<key>CFBundleVersion</key>
+				<string>1.0</string>
+				<key>CanShowSelectedItemsWhenRun</key>
+				<true/>
+				<key>CanShowWhenRun</key>
+				<false/>
+				<key>Category</key>
+				<array>
+					<string>AMCategoryUtilities</string>
+				</array>
+				<key>Class Name</key>
+				<string>LogOutputAction</string>
+				<key>InputUUID</key>
+				<string>75E38F0E-EC63-4F90-9B41-DB928BAE048B</string>
+				<key>Keywords</key>
+				<array>
+					<string>Display</string>
+					<string>Show</string>
+					<string>Log</string>
+					<string>Output</string>
+				</array>
+				<key>OutputUUID</key>
+				<string>50FE58E6-6D32-4B43-9E55-F6CE493707C0</string>
+				<key>UUID</key>
+				<string>F60231EE-9F68-44DC-8A2A-29B3AFE2BC10</string>
+				<key>UnlocalizedApplications</key>
+				<array>
+					<string>Automator</string>
+				</array>
+				<key>arguments</key>
+				<dict/>
+				<key>isViewVisible</key>
+				<true/>
+				<key>location</key>
+				<string>423.500000:519.000000</string>
+				<key>nibPath</key>
+				<string>/System/Library/Automator/View Results.action/Contents/Resources/English.lproj/main.nib</string>
+			</dict>
+			<key>isViewVisible</key>
+			<true/>
+		</dict>
+	</array>
+	<key>connectors</key>
+	<dict>
+		<key>03ABD926-D350-4E4E-A8D8-DCD355B815B4</key>
+		<dict>
+			<key>from</key>
+			<string>6C920410-E14B-4E24-B278-AAD5BE6AFB3C - 6C920410-E14B-4E24-B278-AAD5BE6AFB3C</string>
+			<key>to</key>
+			<string>3ECCB147-5CB4-437C-B26E-3EAC0D3B84DA - 3ECCB147-5CB4-437C-B26E-3EAC0D3B84DA</string>
+		</dict>
+		<key>1C1CEAD6-9C41-43E6-ADE4-C4E3D28D44CB</key>
+		<dict>
+			<key>from</key>
+			<string>3ECCB147-5CB4-437C-B26E-3EAC0D3B84DA - 3ECCB147-5CB4-437C-B26E-3EAC0D3B84DA</string>
+			<key>to</key>
+			<string>2F265481-54FF-4682-A6E0-6491210C3374 - 2F265481-54FF-4682-A6E0-6491210C3374</string>
+		</dict>
+		<key>2D19618E-92CA-4531-8DDD-C24FFAACBAF5</key>
+		<dict>
+			<key>from</key>
+			<string>2F265481-54FF-4682-A6E0-6491210C3374 - 2F265481-54FF-4682-A6E0-6491210C3374</string>
+			<key>to</key>
+			<string>F60231EE-9F68-44DC-8A2A-29B3AFE2BC10 - F60231EE-9F68-44DC-8A2A-29B3AFE2BC10</string>
+		</dict>
+		<key>5499C484-06F8-4C67-B19A-B9643F742E3E</key>
+		<dict>
+			<key>from</key>
+			<string>DEC8DF21-54CE-41BF-9A8D-2ACD2096A92E - DEC8DF21-54CE-41BF-9A8D-2ACD2096A92E</string>
+			<key>to</key>
+			<string>6C920410-E14B-4E24-B278-AAD5BE6AFB3C - 6C920410-E14B-4E24-B278-AAD5BE6AFB3C</string>
+		</dict>
+		<key>84BF38DC-924A-487F-A856-7B18C35237CA</key>
+		<dict>
+			<key>from</key>
+			<string>3ECCB147-5CB4-437C-B26E-3EAC0D3B84DA - 3ECCB147-5CB4-437C-B26E-3EAC0D3B84DA</string>
+			<key>to</key>
+			<string>2F265481-54FF-4682-A6E0-6491210C3374 - 2F265481-54FF-4682-A6E0-6491210C3374</string>
+		</dict>
+		<key>8A670AE5-2090-4A33-9D8E-CB7DFAA04803</key>
+		<dict>
+			<key>from</key>
+			<string>6C920410-E14B-4E24-B278-AAD5BE6AFB3C - 6C920410-E14B-4E24-B278-AAD5BE6AFB3C</string>
+			<key>to</key>
+			<string>3ECCB147-5CB4-437C-B26E-3EAC0D3B84DA - 3ECCB147-5CB4-437C-B26E-3EAC0D3B84DA</string>
+		</dict>
+	</dict>
+	<key>state</key>
+	<dict>
+		<key>EditorSplitViewPosition</key>
+		<real>0.0</real>
+		<key>MainSplitViewPosition_v2</key>
+		<real>300</real>
+		<key>windowFrame</key>
+		<string>{{100, 108}, {1147, 1028}}</string>
+		<key>windowFrameTopLeft</key>
+		<string>{{100, 0}, {1147, 1028}}</string>
+		<key>workflowViewScrollPosition</key>
+		<string>{{0, 0}, {847, 948}}</string>
+	</dict>
+</dict>
+</plist>
