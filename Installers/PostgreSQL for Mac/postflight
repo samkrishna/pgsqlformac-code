@@ -1,0 +1,33 @@
+#!/bin/sh
+set -e
+echo ...running postflight
+
+echo ...log permissions
+sudo chown -R postgres:admin /Library/PostgreSQL8/log
+
+echo ...data
+if test ! -d /Library/PostgreSQL8/data; then
+	echo ...no data folder found 
+	mkdir -p /Library/PostgreSQL8/data
+	echo ...changing permissions
+	chown -R postgres:postgres /Library/PostgreSQL8/data
+	echo ...calling initdb
+	su -m postgres -c '/Library/PostgreSQL8/bin/initdb -E utf8 -D /Library/PostgreSQL8/data'
+else
+	sudo chown -R postgres:postgres /Library/PostgreSQL8/data
+fi
+
+PG_SHELL=`/usr/bin/dscl . -read /users/postgres | grep "^UserShell:.*$" | sed 's/.*: //' | sed 's/ //'`
+if (test $PG_SHELL != "") then
+	echo ...deleteing old shell
+	sudo /usr/bin/dscl . -delete /users/postgres UserShell $PG_SHELL
+	echo ...appending new shell
+	sudo /usr/bin/dscl . -append /users/postgres UserShell /usr/bin/false
+fi
+
+echo Permissions have been altered to allow the automated startup 
+echo of the PostgreSQL server.
+
+echo ...attempting to start the server
+sudo /Library/StartupItems/PostgreSQL/PostgreSQL start manual
+

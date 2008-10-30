@@ -261,10 +261,12 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 43389A4A0869E11900D5B56D /* Build configuration list for PBXProject "pgCocoaDB" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* pgCocoaDB */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				8DC2EF4F0486A6940098B216 /* pgCocoaDB */,
 			);
@@ -357,8 +359,8 @@
 				LIBRARY_STYLE = Dynamic;
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_LDFLAGS = (
+					"-lldap",
 					"-lssl",
 					"-lcrypto",
 					"-lkrb5",
@@ -409,6 +411,7 @@
 				MACH_O_TYPE = mh_dylib;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				OTHER_LDFLAGS = (
+					"-lldap",
 					"-lssl",
 					"-lcrypto",
 					"-lkrb5",

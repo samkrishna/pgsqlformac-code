@@ -255,6 +255,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 43015CA00BC12FE0006AFACA /* Build configuration list for PBXProject "Service Manager" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Service Manager */;
 			projectDirPath = "";
@@ -264,6 +265,7 @@
 					ProjectRef = 4340349F06D3C8B3007C9FD4 /* StartupHelper.xcode */;
 				},
 			);
+			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* Service Manager */,
 			);
@@ -371,7 +373,6 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.3;
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "Service Manager";
