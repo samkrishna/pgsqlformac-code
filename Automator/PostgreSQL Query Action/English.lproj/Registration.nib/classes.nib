@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>onCancel</key>
+				<string>id</string>
+				<key>onNext</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>RegistrationDialog</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>cancel</key>
+				<string>NSButton</string>
+				<key>emailAddress</key>
+				<string>NSTextField</string>
+				<key>next</key>
+				<string>NSButton</string>
+				<key>ownerName</key>
+				<string>NSTextField</string>
+				<key>product</key>
+				<string>NSTextField</string>
+				<key>purchaseConfirmationCode</key>
+				<string>NSTextField</string>
+				<key>purchaseDate</key>
+				<string>NSTextField</string>
+				<key>regPanel</key>
+				<string>NSWindow</string>
+				<key>registrationPageView</key>
+				<string>WebView</string>
+				<key>serialKey</key>
+				<string>NSTextView</string>
+				<key>validatedCode</key>
+				<string>NSTextField</string>
+				<key>version</key>
+				<string>NSTextField</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

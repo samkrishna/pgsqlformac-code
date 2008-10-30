@@ -1,0 +1,25 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {completed = id; run = id; runNext = id; stop = id; }; 
+            CLASS = AMAction; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = AMAppleScriptAction; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"_script" = NSAppleScript; }; 
+            SUPERCLASS = AMBundleAction; 
+        }, 
+        {
+            ACTIONS = {onSelectConnection = id; }; 
+            CLASS = AMBundleAction; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {dataSourceList = NSPopUpButton; view = NSView; }; 
+            SUPERCLASS = AMAction; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

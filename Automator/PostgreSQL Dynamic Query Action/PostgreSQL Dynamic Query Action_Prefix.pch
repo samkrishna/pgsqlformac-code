@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'PostgreSQL Dynamic Query Action' target in the 'PostgreSQL Dynamic Query Action' project.
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif
