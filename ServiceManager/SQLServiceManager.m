@@ -216,7 +216,7 @@
 
     do 
     {
-		AuthorizationItem myItems = {kAuthorizationRightExecute, [pathToHelper length], [pathToHelper cString], 0};
+		AuthorizationItem myItems = {kAuthorizationRightExecute, [pathToHelper length], (char *)[pathToHelper cString], 0};
 		AuthorizationRights myRights = {1, &myItems};
 
 		myFlags =  kAuthorizationFlagDefaults |          
@@ -231,13 +231,12 @@
 			const char *myToolPath = [pathToHelper cString]; 
 			char *myArguments[4];
 			
-			myArguments[0] = [command cString];
-			myArguments[1] = [operation cString];
+			myArguments[0] = (char *)[command cString];
+			myArguments[1] = (char *)[operation cString];
 			myArguments[2] = "MANUAL";
 			myArguments[3] = NULL;
 			
 			FILE *myCommunicationsPipe = NULL;
-			char myReadBuffer[128];
 
 			myFlags = kAuthorizationFlagDefaults;			
 			myStatus = AuthorizationExecuteWithPrivileges(myAuthorizationRef, 
@@ -246,8 +245,10 @@
 			if (myStatus == errAuthorizationSuccess)
 			for(;;)
 			{
-				int bytesRead = read (fileno (myCommunicationsPipe),
-						myReadBuffer, sizeof (myReadBuffer));
+				char myReadBuffer[1024];
+				
+				int bytesRead = read(fileno(myCommunicationsPipe),
+						myReadBuffer, sizeof(myReadBuffer));
 				if (bytesRead < 1) break;
 				NSLog(@"%s", myReadBuffer);
 			}			
