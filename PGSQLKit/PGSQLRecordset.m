@@ -41,7 +41,7 @@
 			[columns addObject:column];
 		}
 		
-		if (iCols == 0)
+		if (rowCount == 0)
 		{
 			isEOF = YES;
 			return self;
