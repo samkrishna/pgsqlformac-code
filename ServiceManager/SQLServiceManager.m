@@ -18,8 +18,6 @@
 
 - (void)awakeFromNib
 {
-	BOOL isRunning = NO;
-	
     [servers removeAllItems];
     [servers addItemWithTitle:@"(localhost)"];
 	
@@ -28,9 +26,9 @@
 	
 	[addServer setEnabled:NO];
 	
-	isRunning = [self checkPostmasterStatus];
+	updateInterval = 0.5;
 	
-	[self updateButtonStatus:isRunning];
+	[self performSelector:@selector(onTimedUpdate:) withObject:self afterDelay:0.1];
 	return;
 }
 
@@ -77,10 +75,6 @@
 	{
 		AGProcess *process = (AGProcess *)[processes objectAtIndex:i];
 
-		/* -- debug
-		 *  NSLog(@"%s", [[process command] cString]);
-		 * -- end debug */
-		
 		if ([[process command] isEqual:serverProcessName])
 		{
 			return YES;
@@ -163,7 +157,6 @@
  	operation = [[NSString alloc] initWithString:@"start"];
 	
 	[NSThread detachNewThreadSelector:@selector(execWithRights) toTarget:self withObject:nil];	
-				
     return;	
 }
 
@@ -245,31 +238,33 @@
 			if (myStatus == errAuthorizationSuccess)
 			for(;;)
 			{
-				char myReadBuffer[1024];
+				char myReadBuffer[4096];
 				
 				int bytesRead = read(fileno(myCommunicationsPipe),
 						myReadBuffer, sizeof(myReadBuffer));
 				if (bytesRead < 1) break;
-				NSLog(@"%s", myReadBuffer);
 			}			
+			
 		}
     } while (0);
 
     AuthorizationFree (myAuthorizationRef, kAuthorizationFlagDefaults);                
 
     if (myStatus) NSLog(@"Status: %i\n", myStatus);
-	
-	sleep(3);
-		
+
 	// update the buttons
-	BOOL isRunning = [self checkPostmasterStatus];
-	[self updateButtonStatus:isRunning];
 	[working stopAnimation:nil];
 
 	[pool release];
 	[NSThread exit];
 	
     return;
+}
+
+- (IBAction)onTimedUpdate:(id)sender
+{
+	[self updateButtonStatus:[self checkPostmasterStatus]];
+	[self performSelector:@selector(onTimedUpdate:) withObject:self afterDelay:updateInterval];
 }
 
 

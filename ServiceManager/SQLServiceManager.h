@@ -24,6 +24,8 @@
 	
 	NSString *command;
 	NSString *operation;
+	
+	double updateInterval;
 }
 
 - (BOOL)checkPostmasterStatus;
@@ -35,4 +37,7 @@
 - (IBAction)onRestartService:(id)sender;
 - (IBAction)onStartService:(id)sender;
 - (IBAction)onStopService:(id)sender;
+
+- (IBAction)onTimedUpdate:(id)sender;
+
 @end
