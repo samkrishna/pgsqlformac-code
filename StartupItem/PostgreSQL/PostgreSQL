@@ -9,6 +9,11 @@
 # History
 # -------
 #
+# 2008-11-06  Andy Satori <dru@druware.com>
+#             Refactored DATA_PATH and LOG_FILE our to variables to make them
+#             easier to maintain and adjust from the GUI Preference Pane and 
+#             associated tools.
+#
 # 2007-04-02  Andy Satori <dru@druware.com>
 #             Added manual-restart manual-start options for use with the 
 #             startup manager and allow the user to use hostconfig properly.
