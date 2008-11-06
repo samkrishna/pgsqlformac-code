@@ -9,21 +9,28 @@
 #import "PostgreSQL_ServerPref.h"
 #import "AGProcess.h"
 
-#include <Security/Authorization.h>
-#include <Security/AuthorizationTags.h>
+#include <sys/types.h>
+#include <sys/uio.h>
+#include <unistd.h>
+
+
 
 @implementation PostgreSQL_ServerPref
 
 - (void) mainViewDidLoad
 {
 	// Check the current Status and change to display accordingly.
-	[self updateButtonStatus:[self checkPostmasterStatus]];
+	updateInterval = 0.5;
+	thisBundle = [NSBundle bundleWithIdentifier:@"com.druware.postgresqlserverpreferences"];
+	
+	[self performSelector:@selector(onTimedUpdate:) withObject:self afterDelay:0.1];
 }
+
+#pragma mark --
+#pragma mark Status Update Handlers
 
 - (void)updateButtonStatus:(BOOL)isRunning
 {	
-	NSBundle *bundleApp = [NSBundle bundleWithIdentifier:@"com.druware.postgresqlserverpreferences"];
-	
 	[startService setEnabled:(!isRunning)];
 	[startServiceLabel setEnabled:(!isRunning)];
 	
@@ -36,14 +43,14 @@
 	if (isRunning)
 	{
 		// set the image to running
-		NSString *imagePath = [bundleApp pathForResource:@"xserve-running" ofType:@"png"];
+		NSString *imagePath = [thisBundle pathForResource:@"xserve-running" ofType:@"png"];
 		NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
 		[serviceImage setImage:image];
 		[status setStringValue:@"Current Status: Running"];
 		
 	} else {
 		// set the image to stopped
-		NSString *imagePath = [bundleApp pathForResource:@"xserve-stopped" ofType:@"png"];
+		NSString *imagePath = [thisBundle pathForResource:@"xserve-stopped" ofType:@"png"];
 		NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
 		[serviceImage setImage:image];
 		[status setStringValue:@"Current Status: Down"];
@@ -74,6 +81,78 @@
 	return NO;
 }
 
+- (IBAction)onTimedUpdate:(id)sender
+{
+	[self updateButtonStatus:[self checkPostmasterStatus]];
+	[self performSelector:@selector(onTimedUpdate:) withObject:self afterDelay:updateInterval];
+}
+
+#pragma mark --
+#pragma mark Service Management Handlers
+
+- (IBAction)onRestartService:(id)sender
+{
+	if (command != nil) 
+	{
+		[command release];
+		command = nil;
+	}
+ 	command = [[NSString alloc] initWithString:@"/Library/StartupItems/PostgreSQL/PostgreSQL"];
+	
+	if (operation != nil)
+	{
+		[operation release];
+		operation = nil;
+	}
+ 	operation = [[NSString alloc] initWithString:@"restart"];
+	
+	[NSThread detachNewThreadSelector:@selector(execWithRights) toTarget:self withObject:operation];	
+	
+    return;	
+}
+
+- (IBAction)onStartService:(id)sender
+{
+	if (command != nil) 
+	{
+		[command release];
+		command = nil;
+	}
+ 	command = [[NSString alloc] initWithString:@"/Library/StartupItems/PostgreSQL/PostgreSQL"];
+	
+	if (operation != nil)
+	{
+		[operation release];
+		operation = nil;
+	}
+ 	operation = [[NSString alloc] initWithString:@"start"];
+	
+	[NSThread detachNewThreadSelector:@selector(execWithRights) toTarget:self withObject:operation];	
+    return;	
+}
+
+- (IBAction)onStopService:(id)sender
+{	
+	if (command != nil) 
+	{
+		[command release];
+		command = nil;
+	}
+ 	command = [[NSString alloc] initWithString:@"/Library/StartupItems/PostgreSQL/PostgreSQL"];
+	
+	if (operation != nil)
+	{
+		[operation release];
+		operation = nil;
+	}
+ 	operation = [[NSString alloc] initWithString:@"stop"];
+	
+	[working startAnimation:sender];
+	
+	[NSThread detachNewThreadSelector:@selector(execWithRights) toTarget:self withObject:operation];	
+	
+    return;	
+}
 
 - (void)execWithRights
 {
@@ -81,10 +160,8 @@
 	
     OSStatus myStatus;
     AuthorizationFlags myFlags = kAuthorizationFlagDefaults;
-    AuthorizationRef myAuthorizationRef;
 	
-    NSBundle *bundleApp = [NSBundle mainBundle];
-    NSString *pathToHelper = [bundleApp pathForResource:@"StartupHelper" ofType:nil];
+    NSString *pathToHelper = [thisBundle pathForResource:@"StartupHelper" ofType:nil];
 	
 	// myAuthorizationItem.AuthorizationString = "@
     myStatus = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, 
@@ -94,28 +171,30 @@
 	
     do 
     {
-		AuthorizationItem myItems = {kAuthorizationRightExecute, [pathToHelper length], [pathToHelper cString], 0};
+		AuthorizationItem myItems = {kAuthorizationRightExecute, [pathToHelper length], (char *)[pathToHelper cString], 0};
 		AuthorizationRights myRights = {1, &myItems};
 		
 		myFlags =  kAuthorizationFlagDefaults |          
 		kAuthorizationFlagInteractionAllowed |
 		kAuthorizationFlagPreAuthorize |
-		kAuthorizationFlagExtendRights;         
+		kAuthorizationFlagExtendRights;      
+		
+		
+		// this pops the dialog.  If the above AuthItemRIghts includes more than one item, then it will auth all or none.  
 		myStatus = AuthorizationCopyRights (myAuthorizationRef, &myRights, 
-											kAuthorizationEmptyEnvironment, myFlags, NULL );
+											kAuthorizationEmptyEnvironment, myFlags, NULL ); // this pops the dialog
 		
         if (myStatus == errAuthorizationSuccess) 
 		{
 			const char *myToolPath = [pathToHelper cString]; 
 			char *myArguments[4];
 			
-			myArguments[0] = [command cString];
-			myArguments[1] = [operation cString];
+			myArguments[0] = (char *)[command cString];
+			myArguments[1] = (char *)[operation cString];
 			myArguments[2] = "MANUAL";
 			myArguments[3] = NULL;
 			
 			FILE *myCommunicationsPipe = NULL;
-			char myReadBuffer[128];
 			
 			myFlags = kAuthorizationFlagDefaults;			
 			myStatus = AuthorizationExecuteWithPrivileges(myAuthorizationRef, 
@@ -124,11 +203,14 @@
 			if (myStatus == errAuthorizationSuccess)
 				for(;;)
 				{
-					int bytesRead = read (fileno (myCommunicationsPipe),
-										  myReadBuffer, sizeof (myReadBuffer));
+					
+					 char myReadBuffer[4096];
+					
+					int bytesRead = read(fileno(myCommunicationsPipe),
+										 myReadBuffer, sizeof(myReadBuffer));
 					if (bytesRead < 1) break;
-					NSLog(@"%s", myReadBuffer);
-				}			
+				} 
+			
 		}
     } while (0);
 	
@@ -136,11 +218,7 @@
 	
     if (myStatus) NSLog(@"Status: %i\n", myStatus);
 	
-	sleep(3);
-	
 	// update the buttons
-	BOOL isRunning = [self checkPostmasterStatus];
-	[self updateButtonStatus:isRunning];
 	[working stopAnimation:nil];
 	
 	[pool release];
@@ -149,14 +227,16 @@
     return;
 }
 
-- (IBAction)onStartService:(id)sender
-{
-	return;
-}
+
+#pragma mark --
+#pragma mark Configuration Management Handlers
 
 - (IBAction)launchNetworkConfiguration:(id)sender
 {
 	return;
 }
+
+
+
 
 @end

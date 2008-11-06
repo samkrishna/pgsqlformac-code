@@ -7,7 +7,10 @@
 //
 
 #import <PreferencePanes/PreferencePanes.h>
+#import <Cocoa/Cocoa.h>
 
+#include <Security/Authorization.h>
+#include <Security/AuthorizationTags.h>
 
 @interface PostgreSQL_ServerPref : NSPreferencePane 
 {
@@ -30,8 +33,15 @@
     IBOutlet NSWindow *window;
 	IBOutlet NSProgressIndicator *working;
 	
+	NSBundle *thisBundle;
+	
+	AuthorizationRef myAuthorizationRef;
+
+	
 	NSString *command;
 	NSString *operation;
+	
+	double updateInterval;
 }
 
 - (void) mainViewDidLoad;
@@ -39,7 +49,11 @@
 - (BOOL)checkPostmasterStatus;
 - (void)updateButtonStatus:(BOOL)isRunning;
 
+- (IBAction)onTimedUpdate:(id)sender;
+
+- (IBAction)onRestartService:(id)sender;
 - (IBAction)onStartService:(id)sender;
+- (IBAction)onStopService:(id)sender;
 
 - (IBAction)launchNetworkConfiguration:(id)sender;
 
