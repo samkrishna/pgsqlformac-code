@@ -55,6 +55,10 @@
 # The PostgreSQL BSD-style license applies to this file
 #
 
+# set the data path (this will be altered by the GUI configuration tools)
+DATA_PATH="/Library/PostgreSQL8/data"
+LOG_FILE="/Library/PostgreSQL8/log/PostgreSQL8.log"
+
 StartService ()
 {
 	shouldStartPostgres="-NO-"
@@ -69,17 +73,18 @@ StartService ()
 		
 	if [ "$shouldStartPostgres" = "-YES-" ]; then
 	    ConsoleMessage "Starting PostgreSQL database server"
-	    su -m postgres -c '/Library/PostgreSQL8/bin/pg_ctl start -D /Library/PostgreSQL8/data -l /Library/PostgreSQL8/log/PostgreSQL8.log -o -i'
+	    su -m postgres -c "/Library/PostgreSQL8/bin/pg_ctl start -D $DATA_PATH -l $LOG_FILE -o -i"
 	fi
 
 }
 
 StopService()
 {
-
 	ConsoleMessage "Stopping PostgreSQL database services"
-	su -m postgres -c '/Library/PostgreSQL8/bin/pg_ctl stop -D /Library/PostgreSQL8/data'
-	x=`ps -auxwc | grep '^postgres' |grep 'postgres$' | awk -F" " '{print $2}'`
+	su -m postgres -c "/Library/PostgreSQL8/bin/pg_ctl stop -D $DATA_PATH"
+	
+	sleep 1
+	x=`ps auxwc | grep '^postgres' |grep 'postgres$' | awk -F" " '{print $2}'`
 	if /bin/test "$x"
 	then
 		set $x
@@ -91,11 +96,12 @@ StopService()
 RestartService ()
 {
     StopService
+    sleep 1
     StartService
 }
 
-overrideEnvironment='-NO-'
 
+overrideEnvironment='-NO-'
 for f in "$@"
 do
 	if [ "$f" = "MANUAL" ]; then
