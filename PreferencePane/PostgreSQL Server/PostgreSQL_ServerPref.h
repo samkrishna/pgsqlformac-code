@@ -32,19 +32,26 @@
     IBOutlet NSTextField *stopServiceLabel;
     IBOutlet NSWindow *window;
 	IBOutlet NSProgressIndicator *working;
+	IBOutlet NSButton *lockToggle;
 	
 	NSBundle *thisBundle;
 	
+	AuthorizationFlags myFlags;
 	AuthorizationRef myAuthorizationRef;
 
-	
 	NSString *command;
 	NSString *operation;
+	
+	BOOL isLocked;
 	
 	double updateInterval;
 }
 
 - (void) mainViewDidLoad;
+
+- (BOOL)unlockPane;
+- (BOOL)lockPane;
+- (IBAction)toggleLock:(id)sender;
 
 - (BOOL)checkPostmasterStatus;
 - (void)updateButtonStatus:(BOOL)isRunning;

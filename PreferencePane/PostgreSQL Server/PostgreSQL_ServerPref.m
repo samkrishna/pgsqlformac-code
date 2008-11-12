@@ -23,8 +23,81 @@
 	updateInterval = 0.5;
 	thisBundle = [NSBundle bundleWithIdentifier:@"com.druware.postgresqlserverpreferences"];
 	
+	isLocked = YES;
+	
 	[self performSelector:@selector(onTimedUpdate:) withObject:self afterDelay:0.1];
 }
+
+#pragma mark --
+#pragma mark Lock Management Handlers
+
+- (BOOL)unlockPane
+{
+	OSStatus myStatus;
+    myFlags = kAuthorizationFlagDefaults;
+	
+    NSString *pathToHelper = [thisBundle pathForResource:@"StartupHelper" ofType:nil];
+	
+	// myAuthorizationItem.AuthorizationString = "@
+    myStatus = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, 
+								   myFlags, &myAuthorizationRef);				
+    if (myStatus != errAuthorizationSuccess) 
+		return NO;
+	
+	AuthorizationItem myItems = {kAuthorizationRightExecute, [pathToHelper length], (char *)[pathToHelper cString], 0};
+	AuthorizationRights myRights = {1, &myItems};
+	
+	myFlags =  kAuthorizationFlagDefaults |          
+	kAuthorizationFlagInteractionAllowed |
+	kAuthorizationFlagPreAuthorize |
+	kAuthorizationFlagExtendRights;      
+	
+	
+	// this pops the dialog.  If the above AuthItemRIghts includes more than one item, then it will auth all or none.  
+	myStatus = AuthorizationCopyRights (myAuthorizationRef, &myRights, 
+										kAuthorizationEmptyEnvironment, myFlags, NULL ); // this pops the dialog
+	
+	if (myStatus == errAuthorizationSuccess) 
+	{
+		isLocked = NO;
+		return YES;
+	}
+	
+	
+	isLocked = YES;		
+	return NO;
+}
+
+- (BOOL)lockPane
+{
+	if (!isLocked) 
+	{
+		AuthorizationFree (myAuthorizationRef, kAuthorizationFlagDefaults); 
+		isLocked = YES;
+		return YES;
+	}
+	
+	return NO;
+}
+
+- (IBAction)toggleLock:(id)sender
+{
+	NSLog(@"got isLocked");
+	if (isLocked) 
+	{
+		[self unlockPane];
+	} else {
+		[self lockPane];
+	}
+	
+	if (isLocked)
+	{
+		[lockToggle setState:NSOffState];
+	}
+	
+	return;
+}
+
 
 #pragma mark --
 #pragma mark Status Update Handlers
@@ -92,6 +165,17 @@
 
 - (IBAction)onRestartService:(id)sender
 {
+	// if locked, need to unlock before calling exec
+	if (isLocked) 
+	{
+		[self toggleLock:sender];
+	}
+	
+	if (isLocked)
+	{
+		return;
+	}
+	
 	if (command != nil) 
 	{
 		[command release];
@@ -106,13 +190,24 @@
 	}
  	operation = [[NSString alloc] initWithString:@"restart"];
 	
-	[NSThread detachNewThreadSelector:@selector(execWithRights) toTarget:self withObject:operation];	
+	[NSThread detachNewThreadSelector:@selector(execStartupWithRights) toTarget:self withObject:operation];	
 	
     return;	
 }
 
 - (IBAction)onStartService:(id)sender
 {
+	// if locked, need to unlock before calling exec
+	if (isLocked) 
+	{
+		[self toggleLock:sender];
+	}
+	
+	if (isLocked)
+	{
+		return;
+	}
+	
 	if (command != nil) 
 	{
 		[command release];
@@ -127,12 +222,23 @@
 	}
  	operation = [[NSString alloc] initWithString:@"start"];
 	
-	[NSThread detachNewThreadSelector:@selector(execWithRights) toTarget:self withObject:operation];	
+	[NSThread detachNewThreadSelector:@selector(execStartupWithRights) toTarget:self withObject:operation];	
     return;	
 }
 
 - (IBAction)onStopService:(id)sender
 {	
+	// if locked, need to unlock before calling exec
+	if (isLocked) 
+	{
+		[self toggleLock:sender];
+	}
+	
+	if (isLocked)
+	{
+		return;
+	}
+	
 	if (command != nil) 
 	{
 		[command release];
@@ -149,74 +255,43 @@
 	
 	[working startAnimation:sender];
 	
-	[NSThread detachNewThreadSelector:@selector(execWithRights) toTarget:self withObject:operation];	
+	[NSThread detachNewThreadSelector:@selector(execStartupWithRights) toTarget:self withObject:operation];	
 	
     return;	
 }
 
-- (void)execWithRights
+- (void)execStartupWithRights
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
     OSStatus myStatus;
-    AuthorizationFlags myFlags = kAuthorizationFlagDefaults;
+    
+	NSString *pathToHelper = [thisBundle pathForResource:@"StartupHelper" ofType:nil];
+
+	const char *myToolPath = [pathToHelper cString]; 
+	char *myArguments[4];
 	
-    NSString *pathToHelper = [thisBundle pathForResource:@"StartupHelper" ofType:nil];
+	myArguments[0] = (char *)[command cString];
+	myArguments[1] = (char *)[operation cString];
+	myArguments[2] = "MANUAL";
+	myArguments[3] = NULL;
 	
-	// myAuthorizationItem.AuthorizationString = "@
-    myStatus = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, 
-								   myFlags, &myAuthorizationRef);				
-    if (myStatus != errAuthorizationSuccess) 
-		return;
+	FILE *myCommunicationsPipe = NULL;
 	
-    do 
-    {
-		AuthorizationItem myItems = {kAuthorizationRightExecute, [pathToHelper length], (char *)[pathToHelper cString], 0};
-		AuthorizationRights myRights = {1, &myItems};
-		
-		myFlags =  kAuthorizationFlagDefaults |          
-		kAuthorizationFlagInteractionAllowed |
-		kAuthorizationFlagPreAuthorize |
-		kAuthorizationFlagExtendRights;      
-		
-		
-		// this pops the dialog.  If the above AuthItemRIghts includes more than one item, then it will auth all or none.  
-		myStatus = AuthorizationCopyRights (myAuthorizationRef, &myRights, 
-											kAuthorizationEmptyEnvironment, myFlags, NULL ); // this pops the dialog
-		
-        if (myStatus == errAuthorizationSuccess) 
+	myFlags = kAuthorizationFlagDefaults;			
+	myStatus = AuthorizationExecuteWithPrivileges(myAuthorizationRef, 
+												  myToolPath, myFlags, myArguments, &myCommunicationsPipe);      
+	
+	if (myStatus == errAuthorizationSuccess)
+		for(;;)
 		{
-			const char *myToolPath = [pathToHelper cString]; 
-			char *myArguments[4];
 			
-			myArguments[0] = (char *)[command cString];
-			myArguments[1] = (char *)[operation cString];
-			myArguments[2] = "MANUAL";
-			myArguments[3] = NULL;
+			char myReadBuffer[4096];
 			
-			FILE *myCommunicationsPipe = NULL;
-			
-			myFlags = kAuthorizationFlagDefaults;			
-			myStatus = AuthorizationExecuteWithPrivileges(myAuthorizationRef, 
-														  myToolPath, myFlags, myArguments, &myCommunicationsPipe);      
-			
-			if (myStatus == errAuthorizationSuccess)
-				for(;;)
-				{
-					
-					 char myReadBuffer[4096];
-					
-					int bytesRead = read(fileno(myCommunicationsPipe),
-										 myReadBuffer, sizeof(myReadBuffer));
-					if (bytesRead < 1) break;
-				} 
-			
-		}
-    } while (0);
-	
-    AuthorizationFree (myAuthorizationRef, kAuthorizationFlagDefaults);                
-	
-    if (myStatus) NSLog(@"Status: %i\n", myStatus);
+			int bytesRead = read(fileno(myCommunicationsPipe),
+								 myReadBuffer, sizeof(myReadBuffer));
+			if (bytesRead < 1) break;
+		} 
 	
 	// update the buttons
 	[working stopAnimation:nil];

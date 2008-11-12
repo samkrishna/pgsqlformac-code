@@ -25,6 +25,7 @@
 		434CF8B10E4CAC130040ED14 /* data-folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 434CF8B00E4CAC130040ED14 /* data-folder.png */; };
 		434CF8B30E4CAC570040ED14 /* security_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 434CF8B20E4CAC570040ED14 /* security_32.png */; };
 		434CF8B50E4CAC890040ED14 /* prefs_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 434CF8B40E4CAC890040ED14 /* prefs_32.png */; };
+		43AFFB260ECA7AE500FF139F /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = 43AFFB250ECA7AE500FF139F /* CHANGELOG */; };
 		43B1AB790EC1E204002D4317 /* StartupHelper in Resources */ = {isa = PBXBuildFile; fileRef = 43B1AB5E0EC13A66002D4317 /* StartupHelper */; };
 		43B5F6890EC354EB00AE6451 /* PostgreSQLPrefPane.icns in Resources */ = {isa = PBXBuildFile; fileRef = 43B5F6880EC354EB00AE6451 /* PostgreSQLPrefPane.icns */; };
 		43B5F6B20EC355CA00AE6451 /* PostgreSQL_ServerPref.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 43B5F6B10EC355CA00AE6451 /* PostgreSQL_ServerPref.tiff */; };
@@ -79,6 +80,7 @@
 		434CF8B00E4CAC130040ED14 /* data-folder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "data-folder.png"; sourceTree = "<group>"; };
 		434CF8B20E4CAC570040ED14 /* security_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = security_32.png; sourceTree = "<group>"; };
 		434CF8B40E4CAC890040ED14 /* prefs_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prefs_32.png; sourceTree = "<group>"; };
+		43AFFB250ECA7AE500FF139F /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
 		43B1AB590EC13A66002D4317 /* StartupHelper.xcode */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = StartupHelper.xcode; path = ../../StartupHelper/StartupHelper.xcode; sourceTree = SOURCE_ROOT; };
 		43B5F6880EC354EB00AE6451 /* PostgreSQLPrefPane.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = PostgreSQLPrefPane.icns; path = ../../../../../../Desktop/PostgreSQLPrefPane.icns; sourceTree = SOURCE_ROOT; };
 		43B5F6B10EC355CA00AE6451 /* PostgreSQL_ServerPref.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = PostgreSQL_ServerPref.tiff; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 		089C166AFE841209C02AAC07 /* PostgreSQL Server */ = {
 			isa = PBXGroup;
 			children = (
+				43AFFB250ECA7AE500FF139F /* CHANGELOG */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32DBCFA10370C40200C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -250,6 +253,9 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+			};
 			buildConfigurationList = 1DBD214C08BA80EA00186707 /* Build configuration list for PBXProject "PostgreSQL Server" */;
 			compatibilityVersion = "Xcode 3.1";
 			hasScannedForEncodings = 1;
@@ -303,6 +309,7 @@
 				434CF8B50E4CAC890040ED14 /* prefs_32.png in Resources */,
 				43B5F6890EC354EB00AE6451 /* PostgreSQLPrefPane.icns in Resources */,
 				43B5F6B20EC355CA00AE6451 /* PostgreSQL_ServerPref.tiff in Resources */,
+				43AFFB260ECA7AE500FF139F /* CHANGELOG in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
