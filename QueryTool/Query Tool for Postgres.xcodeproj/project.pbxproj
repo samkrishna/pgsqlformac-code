@@ -48,6 +48,7 @@
 		438CC5540BADD1DF00C69C7C /* QueryDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 438CC5470BADD1DF00C69C7C /* QueryDataSource.m */; };
 		438CC6150BADD3B600C69C7C /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 438CC60F0BADD3B600C69C7C /* Preferences.nib */; };
 		438CC61E0BADD40300C69C7C /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 438CC6180BADD40300C69C7C /* MainMenu.nib */; };
+		43B5F6400EC34EA400AE6451 /* pgCocoaDB.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43B5F63F0EC34E9E00AE6451 /* pgCocoaDB.framework */; };
 		43CC25B90BD6830400C21D32 /* pgCocoaDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43CC25AD0BD6830400C21D32 /* pgCocoaDB.framework */; };
 		8D15AC290486D014006FF6A4 /* Query Tool for Postgres_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF750370BD2300C91783 /* Query Tool for Postgres_Prefix.pch */; };
 		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
@@ -56,6 +57,16 @@
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		43B5F63E0EC34E9E00AE6451 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43B5F6370EC34E9E00AE6451 /* pgCocoaDB.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = pgCocoaDB;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		4327F0CC07CEBD3500AB5CFE /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -63,6 +74,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				43B5F6400EC34EA400AE6451 /* pgCocoaDB.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +129,7 @@
 		438CC5470BADD1DF00C69C7C /* QueryDataSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = QueryDataSource.m; sourceTree = "<group>"; };
 		438CC6100BADD3B600C69C7C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Preferences.nib; sourceTree = "<group>"; };
 		438CC6190BADD40300C69C7C /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		43B5F6370EC34E9E00AE6451 /* pgCocoaDB.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = pgCocoaDB.xcodeproj; path = ../pgCocoaDB/pgCocoaDB.xcodeproj; sourceTree = SOURCE_ROOT; };
 		43CC25AD0BD6830400C21D32 /* pgCocoaDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = pgCocoaDB.framework; path = /Library/Frameworks/pgCocoaDB.framework; sourceTree = "<absolute>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* Query Tool for Postgres.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Query Tool for Postgres.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,6 +177,7 @@
 		2A37F4AAFDCFA73011CA2CEA /* Query Tool for Postgres */ = {
 			isa = PBXGroup;
 			children = (
+				43B5F6370EC34E9E00AE6451 /* pgCocoaDB.xcodeproj */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
@@ -249,6 +263,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		43B5F6380EC34E9E00AE6451 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				43B5F63F0EC34E9E00AE6451 /* pgCocoaDB.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -302,12 +324,28 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* Query Tool for Postgres */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 43B5F6380EC34E9E00AE6451 /* Products */;
+					ProjectRef = 43B5F6370EC34E9E00AE6451 /* pgCocoaDB.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* Query Tool for Postgres */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		43B5F63F0EC34E9E00AE6451 /* pgCocoaDB.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = pgCocoaDB.framework;
+			remoteRef = 43B5F63E0EC34E9E00AE6451 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D15AC2B0486D014006FF6A4 /* Resources */ = {
