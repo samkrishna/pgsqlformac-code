@@ -3,14 +3,11 @@
 //  Create User
 //
 //  Created by Andy Satori on 2/21/05.
-//  Copyright 2005 __MyCompanyName__. All rights reserved.
+//  Copyright 2005 Druware Software Designs. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
-#import <pgCocoaDB/Connection.h>
-#import <pgCocoaDB/Databases.h>
-#import <pgCocoaDB/RecordSet.h>
-
+#import <PGSQLKit/PGSQLKit.h>
 
 @interface PGNewUserUI : NSObject 
 {
@@ -35,10 +32,13 @@
 	IBOutlet NSButton *allowCreateUser;
 	IBOutlet NSButton *versionSevenFeaturesOnly;
 	
-	Connection *_conn;
+	PGSQLConnection *_conn;
 }
 - (IBAction)onBack:(id)sender;
 - (IBAction)onCancel:(id)sender;
 - (IBAction)onNext:(id)sender;
+
+
+- (void)createUser;
 
 @end

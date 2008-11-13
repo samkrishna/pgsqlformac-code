@@ -24,8 +24,10 @@
 	thisBundle = [NSBundle bundleWithIdentifier:@"com.druware.postgresqlserverpreferences"];
 	
 	isLocked = YES;
+		
+	[self onTimedUpdate:nil];
 	
-	[self performSelector:@selector(onTimedUpdate:) withObject:self afterDelay:0.1];
+//	[self performSelector:@selector(onTimedUpdate:) withObject:self afterDelay:0.1];
 }
 
 #pragma mark --
@@ -82,7 +84,6 @@
 
 - (IBAction)toggleLock:(id)sender
 {
-	NSLog(@"got isLocked");
 	if (isLocked) 
 	{
 		[self unlockPane];
@@ -97,7 +98,6 @@
 	
 	return;
 }
-
 
 #pragma mark --
 #pragma mark Status Update Handlers

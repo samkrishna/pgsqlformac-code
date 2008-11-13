@@ -24,7 +24,7 @@
 {
 	BOOL isRunning = NO;
 		
-	_conn = [[[[Connection alloc] init] autorelease] retain];
+	_conn = [[[[PGSQLConnection alloc] init] autorelease] retain];
 	
 	// set the defaults
 	[groups removeAllItems];
@@ -57,7 +57,7 @@
 			if ([[user stringValue] length] == 0) { return; }
 			
 			[_conn setUserName:[user stringValue]];
-			[_conn setHost:[server stringValue]];
+			[_conn setServer:[server stringValue]];
 			[_conn setPort:[port stringValue]];
 			[_conn setPassword:[password stringValue]];
 			
@@ -68,7 +68,7 @@
 				NSAlert *alert = [NSAlert 
 					alertWithMessageText:@"Database Connection failed" 
 					defaultButton:@"OK" alternateButton:nil 
-					otherButton:nil informativeTextWithFormat:@"%@", [_conn errorDescription]]; 
+					otherButton:nil informativeTextWithFormat:@"%@", [_conn lastError]]; 
 				[alert beginSheetModalForWindow:[NSApp mainWindow] modalDelegate:nil didEndSelector:nil contextInfo:nil];
 				return;
 			}
@@ -77,11 +77,11 @@
 			[groups addItemWithTitle:@"- default -"];
 			// load the rest from a quick query of the database
 			
-			RecordSet *rs = [_conn execQuery:@"select groname from pg_group order by groname asc"];
+			PGSQLRecordset *rs = [_conn open:@"select groname from pg_group order by groname asc"];
 			int i ;
-			for (i = 0; i < [rs count]; i++)
+			for (i = 0; i < [rs recordCount]; i++)
 			{
-				[groups addItemWithTitle:[[[[rs itemAtIndex:i] fields] itemAtIndex:0] value]];
+				[groups addItemWithTitle:[[rs fieldByIndex:i] asString]];
 			}
 			
 			[back setEnabled:YES];
@@ -181,7 +181,7 @@
 {
 	if ([_conn isConnected])
 	{
-		[_conn disconnect];
+		[_conn close];
 		[_conn release];
 		_conn = nil;
 	}

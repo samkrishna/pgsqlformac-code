@@ -11,8 +11,8 @@
 		434CDC7107CAD73E000F3026 /* PGNewUserUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 434CDC6F07CAD73E000F3026 /* PGNewUserUI.m */; };
 		434CDC9307CADA42000F3026 /* create_user_wiz.png in Resources */ = {isa = PBXBuildFile; fileRef = 434CDC9207CADA42000F3026 /* create_user_wiz.png */; };
 		434CDDD407CC3F41000F3026 /* add user_32.icns in Resources */ = {isa = PBXBuildFile; fileRef = 434CDDD307CC3F41000F3026 /* add user_32.icns */; };
-		437617F70EB947330067C28F /* pgCocoaDB.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 437617F60EB947330067C28F /* pgCocoaDB.framework */; };
-		437617FA0EB9473A0067C28F /* pgCocoaDB.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 437617F60EB947330067C28F /* pgCocoaDB.framework */; };
+		436D43DA0EBA112F003BE656 /* PGSQLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 436D43D90EBA112F003BE656 /* PGSQLKit.framework */; };
+		436D43DD0EBA1135003BE656 /* PGSQLKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 436D43D90EBA112F003BE656 /* PGSQLKit.framework */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
@@ -26,7 +26,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				437617FA0EB9473A0067C28F /* pgCocoaDB.framework in CopyFiles */,
+				436D43DD0EBA1135003BE656 /* PGSQLKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,7 +44,7 @@
 		434CDC6F07CAD73E000F3026 /* PGNewUserUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGNewUserUI.m; sourceTree = "<group>"; };
 		434CDC9207CADA42000F3026 /* create_user_wiz.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = create_user_wiz.png; sourceTree = "<group>"; };
 		434CDDD307CC3F41000F3026 /* add user_32.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "add user_32.icns"; sourceTree = "<group>"; };
-		437617F60EB947330067C28F /* pgCocoaDB.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = pgCocoaDB.framework; path = ../pgCocoaDB/build/Deployment/pgCocoaDB.framework; sourceTree = SOURCE_ROOT; };
+		436D43D90EBA112F003BE656 /* PGSQLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PGSQLKit.framework; path = ../PGSQLKit/build/Release/PGSQLKit.framework; sourceTree = SOURCE_ROOT; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Create User.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Create User.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -55,7 +55,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
-				437617F70EB947330067C28F /* pgCocoaDB.framework in Frameworks */,
+				436D43DA0EBA112F003BE656 /* PGSQLKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,7 +74,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				437617F60EB947330067C28F /* pgCocoaDB.framework */,
+				436D43D90EBA112F003BE656 /* PGSQLKit.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -232,8 +232,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					../pgCocoaDB/build,
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../pgCocoaDB/build/Deployment\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../PGSQLKit/build/Release\"";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
@@ -259,8 +261,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					../pgCocoaDB/build,
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../pgCocoaDB/build/Deployment\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../PGSQLKit/build/Release\"";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -281,8 +285,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					../pgCocoaDB/build,
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 				);
 				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/../pgCocoaDB/build/Deployment\"";
+				FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2 = "\"$(SRCROOT)/../PGSQLKit/build/Release\"";
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Create User_Prefix.pch";
