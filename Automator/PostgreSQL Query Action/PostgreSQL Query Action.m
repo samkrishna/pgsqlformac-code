@@ -7,7 +7,6 @@
 //
 
 #import "PostgreSQL Query Action.h"
-// #import "RegistrationDialog.h"
 #import <Security/Security.h>
 #import <CoreFoundation/CoreFoundation.h>
 #import <stdlib.h>
@@ -73,8 +72,6 @@
 	[dict setValue:@"" forKey:@"userName"];
 	[dict setValue:@"" forKey:@"password"];
 	[dict setValue:@"" forKey:@"databaseName"];
-	[dict setValue:@"YES" forKey:@"isRegistered"];
-	[dict setValue:@"Unregistered" forKey:@"registeredOwner"];
 	
 	// alter this to read the password (last two nulls)
 	status = SecKeychainItemCopyContent(item, NULL, &list, &passwordLen,
@@ -140,15 +137,10 @@
 {
 	self = [super initWithDefinition:dict fromArchive:archived];
 	
-	[[self parameters] setValue:@"NO" forKey:@"isRegistered"];
-	[[self parameters] setValue:@"Unregistered" forKey:@"registeredOwner"];
-	
 	// load the plist and see if the key information is present.
 	
 	// first check the local machine domain, then the local user.  If the file 
 	// exists, read it and verify it.
-	
-	
 	
 	if (self != nil)
 	{
@@ -267,8 +259,6 @@
 		[dict setValue:@"" forKey:@"userName"];
 		[dict setValue:@"" forKey:@"password"];
 		[dict setValue:@"" forKey:@"databaseName"];
-		[dict setValue:@"YES" forKey:@"isRegistered"];
-		[dict setValue:@"Unregistered" forKey:@"registeredOwner"];
 		return;
 	}
 	
@@ -309,12 +299,5 @@
 }
 
 
-- (IBAction)onRegisterApplication:(id)sender
-{
-	
-	// change this to just load the registration applicatoin from the bundle
-	// RegistrationDialog *dlg = [[RegistrationDialog alloc] init];
-	// [dlg beginModalDialogForWindow:[[self view] window]];
-}
 
 @end

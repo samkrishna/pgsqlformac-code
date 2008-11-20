@@ -17,6 +17,5 @@
 
 - (id)runWithInput:(id)input fromAction:(AMAction *)anAction error:(NSDictionary **)errorInfo;
 - (IBAction)onSelectConnection:(id)sender;
-- (IBAction)onRegisterApplication:(id)sender;
 
 @end

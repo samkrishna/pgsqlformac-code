@@ -7,7 +7,7 @@
 	<key>AMApplication</key>
 	<string>Database</string>
 	<key>AMCanShowSelectedItemsWhenRun</key>
-	<false/>
+	<true/>
 	<key>AMCanShowWhenRun</key>
 	<true/>
 	<key>AMCategory</key>
@@ -57,7 +57,7 @@
 		<key>ApplyButton</key>
 		<string>(* Button label for user to add proposed Action, e.g. Add. *)</string>
 		<key>IgnoreButton</key>
-		<string>(* Button label for user not to add proposed Action, e.g. Don't Add. *)</string>
+		<string>(* Button label for user not to add proposed Action, e.g. Don&apos;t Add. *)</string>
 		<key>Level</key>
 		<integer>0</integer>
 		<key>Message</key>

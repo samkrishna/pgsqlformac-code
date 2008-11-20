@@ -10,7 +10,6 @@
 		43078FF30CEBCCD900A1F930 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43078FF20CEBCCD900A1F930 /* WebKit.framework */; };
 		43273FEE0C98745900C9E033 /* PGSQLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43273FED0C98745900C9E033 /* PGSQLKit.framework */; };
 		433A145A0CA8535D006583AA /* PGSQLKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43273FED0C98745900C9E033 /* PGSQLKit.framework */; };
-		43A10E670CEB9D6700C2BC85 /* Registration.nib in Resources */ = {isa = PBXBuildFile; fileRef = 43A10E650CEB9D6600C2BC85 /* Registration.nib */; };
 		43B0134A0CE4FB6B00C29C2B /* query-tool.icns in Resources */ = {isa = PBXBuildFile; fileRef = 43B013490CE4FB6B00C29C2B /* query-tool.icns */; };
 		43DADC010C9DB4C900C62852 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43DADC000C9DB4C900C62852 /* Security.framework */; };
 		650E79E2067AB5AE00B4A4EC /* Automator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650E79E1067AB5AE00B4A4EC /* Automator.framework */; };
@@ -41,9 +40,6 @@
 		32DBCF630370AF2F00C91783 /* PostgreSQL Query Action_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PostgreSQL Query Action_Prefix.pch"; sourceTree = "<group>"; };
 		43078FF20CEBCCD900A1F930 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = SYSTEM_DEVELOPER_DIR; };
 		43273FED0C98745900C9E033 /* PGSQLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PGSQLKit.framework; path = /Library/Frameworks/PGSQLKit.framework; sourceTree = "<absolute>"; };
-		432BB7050CE661A600154411 /* RegistrationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegistrationDialog.h; sourceTree = "<group>"; };
-		432BB7060CE661A600154411 /* RegistrationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegistrationDialog.m; sourceTree = "<group>"; };
-		43A10E660CEB9D6600C2BC85 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Registration.nib; sourceTree = "<group>"; };
 		43B013490CE4FB6B00C29C2B /* query-tool.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "query-tool.icns"; sourceTree = "<group>"; };
 		43DADC000C9DB4C900C62852 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		650E79E1067AB5AE00B4A4EC /* Automator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Automator.framework; path = /System/Library/Frameworks/Automator.framework; sourceTree = "<absolute>"; };
@@ -94,7 +90,6 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				43A10E650CEB9D6600C2BC85 /* Registration.nib */,
 				43B013490CE4FB6B00C29C2B /* query-tool.icns */,
 				65C50ADD067A987800FE4393 /* main.nib */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
@@ -108,8 +103,6 @@
 			children = (
 				6518174F067A8D39005BD953 /* PostgreSQL Query Action.h */,
 				65181750067A8D39005BD953 /* PostgreSQL Query Action.m */,
-				432BB7050CE661A600154411 /* RegistrationDialog.h */,
-				432BB7060CE661A600154411 /* RegistrationDialog.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -199,7 +192,6 @@
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				65C50ADF067A987800FE4393 /* main.nib in Resources */,
 				43B0134A0CE4FB6B00C29C2B /* query-tool.icns in Resources */,
-				43A10E670CEB9D6700C2BC85 /* Registration.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,14 +231,6 @@
 				089C167EFE841241C02AAC07 /* English */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		43A10E650CEB9D6600C2BC85 /* Registration.nib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				43A10E660CEB9D6600C2BC85 /* English */,
-			);
-			name = Registration.nib;
 			sourceTree = "<group>";
 		};
 		65C50ADD067A987800FE4393 /* main.nib */ = {

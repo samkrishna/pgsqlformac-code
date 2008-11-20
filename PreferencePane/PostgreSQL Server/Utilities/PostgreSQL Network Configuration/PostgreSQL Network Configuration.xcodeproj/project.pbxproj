@@ -8,7 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
-		43D227DE0E4D324E0009C979 /* pg_hba.conf in Resources */ = {isa = PBXBuildFile; fileRef = 43D227DD0E4D324E0009C979 /* pg_hba.conf */; };
+		43DB841B0ECCEEEF00EAB6B6 /* PGNCController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DB841A0ECCEEEF00EAB6B6 /* PGNCController.m */; };
+		43DB84200ECCEF0900EAB6B6 /* PGHBAFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DB841F0ECCEF0900EAB6B6 /* PGHBAFile.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -23,7 +24,10 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* PostgreSQL Network Configuration_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PostgreSQL Network Configuration_Prefix.pch"; sourceTree = "<group>"; };
-		43D227DD0E4D324E0009C979 /* pg_hba.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = pg_hba.conf; path = ../../../../../../Desktop/pg_hba.conf; sourceTree = SOURCE_ROOT; };
+		43DB84190ECCEEEF00EAB6B6 /* PGNCController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGNCController.h; sourceTree = "<group>"; };
+		43DB841A0ECCEEEF00EAB6B6 /* PGNCController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGNCController.m; sourceTree = "<group>"; };
+		43DB841E0ECCEF0900EAB6B6 /* PGHBAFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGHBAFile.h; sourceTree = "<group>"; };
+		43DB841F0ECCEF0900EAB6B6 /* PGHBAFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGHBAFile.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* PostgreSQL Network Configuration.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PostgreSQL Network Configuration.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -43,6 +47,10 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				43DB841E0ECCEF0900EAB6B6 /* PGHBAFile.h */,
+				43DB841F0ECCEF0900EAB6B6 /* PGHBAFile.m */,
+				43DB84190ECCEEEF00EAB6B6 /* PGNCController.h */,
+				43DB841A0ECCEEEF00EAB6B6 /* PGNCController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -76,7 +84,6 @@
 		29B97314FDCFA39411CA2CEA /* PostgreSQL Network Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				43D227DD0E4D324E0009C979 /* pg_hba.conf */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -159,7 +166,6 @@
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
-				43D227DE0E4D324E0009C979 /* pg_hba.conf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,6 +177,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				43DB841B0ECCEEEF00EAB6B6 /* PGNCController.m in Sources */,
+				43DB84200ECCEF0900EAB6B6 /* PGHBAFile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,6 +10,7 @@
 		431AC42F0CA9A806006A2B73 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 431AC42E0CA9A806006A2B73 /* Security.framework */; };
 		431AC4330CA9A837006A2B73 /* PGSQLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 431AC4320CA9A837006A2B73 /* PGSQLKit.framework */; };
 		431AC43C0CA9A9B8006A2B73 /* PGSQLKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 431AC4320CA9A837006A2B73 /* PGSQLKit.framework */; };
+		436C84AC0ECC8EFA007996FD /* query-tool.icns in Resources */ = {isa = PBXBuildFile; fileRef = 436C84AB0ECC8EFA007996FD /* query-tool.icns */; };
 		650E79E2067AB5AE00B4A4EC /* Automator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 650E79E1067AB5AE00B4A4EC /* Automator.framework */; };
 		65181752067A8D39005BD953 /* PostgreSQL Dynamic Query Action.m in Sources */ = {isa = PBXBuildFile; fileRef = 65181750067A8D39005BD953 /* PostgreSQL Dynamic Query Action.m */; };
 		65C50ADF067A987800FE4393 /* main.nib in Resources */ = {isa = PBXBuildFile; fileRef = 65C50ADD067A987800FE4393 /* main.nib */; };
@@ -38,6 +39,7 @@
 		32DBCF630370AF2F00C91783 /* PostgreSQL Dynamic Query Action_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PostgreSQL Dynamic Query Action_Prefix.pch"; sourceTree = "<group>"; };
 		431AC42E0CA9A806006A2B73 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		431AC4320CA9A837006A2B73 /* PGSQLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PGSQLKit.framework; path = /Library/Frameworks/PGSQLKit.framework; sourceTree = "<absolute>"; };
+		436C84AB0ECC8EFA007996FD /* query-tool.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "query-tool.icns"; sourceTree = "<group>"; };
 		650E79E1067AB5AE00B4A4EC /* Automator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Automator.framework; path = /System/Library/Frameworks/Automator.framework; sourceTree = "<absolute>"; };
 		6518174F067A8D39005BD953 /* PostgreSQL Dynamic Query Action.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PostgreSQL Dynamic Query Action.h"; sourceTree = "<group>"; };
 		65181750067A8D39005BD953 /* PostgreSQL Dynamic Query Action.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PostgreSQL Dynamic Query Action.m"; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				436C84AB0ECC8EFA007996FD /* query-tool.icns */,
 				65C50ADD067A987800FE4393 /* main.nib */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
@@ -184,6 +187,7 @@
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				65C50ADF067A987800FE4393 /* main.nib in Resources */,
+				436C84AC0ECC8EFA007996FD /* query-tool.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

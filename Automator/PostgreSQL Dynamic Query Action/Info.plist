@@ -20,7 +20,7 @@
 	<key>AMCanShowWhenRun</key>
 	<true/>
 	<key>AMCategory</key>
-	<string>Database</string>
+	<string>AMCategoryutilities</string>
 	<key>AMDefaultParameters</key>
 	<dict/>
 	<key>AMDescription</key>
@@ -43,7 +43,7 @@
 		<string>Executes a query against a PostgreSQL Database, and returns a list of data elements from the database.</string>
 	</dict>
 	<key>AMIconName</key>
-	<string>PGDAAP</string>
+	<string>query-tool</string>
 	<key>AMKeywords</key>
 	<array/>
 	<key>AMName</key>
@@ -66,7 +66,7 @@
 		<key>ApplyButton</key>
 		<string>(* Button label for user to add proposed Action, e.g. Add. *)</string>
 		<key>IgnoreButton</key>
-		<string>(* Button label for user not to add proposed Action, e.g. Don't Add. *)</string>
+		<string>(* Button label for user not to add proposed Action, e.g. Don&apos;t Add. *)</string>
 		<key>Level</key>
 		<integer>0</integer>
 		<key>Message</key>
