@@ -230,6 +230,7 @@
 		}
 	}
 	NSDictionary *result = [[[NSDictionary alloc] initWithDictionary:dict] autorelease];
+	[dict release];
 	return result;
 }
 
