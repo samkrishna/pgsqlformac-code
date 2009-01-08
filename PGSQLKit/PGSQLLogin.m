@@ -318,6 +318,23 @@
 	return self;
 } 
 
+-(void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+	if (resultConnection != nil) {
+		[resultConnection release];	
+		resultConnection = nil;
+	}
+	
+	if (loginPanel != nil) {
+		[loginPanel release];	
+		loginPanel = nil;
+	}
+	
+	[super dealloc];
+}
+
 
 - (void)beginModalLoginForWindow:(NSWindow *)parent
 {
