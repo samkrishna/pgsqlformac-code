@@ -8,8 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
+		43AB48820EFC379000F6DC7B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43AB48810EFC379000F6DC7B /* Security.framework */; };
+		43AB48850EFC385400F6DC7B /* StartupHelper in Resources */ = {isa = PBXBuildFile; fileRef = 43AB48840EFC385400F6DC7B /* StartupHelper */; };
 		43DB841B0ECCEEEF00EAB6B6 /* PGNCController.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DB841A0ECCEEEF00EAB6B6 /* PGNCController.m */; };
 		43DB84200ECCEF0900EAB6B6 /* PGHBAFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 43DB841F0ECCEF0900EAB6B6 /* PGHBAFile.m */; };
+		43EC94550F15CC7A00BC02DB /* PGHBALocalConnections.m in Sources */ = {isa = PBXBuildFile; fileRef = 43EC94540F15CC7A00BC02DB /* PGHBALocalConnections.m */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -18,16 +21,19 @@
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		1DDD58150DA1D0A300B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* PostgreSQL Network Configuration_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PostgreSQL Network Configuration_Prefix.pch"; sourceTree = "<group>"; };
+		43AB48810EFC379000F6DC7B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		43AB48840EFC385400F6DC7B /* StartupHelper */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = StartupHelper; sourceTree = "<group>"; };
 		43DB84190ECCEEEF00EAB6B6 /* PGNCController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGNCController.h; sourceTree = "<group>"; };
 		43DB841A0ECCEEEF00EAB6B6 /* PGNCController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGNCController.m; sourceTree = "<group>"; };
 		43DB841E0ECCEF0900EAB6B6 /* PGHBAFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGHBAFile.h; sourceTree = "<group>"; };
 		43DB841F0ECCEF0900EAB6B6 /* PGHBAFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGHBAFile.m; sourceTree = "<group>"; };
+		43EC94530F15CC7A00BC02DB /* PGHBALocalConnections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGHBALocalConnections.h; sourceTree = "<group>"; };
+		43EC94540F15CC7A00BC02DB /* PGHBALocalConnections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGHBALocalConnections.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* PostgreSQL Network Configuration.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PostgreSQL Network Configuration.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -38,6 +44,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				43AB48820EFC379000F6DC7B /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,6 +58,8 @@
 				43DB841F0ECCEF0900EAB6B6 /* PGHBAFile.m */,
 				43DB84190ECCEEEF00EAB6B6 /* PGNCController.h */,
 				43DB841A0ECCEEEF00EAB6B6 /* PGNCController.m */,
+				43EC94530F15CC7A00BC02DB /* PGHBALocalConnections.h */,
+				43EC94540F15CC7A00BC02DB /* PGHBALocalConnections.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -58,6 +67,7 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				43AB48810EFC379000F6DC7B /* Security.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -67,7 +77,6 @@
 			isa = PBXGroup;
 			children = (
 				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
-				13E42FB307B3F0F600E4EEF1 /* CoreData.framework */,
 				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
 			);
 			name = "Other Frameworks";
@@ -105,6 +114,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				43AB48840EFC385400F6DC7B /* StartupHelper */,
 				8D1107310486CEB800E47090 /* Info.plist */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
@@ -166,6 +176,7 @@
 			files = (
 				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
+				43AB48850EFC385400F6DC7B /* StartupHelper in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -179,6 +190,7 @@
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				43DB841B0ECCEEEF00EAB6B6 /* PGNCController.m in Sources */,
 				43DB84200ECCEF0900EAB6B6 /* PGHBAFile.m in Sources */,
+				43EC94550F15CC7A00BC02DB /* PGHBALocalConnections.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
