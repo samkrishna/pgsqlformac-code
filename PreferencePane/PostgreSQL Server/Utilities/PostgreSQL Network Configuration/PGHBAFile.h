@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "PGHBAConnections.h"
 
 
 @interface PGHBAFile : NSObject {
@@ -14,9 +15,9 @@
 	NSMutableString *rawSourceData;
 	
 	NSMutableArray *comments;  // each array contains a line number and the data.
-	NSMutableArray *localConnections;
-	NSMutableArray *ipv4Connections;
-	NSMutableArray *ipv6Connections;	
+	PGHBAConnections *localConnections;
+	PGHBAConnections *ipv4Connections;
+	PGHBAConnections *ipv6Connections;	
 }
 
 -(id)initWithContentsOfFile:(NSString *)file;

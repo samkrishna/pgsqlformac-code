@@ -1,5 +1,5 @@
 //
-//  PGHBALocalConnections.h
+//  PGHBAConnections.h
 //  PostgreSQL Network Configuration
 //
 //  Created by Andy Satori on 1/8/09.
@@ -9,8 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface PGHBALocalConnections : NSObject {
-
+@interface PGHBAConnections : NSMutableArray {
+	
 }
 
 @end
