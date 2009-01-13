@@ -137,10 +137,12 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	}
 	NSAssert( (connectionString != nil), @"Attempted to connect to PostgreSQL with empty connectionString.");
 	pgconn = (PGconn *)PQconnectdb([connectionString cString]);
+#ifdef DEBUG
 	if (PQoptions(pgconn))
 	{
 		NSLog(@"Options: %s", PQoptions(pgconn));
 	}
+#endif
 	
 	if (PQstatus(pgconn) == CONNECTION_BAD) 
 	{
