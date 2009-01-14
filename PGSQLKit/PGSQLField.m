@@ -14,28 +14,34 @@
 -(id)initWithResult:(void *)result forColumn:(PGSQLColumn *)forColumn
 			  atRow:(int)atRow
 {
-	[super init];
+	self = [super init];
 	
-	data = nil;
+	if (self)
+	{
+		data = nil;
 	
-	if (PQgetisnull(result, atRow, [column index]) == 1) {
-		return self;
-	}
-	
-	int iLen;
-	char *szBuf;
-	
-	column = forColumn;
-	iLen = PQgetlength(result, atRow, [column index]) + 1;	
-	
-	// this may have to be adjust if the column type is not 0 (eg, it's binary)
-	szBuf = PQgetvalue(result, atRow, [column index]);	
-	data = nil;
-	if (iLen > 0) {
-		data = [[NSData alloc] initWithBytes:szBuf length:iLen];
+		if (PQgetisnull(result, atRow, [forColumn index]) != 1)
+		{		
+			char* szBuf = nil;
+			
+			column = [forColumn retain];
+			int iLen = PQgetlength(result, atRow, [column index]) + 1;	
+			
+			// this may have to be adjust if the column type is not 0 (eg, it's binary)
+			szBuf = PQgetvalue(result, atRow, [column index]);
+			if (iLen > 0)
+				data = [[NSData alloc] initWithBytes:szBuf length:iLen];
+		}
 	}
 
 	return self;
+}
+
+- (void)dealloc
+{
+	[data release];
+	[column release];
+	[super dealloc];
 }
 
 -(NSString *)asString
@@ -127,12 +133,14 @@
 
 -(BOOL)asBoolean
 {
-	if (data != nil) {
-		return ([data bytes] == 't');
+	BOOL result = NO;
+	if (data != nil)
+	{
+		char charResult = *(char*)[data bytes];
+		result = (charResult == 't');
 	}
-	return NO;
+	return result;
 }
-
 
 -(BOOL)isNull
 {
