@@ -2,8 +2,20 @@
 set -e
 echo ...running postflight
 
-echo ...log permissions
-sudo chown -R postgres:admin /Library/PostgreSQL8/log
+# Set the permissions on the directories
+
+echo ...log
+if test ! -d /Library/PostgreSQL8/log; then
+	mkdir /Library/PostgreSQL8/log
+fi
+sudo touch /Library/PostgreSQL8/log/PostgreSQL8.log
+if test ! -f /Library/Logs/PostgreSQL8.log; then 
+	ln -s /Library/PostgreSQL8/log/PostgreSQL8.log /Library/Logs/PostgreSQL8.log 
+fi
+
+echo ...permissions
+chown -R root:admin /Library/PostgreSQL8
+chown -R postgres:admin /Library/PostgreSQL8/log
 
 echo ...data
 if test ! -d /Library/PostgreSQL8/data; then

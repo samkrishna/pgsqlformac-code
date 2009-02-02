@@ -69,17 +69,6 @@ echo password on the newly created account. \(sudo passwd postgres\)
 
 set -e
 
-# Set the permissions on the directories
-
-echo ...log
-if test ! -d /Library/PostgreSQL8/log; then
-	mkdir /Library/PostgreSQL8/log
-fi
-sudo touch /Library/PostgreSQL8/log/PostgreSQL8.log
-if test ! -f /Library/Logs/PostgreSQL8.log; then 
-	ln -s /Library/PostgreSQL8/log/PostgreSQL8.log /Library/Logs/PostgreSQL8.log 
-fi
-
 echo completed postinstall 
 
 
