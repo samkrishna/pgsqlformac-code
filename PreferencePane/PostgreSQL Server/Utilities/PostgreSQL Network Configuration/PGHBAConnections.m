@@ -6,7 +6,7 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-#import "PGHBALocalConnections.h"
+#import "PGHBAConnections.h"
 
 
 @implementation PGHBAConnections
@@ -17,17 +17,34 @@
 	
 	if (self != nil) {
 		// perform custom implementation details (if required)
-	
+		items = [[NSMutableArray alloc] init];
+		[[items autorelease] retain];
 	}
 	
     return self;
 }
 
+- (NSMutableArray *)items
+{
+	return items;
+}
+
+- (void)setItems:(NSMutableDictionary *)value
+{
+	if (items != value)
+	{
+		[items release];
+		items = [[NSMutableArray alloc] initWithArray:(id)value];
+		[[items autorelease] retain];
+	}
+}
+
+
 // table view data source methods
 
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-    return [self count];
+    return [items count];
 }
 
 - (id)tableView:(NSTableView *)aTableView 
@@ -35,17 +52,17 @@
 			row:(int)rowIndex 
 {
     NSString *ident = [aTableColumn identifier];
-    NSMutableDictionary *anItem = [self objectAtIndex:rowIndex];
+    NSMutableDictionary *anItem = [items objectAtIndex:rowIndex];
     return [anItem valueForKey:ident];
 }
 
 - (void)tableView:(NSTableView *)aTableView 
    setObjectValue:(id)anObject 
    forTableColumn:(NSTableColumn *)aTableColumn 
-			  row:(NSInteger)rowIndex
+			  row:(int)rowIndex
 {
 	// NSString *ident = [aTableColumn identifier];
-    NSMutableDictionary *anItem = [self objectAtIndex:rowIndex];
+    NSMutableDictionary *anItem = [items objectAtIndex:rowIndex];
 	
 	if ([[aTableColumn identifier] compare:@"isKey"] == NSOrderedSame)
 	{

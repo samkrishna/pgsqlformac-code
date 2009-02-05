@@ -15,15 +15,15 @@
 	NSMutableString *rawSourceData;
 	
 	NSMutableArray *comments;  // each array contains a line number and the data.
-	PGHBAConnections *localConnections;
-	PGHBAConnections *ipv4Connections;
-	PGHBAConnections *ipv6Connections;	
+	PGHBAConnections *allConnections;
 }
 
 -(id)initWithContentsOfFile:(NSString *)file;
 -(BOOL)saveToFile:(NSString *)file;
 
 -(BOOL)parseSourceData;
+
+-(PGHBAConnections *)allConnections;
 
 -(NSString *)source;
 -(void)setSource:(NSString *)value;

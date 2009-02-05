@@ -18,9 +18,7 @@
 	if (self != nil) {
 		rawSourceData = nil;
 		comments = [[[[NSMutableArray alloc] init] autorelease] retain];
-		localConnections = [[[[NSMutableArray alloc] init] autorelease] retain];
-		ipv4Connections = [[[[NSMutableArray alloc] init] autorelease] retain];
-		ipv6Connections =  [[[[NSMutableArray alloc] init] autorelease] retain];	
+		allConnections = [[[[PGHBAConnections alloc] init] autorelease] retain];
 		
 		NSError *readError = nil;
 		rawSourceData = [[NSMutableString alloc] initWithContentsOfFile:file 
@@ -97,16 +95,16 @@
 			// determine the record type and add it to the correct array.
 			if ([[elements objectAtIndex:0] caseInsensitiveCompare:@"local"] == NSOrderedSame)
 			{
+				[dict setObject:@"Local" forKey:@"group"];				
 				[dict setObject:[elements objectAtIndex:0] forKey:@"type"];
 				[dict setObject:[elements objectAtIndex:1] forKey:@"database"];
 				[dict setObject:[elements objectAtIndex:2] forKey:@"user"];
 				[dict setObject:[elements objectAtIndex:3] forKey:@"method"];
 				if ([elements count] > 4)
 					[dict setObject:[elements objectAtIndex:4] forKey:@"option"];
-				[localConnections addObject:dict];
 			} else {
 				NSRange rangeOfColon = [[elements objectAtIndex:3] rangeOfString:@":"];
-				
+
 				[dict setObject:[elements objectAtIndex:0] forKey:@"type"];
 				[dict setObject:[elements objectAtIndex:1] forKey:@"database"];
 				[dict setObject:[elements objectAtIndex:2] forKey:@"user"];
@@ -119,17 +117,23 @@
 				// determine if element index 3 is an ipv4 or ipv6 address.
 				if (rangeOfColon.location == NSNotFound)
 				{
-					[ipv4Connections addObject:dict];
+					[dict setObject:@"IPv4" forKey:@"group"];				
 				} else {
-					[ipv6Connections addObject:dict];
+					[dict setObject:@"IPv6" forKey:@"group"];				
 				}
 			}
+			[[allConnections items] addObject:dict];
 		}
 	}
 	
 	return YES;
 }
-		
+
+-(PGHBAConnections *)allConnections
+{
+	return allConnections;
+}
+
 -(NSString *)source {
 	return rawSourceData;
 }

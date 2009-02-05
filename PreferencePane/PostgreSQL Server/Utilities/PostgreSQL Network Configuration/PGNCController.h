@@ -15,16 +15,28 @@
 @interface PGNCController : NSObject {
 	PGHBAFile *hbaConfiguration;
 	
+	NSMutableDictionary *currentEntry;
+	
 	IBOutlet NSTextView *rawSource;
 	
+	IBOutlet NSTableView *allConnectionList;
+	
+	IBOutlet NSPanel *connectionDetails;
+	IBOutlet NSTextField *database;
+	IBOutlet NSTextField *userName;
+	IBOutlet NSPopUpButton *type;
+	IBOutlet NSPopUpButton *group;
+	IBOutlet NSTextField *option;
+	IBOutlet NSPopUpButton *method;
 }
+
+-(IBAction)onAddEntry:(id)sender;
+-(IBAction)onEditEntry:(id)sender;
+-(IBAction)onDeleteEntry:(id)sender;
+-(IBAction)onEditOK:(id)sender;
+-(IBAction)onEditCancel:(id)sender;
 
 -(IBAction)fetchActiveConfiguration:(id)sender;
 -(IBAction)pushNewConfiguration:(id)sender;
-
--(IBAction)tellServerToReloadConfiguration:(id)sender;
-
-
-
 
 @end

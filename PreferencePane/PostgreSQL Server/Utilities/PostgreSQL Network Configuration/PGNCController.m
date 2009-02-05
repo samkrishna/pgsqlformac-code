@@ -27,9 +27,85 @@
 {
 	// check for the file, if it doesn't exist, get it.
 	
+
 	[self performSelector:@selector(fetchActiveConfiguration:) withObject:self afterDelay:0.0];
 	return;
 }
+
+-(void)defaultEditPanel
+{
+	[database setString:@""];
+	[userName setString:@""];
+	
+	[type removeAllItems];
+	[type addItemWithTitle:@""];
+	[type addItemWithTitle:@"local"];
+	[type addItemWithTitle:@"host"];
+	[type addItemWithTitle:@"hostssl"];
+	[type addItemWithTitle:@"hostnossl"];
+	
+	[group removeAllItems];
+	[group addItemWithTitle:@"Local"];
+	[group addItemWithTitle:@"IPv4"];
+	[group addItemWithTitle:@"IPv6"];
+	
+	[method removeAllItems];
+	[method addItemWithTitle:@"md5"];
+	[method addItemWithTitle:@"trust"];
+	[method addItemWithTitle:@"reject"];
+	[method addItemWithTitle:@"crypt"];
+	[method addItemWithTitle:@"password"];
+	[method addItemWithTitle:@"gss"];
+	[method addItemWithTitle:@"sspi"];
+	[method addItemWithTitle:@"krb5"];
+	[method addItemWithTitle:@"ident"];
+	[method addItemWithTitle:@"pam"];
+	[method addItemWithTitle:@"ldap"];
+	
+	//[address setString:@""];
+
+	[option setStringValue:@""]; // the user is going to have to know the options.
+}
+
+-(IBAction)onAddEntry:(id)sender
+{
+	[self defaultEditPanel];
+	
+	[NSApp beginSheet:connectionDetails
+       modalForWindow:[NSApp mainWindow]
+        modalDelegate:nil
+       didEndSelector:nil
+          contextInfo:nil];
+	
+	return;
+}
+
+-(IBAction)onEditEntry:(id)sender
+{	
+	[self preloadEditPanel];
+	
+	[NSApp beginSheet:connectionDetails
+       modalForWindow:[NSApp mainWindow]
+        modalDelegate:nil
+       didEndSelector:nil
+          contextInfo:nil];
+	
+	return;
+}
+-(IBAction)onDeleteEntry:(id)sender
+{
+	
+}
+-(IBAction)onEditOK:(id)sender
+{
+	
+}
+
+-(IBAction)onEditCancel:(id)sender
+{
+	
+}
+
 
 
 -(IBAction)fetchActiveConfiguration:(id)sender
@@ -97,6 +173,8 @@
 	// set up the UI
 	
 	[rawSource setString:[hbaConfiguration source]];
+	[allConnectionList setDataSource:[hbaConfiguration allConnections]];
+	[allConnectionList reloadData];
 }
 
 -(IBAction)pushNewConfiguration:(id)sender
@@ -183,5 +261,6 @@
 	
     AuthorizationFree (myAuthorizationRef, kAuthorizationFlagDefaults);                
 }
+
 
 @end

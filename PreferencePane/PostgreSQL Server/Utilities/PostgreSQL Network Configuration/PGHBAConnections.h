@@ -9,8 +9,11 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface PGHBAConnections : NSMutableArray {
-	
+@interface PGHBAConnections : NSObject {
+	NSMutableArray *items;
 }
+
+- (NSMutableArray *)items;
+- (void)setItems:(NSMutableDictionary *)value;
 
 @end

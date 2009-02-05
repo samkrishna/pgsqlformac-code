@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		433BD07F0F3B571C003F4D26 /* PostgreSQL Network Configuration.app in Resources */ = {isa = PBXBuildFile; fileRef = 433BD0780F3B56FA003F4D26 /* PostgreSQL Network Configuration.app */; };
 		434CF81A0E4C88500040ED14 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 434CF8190E4C88500040ED14 /* Security.framework */; };
 		434CF86F0E4C99F50040ED14 /* restart.png in Resources */ = {isa = PBXBuildFile; fileRef = 434CF8670E4C99F50040ED14 /* restart.png */; };
 		434CF8700E4C99F50040ED14 /* start.png in Resources */ = {isa = PBXBuildFile; fileRef = 434CF8680E4C99F50040ED14 /* start.png */; };
@@ -27,7 +28,6 @@
 		434CF8B50E4CAC890040ED14 /* prefs_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 434CF8B40E4CAC890040ED14 /* prefs_32.png */; };
 		43AFFB260ECA7AE500FF139F /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = 43AFFB250ECA7AE500FF139F /* CHANGELOG */; };
 		43B1AB790EC1E204002D4317 /* StartupHelper in Resources */ = {isa = PBXBuildFile; fileRef = 43B1AB5E0EC13A66002D4317 /* StartupHelper */; };
-		43B5F6890EC354EB00AE6451 /* PostgreSQLPrefPane.icns in Resources */ = {isa = PBXBuildFile; fileRef = 43B5F6880EC354EB00AE6451 /* PostgreSQLPrefPane.icns */; };
 		43B5F6B20EC355CA00AE6451 /* PostgreSQL_ServerPref.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 43B5F6B10EC355CA00AE6451 /* PostgreSQL_ServerPref.tiff */; };
 		8D202CEA0486D31800D8A456 /* PostgreSQL Server_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCFA20370C41700C91783 /* PostgreSQL Server_Prefix.pch */; };
 		8D202CEB0486D31800D8A456 /* PostgreSQL_ServerPref.h in Headers */ = {isa = PBXBuildFile; fileRef = F506C03C013D9D7901CA16C8 /* PostgreSQL_ServerPref.h */; };
@@ -39,6 +39,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		433BD0770F3B56FA003F4D26 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 433BD0730F3B56FA003F4D26 /* PostgreSQL Network Configuration.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D1107320486CEB800E47090 /* PostgreSQL Network Configuration.app */;
+			remoteInfo = "PostgreSQL Network Configuration";
+		};
 		43B1AB5D0EC13A66002D4317 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 43B1AB590EC13A66002D4317 /* StartupHelper.xcode */;
@@ -61,6 +68,7 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCFA20370C41700C91783 /* PostgreSQL Server_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PostgreSQL Server_Prefix.pch"; sourceTree = "<group>"; };
+		433BD0730F3B56FA003F4D26 /* PostgreSQL Network Configuration.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "PostgreSQL Network Configuration.xcodeproj"; path = "Utilities/PostgreSQL Network Configuration/PostgreSQL Network Configuration.xcodeproj"; sourceTree = "<group>"; };
 		434CF8190E4C88500040ED14 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		434CF8620E4C988C0040ED14 /* Deployment */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Deployment; path = ../../StartupHelper/build/Deployment; sourceTree = SOURCE_ROOT; };
 		434CF8670E4C99F50040ED14 /* restart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restart.png; sourceTree = "<group>"; };
@@ -82,7 +90,6 @@
 		434CF8B40E4CAC890040ED14 /* prefs_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = prefs_32.png; sourceTree = "<group>"; };
 		43AFFB250ECA7AE500FF139F /* CHANGELOG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGELOG; sourceTree = "<group>"; };
 		43B1AB590EC13A66002D4317 /* StartupHelper.xcode */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = StartupHelper.xcode; path = ../../StartupHelper/StartupHelper.xcode; sourceTree = SOURCE_ROOT; };
-		43B5F6880EC354EB00AE6451 /* PostgreSQLPrefPane.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = PostgreSQLPrefPane.icns; path = ../../../../../../Desktop/PostgreSQLPrefPane.icns; sourceTree = SOURCE_ROOT; };
 		43B5F6B10EC355CA00AE6451 /* PostgreSQL_ServerPref.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = PostgreSQL_ServerPref.tiff; sourceTree = "<group>"; };
 		8D202CF70486D31800D8A456 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D202CF80486D31800D8A456 /* PostgreSQL Server.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PostgreSQL Server.prefPane"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -115,6 +122,7 @@
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
+				433BD0730F3B56FA003F4D26 /* PostgreSQL Network Configuration.xcodeproj */,
 				43B1AB590EC13A66002D4317 /* StartupHelper.xcode */,
 			);
 			name = "PostgreSQL Server";
@@ -133,7 +141,6 @@
 			isa = PBXGroup;
 			children = (
 				43B5F6B10EC355CA00AE6451 /* PostgreSQL_ServerPref.tiff */,
-				43B5F6880EC354EB00AE6451 /* PostgreSQLPrefPane.icns */,
 				434CF8B40E4CAC890040ED14 /* prefs_32.png */,
 				434CF8B20E4CAC570040ED14 /* security_32.png */,
 				434CF8B00E4CAC130040ED14 /* data-folder.png */,
@@ -203,6 +210,14 @@
 			name = "Other Sources";
 			sourceTree = "<group>";
 		};
+		433BD0740F3B56FA003F4D26 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				433BD0780F3B56FA003F4D26 /* PostgreSQL Network Configuration.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		43B1AB5A0EC13A66002D4317 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -263,6 +278,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 433BD0740F3B56FA003F4D26 /* Products */;
+					ProjectRef = 433BD0730F3B56FA003F4D26 /* PostgreSQL Network Configuration.xcodeproj */;
+				},
+				{
 					ProductGroup = 43B1AB5A0EC13A66002D4317 /* Products */;
 					ProjectRef = 43B1AB590EC13A66002D4317 /* StartupHelper.xcode */;
 				},
@@ -275,6 +294,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		433BD0780F3B56FA003F4D26 /* PostgreSQL Network Configuration.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = "PostgreSQL Network Configuration.app";
+			remoteRef = 433BD0770F3B56FA003F4D26 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		43B1AB5E0EC13A66002D4317 /* StartupHelper */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
@@ -289,6 +315,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				433BD07F0F3B571C003F4D26 /* PostgreSQL Network Configuration.app in Resources */,
 				43B1AB790EC1E204002D4317 /* StartupHelper in Resources */,
 				8D202CED0486D31800D8A456 /* InfoPlist.strings in Resources */,
 				8D202CEF0486D31800D8A456 /* PostgreSQL_ServerPref.xib in Resources */,
@@ -307,7 +334,6 @@
 				434CF8B10E4CAC130040ED14 /* data-folder.png in Resources */,
 				434CF8B30E4CAC570040ED14 /* security_32.png in Resources */,
 				434CF8B50E4CAC890040ED14 /* prefs_32.png in Resources */,
-				43B5F6890EC354EB00AE6451 /* PostgreSQLPrefPane.icns in Resources */,
 				43B5F6B20EC355CA00AE6451 /* PostgreSQL_ServerPref.tiff in Resources */,
 				43AFFB260ECA7AE500FF139F /* CHANGELOG in Resources */,
 			);

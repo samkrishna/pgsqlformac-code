@@ -308,6 +308,8 @@
 
 - (IBAction)launchNetworkConfiguration:(id)sender
 {
+	NSString *pathToHelper = [thisBundle pathForResource:@"PostgreSQL Network Configuration" ofType:@"app"];
+	[[NSWorkspace sharedWorkspace] launchApplication:pathToHelper];
 	return;
 }
 
