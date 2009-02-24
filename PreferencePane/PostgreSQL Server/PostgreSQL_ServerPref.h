@@ -14,25 +14,36 @@
 
 @interface PostgreSQL_ServerPref : NSPreferencePane 
 {
-	IBOutlet NSTextField *testLabel;
+//	IBOutlet NSTextField *testLabel;
 	
-	IBOutlet NSButton *addServer;
     IBOutlet NSButton *autostartOption;
     IBOutlet NSProgressIndicator *progress;
-    IBOutlet NSButton *refresh;
+//  IBOutlet NSButton *refresh;
+
     IBOutlet NSButton *restartService;
     IBOutlet NSTextField *restartServiceLabel;
-    IBOutlet NSPopUpButton *servers;
+//    IBOutlet NSPopUpButton *servers;
+
     IBOutlet NSImageView *serviceImage;
-    IBOutlet NSPopUpButton *services;
+//    IBOutlet NSPopUpButton *services;
+
     IBOutlet NSButton *startService;
     IBOutlet NSTextField *startServiceLabel;
-    IBOutlet NSTextField *status;
-    IBOutlet NSButton *stopService;
+    
+	IBOutlet NSTextField *status;
+    
+	IBOutlet NSButton *stopService;
     IBOutlet NSTextField *stopServiceLabel;
-    IBOutlet NSWindow *window;
+    
+	IBOutlet NSWindow *window;
+	
 	IBOutlet NSProgressIndicator *working;
+	
 	IBOutlet NSButton *lockToggle;
+	
+	IBOutlet NSButton *changeDataPath;
+	IBOutlet NSButton *modifyNetworkConfiguration;
+	IBOutlet NSButton *modifyPostgreSQLConfiguration;
 	
 	NSBundle *thisBundle;
 	
@@ -41,6 +52,7 @@
 
 	NSString *command;
 	NSString *operation;
+	NSString *option;
 	
 	BOOL isLocked;
 	
@@ -61,7 +73,14 @@
 - (IBAction)onRestartService:(id)sender;
 - (IBAction)onStartService:(id)sender;
 - (IBAction)onStopService:(id)sender;
+- (IBAction)onReloadService:(id)sender;
+
+- (IBAction)onChangePostgreSQLDataPath:(id)sender;
 
 - (IBAction)launchNetworkConfiguration:(id)sender;
+
+-(IBAction)fetchActiveConfiguration:(id)sender;
+-(IBAction)pushActiveConfiguration:(id)sender;
+
 
 @end

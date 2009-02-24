@@ -8,12 +8,12 @@
 
 #import "PostgreSQL_ServerPref.h"
 #import "AGProcess.h"
+#import "PGMChangeDataPath.h"
+#import "PGMNetworkConfiguration.h"
 
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
-
-
 
 @implementation PostgreSQL_ServerPref
 
@@ -64,8 +64,7 @@
 		isLocked = NO;
 		return YES;
 	}
-	
-	
+		
 	isLocked = YES;		
 	return NO;
 }
@@ -94,7 +93,11 @@
 	if (isLocked)
 	{
 		[lockToggle setState:NSOffState];
+		
 	}
+	
+	[changeDataPath setEnabled:!isLocked];
+	[modifyNetworkConfiguration setEnabled:!isLocked];
 	
 	return;
 }
@@ -189,6 +192,11 @@
 		operation = nil;
 	}
  	operation = [[NSString alloc] initWithString:@"restart"];
+	if (option != nil)
+	{
+		[option release];
+		option = nil;
+	}
 	
 	[NSThread detachNewThreadSelector:@selector(execStartupWithRights) toTarget:self withObject:operation];	
 	
@@ -222,6 +230,12 @@
 	}
  	operation = [[NSString alloc] initWithString:@"start"];
 	
+	if (option != nil)
+	{
+		[option release];
+		option = nil;
+	}
+	
 	[NSThread detachNewThreadSelector:@selector(execStartupWithRights) toTarget:self withObject:operation];	
     return;	
 }
@@ -253,10 +267,54 @@
 	}
  	operation = [[NSString alloc] initWithString:@"stop"];
 	
+	if (option != nil)
+	{
+		[option release];
+		option = nil;
+	}
+	
 	[working startAnimation:sender];
 	
 	[NSThread detachNewThreadSelector:@selector(execStartupWithRights) toTarget:self withObject:operation];	
 	
+    return;	
+}
+
+- (IBAction)onReloadService:(id)sender
+{
+	// if locked, need to unlock before calling exec
+	if (isLocked) 
+	{
+		[self toggleLock:sender];
+	}
+	
+	if (isLocked)
+	{
+		return;
+	}
+	
+	if (command != nil) 
+	{
+		[command release];
+		command = nil;
+	}
+ 	command = [[NSString alloc] initWithString:@"/Library/StartupItems/PostgreSQL/PostgreSQL"];
+	
+	if (operation != nil)
+	{
+		[operation release];
+		operation = nil;
+	}
+ 	operation = [[NSString alloc] initWithString:@"restart"];
+	
+	if (option != nil)
+	{
+		[option release];
+		option = nil;
+	}
+ 	option = [[NSString alloc] initWithString:@"RELOAD"];
+	
+	[NSThread detachNewThreadSelector:@selector(execStartupWithRights) toTarget:self withObject:operation];	
     return;	
 }
 
@@ -273,8 +331,13 @@
 	
 	myArguments[0] = (char *)[command cString];
 	myArguments[1] = (char *)[operation cString];
-	myArguments[2] = "MANUAL";
-	myArguments[3] = NULL;
+	if (option != nil)	
+	{
+		myArguments[2] = (char *)[option cString];;
+	} else {
+		myArguments[2] = "MANUAL";
+	}
+	myArguments[3] = NULL;		
 	
 	FILE *myCommunicationsPipe = NULL;
 	
@@ -306,14 +369,100 @@
 #pragma mark --
 #pragma mark Configuration Management Handlers
 
+- (IBAction)onChangePostgreSQLDataPath:(id)sender
+{
+	// create the owner.
+	PGMChangeDataPath *dialogOwner = [[PGMChangeDataPath alloc] init];
+	[dialogOwner showModalForWindow:[NSApp mainWindow]];
+}
+
 - (IBAction)launchNetworkConfiguration:(id)sender
 {
-	NSString *pathToHelper = [thisBundle pathForResource:@"PostgreSQL Network Configuration" ofType:@"app"];
-	[[NSWorkspace sharedWorkspace] launchApplication:pathToHelper];
-	return;
+	// create the owner.
+	[self fetchActiveConfiguration:sender];
+	
+	PGMNetworkConfiguration *dialogOwner = [[PGMNetworkConfiguration alloc] init];
+	[dialogOwner showModalForWindow:[NSApp mainWindow]];
+	
+	
+	if ([dialogOwner shouldRestartService])
+	{
+		NSLog(@"should restart service as needed");
+		[self pushActiveConfiguration:sender];
+		[self onReloadService:sender];
+	}
 }
 
 
+#pragma mark --
+#pragma mark File Management Routines
+
+-(IBAction)fetchActiveConfiguration:(id)sender
+{
+	OSStatus myStatus;
+    NSBundle *bundleApp = [NSBundle mainBundle];
+    NSString *pathToHelper = [bundleApp pathForResource:@"StartupHelper" ofType:nil];
+	
+	const char *myToolPath = [pathToHelper cStringUsingEncoding:NSASCIIStringEncoding]; 
+	char *myArguments[5];
+	
+	myArguments[0] = "/bin/cat";
+	myArguments[1] = "/Library/PostgreSQL8/data/pg_hba.conf";
+	myArguments[2] = ">";
+	myArguments[3] = "/var/tmp/pg_hba.conf.in";
+	myArguments[4] = NULL;
+	
+	FILE *myCommunicationsPipe = NULL;
+	char myReadBuffer[128];
+	
+	myFlags = kAuthorizationFlagDefaults;			
+	myStatus = AuthorizationExecuteWithPrivileges(myAuthorizationRef, 
+												  myToolPath, myFlags, myArguments, &myCommunicationsPipe);      
+	
+	if (myStatus == errAuthorizationSuccess)
+		for(;;)
+		{
+			int bytesRead = read (fileno (myCommunicationsPipe),
+								  myReadBuffer, sizeof (myReadBuffer));
+			if (bytesRead < 1) break;
+			NSLog(@"%s", myReadBuffer);
+		}			
+		
+}
+
+-(IBAction)pushActiveConfiguration:(id)sender
+{
+	OSStatus myStatus;
+    NSBundle *bundleApp = [NSBundle mainBundle];
+    NSString *pathToHelper = [bundleApp pathForResource:@"StartupHelper" ofType:nil];
+	
+	const char *myToolPath = [pathToHelper cStringUsingEncoding:NSASCIIStringEncoding]; 
+	char *myArguments[5];
+	
+	myArguments[0] = "/bin/cat";
+	myArguments[1] = "/var/tmp/pg_hba.conf.in";
+	myArguments[2] = ">";
+	myArguments[3] = "/Library/PostgreSQL8/data/pg_hba.conf";
+	myArguments[4] = NULL;
+	
+	NSLog(@"pushing configuration");
+	
+	FILE *myCommunicationsPipe = NULL;
+	char myReadBuffer[128];
+	
+	myFlags = kAuthorizationFlagDefaults;			
+	myStatus = AuthorizationExecuteWithPrivileges(myAuthorizationRef, 
+												  myToolPath, myFlags, myArguments, &myCommunicationsPipe);      
+	
+	if (myStatus == errAuthorizationSuccess)
+		for(;;)
+		{
+			int bytesRead = read (fileno (myCommunicationsPipe),
+								  myReadBuffer, sizeof (myReadBuffer));
+			if (bytesRead < 1) break;
+			NSLog(@"%s", myReadBuffer);
+		}			
+}
 
 
 @end

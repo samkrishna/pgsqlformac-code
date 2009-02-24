@@ -424,6 +424,10 @@
 									<string key="NSClassName">NSImage</string>
 									<string key="NSResourceName">lock_32</string>
 								</object>
+								<object class="NSCustomResource" key="NSAlternateImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">ulock_32</string>
+								</object>
 								<string key="NSAlternateContents"/>
 								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">400</int>
@@ -433,19 +437,59 @@
 						<object class="NSButton" id="663825276">
 							<reference key="NSNextResponder" ref="1037298196"/>
 							<int key="NSvFlags">266</int>
-							<string key="NSFrame">{{381, 275}, {249, 19}}</string>
+							<string key="NSFrame">{{360, 306}, {249, 19}}</string>
 							<reference key="NSSuperview" ref="1037298196"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="815986508">
-								<int key="NSCellFlags">-2080244224</int>
+								<int key="NSCellFlags">-1543373312</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">Modify Network Configuration</string>
-								<object class="NSFont" key="NSSupport">
+								<string key="NSContents">Change Data Path</string>
+								<object class="NSFont" key="NSSupport" id="477189958">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">1.200000e+01</double>
 									<int key="NSfFlags">16</int>
 								</object>
 								<reference key="NSControlView" ref="663825276"/>
+								<int key="NSButtonFlags">-2034482945</int>
+								<int key="NSButtonFlags2">164</int>
+								<string key="NSAlternateContents"/>
+								<string key="NSKeyEquivalent"/>
+								<int key="NSPeriodicDelay">400</int>
+								<int key="NSPeriodicInterval">75</int>
+							</object>
+						</object>
+						<object class="NSButton" id="1039875048">
+							<reference key="NSNextResponder" ref="1037298196"/>
+							<int key="NSvFlags">266</int>
+							<string key="NSFrame">{{360, 281}, {249, 19}}</string>
+							<reference key="NSSuperview" ref="1037298196"/>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSButtonCell" key="NSCell" id="888411744">
+								<int key="NSCellFlags">-1543373312</int>
+								<int key="NSCellFlags2">134217728</int>
+								<string key="NSContents">Modify Network Configuration</string>
+								<reference key="NSSupport" ref="477189958"/>
+								<reference key="NSControlView" ref="1039875048"/>
+								<int key="NSButtonFlags">-2034482945</int>
+								<int key="NSButtonFlags2">164</int>
+								<string key="NSAlternateContents"/>
+								<string key="NSKeyEquivalent"/>
+								<int key="NSPeriodicDelay">400</int>
+								<int key="NSPeriodicInterval">75</int>
+							</object>
+						</object>
+						<object class="NSButton" id="337109862">
+							<reference key="NSNextResponder" ref="1037298196"/>
+							<int key="NSvFlags">266</int>
+							<string key="NSFrame">{{360, 256}, {249, 19}}</string>
+							<reference key="NSSuperview" ref="1037298196"/>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSButtonCell" key="NSCell" id="1008769531">
+								<int key="NSCellFlags">604110336</int>
+								<int key="NSCellFlags2">134217728</int>
+								<string key="NSContents">Modify Network Configuration</string>
+								<reference key="NSSupport" ref="477189958"/>
+								<reference key="NSControlView" ref="337109862"/>
 								<int key="NSButtonFlags">-2034482945</int>
 								<int key="NSButtonFlags2">164</int>
 								<string key="NSAlternateContents"/>
@@ -565,11 +609,43 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">launchNetworkConfiguration:</string>
+						<string key="label">onChangePostgreSQLDataPath:</string>
 						<reference key="source" ref="294453543"/>
 						<reference key="destination" ref="663825276"/>
 					</object>
-					<int key="connectionID">188</int>
+					<int key="connectionID">191</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">launchNetworkConfiguration:</string>
+						<reference key="source" ref="294453543"/>
+						<reference key="destination" ref="1039875048"/>
+					</object>
+					<int key="connectionID">192</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">modifyNetworkConfiguration</string>
+						<reference key="source" ref="294453543"/>
+						<reference key="destination" ref="1039875048"/>
+					</object>
+					<int key="connectionID">195</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">modifyPostgreSQLConfiguration</string>
+						<reference key="source" ref="294453543"/>
+						<reference key="destination" ref="337109862"/>
+					</object>
+					<int key="connectionID">196</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">changeDataPath</string>
+						<reference key="source" ref="294453543"/>
+						<reference key="destination" ref="663825276"/>
+					</object>
+					<int key="connectionID">197</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -627,6 +703,8 @@
 							<reference ref="487703545"/>
 							<reference ref="58562495"/>
 							<reference ref="663825276"/>
+							<reference ref="1039875048"/>
+							<reference ref="337109862"/>
 						</object>
 						<reference key="parent" ref="660800786"/>
 					</object>
@@ -869,6 +947,34 @@
 						<reference key="object" ref="815986508"/>
 						<reference key="parent" ref="663825276"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">189</int>
+						<reference key="object" ref="1039875048"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="888411744"/>
+						</object>
+						<reference key="parent" ref="1037298196"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">190</int>
+						<reference key="object" ref="888411744"/>
+						<reference key="parent" ref="1039875048"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">193</int>
+						<reference key="object" ref="337109862"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="1008769531"/>
+						</object>
+						<reference key="parent" ref="1037298196"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">194</int>
+						<reference key="object" ref="1008769531"/>
+						<reference key="parent" ref="337109862"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -929,6 +1035,10 @@
 					<string>175.IBPluginDependency</string>
 					<string>186.IBPluginDependency</string>
 					<string>187.IBPluginDependency</string>
+					<string>189.IBPluginDependency</string>
+					<string>190.IBPluginDependency</string>
+					<string>193.IBPluginDependency</string>
+					<string>194.IBPluginDependency</string>
 					<string>6.IBPluginDependency</string>
 					<string>6.ImportedFromIB2</string>
 				</object>
@@ -989,6 +1099,10 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 				</object>
 			</object>
@@ -1012,7 +1126,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">188</int>
+			<int key="maxID">197</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1057,7 +1171,9 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>fetchActiveConfiguration:</string>
 							<string>launchNetworkConfiguration:</string>
+							<string>onChangePostgreSQLDataPath:</string>
 							<string>onRestartService:</string>
 							<string>onStartService:</string>
 							<string>onStopService:</string>
@@ -1072,28 +1188,28 @@
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
+							<string>id</string>
+							<string>id</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>addServer</string>
 							<string>autostartOption</string>
+							<string>changeDataPath</string>
 							<string>lockToggle</string>
+							<string>modifyNetworkConfiguration</string>
+							<string>modifyPostgreSQLConfiguration</string>
 							<string>progress</string>
-							<string>refresh</string>
 							<string>restartService</string>
 							<string>restartServiceLabel</string>
-							<string>servers</string>
 							<string>serviceImage</string>
-							<string>services</string>
 							<string>startService</string>
 							<string>startServiceLabel</string>
 							<string>status</string>
 							<string>stopService</string>
 							<string>stopServiceLabel</string>
-							<string>testLabel</string>
 							<string>window</string>
 							<string>working</string>
 						</object>
@@ -1102,18 +1218,16 @@
 							<string>NSButton</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
 							<string>NSProgressIndicator</string>
 							<string>NSButton</string>
-							<string>NSButton</string>
 							<string>NSTextField</string>
-							<string>NSPopUpButton</string>
 							<string>NSImageView</string>
-							<string>NSPopUpButton</string>
 							<string>NSButton</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSButton</string>
-							<string>NSTextField</string>
 							<string>NSTextField</string>
 							<string>NSWindow</string>
 							<string>NSProgressIndicator</string>
