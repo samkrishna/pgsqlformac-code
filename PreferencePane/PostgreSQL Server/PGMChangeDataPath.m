@@ -24,6 +24,8 @@
 		return;
 	}
 	
+	[dataFilePath setStringValue:currentPath];
+	
 	[NSApp beginSheet:thisPanel  
 	   modalForWindow:parentWindow 
 		modalDelegate:nil
@@ -31,6 +33,12 @@
 		  contextInfo:nil];
 
 	[NSApp runModalForWindow:thisPanel];
+}
+
+- (void)setCurrentPath:(NSString *)value
+{
+	currentPath = [[NSString alloc] initWithString:value];
+	[[currentPath autorelease] retain];
 }
 
 - (IBAction)onBrowseForFolder:(id)sender

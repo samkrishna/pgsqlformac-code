@@ -54,6 +54,8 @@
 	NSString *operation;
 	NSString *option;
 	
+	NSMutableDictionary *preferences;
+	
 	BOOL isLocked;
 	
 	double updateInterval;
@@ -76,11 +78,15 @@
 - (IBAction)onReloadService:(id)sender;
 
 - (IBAction)onChangePostgreSQLDataPath:(id)sender;
-
 - (IBAction)launchNetworkConfiguration:(id)sender;
+- (IBAction)launchPostgreSQLConfiguration:(id)sender;
 
--(IBAction)fetchActiveConfiguration:(id)sender;
--(IBAction)pushActiveConfiguration:(id)sender;
+- (IBAction)fetchHBAConfiguration:(id)sender;
+- (IBAction)pushHBAConfiguration:(id)sender;
+- (IBAction)removeTempHBAFiles:(id)sender;
+- (IBAction)fetchPGConfiguration:(id)sender;
+- (IBAction)pushPGConfiguration:(id)sender;
+- (IBAction)removeTempPGFiles:(id)sender;
 
 
 @end

@@ -37,7 +37,7 @@
 			<object class="NSWindowTemplate" id="660800786">
 				<int key="NSWindowStyleMask">7</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{-46, 463}, {661, 345}}</string>
+				<string key="NSWindowRect">{{108, 754}, {661, 345}}</string>
 				<int key="NSWTFlags">1081606144</int>
 				<string type="base64-UTF8" key="NSWindowTitle">PDwgZG8gbm90IGxvY2FsaXplID4+A</string>
 				<string key="NSWindowClass">NSWindow</string>
@@ -487,7 +487,7 @@
 							<object class="NSButtonCell" key="NSCell" id="1008769531">
 								<int key="NSCellFlags">604110336</int>
 								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents">Modify Network Configuration</string>
+								<string key="NSContents">Modify PostgreSQL Configuration</string>
 								<reference key="NSSupport" ref="477189958"/>
 								<reference key="NSControlView" ref="337109862"/>
 								<int key="NSButtonFlags">-2034482945</int>
@@ -503,7 +503,7 @@
 					<reference key="NSSuperview"/>
 					<bool key="NSViewIsLayerTreeHost">YES</bool>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
 				<string key="NSMinSize">{224.664, 32}</string>
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
 			</object>
@@ -646,6 +646,14 @@
 						<reference key="destination" ref="663825276"/>
 					</object>
 					<int key="connectionID">197</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">launchPostgreSQLConfiguration:</string>
+						<reference key="source" ref="294453543"/>
+						<reference key="destination" ref="337109862"/>
+					</object>
+					<int key="connectionID">198</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1075,8 +1083,8 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{4, 459}, {661, 345}}</string>
-					<string>{{4, 459}, {661, 345}}</string>
+					<string>{{16, 421}, {661, 345}}</string>
+					<string>{{16, 421}, {661, 345}}</string>
 					<reference ref="9"/>
 					<reference ref="9"/>
 					<string>{3.40282e+38, 3.40282e+38}</string>
@@ -1126,7 +1134,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">197</int>
+			<int key="maxID">198</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1171,17 +1179,31 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>fetchActiveConfiguration:</string>
+							<string>fetchHBAConfiguration:</string>
+							<string>fetchPGConfiguration:</string>
 							<string>launchNetworkConfiguration:</string>
+							<string>launchPostgreSQLConfiguration:</string>
 							<string>onChangePostgreSQLDataPath:</string>
+							<string>onReloadService:</string>
 							<string>onRestartService:</string>
 							<string>onStartService:</string>
 							<string>onStopService:</string>
 							<string>onTimedUpdate:</string>
+							<string>pushHBAConfiguration:</string>
+							<string>pushPGConfiguration:</string>
+							<string>removeTempHBAFiles:</string>
+							<string>removeTempPGFiles:</string>
 							<string>toggleLock:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>

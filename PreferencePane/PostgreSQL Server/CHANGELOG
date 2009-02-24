@@ -14,3 +14,9 @@
 	- altered lock to display state.
 	- altered toggle lock code to enable disable the change/modify buttons
 	
+02.24.2009
+	- all panels now display and hide
+	- all panels now display data and write the data
+	- startupitem does not adhere to either auto-start or data path folders yet
+	- UI is rough and more or less functional, it is not yet pretty.
+	

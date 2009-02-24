@@ -13,10 +13,14 @@
 	IBOutlet NSTextField *dataFilePath;
 	IBOutlet NSPanel *thisPanel;
 	
+	NSString *currentPath;
+	
 	NSWindow *parentWindow;
 }
 
 - (void)showModalForWindow:(NSWindow *)window;
+
+- (void)setCurrentPath:(NSString *)value;
 
 - (IBAction)onBrowseForFolder:(id)sender;
 - (IBAction)onSetDataPath:(id)sender;

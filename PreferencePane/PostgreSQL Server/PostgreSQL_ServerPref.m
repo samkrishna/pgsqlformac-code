@@ -10,6 +10,7 @@
 #import "AGProcess.h"
 #import "PGMChangeDataPath.h"
 #import "PGMNetworkConfiguration.h"
+#import "PGMPostgreSQLConfiguration.h"
 
 #include <sys/types.h>
 #include <sys/uio.h>
@@ -24,10 +25,11 @@
 	thisBundle = [NSBundle bundleWithIdentifier:@"com.druware.postgresqlserverpreferences"];
 	
 	isLocked = YES;
-		
-	[self onTimedUpdate:nil];
 	
-//	[self performSelector:@selector(onTimedUpdate:) withObject:self afterDelay:0.1];
+	preferences = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/Library/Preferences/com.druware.postgresqlformac.plist"];
+	[[preferences autorelease] retain];
+	
+	[self onTimedUpdate:nil];
 }
 
 #pragma mark --
@@ -98,6 +100,7 @@
 	
 	[changeDataPath setEnabled:!isLocked];
 	[modifyNetworkConfiguration setEnabled:!isLocked];
+	[modifyPostgreSQLConfiguration setEnabled:!isLocked];
 	
 	return;
 }
@@ -373,13 +376,20 @@
 {
 	// create the owner.
 	PGMChangeDataPath *dialogOwner = [[PGMChangeDataPath alloc] init];
+	
+	[dialogOwner setCurrentPath:[preferences objectForKey:@"dataPath"]];
 	[dialogOwner showModalForWindow:[NSApp mainWindow]];
+
+	// !!!TODO!!!
+	// if the data path changes, change it in the preferences, check to see 
+	// if initidb is needed, and if it is, call initdb, and restart the database.
+	
 }
 
 - (IBAction)launchNetworkConfiguration:(id)sender
 {
 	// create the owner.
-	[self fetchActiveConfiguration:sender];
+	[self fetchHBAConfiguration:sender];
 	
 	PGMNetworkConfiguration *dialogOwner = [[PGMNetworkConfiguration alloc] init];
 	[dialogOwner showModalForWindow:[NSApp mainWindow]];
@@ -387,22 +397,43 @@
 	
 	if ([dialogOwner shouldRestartService])
 	{
-		NSLog(@"should restart service as needed");
-		[self pushActiveConfiguration:sender];
+		[self pushHBAConfiguration:sender];
 		[self onReloadService:sender];
 	}
+	
+	// Need to delete the temp file(s)
+	[self removeTempHBAFiles:nil];
+	
 }
 
+- (IBAction)launchPostgreSQLConfiguration:(id)sender
+{
+	// create the owner.
+	[self fetchPGConfiguration:sender];
+	
+	PGMPostgreSQLConfiguration *dialogOwner = [[PGMPostgreSQLConfiguration alloc] init];
+	[dialogOwner showModalForWindow:[NSApp mainWindow]];
+	
+	
+	if ([dialogOwner shouldRestartService])
+	{
+		[self pushPGConfiguration:sender];
+		[self onReloadService:sender];
+	}
+	
+	// Need to delete the temp file(s)
+	[self removeTempPGFiles:nil];
+	
+}
 
 #pragma mark --
 #pragma mark File Management Routines
 
--(IBAction)fetchActiveConfiguration:(id)sender
+-(IBAction)fetchHBAConfiguration:(id)sender
 {
 	OSStatus myStatus;
-    NSBundle *bundleApp = [NSBundle mainBundle];
-    NSString *pathToHelper = [bundleApp pathForResource:@"StartupHelper" ofType:nil];
-	
+	NSString *pathToHelper = [thisBundle pathForResource:@"StartupHelper" ofType:nil];
+
 	const char *myToolPath = [pathToHelper cStringUsingEncoding:NSASCIIStringEncoding]; 
 	char *myArguments[5];
 	
@@ -430,17 +461,16 @@
 		
 }
 
--(IBAction)pushActiveConfiguration:(id)sender
+-(IBAction)pushHBAConfiguration:(id)sender
 {
 	OSStatus myStatus;
-    NSBundle *bundleApp = [NSBundle mainBundle];
-    NSString *pathToHelper = [bundleApp pathForResource:@"StartupHelper" ofType:nil];
+	NSString *pathToHelper = [thisBundle pathForResource:@"StartupHelper" ofType:nil];
 	
 	const char *myToolPath = [pathToHelper cStringUsingEncoding:NSASCIIStringEncoding]; 
 	char *myArguments[5];
 	
 	myArguments[0] = "/bin/cat";
-	myArguments[1] = "/var/tmp/pg_hba.conf.in";
+	myArguments[1] = "/var/tmp/pg_hba.conf.out";
 	myArguments[2] = ">";
 	myArguments[3] = "/Library/PostgreSQL8/data/pg_hba.conf";
 	myArguments[4] = NULL;
@@ -462,6 +492,169 @@
 			if (bytesRead < 1) break;
 			NSLog(@"%s", myReadBuffer);
 		}			
+}
+
+-(IBAction)removeTempHBAFiles:(id)sender
+{
+	OSStatus myStatus;
+	NSString *pathToHelper = [thisBundle pathForResource:@"StartupHelper" ofType:nil];
+	
+	const char *myToolPath = [pathToHelper cStringUsingEncoding:NSASCIIStringEncoding]; 
+	char *myArguments[4];
+	
+	myArguments[0] = "rm";
+	myArguments[1] = "-f";
+	myArguments[2] = "/var/tmp/pg_hba.conf.in";
+	myArguments[3] = NULL;
+	
+	FILE *myCommunicationsPipe = NULL;
+	char myReadBuffer[128];
+	
+	myFlags = kAuthorizationFlagDefaults;			
+	myStatus = AuthorizationExecuteWithPrivileges(myAuthorizationRef, 
+												  myToolPath, myFlags, myArguments, &myCommunicationsPipe);      
+	
+	if (myStatus == errAuthorizationSuccess)
+		for(;;)
+		{
+			int bytesRead = read (fileno (myCommunicationsPipe),
+								  myReadBuffer, sizeof (myReadBuffer));
+			if (bytesRead < 1) break;
+			NSLog(@"%s", myReadBuffer);
+		}		
+	
+	myArguments[0] = "rm";
+	myArguments[1] = "-f";
+	myArguments[2] = "/var/tmp/pg_hba.conf.out";
+	myArguments[3] = NULL;	
+	
+	myFlags = kAuthorizationFlagDefaults;			
+	myStatus = AuthorizationExecuteWithPrivileges(myAuthorizationRef, 
+												  myToolPath, myFlags, myArguments, &myCommunicationsPipe);      
+	
+	if (myStatus == errAuthorizationSuccess)
+		for(;;)
+		{
+			int bytesRead = read (fileno (myCommunicationsPipe),
+								  myReadBuffer, sizeof (myReadBuffer));
+			if (bytesRead < 1) break;
+			NSLog(@"%s", myReadBuffer);
+		}	
+	
+}
+
+-(IBAction)fetchPGConfiguration:(id)sender
+{
+	OSStatus myStatus;
+	NSString *pathToHelper = [thisBundle pathForResource:@"StartupHelper" ofType:nil];
+	
+	const char *myToolPath = [pathToHelper cStringUsingEncoding:NSASCIIStringEncoding]; 
+	char *myArguments[5];
+	
+	myArguments[0] = "/bin/cat";
+	myArguments[1] = "/Library/PostgreSQL8/data/postgresql.conf";
+	myArguments[2] = ">";
+	myArguments[3] = "/var/tmp/postgresql.conf.in";
+	myArguments[4] = NULL;
+	
+	FILE *myCommunicationsPipe = NULL;
+	char myReadBuffer[128];
+	
+	myFlags = kAuthorizationFlagDefaults;			
+	myStatus = AuthorizationExecuteWithPrivileges(myAuthorizationRef, 
+												  myToolPath, myFlags, myArguments, &myCommunicationsPipe);      
+	
+	if (myStatus == errAuthorizationSuccess)
+		for(;;)
+		{
+			int bytesRead = read (fileno (myCommunicationsPipe),
+								  myReadBuffer, sizeof (myReadBuffer));
+			if (bytesRead < 1) break;
+			NSLog(@"%s", myReadBuffer);
+		}			
+	
+}
+
+-(IBAction)pushPGConfiguration:(id)sender
+{
+	OSStatus myStatus;
+	NSString *pathToHelper = [thisBundle pathForResource:@"StartupHelper" ofType:nil];
+	
+	const char *myToolPath = [pathToHelper cStringUsingEncoding:NSASCIIStringEncoding]; 
+	char *myArguments[5];
+	
+	myArguments[0] = "/bin/cat";
+	myArguments[1] = "/var/tmp/postgresql.conf.out";
+	myArguments[2] = ">";
+	myArguments[3] = "/Library/PostgreSQL8/data/postgresql.conf";
+	myArguments[4] = NULL;
+	
+	NSLog(@"pushing configuration");
+	
+	FILE *myCommunicationsPipe = NULL;
+	char myReadBuffer[128];
+	
+	myFlags = kAuthorizationFlagDefaults;			
+	myStatus = AuthorizationExecuteWithPrivileges(myAuthorizationRef, 
+												  myToolPath, myFlags, myArguments, &myCommunicationsPipe);      
+	
+	if (myStatus == errAuthorizationSuccess)
+		for(;;)
+		{
+			int bytesRead = read (fileno (myCommunicationsPipe),
+								  myReadBuffer, sizeof (myReadBuffer));
+			if (bytesRead < 1) break;
+			NSLog(@"%s", myReadBuffer);
+		}			
+}
+
+-(IBAction)removeTempPGFiles:(id)sender
+{
+	OSStatus myStatus;
+	NSString *pathToHelper = [thisBundle pathForResource:@"StartupHelper" ofType:nil];
+	
+	const char *myToolPath = [pathToHelper cStringUsingEncoding:NSASCIIStringEncoding]; 
+	char *myArguments[4];
+	
+	myArguments[0] = "rm";
+	myArguments[1] = "-f";
+	myArguments[2] = "/var/tmp/postgresql.conf.in";
+	myArguments[3] = NULL;
+	
+	FILE *myCommunicationsPipe = NULL;
+	char myReadBuffer[128];
+	
+	myFlags = kAuthorizationFlagDefaults;			
+	myStatus = AuthorizationExecuteWithPrivileges(myAuthorizationRef, 
+												  myToolPath, myFlags, myArguments, &myCommunicationsPipe);      
+	
+	if (myStatus == errAuthorizationSuccess)
+		for(;;)
+		{
+			int bytesRead = read (fileno (myCommunicationsPipe),
+								  myReadBuffer, sizeof (myReadBuffer));
+			if (bytesRead < 1) break;
+			NSLog(@"%s", myReadBuffer);
+		}		
+	
+	myArguments[0] = "rm";
+	myArguments[1] = "-f";
+	myArguments[2] = "/var/tmp/postgresql.conf.out";
+	myArguments[3] = NULL;	
+	
+	myFlags = kAuthorizationFlagDefaults;			
+	myStatus = AuthorizationExecuteWithPrivileges(myAuthorizationRef, 
+												  myToolPath, myFlags, myArguments, &myCommunicationsPipe);      
+	
+	if (myStatus == errAuthorizationSuccess)
+		for(;;)
+		{
+			int bytesRead = read (fileno (myCommunicationsPipe),
+								  myReadBuffer, sizeof (myReadBuffer));
+			if (bytesRead < 1) break;
+			NSLog(@"%s", myReadBuffer);
+		}	
+	
 }
 
 

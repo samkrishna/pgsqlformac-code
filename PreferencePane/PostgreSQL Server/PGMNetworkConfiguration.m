@@ -29,7 +29,7 @@
 	NSFont *fixedFont;
 	NSTextContainer *textContainer;
 	NSSize  theSize;
-	fixedFont = [NSFont fontWithName:@"Monaco" size:9];
+	fixedFont = [NSFont fontWithName:@"Monaco" size:10];
 	
 	[rawSource setFont:fixedFont];
 	textContainer = [rawSource textContainer];
@@ -62,7 +62,8 @@
 {
 	shouldRestartService = YES;	
 	
-	[hbaConfiguration saveToFile:@"/var/tmp/pg_hba.conf.in"];
+	[hbaConfiguration setSource:[rawSource string]];
+	[hbaConfiguration saveToFile:@"/var/tmp/pg_hba.conf.out"];
 	
 	[NSApp stopModal];
 	[NSApp endSheet:thisPanel];
