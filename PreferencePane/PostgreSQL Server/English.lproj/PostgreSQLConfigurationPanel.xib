@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="10"/>
+			<integer value="3"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -78,7 +78,7 @@
 									<string key="NSIdentifier">2</string>
 									<object class="NSView" key="NSView" id="971832660">
 										<reference key="NSNextResponder" ref="813301893"/>
-										<int key="NSvFlags">256</int>
+										<int key="NSvFlags">274</int>
 										<object class="NSMutableArray" key="NSSubviews">
 											<bool key="EncodedWithXMLCoder">YES</bool>
 											<object class="NSScrollView" id="421395193">
@@ -117,7 +117,7 @@
 																		<string>WebURLsWithTitlesPboardType</string>
 																	</object>
 																</object>
-																<string key="NSFrameSize">{611, 14}</string>
+																<string key="NSFrameSize">{587, 14}</string>
 																<reference key="NSSuperview" ref="812017134"/>
 																<object class="NSTextContainer" key="NSTextContainer" id="970644442">
 																	<object class="NSLayoutManager" key="NSLayoutManager">
@@ -135,7 +135,7 @@
 																		<nil key="NSDelegate"/>
 																	</object>
 																	<reference key="NSTextView" ref="1045601328"/>
-																	<double key="NSWidth">6.110000e+02</double>
+																	<double key="NSWidth">5.870000e+02</double>
 																	<int key="NSTCFlags">1</int>
 																</object>
 																<object class="NSTextViewSharedData" key="NSSharedData">
@@ -196,7 +196,7 @@
 																<nil key="NSDelegate"/>
 															</object>
 														</object>
-														<string key="NSFrame">{{1, 1}, {611, 331}}</string>
+														<string key="NSFrame">{{1, 1}, {587, 331}}</string>
 														<reference key="NSSuperview" ref="421395193"/>
 														<reference key="NSNextKeyView" ref="1045601328"/>
 														<reference key="NSDocView" ref="1045601328"/>
@@ -210,7 +210,7 @@
 													<object class="NSScroller" id="925298019">
 														<reference key="NSNextResponder" ref="421395193"/>
 														<int key="NSvFlags">256</int>
-														<string key="NSFrame">{{612, 1}, {15, 331}}</string>
+														<string key="NSFrame">{{588, 1}, {15, 331}}</string>
 														<reference key="NSSuperview" ref="421395193"/>
 														<reference key="NSTarget" ref="421395193"/>
 														<string key="NSAction">_doScroller:</string>
@@ -228,7 +228,7 @@
 														<double key="NSPercent">9.456522e-01</double>
 													</object>
 												</object>
-												<string key="NSFrame">{{-27, 11}, {628, 333}}</string>
+												<string key="NSFrame">{{-3, 2}, {604, 333}}</string>
 												<reference key="NSSuperview" ref="971832660"/>
 												<reference key="NSNextKeyView" ref="812017134"/>
 												<int key="NSsFlags">18</int>
@@ -390,9 +390,9 @@
 						<reference key="object" ref="979860518"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="813301893"/>
 							<reference ref="75636544"/>
 							<reference ref="488833444"/>
+							<reference ref="813301893"/>
 						</object>
 						<reference key="parent" ref="1070158184"/>
 					</object>

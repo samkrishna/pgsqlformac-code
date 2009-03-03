@@ -498,6 +498,16 @@
 								<int key="NSPeriodicInterval">75</int>
 							</object>
 						</object>
+						<object class="NSProgressIndicator" id="695513191">
+							<reference key="NSNextResponder" ref="1037298196"/>
+							<int key="NSvFlags">1292</int>
+							<object class="NSPSMatrix" key="NSDrawMatrix"/>
+							<string key="NSFrame">{{158, 165}, {16, 16}}</string>
+							<reference key="NSSuperview" ref="1037298196"/>
+							<int key="NSpiFlags">28938</int>
+							<double key="NSMinValue">1.600000e+01</double>
+							<double key="NSMaxValue">1.000000e+02</double>
+						</object>
 					</object>
 					<string key="NSFrameSize">{661, 345}</string>
 					<reference key="NSSuperview"/>
@@ -655,6 +665,46 @@
 					</object>
 					<int key="connectionID">198</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">onChangeStartAtBoot:</string>
+						<reference key="source" ref="294453543"/>
+						<reference key="destination" ref="291656672"/>
+					</object>
+					<int key="connectionID">199</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">progress</string>
+						<reference key="source" ref="294453543"/>
+						<reference key="destination" ref="695513191"/>
+					</object>
+					<int key="connectionID">201</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">restartServiceLabel</string>
+						<reference key="source" ref="294453543"/>
+						<reference key="destination" ref="140310987"/>
+					</object>
+					<int key="connectionID">202</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">startServiceLabel</string>
+						<reference key="source" ref="294453543"/>
+						<reference key="destination" ref="979487735"/>
+					</object>
+					<int key="connectionID">203</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">stopServiceLabel</string>
+						<reference key="source" ref="294453543"/>
+						<reference key="destination" ref="609154561"/>
+					</object>
+					<int key="connectionID">204</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -713,6 +763,7 @@
 							<reference ref="663825276"/>
 							<reference ref="1039875048"/>
 							<reference ref="337109862"/>
+							<reference ref="695513191"/>
 						</object>
 						<reference key="parent" ref="660800786"/>
 					</object>
@@ -983,6 +1034,11 @@
 						<reference key="object" ref="1008769531"/>
 						<reference key="parent" ref="337109862"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">200</int>
+						<reference key="object" ref="695513191"/>
+						<reference key="parent" ref="1037298196"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -1047,6 +1103,7 @@
 					<string>190.IBPluginDependency</string>
 					<string>193.IBPluginDependency</string>
 					<string>194.IBPluginDependency</string>
+					<string>200.IBPluginDependency</string>
 					<string>6.IBPluginDependency</string>
 					<string>6.ImportedFromIB2</string>
 				</object>
@@ -1083,12 +1140,13 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{16, 421}, {661, 345}}</string>
-					<string>{{16, 421}, {661, 345}}</string>
+					<string>{{531, 457}, {661, 345}}</string>
+					<string>{{531, 457}, {661, 345}}</string>
 					<reference ref="9"/>
 					<reference ref="9"/>
 					<string>{3.40282e+38, 3.40282e+38}</string>
 					<string>{224.664, 10}</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1134,7 +1192,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">198</int>
+			<int key="maxID">204</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1184,6 +1242,7 @@
 							<string>launchNetworkConfiguration:</string>
 							<string>launchPostgreSQLConfiguration:</string>
 							<string>onChangePostgreSQLDataPath:</string>
+							<string>onChangeStartAtBoot:</string>
 							<string>onReloadService:</string>
 							<string>onRestartService:</string>
 							<string>onStartService:</string>
@@ -1197,6 +1256,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -1232,8 +1292,6 @@
 							<string>status</string>
 							<string>stopService</string>
 							<string>stopServiceLabel</string>
-							<string>window</string>
-							<string>working</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1251,8 +1309,6 @@
 							<string>NSTextField</string>
 							<string>NSButton</string>
 							<string>NSTextField</string>
-							<string>NSWindow</string>
-							<string>NSProgressIndicator</string>
 						</object>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">

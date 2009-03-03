@@ -14,18 +14,13 @@
 
 @interface PostgreSQL_ServerPref : NSPreferencePane 
 {
-//	IBOutlet NSTextField *testLabel;
-	
     IBOutlet NSButton *autostartOption;
     IBOutlet NSProgressIndicator *progress;
-//  IBOutlet NSButton *refresh;
 
     IBOutlet NSButton *restartService;
     IBOutlet NSTextField *restartServiceLabel;
-//    IBOutlet NSPopUpButton *servers;
 
     IBOutlet NSImageView *serviceImage;
-//    IBOutlet NSPopUpButton *services;
 
     IBOutlet NSButton *startService;
     IBOutlet NSTextField *startServiceLabel;
@@ -34,11 +29,7 @@
     
 	IBOutlet NSButton *stopService;
     IBOutlet NSTextField *stopServiceLabel;
-    
-	IBOutlet NSWindow *window;
-	
-	IBOutlet NSProgressIndicator *working;
-	
+    	
 	IBOutlet NSButton *lockToggle;
 	
 	IBOutlet NSButton *changeDataPath;
@@ -53,6 +44,8 @@
 	NSString *command;
 	NSString *operation;
 	NSString *option;
+	
+	NSString *dataPath;
 	
 	NSMutableDictionary *preferences;
 	
@@ -77,16 +70,17 @@
 - (IBAction)onStopService:(id)sender;
 - (IBAction)onReloadService:(id)sender;
 
+- (IBAction)onChangeStartAtBoot:(id)sender;
 - (IBAction)onChangePostgreSQLDataPath:(id)sender;
 - (IBAction)launchNetworkConfiguration:(id)sender;
 - (IBAction)launchPostgreSQLConfiguration:(id)sender;
 
-- (IBAction)fetchHBAConfiguration:(id)sender;
-- (IBAction)pushHBAConfiguration:(id)sender;
-- (IBAction)removeTempHBAFiles:(id)sender;
-- (IBAction)fetchPGConfiguration:(id)sender;
-- (IBAction)pushPGConfiguration:(id)sender;
-- (IBAction)removeTempPGFiles:(id)sender;
+- (void)savePreferencesFile:(id)sender;
+
+- (void)fetchConfigFile:(NSString *)fileName;
+- (void)pushConfigFile:(NSString *)fileName;
+- (BOOL)removeFile:(NSString *)filePath;
+
 
 
 @end

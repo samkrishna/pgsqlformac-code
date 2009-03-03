@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		433BD07F0F3B571C003F4D26 /* PostgreSQL Network Configuration.app in Resources */ = {isa = PBXBuildFile; fileRef = 433BD0780F3B56FA003F4D26 /* PostgreSQL Network Configuration.app */; };
 		43460BAB0F5396EB009D8EB3 /* PGPostgreSQLConfFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 43460BA90F5396EB009D8EB3 /* PGPostgreSQLConfFile.h */; };
 		43460BAC0F5396EB009D8EB3 /* PGPostgreSQLConfFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 43460BAA0F5396EB009D8EB3 /* PGPostgreSQLConfFile.m */; };
 		434CF81A0E4C88500040ED14 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 434CF8190E4C88500040ED14 /* Security.framework */; };
@@ -55,13 +54,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		433BD0770F3B56FA003F4D26 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 433BD0730F3B56FA003F4D26 /* PostgreSQL Network Configuration.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8D1107320486CEB800E47090;
-			remoteInfo = "PostgreSQL Network Configuration";
-		};
 		43B1AB5D0EC13A66002D4317 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 43B1AB590EC13A66002D4317 /* StartupHelper.xcode */;
@@ -97,7 +89,6 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCFA20370C41700C91783 /* PostgreSQL Server_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PostgreSQL Server_Prefix.pch"; sourceTree = "<group>"; };
-		433BD0730F3B56FA003F4D26 /* PostgreSQL Network Configuration.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "PostgreSQL Network Configuration.xcodeproj"; path = "Utilities/PostgreSQL Network Configuration/PostgreSQL Network Configuration.xcodeproj"; sourceTree = "<group>"; };
 		43460BA90F5396EB009D8EB3 /* PGPostgreSQLConfFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGPostgreSQLConfFile.h; sourceTree = "<group>"; };
 		43460BAA0F5396EB009D8EB3 /* PGPostgreSQLConfFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGPostgreSQLConfFile.m; sourceTree = "<group>"; };
 		434CF8190E4C88500040ED14 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
@@ -166,7 +157,6 @@
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
-				433BD0730F3B56FA003F4D26 /* PostgreSQL Network Configuration.xcodeproj */,
 				43B1AB590EC13A66002D4317 /* StartupHelper.xcode */,
 			);
 			name = "PostgreSQL Server";
@@ -269,14 +259,6 @@
 			name = "Other Sources";
 			sourceTree = "<group>";
 		};
-		433BD0740F3B56FA003F4D26 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				433BD0780F3B56FA003F4D26 /* PostgreSQL Network Configuration.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		43B1AB5A0EC13A66002D4317 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -344,10 +326,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 433BD0740F3B56FA003F4D26 /* Products */;
-					ProjectRef = 433BD0730F3B56FA003F4D26 /* PostgreSQL Network Configuration.xcodeproj */;
-				},
-				{
 					ProductGroup = 43B1AB5A0EC13A66002D4317 /* Products */;
 					ProjectRef = 43B1AB590EC13A66002D4317 /* StartupHelper.xcode */;
 				},
@@ -360,13 +338,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		433BD0780F3B56FA003F4D26 /* PostgreSQL Network Configuration.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "PostgreSQL Network Configuration.app";
-			remoteRef = 433BD0770F3B56FA003F4D26 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		43B1AB5E0EC13A66002D4317 /* StartupHelper */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
@@ -381,7 +352,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				433BD07F0F3B571C003F4D26 /* PostgreSQL Network Configuration.app in Resources */,
 				43B1AB790EC1E204002D4317 /* StartupHelper in Resources */,
 				8D202CED0486D31800D8A456 /* InfoPlist.strings in Resources */,
 				8D202CEF0486D31800D8A456 /* PostgreSQL_ServerPref.xib in Resources */,
