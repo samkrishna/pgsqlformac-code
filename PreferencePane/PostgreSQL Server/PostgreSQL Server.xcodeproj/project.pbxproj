@@ -289,9 +289,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8D202CE80486D31800D8A456 /* PostgreSQL Server */ = {
+		8D202CE80486D31800D8A456 /* PostgreSQLServer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1DBD214808BA80EA00186707 /* Build configuration list for PBXNativeTarget "PostgreSQL Server" */;
+			buildConfigurationList = 1DBD214808BA80EA00186707 /* Build configuration list for PBXNativeTarget "PostgreSQLServer" */;
 			buildPhases = (
 				8D202CE90486D31800D8A456 /* Headers */,
 				8D202CEC0486D31800D8A456 /* Resources */,
@@ -305,7 +305,7 @@
 			dependencies = (
 				43B1AB740EC13A9E002D4317 /* PBXTargetDependency */,
 			);
-			name = "PostgreSQL Server";
+			name = PostgreSQLServer;
 			productInstallPath = "$(HOME)/Library/PreferencePanes";
 			productName = "PostgreSQL Server";
 			productReference = 8D202CF80486D31800D8A456 /* PostgreSQL Server.prefPane */;
@@ -332,7 +332,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				8D202CE80486D31800D8A456 /* PostgreSQL Server */,
+				8D202CE80486D31800D8A456 /* PostgreSQLServer */,
 			);
 		};
 /* End PBXProject section */
@@ -520,7 +520,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1DBD214808BA80EA00186707 /* Build configuration list for PBXNativeTarget "PostgreSQL Server" */ = {
+		1DBD214808BA80EA00186707 /* Build configuration list for PBXNativeTarget "PostgreSQLServer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DBD214908BA80EA00186707 /* Debug */,

@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string>PostgreSQLPrefPane</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.druware.postgresqlserverpreferences</string>
+	<string>com.druware.postgresqlformac.postgresqlserverpreferences</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

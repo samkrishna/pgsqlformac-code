@@ -3,7 +3,7 @@
 //  PostgreSQL Server
 //
 //  Created by Andy Satori on 2/19/09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
+//  Copyright 2009 Druware Software Designs. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
@@ -27,12 +27,16 @@
 	IBOutlet NSTextField *userName;
 	IBOutlet NSPopUpButton *type;
 	IBOutlet NSPopUpButton *group;
-	IBOutlet NSTextField *option;
+	IBOutlet NSTextField *address;
 	IBOutlet NSPopUpButton *method;
+	IBOutlet NSTextField *option;
 	NSWindow *parentWindow;
 }
 
 - (void)showModalForWindow:(NSWindow *)window;
+
+- (IBAction)onSelectRecord:(id)sender;
+- (IBAction)onSetRecord:(id)sender;
 
 - (IBAction)onOK:(id)sender;
 - (IBAction)onCancel:(id)sender;

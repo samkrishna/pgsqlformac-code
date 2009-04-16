@@ -22,6 +22,7 @@
 -(BOOL)saveToFile:(NSString *)file;
 
 -(BOOL)parseSourceData;
+-(BOOL)generateSourceData;
 
 -(PGHBAConnections *)allConnections;
 

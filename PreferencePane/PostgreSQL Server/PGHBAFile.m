@@ -100,8 +100,11 @@
 				[dict setObject:[elements objectAtIndex:1] forKey:@"database"];
 				[dict setObject:[elements objectAtIndex:2] forKey:@"user"];
 				[dict setObject:[elements objectAtIndex:3] forKey:@"method"];
+				[dict setObject:@"" forKey:@"address"];
+				[dict setObject:@"" forKey:@"option"];
 				if ([elements count] > 4)
 					[dict setObject:[elements objectAtIndex:4] forKey:@"option"];
+				
 			} else {
 				NSRange rangeOfColon = [[elements objectAtIndex:3] rangeOfString:@":"];
 				
@@ -110,7 +113,7 @@
 				[dict setObject:[elements objectAtIndex:2] forKey:@"user"];
 				[dict setObject:[elements objectAtIndex:3] forKey:@"address"];
 				[dict setObject:[elements objectAtIndex:4] forKey:@"method"];
-				
+				[dict setObject:@"" forKey:@"option"];
 				if ([elements count] > 5)
 					[dict setObject:[elements objectAtIndex:5] forKey:@"option"];
 				
@@ -127,6 +130,33 @@
 	}
 	
 	return YES;
+}
+
+-(BOOL)generateSourceData
+{
+	NSMutableString *newSource = [[NSMutableString alloc] init];
+	NSString *currentLine = nil;
+	int lineNum = 0;
+	int maxLineNum = 0;
+	int x;
+	
+	// loop the lists to get a line number.
+	for (x = 0; x < [comments count]; x++)
+	{
+		int recordLineNum = [comments valueForKey:@"Line#"];
+		if (recordLineNum > maxLineNum)
+		{
+			maxLineNum = recordLineNum;
+		}
+	}
+	
+	
+	if (lineNum >= maxLineNum) 
+	{
+		return NO;
+	}
+	
+	return NO;
 }
 
 -(PGHBAConnections *)allConnections
