@@ -58,6 +58,10 @@
 
 -(BOOL)parseSourceData
 {
+	groupLocalOrigin = 0;
+	groupIPv4Origin = 0;
+	groupIPv6Origin = 0;
+	
 	NSArray *lines = [rawSourceData componentsSeparatedByString:@"\n"];
 	int x;
 	for (x = 0; x < [lines count]; x++)
@@ -67,7 +71,7 @@
 		
 		// if there is a # at the beginning, it's a comment.
 		NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-		NSNumber *lineNumber = [[NSNumber alloc] initWithInteger:x];
+		NSNumber *lineNumber = [[NSNumber alloc] initWithInt:x];
 		[dict setObject:lineNumber forKey:@"Line#"];
 		
 		if (rangeOfComment.location == 0)
@@ -95,6 +99,7 @@
 			// determine the record type and add it to the correct array.
 			if ([[elements objectAtIndex:0] caseInsensitiveCompare:@"local"] == NSOrderedSame)
 			{
+				if (groupLocalOrigin == 0) { groupLocalOrigin = x; }
 				[dict setObject:@"Local" forKey:@"group"];				
 				[dict setObject:[elements objectAtIndex:0] forKey:@"type"];
 				[dict setObject:[elements objectAtIndex:1] forKey:@"database"];
@@ -120,8 +125,10 @@
 				// determine if element index 3 is an ipv4 or ipv6 address.
 				if (rangeOfColon.location == NSNotFound)
 				{
+					if (groupIPv4Origin == 0) { groupIPv4Origin = x; }
 					[dict setObject:@"IPv4" forKey:@"group"];				
 				} else {
+					if (groupIPv6Origin == 0) { groupIPv6Origin = x; }
 					[dict setObject:@"IPv6" forKey:@"group"];				
 				}
 			}
@@ -136,6 +143,21 @@
 {
 	NSMutableString *newSource = [[NSMutableString alloc] init];
 	NSString *currentLine = nil;
+	
+	// write the lines to newSource from comments until groupLocalOrigin
+	// then loop the connections for all locals
+	// rinse and repeat for IPv4 and IPv6
+	
+	int lineNum = 0;
+	int x;
+	
+	for (x = 0; x < [comments count]; x++)
+	{	
+		lineNum = [[[comments objectAtIndex:x] objectForKey:@"Line#"] intValue];
+		[newSource appendFormat:@"%@\n", [[comments objectAtIndex:x] objectForKey:@"Comment"]];
+		
+	}
+
 	int lineNum = 0;
 	int maxLineNum = 0;
 	int x;
@@ -155,8 +177,12 @@
 	{
 		return NO;
 	}
+
+	[rawSourceData release];
+	[[rawSourceData alloc] initWithString:newSource];
+	[[rawSourceData autorelease] retain];
 	
-	return NO;
+	return YES;
 }
 
 -(PGHBAConnections *)allConnections

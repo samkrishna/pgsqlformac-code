@@ -383,7 +383,7 @@
 			};
 			name = Development;
 		};
-		43389A480869E11900D5B56D /* Deployment */ = {
+		43389A480869E11900D5B56D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -432,7 +432,7 @@
 				WRAPPER_EXTENSION = framework;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
 		43389A490869E11900D5B56D /* Default */ = {
 			isa = XCBuildConfiguration;
@@ -495,7 +495,7 @@
 			};
 			name = Development;
 		};
-		43389A4C0869E11900D5B56D /* Deployment */ = {
+		43389A4C0869E11900D5B56D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -508,7 +508,7 @@
 				PREBINDING = NO;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = Deployment;
+			name = Release;
 		};
 		43389A4D0869E11900D5B56D /* Default */ = {
 			isa = XCBuildConfiguration;
@@ -531,7 +531,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				43389A470869E11900D5B56D /* Development */,
-				43389A480869E11900D5B56D /* Deployment */,
+				43389A480869E11900D5B56D /* Release */,
 				43389A490869E11900D5B56D /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -541,7 +541,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				43389A4B0869E11900D5B56D /* Development */,
-				43389A4C0869E11900D5B56D /* Deployment */,
+				43389A4C0869E11900D5B56D /* Release */,
 				43389A4D0869E11900D5B56D /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;

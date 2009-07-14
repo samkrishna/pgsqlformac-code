@@ -22,14 +22,18 @@
 {
 	// Check the current Status and change to display accordingly.
 	updateInterval = 0.5;
-	thisBundle = [NSBundle bundleWithIdentifier:@"com.druware.postgresqlserverpreferences"];
+	thisBundle = [NSBundle bundleWithIdentifier:@"com.druware.postgresqlformac"];
 	
 	isLocked = YES;
+	
 	
 	// check for a preferences file
 	NSFileManager *fm = [[NSFileManager alloc] init];
 	if ([fm fileExistsAtPath:@"/Library/Preferences/com.druware.postgresqlformac.plist"])
 	{
+		// replace with NSUserDefaults/NSGlobalDomain
+		
+		
 		preferences = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/Library/Preferences/com.druware.postgresqlformac.plist"];
 		
 		if ([preferences objectForKey:@"startAtBoot"] == nil)

@@ -48,6 +48,7 @@
 	NSString *dataPath;
 	
 	NSMutableDictionary *preferences;
+	NSUserDefaults *userPrefs;
 	
 	BOOL isLocked;
 	

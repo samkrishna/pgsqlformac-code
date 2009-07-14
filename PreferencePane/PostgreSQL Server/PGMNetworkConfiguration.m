@@ -87,6 +87,9 @@
 - (IBAction)onChangeView:(id)sender
 {
 	// update the hbafile source
+	// if the current view is the data view update the source
+	// else reparse the source and update the data view
+	NSLog(@"Change View Called");
 }
 
 - (IBAction)onSelectRecord:(id)sender

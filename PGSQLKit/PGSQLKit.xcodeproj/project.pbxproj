@@ -23,6 +23,8 @@
 		4349A2E60C31EAA700DACE65 /* PGSQLLogin.h in Headers */ = {isa = PBXBuildFile; fileRef = 43CBC57C0BF11AC300A5E5AF /* PGSQLLogin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4349A2E70C31EAA800DACE65 /* PGSQLLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CBC57D0BF11AC300A5E5AF /* PGSQLLogin.m */; };
 		439774040C7D29140009F0B4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 439774030C7D29140009F0B4 /* Security.framework */; };
+		43F613330F9E5DC000F8273F /* PGSQLConnectionInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 43F613310F9E5DC000F8273F /* PGSQLConnectionInfo.h */; };
+		43F613340F9E5DC000F8273F /* PGSQLConnectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 43F613320F9E5DC000F8273F /* PGSQLConnectionInfo.m */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -51,6 +53,8 @@
 		43318B360BF1227A008C2560 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = "English.lproj/PGSQL Login.nib"; sourceTree = "<group>"; };
 		43318B520BF16497008C2560 /* PGSQLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLConnection.h; sourceTree = "<group>"; };
 		43318B530BF16497008C2560 /* PGSQLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLConnection.m; sourceTree = "<group>"; };
+		4357486A0F334F5B00F86110 /* PGSQLPreparedStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLPreparedStatement.h; sourceTree = "<group>"; };
+		4357486B0F334F5B00F86110 /* PGSQLPreparedStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLPreparedStatement.m; sourceTree = "<group>"; };
 		439656720BE8C779003EDC3D /* PGSQLKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLKit.h; sourceTree = "<group>"; };
 		439774030C7D29140009F0B4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /Developer/SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		439F7B5F0C18947C001CA5A4 /* PGSQLField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLField.h; sourceTree = "<group>"; };
@@ -61,6 +65,8 @@
 		439F7B680C1894AA001CA5A4 /* PGSQLColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLColumn.m; sourceTree = "<group>"; };
 		43CBC57C0BF11AC300A5E5AF /* PGSQLLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLLogin.h; sourceTree = "<group>"; };
 		43CBC57D0BF11AC300A5E5AF /* PGSQLLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLLogin.m; sourceTree = "<group>"; };
+		43F613310F9E5DC000F8273F /* PGSQLConnectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLConnectionInfo.h; sourceTree = "<group>"; };
+		43F613320F9E5DC000F8273F /* PGSQLConnectionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLConnectionInfo.m; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* PGSQLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGSQLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2F7E79907B2D74100F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -133,7 +139,11 @@
 				43318B530BF16497008C2560 /* PGSQLConnection.m */,
 				43CBC57C0BF11AC300A5E5AF /* PGSQLLogin.h */,
 				43CBC57D0BF11AC300A5E5AF /* PGSQLLogin.m */,
+				4357486A0F334F5B00F86110 /* PGSQLPreparedStatement.h */,
+				4357486B0F334F5B00F86110 /* PGSQLPreparedStatement.m */,
 				43AEC8BD0C306B38009B1479 /* Incomplete */,
+				43F613310F9E5DC000F8273F /* PGSQLConnectionInfo.h */,
+				43F613320F9E5DC000F8273F /* PGSQLConnectionInfo.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -187,6 +197,7 @@
 				4349A2C90C31DD5700DACE65 /* PGSQLConnection.h in Headers */,
 				4349A2E60C31EAA700DACE65 /* PGSQLLogin.h in Headers */,
 				432A8C110C47074F00CA8F33 /* PGSQLKit.h in Headers */,
+				43F613330F9E5DC000F8273F /* PGSQLConnectionInfo.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +265,7 @@
 				4349A2BC0C31D57800DACE65 /* PGSQLRecordset.m in Sources */,
 				4349A2CA0C31DD5800DACE65 /* PGSQLConnection.m in Sources */,
 				4349A2E70C31EAA800DACE65 /* PGSQLLogin.m in Sources */,
+				43F613340F9E5DC000F8273F /* PGSQLConnectionInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,10 +294,8 @@
 		1DEB91AE08733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -310,6 +320,7 @@
 					"-lkrb5",
 					"-lcrypto",
 					"-lpq",
+					"-lldap",
 				);
 				PRODUCT_NAME = PGSQLKit;
 				WRAPPER_EXTENSION = framework;

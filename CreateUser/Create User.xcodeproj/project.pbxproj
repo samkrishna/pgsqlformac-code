@@ -252,7 +252,7 @@
 			};
 			name = Development;
 		};
-		43F67E6A0CBC623B00B36845 /* Deployment */ = {
+		43F67E6A0CBC623B00B36845 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
@@ -277,7 +277,7 @@
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
 		43F67E6B0CBC623B00B36845 /* Default */ = {
 			isa = XCBuildConfiguration;
@@ -307,11 +307,11 @@
 			};
 			name = Development;
 		};
-		43F67E6E0CBC623B00B36845 /* Deployment */ = {
+		43F67E6E0CBC623B00B36845 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 			};
-			name = Deployment;
+			name = Release;
 		};
 		43F67E6F0CBC623B00B36845 /* Default */ = {
 			isa = XCBuildConfiguration;
@@ -326,7 +326,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				43F67E690CBC623B00B36845 /* Development */,
-				43F67E6A0CBC623B00B36845 /* Deployment */,
+				43F67E6A0CBC623B00B36845 /* Release */,
 				43F67E6B0CBC623B00B36845 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -336,7 +336,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				43F67E6D0CBC623B00B36845 /* Development */,
-				43F67E6E0CBC623B00B36845 /* Deployment */,
+				43F67E6E0CBC623B00B36845 /* Release */,
 				43F67E6F0CBC623B00B36845 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;

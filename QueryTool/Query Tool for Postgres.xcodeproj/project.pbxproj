@@ -58,6 +58,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		438570BB0F86D34F004D4D95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43B5F6370EC34E9E00AE6451 /* pgCocoaDB.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = pgCocoaDB;
+		};
 		43B5F63E0EC34E9E00AE6451 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 43B5F6370EC34E9E00AE6451 /* pgCocoaDB.xcodeproj */;
@@ -307,6 +314,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				438570BC0F86D34F004D4D95 /* PBXTargetDependency */,
 			);
 			name = "Query Tool for Postgres";
 			productInstallPath = "$(HOME)/Applications";
@@ -402,6 +410,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		438570BC0F86D34F004D4D95 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = pgCocoaDB;
+			targetProxy = 438570BB0F86D34F004D4D95 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		089C165FFE840EACC02AAC07 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
@@ -485,7 +501,7 @@
 			};
 			name = Development;
 		};
-		439C659C08ECF07900469809 /* Deployment */ = {
+		439C659C08ECF07900469809 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -519,7 +535,7 @@
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
 		439C659D08ECF07900469809 /* Default */ = {
 			isa = XCBuildConfiguration;
@@ -566,14 +582,14 @@
 			};
 			name = Development;
 		};
-		439C65A008ECF07900469809 /* Deployment */ = {
+		439C65A008ECF07900469809 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = i386;
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = Deployment;
+			name = Release;
 		};
 		439C65A108ECF07900469809 /* Default */ = {
 			isa = XCBuildConfiguration;
@@ -594,7 +610,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				439C659B08ECF07900469809 /* Development */,
-				439C659C08ECF07900469809 /* Deployment */,
+				439C659C08ECF07900469809 /* Release */,
 				439C659D08ECF07900469809 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -604,7 +620,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				439C659F08ECF07900469809 /* Development */,
-				439C65A008ECF07900469809 /* Deployment */,
+				439C65A008ECF07900469809 /* Release */,
 				439C65A108ECF07900469809 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;

@@ -19,6 +19,23 @@
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		4385703E0F86CCEE004D4D95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4385703A0F86CCEE004D4D95 /* PGSQLKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = PGSQLKit;
+		};
+		4385705F0F86CD2B004D4D95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4385703A0F86CCEE004D4D95 /* PGSQLKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = PGSQLKit;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		433A14580CA8534E006583AA /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -40,6 +57,7 @@
 		32DBCF630370AF2F00C91783 /* PostgreSQL Query Action_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PostgreSQL Query Action_Prefix.pch"; sourceTree = "<group>"; };
 		43078FF20CEBCCD900A1F930 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = SYSTEM_DEVELOPER_DIR; };
 		43273FED0C98745900C9E033 /* PGSQLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PGSQLKit.framework; path = /Library/Frameworks/PGSQLKit.framework; sourceTree = "<absolute>"; };
+		4385703A0F86CCEE004D4D95 /* PGSQLKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PGSQLKit.xcodeproj; path = ../../PGSQLKit/PGSQLKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		43B013490CE4FB6B00C29C2B /* query-tool.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "query-tool.icns"; sourceTree = "<group>"; };
 		43DADC000C9DB4C900C62852 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
 		650E79E1067AB5AE00B4A4EC /* Automator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Automator.framework; path = /System/Library/Frameworks/Automator.framework; sourceTree = "<absolute>"; };
@@ -74,6 +92,7 @@
 				089C167CFE841241C02AAC07 /* Resources */,
 				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
 				19C28FB8FE9D52D311CA2CBB /* Products */,
+				4385703A0F86CCEE004D4D95 /* PGSQLKit.xcodeproj */,
 			);
 			name = "PostgreSQL Query Action";
 			sourceTree = "<group>";
@@ -144,6 +163,14 @@
 			name = "Other Sources";
 			sourceTree = "<group>";
 		};
+		4385703B0F86CCEE004D4D95 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4385703F0F86CCEE004D4D95 /* PGSQLKit.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -160,6 +187,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				438570600F86CD2B004D4D95 /* PBXTargetDependency */,
 			);
 			name = "PostgreSQL Query Action";
 			productInstallPath = "$(HOME)/Library/Bundles";
@@ -177,12 +205,28 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 089C166AFE841209C02AAC07 /* PostgreSQL Query Action */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 4385703B0F86CCEE004D4D95 /* Products */;
+					ProjectRef = 4385703A0F86CCEE004D4D95 /* PGSQLKit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* PostgreSQL Query Action */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		4385703F0F86CCEE004D4D95 /* PGSQLKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PGSQLKit.framework;
+			remoteRef = 4385703E0F86CCEE004D4D95 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D5B49AF048680CD000E48DA /* Resources */ = {
@@ -223,6 +267,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		438570600F86CD2B004D4D95 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PGSQLKit;
+			targetProxy = 4385705F0F86CD2B004D4D95 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {

@@ -14,6 +14,10 @@
 	NSStringEncoding encoding;
 	NSMutableString *rawSourceData;
 	
+	long groupLocalOrigin;
+	long groupIPv4Origin;
+	long groupIPv6Origin;
+	
 	NSMutableArray *comments;  // each array contains a line number and the data.
 	PGHBAConnections *allConnections;
 }

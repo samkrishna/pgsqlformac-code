@@ -66,7 +66,7 @@
 		<key>ApplyButton</key>
 		<string>(* Button label for user to add proposed Action, e.g. Add. *)</string>
 		<key>IgnoreButton</key>
-		<string>(* Button label for user not to add proposed Action, e.g. Don&apos;t Add. *)</string>
+		<string>(* Button label for user not to add proposed Action, e.g. Don't Add. *)</string>
 		<key>Level</key>
 		<integer>0</integer>
 		<key>Message</key>
@@ -93,7 +93,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>8.3.5</string>
+	<string>8.4.0</string>
 	<key>NSPrincipalClass</key>
 	<string>PostgreSQL_Dynamic_Query_Action</string>
 </dict>

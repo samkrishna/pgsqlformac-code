@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string>PostgreSQLPrefPane</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.druware.postgresqlformac.postgresqlserverpreferences</string>
+	<string>com.druware.postgresqlformac</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>8.3.6</string>
+	<string>8.4.0</string>
 	<key>NSMainNibFile</key>
 	<string>PostgreSQL_ServerPref</string>
 	<key>NSPrefPaneIconFile</key>

@@ -9,6 +9,14 @@
 # History
 # -------
 #
+# 2009-02-27  Andy Satori <dru@druware.com>
+#             Altered to support reading DATA, LOG and AUTOSTART from a plist
+#             to support the preference panel options
+#
+# 2009-01-06  Andy Satori <dru@druware.com>
+#             Added a 'RELOAD' option to the Restart call to allow a forced
+#             reload of the pg_hba.conf and postgresql.conf files
+#
 # 2008-11-06  Andy Satori <dru@druware.com>
 #             Refactored DATA_PATH and LOG_FILE our to variables to make them
 #             easier to maintain and adjust from the GUI Preference Pane and 
@@ -60,16 +68,71 @@
 # The PostgreSQL BSD-style license applies to this file
 #
 
-# set the data path (this will be altered by the GUI configuration tools)
 DATA_PATH="/Library/PostgreSQL8/data"
+X=`defaults read /Library/Preferences/com.druware.postgresqlformac | grep dataPath`
+if [ "$X" != "" ]; then
+	DATA_PATH=`defaults read /Library/Preferences/com.druware.postgresqlformac dataPath`
+fi
+ConsoleMessage "PostgreSQL Data Path: $DATA_PATH"
+
 LOG_FILE="/Library/PostgreSQL8/log/PostgreSQL8.log"
+X=`defaults read com.druware.postgresqlformac | grep logPath`
+if [ "$X" != "" ]; then
+	LOG_FILE=`defaults read com.druware.postgresqlformac logPath`
+fi
+ConsoleMessage "PostgreSQL Log Path: $LOG_FILE"
+
+AUTO_START="YES"
+X=`defaults read /Library/Preferences/com.druware.postgresqlformac | grep startAtBoot`
+if [ "$X" != "" ]; then
+	AUTO_START=`defaults read /Library/Preferences/com.druware.postgresqlformac startAtBoot`
+fi
+ConsoleMessage "PostgreSQL Auto Starts: $AUTO_START"
+
+MANUAL="NO"
+X=`defaults read /Library/Preferences/com.druware.postgresqlformac | grep manual`
+if [ "$X" != "" ]; then
+	MANUAL=`defaults read /Library/Preferences/com.druware.postgresqlformac manual`
+fi
+ConsoleMessage "PostgreSQL Manual: $MANUAL"
+
+RELOAD="NO"
+X=`defaults read /Library/Preferences/com.druware.postgresqlformac | grep reload`
+if [ "$X" != "" ]; then
+	RELOAD=`defaults read /Library/Preferences/com.druware.postgresqlformac reload`
+fi
+ConsoleMessage "PostgreSQL Manual: $RELOAD"
+
+overrideEnvironment='-NO-'
+reloadOnRestart='-NO-'
+
+if [ "$MANUAL" = "YES" ]; then
+	overrideEnvironment='-YES-'
+fi
+if [ "$RELOAD" = "YES" ]; then
+	reloadOnRestart='-YES-'
+fi
+
+# on the off chance this gets called the old way, read the options from the 
+# command line
+for f in "$@"
+do
+	if [ "$f" = "MANUAL" ]; then
+		overrideEnvironment='-YES-'
+	fi
+	if [ "$f" = "RELOAD" ]; then
+		reloadOnRestart='-YES-'
+	fi
+done
 
 StartService ()
 {
 	shouldStartPostgres="-NO-"
 	
 	if [ "${POSTGRES:=-YES-}" = "-YES-" ]; then
-		shouldStartPostgres="-YES-"
+		if [ "$AUTO_START" = "YES" ]; then
+			shouldStartPostgres="-YES-"
+		fi
 	fi
 	
 	if [ "$overrideEnvironment" = "-YES-" ]; then
@@ -100,19 +163,15 @@ StopService()
 
 RestartService ()
 {
-    StopService
-    sleep 1
-    StartService
-}
-
-
-overrideEnvironment='-NO-'
-for f in "$@"
-do
-	if [ "$f" = "MANUAL" ]; then
-		overrideEnvironment='-YES-'
+	if [ "$reloadOnRestart" = "-YES-" ]; then
+		ConsoleMessage "Stopping PostgreSQL database services"
+		su -m postgres -c "/Library/PostgreSQL8/bin/pg_ctl reload -D $DATA_PATH"		
+	else
+		StopService
+		sleep 1
+		StartService
 	fi
-done
+}
 
 RunService "$1"
 
