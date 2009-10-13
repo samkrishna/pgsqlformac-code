@@ -26,9 +26,8 @@
 	
 	isLocked = YES;
 	
-	
 	// check for a preferences file
-	NSFileManager *fm = [[NSFileManager alloc] init];
+	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
 	if ([fm fileExistsAtPath:@"/Library/Preferences/com.druware.postgresqlformac.plist"])
 	{
 		// replace with NSUserDefaults/NSGlobalDomain
@@ -59,6 +58,12 @@
 	
 	dataPath = [[NSString alloc] initWithString:[preferences objectForKey:@"dataPath"]];
 	
+	// get alternate version list
+	// get current version --
+	// /Library/PostgreSQL8/bin/psql --version |  grep psql | awk -F" " '{print $3}'
+	// alternate versions
+	// /Library/PostgreSQL8/versions 
+	
 	[self onTimedUpdate:nil];
 }
 
@@ -78,7 +83,7 @@
     if (myStatus != errAuthorizationSuccess) 
 		return NO;
 	
-	AuthorizationItem myItems = {kAuthorizationRightExecute, [pathToHelper length], (char *)[pathToHelper cString], 0};
+	AuthorizationItem myItems = {kAuthorizationRightExecute, [pathToHelper length], (char *)[pathToHelper cStringUsingEncoding:NSMacOSRomanStringEncoding], 0};
 	AuthorizationRights myRights = {1, &myItems};
 	
 	myFlags =  kAuthorizationFlagDefaults |          
@@ -154,14 +159,14 @@
 	{
 		// set the image to running
 		NSString *imagePath = [thisBundle pathForResource:@"xserve-running" ofType:@"png"];
-		NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
+		NSImage *image = [[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease];
 		[serviceImage setImage:image];
 		[status setStringValue:@"Current Status: Running"];
 		
 	} else {
 		// set the image to stopped
 		NSString *imagePath = [thisBundle pathForResource:@"xserve-stopped" ofType:@"png"];
-		NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
+		NSImage *image = [[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease];
 		[serviceImage setImage:image];
 		[status setStringValue:@"Current Status: Down"];
 	}
@@ -172,23 +177,41 @@
 - (BOOL)checkPostmasterStatus
 {
 	// check the current run state of postmaster
-	NSString *serverProcessName = [[NSString alloc] initWithString:@"postgres"];
-	NSString *serverProcessNameAlt = [[NSString alloc] initWithString:@"postmaster"];
+	NSString *serverProcessName = [[[NSString alloc] initWithString:@"postgres"] autorelease];
+	NSString *serverProcessNameAlt = [[[NSString alloc] initWithString:@"postmaster"] autorelease];
 	NSArray *processes = [AGProcess allProcesses];
 	int i;
 	for (i = 0; i < [processes count]; i++)
 	{
-		AGProcess *process = (AGProcess *)[processes objectAtIndex:i];		
-		if ([[process command] isEqual:serverProcessName])
+		AGProcess *process = (AGProcess *)[processes objectAtIndex:i];	
+		if ([process command] != nil) 
 		{
-			return YES;
-		}
-		if ([[process command] isEqual:serverProcessNameAlt])
-		{
-			return YES;
+			if ([[process command] isEqual:serverProcessName])
+			{
+				return YES;
+			}
+			if ([[process command] isEqual:serverProcessNameAlt])
+			{
+				return YES;
+			}
 		}
 	}
 	return NO;
+}
+
+- (void)checkForProblems
+{
+	// check for the postgres user
+	
+	// check for the presence of data in the DATA path
+	
+	// check for the presence of a file in the LOG path
+	
+	// check permissions on the DATA path
+	
+	// check permissions on the LOG file
+	
+	return;
 }
 
 - (IBAction)onTimedUpdate:(id)sender
@@ -360,17 +383,17 @@
     
 	NSString *pathToHelper = [thisBundle pathForResource:@"StartupHelper" ofType:nil];
 
-	const char *myToolPath = [pathToHelper cString]; 
+	const char *myToolPath = [pathToHelper cStringUsingEncoding:NSMacOSRomanStringEncoding]; 
 	char *myArguments[4];
 	
-	myArguments[0] = (char *)[command cString];
-	myArguments[1] = (char *)[operation cString];
+	myArguments[0] = (char *)[command cStringUsingEncoding:NSMacOSRomanStringEncoding];
+	myArguments[1] = (char *)[operation cStringUsingEncoding:NSMacOSRomanStringEncoding];
 	if (option != nil)	
 	{
-		myArguments[2] = (char *)[option cString];;
+		myArguments[2] = (char *)[option cStringUsingEncoding:NSMacOSRomanStringEncoding];
 	} else {
 		myArguments[2] = "MANUAL";
-	}
+	} 
 	myArguments[3] = NULL;		
 	
 	FILE *myCommunicationsPipe = NULL;
@@ -387,6 +410,7 @@
 			
 			int bytesRead = read(fileno(myCommunicationsPipe),
 								 myReadBuffer, sizeof(myReadBuffer));
+			//NSLog(@"Buffer: %s", &myReadBuffer);
 			if (bytesRead < 1) break;
 		} 
 	

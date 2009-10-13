@@ -144,6 +144,8 @@
 	NSMutableString *newSource = [[NSMutableString alloc] init];
 	NSString *currentLine = nil;
 	
+
+	/*
 	// write the lines to newSource from comments until groupLocalOrigin
 	// then loop the connections for all locals
 	// rinse and repeat for IPv4 and IPv6
@@ -181,7 +183,7 @@
 	[rawSourceData release];
 	[[rawSourceData alloc] initWithString:newSource];
 	[[rawSourceData autorelease] retain];
-	
+	*/
 	return YES;
 }
 

@@ -7,7 +7,9 @@
  *
  */
 
+#ifndef COCOA_TOUCH
 #import "PGSQLLogin.h"
+#endif
 #import "PGSQLConnection.h"
 
 

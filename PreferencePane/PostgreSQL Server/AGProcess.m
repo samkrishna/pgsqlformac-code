@@ -10,23 +10,11 @@
 //
 // THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-// Version History:
-//
-// 0.1 - February 13, 2003
-//	Initial release - Aram Greenman
-//
-// 0.2 - August 4, 2003
-//	Added code to check OS versions in computations for task memory usage - Aram Greenman
-//	Added methods to retrieve task events (pageins, faults, etc.) - Craig Hockenberry
-//	Fixed compilation warnings in AGGetMachThreadPriority - Craig Hockenberry
-//  Fixed -siblings to exclude the receiver - Steve Gehrman
-
 #import "AGProcess.h"
 #import <Foundation/Foundation.h>
 #include <mach/mach_host.h>
 #include <mach/mach_port.h>
 #include <mach/mach_traps.h>
-#include <mach/shared_memory_server.h>
 #include <mach/task.h>
 #include <mach/thread_act.h>
 #include <mach/vm_map.h>
@@ -36,38 +24,6 @@
 #include <signal.h>
 #include <unistd.h>
 
-static unsigned global_shared_text_segment;
-static unsigned shared_data_region_size;
-static unsigned shared_text_region_size;
-
-// call this before any of the AGGetMach... functions
-// sets the correct split library segment for running kernel
-// should work at least through Darwin 6.6 (Mac OS X 10.2.6)
-static kern_return_t
-AGMachStatsInit() {
-	int mib[2] = {CTL_KERN, KERN_OSRELEASE};
-	size_t len = 256;
-	char rel[len];
-	
-	if (sysctl(mib, 2, &rel, &len, NULL, 0) < 0)
-		return KERN_FAILURE;
-    
-	// kernel version < 6.0 (Mac OS X 10.2)
-	if (strcmp(rel, "6") < 0) { 
-		global_shared_text_segment = 0x70000000;
-		shared_data_region_size = 0x10000000;
-		shared_text_region_size = 0x10000000;
-	}
-	// use values defined for the kernel we built under
-	else {
-		global_shared_text_segment = GLOBAL_SHARED_TEXT_SEGMENT;
-		shared_data_region_size = SHARED_DATA_REGION_SIZE;
-		shared_text_region_size = SHARED_TEXT_REGION_SIZE;
-	}
-	
-	return KERN_SUCCESS;
-}
-
 static kern_return_t
 AGGetMachTaskMemoryUsage(task_t task, unsigned *virtual_size, unsigned *resident_size, double *percent) {
 	kern_return_t error;
@@ -75,10 +31,10 @@ AGGetMachTaskMemoryUsage(task_t task, unsigned *virtual_size, unsigned *resident
 	struct host_basic_info h_info;
 	struct vm_region_basic_info_64 vm_info;
 	mach_msg_type_number_t t_info_count = TASK_BASIC_INFO_COUNT, h_info_count = HOST_BASIC_INFO_COUNT, vm_info_count = VM_REGION_BASIC_INFO_COUNT_64;
-	vm_address_t address = global_shared_text_segment;
-	vm_size_t size;
+	vm_address_t address = 0x70000000;
+	vm_size_t size, fw_size = 0x20000000, fw_text_size = 0x10000000;
 	mach_port_t object_name;
-		
+	
 	if ((error = task_info(task, TASK_BASIC_INFO, (task_info_t)&t_info, &t_info_count)) != KERN_SUCCESS)
 		return error;
 	if ((error = host_info(mach_host_self(), HOST_BASIC_INFO, (host_info_t)&h_info, &h_info_count)) != KERN_SUCCESS)
@@ -88,9 +44,9 @@ AGGetMachTaskMemoryUsage(task_t task, unsigned *virtual_size, unsigned *resident
 	// this is copied from the ps source code
 	if ((error = vm_region_64(task, &address, &size, VM_REGION_BASIC_INFO, (vm_region_info_t)&vm_info, &vm_info_count, &object_name)) != KERN_SUCCESS)
 		return error;
-
-	if (vm_info.reserved && size == shared_text_region_size && t_info.virtual_size > (shared_text_region_size + shared_data_region_size))
-		t_info.virtual_size -= (shared_text_region_size + shared_data_region_size);
+	
+	if (vm_info.reserved && size == fw_text_size && t_info.virtual_size > fw_size)
+		t_info.virtual_size -= fw_size;
 		
 	if (virtual_size != NULL) *virtual_size = t_info.virtual_size;
 	if (resident_size != NULL) *resident_size = t_info.resident_size;
@@ -164,7 +120,7 @@ AGGetMachThreadPriority(thread_t thread, int *current_priority, int *base_priori
 	kern_return_t error;
 	struct thread_basic_info th_info;
 	mach_msg_type_number_t th_info_count = THREAD_BASIC_INFO_COUNT;
-	int my_current_priority = 0, my_base_priority = 0;
+	int my_current_priority, my_base_priority;
 	
 	if ((error = thread_info(thread, THREAD_BASIC_INFO, (thread_info_t)&th_info, &th_info_count)) != KERN_SUCCESS)
 		return error;
@@ -328,27 +284,6 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 	return error;
 }
 
-static kern_return_t
-AGGetMachTaskEvents(task_t task, int *faults, int *pageins, int *cow_faults, int *messages_sent, int *messages_received, int *syscalls_mach, int *syscalls_unix, int *csw) {
-	kern_return_t error;
-	task_events_info_data_t t_events_info;
-	mach_msg_type_number_t t_events_info_count = TASK_EVENTS_INFO_COUNT;
-	
-	if ((error = task_info(task, TASK_EVENTS_INFO, (task_info_t)&t_events_info, &t_events_info_count)) != KERN_SUCCESS)
-		return error;
-
-	if (faults != NULL) *faults = t_events_info.faults;
-	if (pageins != NULL) *pageins = t_events_info.pageins;
-	if (cow_faults != NULL) *cow_faults = t_events_info.cow_faults;
-	if (messages_sent != NULL) *messages_sent = t_events_info.messages_sent;
-	if (messages_received != NULL) *messages_received = t_events_info.messages_received;
-	if (syscalls_mach != NULL) *syscalls_mach = t_events_info.syscalls_mach;
-	if (syscalls_unix != NULL) *syscalls_unix = t_events_info.syscalls_unix;
-	if (csw != NULL) *csw = t_events_info.csw;
-	
-	return error;
-}
-
 @interface AGProcess (Private)
 + (NSArray *)processesForThirdLevelName:(int)name value:(int)value;
 - (void)doProcargs;
@@ -413,6 +348,8 @@ AGGetMachTaskEvents(task_t task, int *faults, int *pageins, int *cow_faults, int
 			command = [[NSString alloc] init];
 		else
 			command = [[NSString alloc] initWithCString:info.kp_proc.p_comm];
+		
+		[command retain];
 	} else {
 		// find the comm string, should be the first non-garbage string in the buffer
 		offset = last_offset = 0;
@@ -433,7 +370,7 @@ AGGetMachTaskEvents(task_t task, int *faults, int *pageins, int *cow_faults, int
 						break;
 				}
 			}
-			command = [[NSString stringWithCString:buffer + last_offset] lastPathComponent];
+			command = [[NSString stringWithCString:buffer + last_offset encoding:NSMacOSRomanStringEncoding] lastPathComponent];
 		} while ([command isEqualToString:@"LaunchCFMApp"]);  // skip LaunchCFMApp
 		
 		[command retain];
@@ -441,7 +378,7 @@ AGGetMachTaskEvents(task_t task, int *faults, int *pageins, int *cow_faults, int
 		// get rest of args and env
 		for ( ; offset < length; offset++) {
 			if (buffer[offset]) {
-				NSString *string = [NSString stringWithCString:buffer + offset];
+				NSString *string = [NSString stringWithCString:buffer + offset encoding:NSMacOSRomanStringEncoding];
 				[args addObject:string];
 				offset += [string cStringLength];
 			}
@@ -449,12 +386,17 @@ AGGetMachTaskEvents(task_t task, int *faults, int *pageins, int *cow_faults, int
 		
 		// count backwards past env
 		// first string which does not contain an '=' should usually be the last arg             	
+
+		// ** THIS IS THE CRASH POINT ***
+		
 		for (i = [args count] - 1; i > 0; i--) {
 			NSString *string = [args objectAtIndex:i];
 			int index = [string rangeOfString:@"="].location;
 			if (index == NSNotFound)
 				break;
-			[env setObject:[string substringFromIndex:index + 1] forKey:[string substringToIndex:index]];
+			if (index >= 0) {
+				[env setObject:[string substringFromIndex:index + 1] forKey:[string substringToIndex:index]];
+			}
 		}
 		args = [args subarrayWithRange:NSMakeRange(0, i + 1)];
 	}
@@ -468,12 +410,7 @@ AGGetMachTaskEvents(task_t task, int *faults, int *pageins, int *cow_faults, int
 @end
 
 @implementation AGProcess
-
-+ (void)initialize {
-	AGMachStatsInit();
-	[super initialize];
-}
-
+	
 - (id)initWithProcessIdentifier:(int)pid {
 	if (self = [super init]) {
 		process = pid;
@@ -639,11 +576,9 @@ AGGetMachTaskEvents(task_t task, int *faults, int *pageins, int *cow_faults, int
 	NSArray *all = [[self class] allProcesses];
 	NSMutableArray *siblings = [NSMutableArray array];
 	int i, count = [all count], ppid = [self parentProcessIdentifier];
-	for (i = 0; i < count; i++) {
-        AGProcess *p = [all objectAtIndex:i];
-		if ([p parentProcessIdentifier] == ppid && [p processIdentifier] != process)
-			[siblings addObject:p];
-    }
+	for (i = 0; i < count; i++)
+		if ([[all objectAtIndex:i] parentProcessIdentifier] == ppid)
+			[siblings addObject:[all objectAtIndex:i]];
 	return siblings;
 }
 	
@@ -696,7 +631,7 @@ AGGetMachTaskEvents(task_t task, int *faults, int *pageins, int *cow_faults, int
 	return size;
 }
 	
-- (AGProcessState)state {
+- (int)state {
 	int state;
 	struct kinfo_proc info;
 	size_t length = sizeof(struct kinfo_proc);
@@ -733,6 +668,26 @@ AGGetMachTaskEvents(task_t task, int *faults, int *pageins, int *cow_faults, int
 	return count;
 } 
 	
+- (BOOL)suspend {
+	return [self kill:SIGSTOP];
+}
+	
+- (BOOL)resume {
+	return [self kill:SIGCONT];
+}
+	
+- (BOOL)interrupt {
+	return [self kill:SIGINT];
+}
+	
+- (BOOL)terminate {
+	return [self kill:SIGTERM];
+}
+	
+- (BOOL)kill:(int)signal {
+	return kill(process, signal) == 0;
+}
+	
 - (unsigned)hash {
 	return process;
 }
@@ -755,88 +710,8 @@ AGGetMachTaskEvents(task_t task, int *faults, int *pageins, int *cow_faults, int
 	[super dealloc];
 }
 	
-@end
-
-@implementation AGProcess (Signals)
-
-- (BOOL)suspend {
-	return [self kill:SIGSTOP];
+- (id)copyWithZone:(NSZone *)zone {
+	return [self retain];
 }
 	
-- (BOOL)resume {
-	return [self kill:SIGCONT];
-}
-	
-- (BOOL)interrupt {
-	return [self kill:SIGINT];
-}
-	
-- (BOOL)terminate {
-	return [self kill:SIGTERM];
-}
-	
-- (BOOL)kill:(int)signal {
-	return kill(process, signal) == 0;
-}
-
-@end
-
-@implementation AGProcess (MachTaskEvents)
-
-- (int)faults {
-	unsigned faults;
-	if (AGGetMachTaskEvents(task, &faults, NULL, NULL, NULL, NULL, NULL, NULL, NULL) != KERN_SUCCESS)
-		return AGProcessValueUnknown;
-	return faults;
-}
-
-- (int)pageins {
-	int pageins;
-	if (AGGetMachTaskEvents(task, NULL, &pageins, NULL, NULL, NULL, NULL, NULL, NULL) != KERN_SUCCESS)
-		return AGProcessValueUnknown;
-	return pageins;
-}
-
-- (int)copyOnWriteFaults {
-	int cow_faults;
-	if (AGGetMachTaskEvents(task, NULL, NULL, &cow_faults, NULL, NULL, NULL, NULL, NULL) != KERN_SUCCESS)
-		return AGProcessValueUnknown;
-	return cow_faults;
-}
-
-- (int)messagesSent {
-	int messages_sent;
-	if (AGGetMachTaskEvents(task, NULL, NULL, NULL, &messages_sent, NULL, NULL, NULL, NULL) != KERN_SUCCESS)
-		return AGProcessValueUnknown;
-	return messages_sent;
-}
-
-- (int)messagesReceived {
-	int messages_received;
-	if (AGGetMachTaskEvents(task, NULL, NULL, NULL, NULL, &messages_received, NULL, NULL, NULL) != KERN_SUCCESS)
-		return AGProcessValueUnknown;
-	return messages_received;
-}
-
-- (int)machSystemCalls {
-	int syscalls_mach;
-	if (AGGetMachTaskEvents(task, NULL, NULL, NULL, NULL, NULL, &syscalls_mach, NULL, NULL) != KERN_SUCCESS)
-		return AGProcessValueUnknown;
-	return syscalls_mach;
-}
-
-- (int)unixSystemCalls {
-	int syscalls_unix;
-	if (AGGetMachTaskEvents(task, NULL, NULL, NULL, NULL, NULL, NULL, &syscalls_unix, NULL) != KERN_SUCCESS)
-		return AGProcessValueUnknown;
-	return syscalls_unix;
-}
-
-- (int)contextSwitches {
-	int csw;
-	if (AGGetMachTaskEvents(task, NULL, NULL, NULL, NULL, NULL, NULL, NULL, &csw) != KERN_SUCCESS)
-		return AGProcessValueUnknown;
-	return csw;
-}
-
 @end

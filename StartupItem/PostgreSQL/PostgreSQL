@@ -69,39 +69,45 @@
 #
 
 DATA_PATH="/Library/PostgreSQL8/data"
-X=`defaults read /Library/Preferences/com.druware.postgresqlformac | grep dataPath`
-if [ "$X" != "" ]; then
-	DATA_PATH=`defaults read /Library/Preferences/com.druware.postgresqlformac dataPath`
-fi
-ConsoleMessage "PostgreSQL Data Path: $DATA_PATH"
-
 LOG_FILE="/Library/PostgreSQL8/log/PostgreSQL8.log"
-X=`defaults read com.druware.postgresqlformac | grep logPath`
-if [ "$X" != "" ]; then
-	LOG_FILE=`defaults read com.druware.postgresqlformac logPath`
-fi
-ConsoleMessage "PostgreSQL Log Path: $LOG_FILE"
-
 AUTO_START="YES"
-X=`defaults read /Library/Preferences/com.druware.postgresqlformac | grep startAtBoot`
-if [ "$X" != "" ]; then
-	AUTO_START=`defaults read /Library/Preferences/com.druware.postgresqlformac startAtBoot`
-fi
-ConsoleMessage "PostgreSQL Auto Starts: $AUTO_START"
-
 MANUAL="NO"
-X=`defaults read /Library/Preferences/com.druware.postgresqlformac | grep manual`
-if [ "$X" != "" ]; then
-	MANUAL=`defaults read /Library/Preferences/com.druware.postgresqlformac manual`
-fi
-ConsoleMessage "PostgreSQL Manual: $MANUAL"
-
 RELOAD="NO"
-X=`defaults read /Library/Preferences/com.druware.postgresqlformac | grep reload`
-if [ "$X" != "" ]; then
-	RELOAD=`defaults read /Library/Preferences/com.druware.postgresqlformac reload`
+
+# if the preferences file exists, read it.
+if test -f "/Library/Preferences/com.druware.postgresqlformac.plist"; then
+	X=`defaults read /Library/Preferences/com.druware.postgresqlformac | grep dataPath`
+	if [ "$X" != "" ]; then
+		DATA_PATH=`defaults read /Library/Preferences/com.druware.postgresqlformac dataPath`
+	fi
+	
+	X=`defaults read /Library/Preferences/com.druware.postgresqlformac | grep logPath`
+	if [ "$X" != "" ]; then
+		LOG_FILE=`defaults read /Library/Preferences/com.druware.postgresqlformac logPath`
+	fi
+	
+	X=`defaults read /Library/Preferences/com.druware.postgresqlformac | grep startAtBoot`
+	if [ "$X" != "" ]; then
+		AUTO_START=`defaults read /Library/Preferences/com.druware.postgresqlformac startAtBoot`
+	fi
+	
+	X=`defaults read /Library/Preferences/com.druware.postgresqlformac | grep manual`
+	if [ "$X" != "" ]; then
+		MANUAL=`defaults read /Library/Preferences/com.druware.postgresqlformac manual`
+	fi
+
+	X=`defaults read /Library/Preferences/com.druware.postgresqlformac | grep reload`
+	if [ "$X" != "" ]; then
+		RELOAD=`defaults read /Library/Preferences/com.druware.postgresqlformac reload`
+	fi	
 fi
-ConsoleMessage "PostgreSQL Manual: $RELOAD"
+
+# display the options in the log
+ConsoleMessage "PostgreSQL Data Path: $DATA_PATH"
+ConsoleMessage "PostgreSQL Log Path: $LOG_FILE"
+ConsoleMessage "PostgreSQL Auto Starts: $AUTO_START"
+ConsoleMessage "PostgreSQL Manual: $MANUAL"
+ConsoleMessage "PostgreSQL Reload: $RELOAD"
 
 overrideEnvironment='-NO-'
 reloadOnRestart='-NO-'

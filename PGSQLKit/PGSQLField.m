@@ -71,9 +71,8 @@
 		{
 			return nil;
 		}
-		
-		NSNumber *value = [[NSNumber alloc] initWithFloat:
-			[[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSMacOSRomanStringEncoding] floatValue]];
+		NSString *temp = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSMacOSRomanStringEncoding] autorelease];
+		NSNumber *value = [[[NSNumber alloc] initWithFloat:[temp floatValue]] autorelease];
 		return value;
 	}
 	return nil;
@@ -84,10 +83,10 @@
 	if (data != nil) {
 		if ([data length] <= 0)
 		{
-			return nil;
+			return 0;
 		}
 		
-		NSString *value = [[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSMacOSRomanStringEncoding];
+		NSString *value = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSMacOSRomanStringEncoding] autorelease];
 		
 		return (long)[[NSNumber numberWithFloat:[value floatValue]] longValue];
 	}
@@ -126,7 +125,7 @@
 			return nil;
 		}
 		
-		return [[[[NSData alloc] initWithData:data] autorelease] retain];
+		return [[[NSData alloc] initWithData:data] autorelease];
 	}
 	return nil; 	
 }

@@ -28,8 +28,8 @@
 		434CF8B30E4CAC570040ED14 /* security_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 434CF8B20E4CAC570040ED14 /* security_32.png */; };
 		434CF8B50E4CAC890040ED14 /* prefs_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 434CF8B40E4CAC890040ED14 /* prefs_32.png */; };
 		4377A36B0F544EC90052E392 /* PostgreSQL Server.prefPane in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8D202CF80486D31800D8A456 /* PostgreSQL Server.prefPane */; };
+		43803EF8107F7EDA005BB860 /* StartupHelper in Resources */ = {isa = PBXBuildFile; fileRef = 43B1AB5E0EC13A66002D4317 /* StartupHelper */; };
 		43AFFB260ECA7AE500FF139F /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = 43AFFB250ECA7AE500FF139F /* CHANGELOG */; };
-		43B1AB790EC1E204002D4317 /* StartupHelper in Resources */ = {isa = PBXBuildFile; fileRef = 43B1AB5E0EC13A66002D4317 /* StartupHelper */; };
 		43B5F6B20EC355CA00AE6451 /* PostgreSQL_ServerPref.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 43B5F6B10EC355CA00AE6451 /* PostgreSQL_ServerPref.tiff */; };
 		43BDF9310F4DBE3800079F3C /* NetworkConfigurationPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43BDF92F0F4DBE3800079F3C /* NetworkConfigurationPanel.xib */; };
 		43BDF9340F4DBE5C00079F3C /* PostgreSQLConfigurationPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 43BDF9320F4DBE5C00079F3C /* PostgreSQLConfigurationPanel.xib */; };
@@ -92,7 +92,6 @@
 		43460BA90F5396EB009D8EB3 /* PGPostgreSQLConfFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGPostgreSQLConfFile.h; sourceTree = "<group>"; };
 		43460BAA0F5396EB009D8EB3 /* PGPostgreSQLConfFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGPostgreSQLConfFile.m; sourceTree = "<group>"; };
 		434CF8190E4C88500040ED14 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		434CF8620E4C988C0040ED14 /* Deployment */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Deployment; path = ../../StartupHelper/build/Deployment; sourceTree = SOURCE_ROOT; };
 		434CF8670E4C99F50040ED14 /* restart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restart.png; sourceTree = "<group>"; };
 		434CF8680E4C99F50040ED14 /* start.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = start.png; sourceTree = "<group>"; };
 		434CF8690E4C99F50040ED14 /* stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stop.png; sourceTree = "<group>"; };
@@ -192,7 +191,6 @@
 				434CF86C0E4C99F50040ED14 /* xserve-running.png */,
 				434CF86D0E4C99F50040ED14 /* xserve-stopped.png */,
 				434CF86E0E4C99F50040ED14 /* xserve-unknown.png */,
-				434CF8620E4C988C0040ED14 /* Deployment */,
 				8D202CF70486D31800D8A456 /* Info.plist */,
 				43BDF92F0F4DBE3800079F3C /* NetworkConfigurationPanel.xib */,
 				43BDF9320F4DBE5C00079F3C /* PostgreSQLConfigurationPanel.xib */,
@@ -354,7 +352,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				43B1AB790EC1E204002D4317 /* StartupHelper in Resources */,
+				43803EF8107F7EDA005BB860 /* StartupHelper in Resources */,
 				8D202CED0486D31800D8A456 /* InfoPlist.strings in Resources */,
 				8D202CEF0486D31800D8A456 /* PostgreSQL_ServerPref.xib in Resources */,
 				434CF86F0E4C99F50040ED14 /* restart.png in Resources */,
@@ -465,16 +463,25 @@
 		1DBD214908BA80EA00186707 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PostgreSQL Server_Prefix.pch";
+				GCC_VERSION = 4.2;
+				"GCC_VERSION[arch=i386]" = "";
+				"GCC_VERSION[arch=ppc]" = 4.0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "PostgreSQL Server";
+				SDKROOT = macosx10.5;
+				"SDKROOT[arch=i386]" = macosx10.5;
+				"SDKROOT[arch=ppc]" = macosx10.4;
 				WRAPPER_EXTENSION = prefPane;
 				ZERO_LINK = YES;
 			};
@@ -483,13 +490,22 @@
 		1DBD214A08BA80EA00186707 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PostgreSQL Server_Prefix.pch";
+				GCC_VERSION = 4.2;
+				"GCC_VERSION[arch=i386]" = "";
+				"GCC_VERSION[arch=ppc]" = 4.0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "PostgreSQL Server";
+				SDKROOT = macosx10.5;
+				"SDKROOT[arch=i386]" = macosx10.5;
+				"SDKROOT[arch=ppc]" = macosx10.4;
 				WRAPPER_EXTENSION = prefPane;
 			};
 			name = Release;

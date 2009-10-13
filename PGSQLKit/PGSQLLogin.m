@@ -11,7 +11,6 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <stdlib.h>
 
-
 @implementation PGSQLLogin
 
 #pragma mark Keychain Helper Functions
@@ -43,7 +42,7 @@
 			{
 				strncpy(buffer, attr.data, attr.length);
 				buffer[attr.length] = '\0';
-				result = [[NSString alloc] initWithFormat:@"%s", buffer];
+				result = [[[NSString alloc] initWithFormat:@"%s", buffer] autorelease];
 			}
 		}
 	}
@@ -90,7 +89,7 @@
 					{
 						strncpy(buffer, attr.data, attr.length);
 						buffer[attr.length] = '\0';
-						where = [[NSString alloc] initWithFormat:@"%s", buffer];
+						where = [[[NSString alloc] initWithFormat:@"%s", buffer] autorelease];
 						
 						// split the where into the location elements
 						[serverName setStringValue:where];
@@ -114,7 +113,7 @@
 					{
 						strncpy(buffer, attr.data, attr.length);
 						buffer[attr.length] = '\0';
-						NSString *who = [[NSString alloc] initWithFormat:@"%s", buffer];
+						NSString *who = [[[NSString alloc] initWithFormat:@"%s", buffer] autorelease];
 						[loginUserName setStringValue:who];
 					}
 					break;
@@ -150,7 +149,7 @@
 	searchAttributes[0].length = 4;
 	
 	searchAttributes[1].tag = kSecLabelItemAttr;
-	searchAttributes[1].data = (char *)[selectedValue cString];
+	searchAttributes[1].data = (char *)[selectedValue cStringUsingEncoding:NSMacOSRomanStringEncoding];
 	searchAttributes[1].length = [selectedValue length];
 
 	searchList.count = 2;
@@ -206,11 +205,11 @@
 				switch (attr.tag)
 				{
 					case kSecServiceItemAttr:
-						attr.data = (char *)[where cString];
+						attr.data = (char *)[where cStringUsingEncoding:NSMacOSRomanStringEncoding];
 						attr.length = [where length];
 						break;
 					case kSecAccountItemAttr:
-						attr.data = (char *)[[loginUserName stringValue] cString];
+						attr.data = (char *)[[loginUserName stringValue] cStringUsingEncoding:NSMacOSRomanStringEncoding];
 						attr.length = [[loginUserName stringValue] length];
 						break;
 					case kSecDescriptionItemAttr:
@@ -218,11 +217,11 @@
 						attr.length = 16;
 						break;
 					case kSecLabelItemAttr:
-						attr.data = (char *)[[savedConnections stringValue] cString];
+						attr.data = (char *)[[savedConnections stringValue] cStringUsingEncoding:NSMacOSRomanStringEncoding];
 						attr.length = [[savedConnections stringValue] length];
 						break;
 					case kSecCommentItemAttr:
-						attr.data = (char*)[description cString];
+						attr.data = (char*)[description cStringUsingEncoding:NSMacOSRomanStringEncoding];
 						attr.length = [description length];
 						break;
 					case kSecCreatorItemAttr:
@@ -234,9 +233,9 @@
 				}
 			}
 			// do the save of the edited item
-			status = SecKeychainItemModifyContent(item, &list, 
+			SecKeychainItemModifyContent(item, &list, 
 												  [[loginPassword stringValue] length], 
-												  [[loginPassword stringValue] cString]);	
+												  [[loginPassword stringValue] cStringUsingEncoding:NSMacOSRomanStringEncoding]);	
 			
 		}
 		
@@ -264,7 +263,7 @@
 		[resultConnection port]];	
 	
 	attributes[0].tag = kSecAccountItemAttr;
-	attributes[0].data = (char *)[[loginUserName stringValue] cString];
+	attributes[0].data = (char *)[[loginUserName stringValue] cStringUsingEncoding:NSMacOSRomanStringEncoding];
 	attributes[0].length = [[loginUserName stringValue] length];
 	
 	attributes[1].tag = kSecDescriptionItemAttr;
@@ -272,15 +271,15 @@
 	attributes[1].length = 16;
 	
 	attributes[2].tag = kSecLabelItemAttr;
-	attributes[2].data = (char *)[[savedConnections stringValue] cString];
+	attributes[2].data = (char *)[[savedConnections stringValue] cStringUsingEncoding:NSMacOSRomanStringEncoding];
 	attributes[2].length = [[savedConnections stringValue] length];
 	
 	attributes[3].tag = kSecServiceItemAttr;
-	attributes[3].data = (char *)[where cString];
+	attributes[3].data = (char *)[where cStringUsingEncoding:NSMacOSRomanStringEncoding];
 	attributes[3].length = [where length];
 	
 	attributes[4].tag = kSecCommentItemAttr;
-	attributes[4].data = (char*)[description cString];
+	attributes[4].data = (char*)[description cStringUsingEncoding:NSMacOSRomanStringEncoding];
 	attributes[4].length = [description length];
 	
 	attributes[5].tag = kSecCreatorItemAttr;
@@ -293,7 +292,7 @@
 	status = SecKeychainItemCreateFromContent(kSecGenericPasswordItemClass, 
 											  &list, 
 											  [[loginPassword stringValue] length], 
-											  [[loginPassword stringValue] cString], 
+											  [[loginPassword stringValue] cStringUsingEncoding:NSMacOSRomanStringEncoding], 
 											  NULL, NULL, &item);	
 	CFRelease(item);
 	return (status == noErr);
@@ -627,7 +626,7 @@
 		attributes[0].length = 4;
 		
 		attributes[1].tag = kSecLabelItemAttr;
-		attributes[1].data = (char *)[selectedValue cString];
+		attributes[1].data = (char *)[selectedValue cStringUsingEncoding:NSMacOSRomanStringEncoding];
 		attributes[1].length = [selectedValue length];
 		
 		list.count = 2;

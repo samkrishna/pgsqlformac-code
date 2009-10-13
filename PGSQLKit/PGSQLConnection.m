@@ -10,7 +10,7 @@
 #include "libpq-fe.h"
 #import <sys/time.h>
 #import <Security/Security.h>
-#import <CoreFoundation/CoreFoundation.h>
+#import <Foundation/Foundation.h>
 #import <stdlib.h>
 
 // When a pqlib notice is raised this function gets called
@@ -109,7 +109,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	// allocate the thread, begin the connection and send the notification when done.
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-	NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
+	NSMutableDictionary *info = [[[NSMutableDictionary alloc] init] autorelease];
 	
 	if ([self connect])
 	{
@@ -136,7 +136,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 		[connectionString retain];
 	}
 	NSAssert( (connectionString != nil), @"Attempted to connect to PostgreSQL with empty connectionString.");
-	pgconn = (PGconn *)PQconnectdb([connectionString cString]);
+	pgconn = (PGconn *)PQconnectdb([connectionString cStringUsingEncoding:NSMacOSRomanStringEncoding]);
 #ifdef DEBUG
 	if (PQoptions(pgconn))
 	{
@@ -178,7 +178,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 		[sqlLog release];
 	}
 	sqlLog = [[NSMutableString alloc] init];
-	[self appendSQLLog:[NSMutableString stringWithFormat:@"Connected to database %@ on %@.\n", dbName, [[NSCalendarDate calendarDate] description]]];
+	[self appendSQLLog:[NSMutableString stringWithFormat:@"Connected to database %@.\n", dbName]];
 	isConnected = YES;
 	return YES;
 }
@@ -207,9 +207,9 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	
 	NSString *sql = (NSString *)sqlCommand;
 	
-	NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
+	NSMutableDictionary *info = [[[NSMutableDictionary alloc] init] autorelease];
 	
-	NSNumber *recordCount = [[NSNumber alloc] initWithInt:[self execCommand:sql]];
+	NSNumber *recordCount = [[[NSNumber alloc] initWithInt:[self execCommand:sql]] autorelease];
 	[info setValue:recordCount forKey:@"RecordCount"];
 	[info setValue:[self lastError] forKey:@"Error"];
 	[info setValue:[self lastCmdStatus] forKey:@"Status"];
@@ -239,7 +239,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 		return NO; 
 	}
 	
-	res = PQexec(pgconn, [sql cString]);
+	res = PQexec(pgconn, [sql cStringUsingEncoding:NSMacOSRomanStringEncoding]);
 	if (res == nil) 
 	{ 
 		errorDescription = [NSString stringWithString:@"ERROR: No response (PGRES_FATAL_ERROR)"];		
@@ -278,7 +278,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	
 	NSString *sql = (NSString *)sqlCommand;
 	
-	NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
+	NSMutableDictionary *info = [[[NSMutableDictionary alloc] init] autorelease];
 	
 	PGSQLRecordset *rs = [self open:sql];
 	[info setValue:rs forKey:@"Recordset"];
@@ -313,7 +313,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	}
 	
 	gettimeofday(&start, 0);
-	res = PQexec(pgconn, [sql cString]);
+	res = PQexec(pgconn, [sql cStringUsingEncoding:NSMacOSRomanStringEncoding]);
 	if (logInfo)
 	{
 		gettimeofday(&finished, 0);

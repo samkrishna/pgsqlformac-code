@@ -36,8 +36,8 @@
 		int i;
 		for ( i = 0; i < iCols; i++)
 		{
-			column = [[[[PGSQLColumn alloc] initWithResult:pgResult 
-												   atIndex:i] retain] autorelease];
+			column = [[[PGSQLColumn alloc] initWithResult:pgResult 
+												   atIndex:i] autorelease];
 			[columns addObject:column];
 		}
 		

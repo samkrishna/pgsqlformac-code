@@ -125,9 +125,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		4302D211089F0F9100BB8465 /* Development */ = {
+		4302D211089F0F9100BB8465 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -135,32 +137,27 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INSTALL_PATH = "$(HOME)/bin";
 				PRODUCT_NAME = StartupHelper;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 				ZERO_LINK = YES;
 			};
-			name = Development;
+			name = Debug;
 		};
-		4302D212089F0F9100BB8465 /* Deployment */ = {
+		4302D212089F0F9100BB8465 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_BIT_PRE_XCODE_3_1 = "ppc i386";
 				COPY_PHASE_STRIP = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				INSTALL_PATH = "$(HOME)/bin";
 				PRODUCT_NAME = StartupHelper;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 				ZERO_LINK = NO;
 			};
-			name = Deployment;
+			name = Release;
 		};
-		4302D213089F0F9100BB8465 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				INSTALL_PATH = "$(HOME)/bin";
-				PRODUCT_NAME = StartupHelper;
-			};
-			name = Default;
-		};
-		4302D215089F0F9100BB8465 /* Development */ = {
+		4302D215089F0F9100BB8465 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -170,9 +167,9 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = Development;
+			name = Debug;
 		};
-		4302D216089F0F9100BB8465 /* Deployment */ = {
+		4302D216089F0F9100BB8465 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = (
@@ -182,19 +179,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
 				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
 			};
-			name = Deployment;
-		};
-		4302D217089F0F9100BB8465 /* Default */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
-			};
-			name = Default;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
@@ -202,22 +187,20 @@
 		4302D210089F0F9100BB8465 /* Build configuration list for PBXNativeTarget "StartupHelper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4302D211089F0F9100BB8465 /* Development */,
-				4302D212089F0F9100BB8465 /* Deployment */,
-				4302D213089F0F9100BB8465 /* Default */,
+				4302D211089F0F9100BB8465 /* Debug */,
+				4302D212089F0F9100BB8465 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Debug;
 		};
 		4302D214089F0F9100BB8465 /* Build configuration list for PBXProject "StartupHelper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4302D215089F0F9100BB8465 /* Development */,
-				4302D216089F0F9100BB8465 /* Deployment */,
-				4302D217089F0F9100BB8465 /* Default */,
+				4302D215089F0F9100BB8465 /* Debug */,
+				4302D216089F0F9100BB8465 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Default;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};

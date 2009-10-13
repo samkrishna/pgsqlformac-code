@@ -63,6 +63,7 @@
 
 - (BOOL)checkPostmasterStatus;
 - (void)updateButtonStatus:(BOOL)isRunning;
+- (void)checkForProblems;
 
 - (IBAction)onTimedUpdate:(id)sender;
 
