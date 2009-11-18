@@ -70,15 +70,13 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 260494858;
-			PBXWorkspaceStateSaveDate = 260494858;
+			PBXPerProjectTemplateStateSaveDate = 280249729;
+			PBXWorkspaceStateSaveDate = 280249729;
 		};
 		perUserProjectItems = {
+			4367AF4A10B445CB004B7A9D /* PBXTextBookmark */ = 4367AF4A10B445CB004B7A9D /* PBXTextBookmark */;
 			436C843F0ECC88C0007996FD /* PBXTextBookmark */ = 436C843F0ECC88C0007996FD /* PBXTextBookmark */;
-			436C84410ECC88C0007996FD /* PBXTextBookmark */ = 436C84410ECC88C0007996FD /* PBXTextBookmark */;
-			436C84420ECC88C0007996FD /* PBXTextBookmark */ = 436C84420ECC88C0007996FD /* PBXTextBookmark */;
 			438571290F86D615004D4D95 /* PBXTextBookmark */ = 438571290F86D615004D4D95 /* PBXTextBookmark */;
-			43A011AA0F86942200C4214E /* PBXTextBookmark */ = 43A011AA0F86942200C4214E /* PBXTextBookmark */;
 		};
 		sourceControlManager = 43F67E700CBC623B00B36845 /* Source Control */;
 		userBuildSettings = {
@@ -93,11 +91,21 @@
 	};
 	434CDC6F07CAD73E000F3026 /* PGNewUserUI.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {871, 2842}}";
-			sepNavSelRange = "{203, 0}";
-			sepNavVisRange = "{0, 1041}";
+			sepNavIntBoundsRect = "{{0, 0}, {871, 2520}}";
+			sepNavSelRange = "{4070, 0}";
+			sepNavVisRange = "{3276, 1164}";
 			sepNavWindowFrame = "{{15, 63}, {674, 1110}}";
 		};
+	};
+	4367AF4A10B445CB004B7A9D /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 434CDC6F07CAD73E000F3026 /* PGNewUserUI.m */;
+		name = "PGNewUserUI.m: 168";
+		rLen = 0;
+		rLoc = 4070;
+		rType = 0;
+		vrLen = 1164;
+		vrLoc = 3276;
 	};
 	436C843F0ECC88C0007996FD /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -109,37 +117,7 @@
 		vrLen = 1091;
 		vrLoc = 0;
 	};
-	436C84410ECC88C0007996FD /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 434CDC6E07CAD73E000F3026 /* PGNewUserUI.h */;
-		name = "PGNewUserUI.h: 31";
-		rLen = 0;
-		rLoc = 826;
-		rType = 0;
-		vrLen = 1069;
-		vrLoc = 0;
-	};
-	436C84420ECC88C0007996FD /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 434CDC6F07CAD73E000F3026 /* PGNewUserUI.m */;
-		name = "PGNewUserUI.m: 115";
-		rLen = 18;
-		rLoc = 2611;
-		rType = 0;
-		vrLen = 1457;
-		vrLoc = 1437;
-	};
 	438571290F86D615004D4D95 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 434CDC6F07CAD73E000F3026 /* PGNewUserUI.m */;
-		name = "PGNewUserUI.m: 13";
-		rLen = 0;
-		rLoc = 203;
-		rType = 0;
-		vrLen = 1041;
-		vrLoc = 0;
-	};
-	43A011AA0F86942200C4214E /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 434CDC6F07CAD73E000F3026 /* PGNewUserUI.m */;
 		name = "PGNewUserUI.m: 13";
@@ -160,6 +138,9 @@
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
 		debuggerPlugin = GDBDebugging;
 		disassemblyDisplayState = 0;
 		dylibVariantSuffix = "";
@@ -172,6 +153,7 @@
 		name = "Create User";
 		savedGlobals = {
 		};
+		showTypeColumn = 0;
 		sourceDirectories = (
 		);
 	};
@@ -180,6 +162,9 @@
 		fallbackIsa = XCSourceControlManager;
 		isSCMEnabled = 0;
 		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
 		};
 		scmType = "";
 	};

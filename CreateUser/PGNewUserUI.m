@@ -165,6 +165,7 @@
 		cmd]];
 		
 	[_conn execCommand:cmd];
+	[cmd release];
 	
 	[resultOutput setString:@"User Created."];
 	
