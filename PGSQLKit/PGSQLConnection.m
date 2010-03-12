@@ -427,7 +427,24 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	return connStr;
 }
 
-
+-(NSString *)sqlEncodeString:(NSString *)toEncode
+{
+	size_t result;
+	int	error;
+	char *sqlEncodeCharArray = malloc(1 + ([toEncode length] * 2)); // per the libpq doc.
+	const char *sqlCharArrayToEncode = [toEncode cStringUsingEncoding:NSMacOSRomanStringEncoding];
+	size_t length = strlen(sqlCharArrayToEncode);
+	
+	result = PQescapeStringConn ((PGconn *)pgconn, sqlEncodeCharArray,
+								 (const char *)[toEncode cStringUsingEncoding:NSMacOSRomanStringEncoding], 
+								 length, &error);
+	
+	NSString *encodedString = [[[NSString alloc] initWithCString:sqlEncodeCharArray] autorelease];
+	free(sqlEncodeCharArray);
+	
+	return encodedString;	
+	
+}
 
 #pragma mark Dictionary Tools
 

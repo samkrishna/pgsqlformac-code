@@ -64,6 +64,35 @@
 	return result; 
 }
 
+-(NSString *)asString:(NSStringEncoding)encoding
+{	
+	@try
+	{
+		NSString* result = @"";
+		if (data != nil)
+		{
+			int dataLength = [data length];
+			if (dataLength > 0)
+			{
+				// check for null terminator
+				char* ptr = (char*)[data bytes];
+				char lastChar = ptr[dataLength - 1];
+				if (lastChar == '\0')
+					dataLength--;
+				if (dataLength > 0)
+					result = [[[NSString alloc] initWithBytes:[data bytes] length:dataLength encoding:encoding] autorelease];
+			}
+		}
+		return result; 
+		}
+	}
+	@catch (NSException* ex)
+	{
+		NSLog(@"Error %@", ex);
+	}
+	return @""; 
+}
+
 -(NSNumber *)asNumber
 {
 	if (data != nil) {
