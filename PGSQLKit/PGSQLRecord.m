@@ -48,6 +48,9 @@
 	columns = columncache;
 	rowNumber = atRow;
 	
+	// this will default to NSUTF8StringEncoding with PG9
+	defaultEncoding = NSMacOSRomanStringEncoding;
+	
 	return self;
 }
 
@@ -68,6 +71,8 @@
 	
 	PGSQLField *result = [[PGSQLField alloc] initWithResult:pgResult forColumn:column
 														   atRow:rowNumber];
+	[result setDefaultEncoding:defaultEncoding];
+	
 	return [result autorelease];
 }
 
@@ -76,6 +81,7 @@
 	// find the field index from the columns.
 	PGSQLField *result = [[PGSQLField alloc] initWithResult:pgResult forColumn:[columns objectAtIndex:fieldIndex]
 													  atRow:rowNumber];
+	[result setDefaultEncoding:defaultEncoding];
 
 	return [result autorelease];
 }
@@ -83,6 +89,19 @@
 -(long)rowNumber
 {
 	return rowNumber;
+}
+
+-(NSStringEncoding)defaultEncoding
+{
+	return defaultEncoding;
+}
+
+-(void)setDefaultEncoding:(NSStringEncoding)value
+{
+    if (defaultEncoding != value) {
+        defaultEncoding = value;
+    }	
+	
 }
 
 @end

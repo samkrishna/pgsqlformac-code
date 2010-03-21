@@ -62,6 +62,8 @@
 	NSData *data;
 	
 	PGSQLColumn *column;
+	
+	NSStringEncoding defaultEncoding;
 }
 
 -(id)initWithResult:(void *)result forColumn:(PGSQLColumn *)forColumn
@@ -93,5 +95,29 @@
 -(BOOL)asBoolean;
 
 -(BOOL)isNull;
+
+/*!
+	@function
+	@abstract   Get the record's defaultEncoding for all string operations 
+				results.
+	@discussion The default setting is NSMacOSRoman.  While this default is 
+				used to maintain existing functionality, this will be changed 
+				NSUTF8StringEncoding when PostgreSQL9 is released.
+	@result     returns the defaultEncoding as an NSSTringEncoding ( 
+				http://developer.apple.com/mac/library/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/Reference/NSString.html#//apple_ref/doc/c_ref/NSStringEncoding )
+ */
+-(NSStringEncoding)defaultEncoding;
+/*!
+	 @function
+	 @abstract   Set the defaultEncoding for all string operations on the current
+				 record
+	 @discussion The default setting is NSMacOSRoman.  While this default is 
+				 used to maintain existing functionality, this will be changed 
+				 NSUTF8StringEncoding when PostgreSQL9 is released.
+	 @param      value the defaultEncoding as an NSSTringEncoding ( 
+				 http://developer.apple.com/mac/library/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/Reference/NSString.html#//apple_ref/doc/c_ref/NSStringEncoding )
+	 @result     void
+ */
+-(void)setDefaultEncoding:(NSStringEncoding)value;
 
 @end

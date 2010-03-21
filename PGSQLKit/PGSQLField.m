@@ -19,7 +19,10 @@
 	if (self)
 	{
 		data = nil;
-	
+		
+		// this will default to NSUTF8StringEncoding with PG9
+		defaultEncoding = NSMacOSRomanStringEncoding;
+
 		if (PQgetisnull(result, atRow, [forColumn index]) != 1)
 		{		
 			char* szBuf = nil;
@@ -58,7 +61,7 @@
 			if (lastChar == '\0')
 				dataLength--;
 			if (dataLength > 0)
-				result = [[[NSString alloc] initWithBytes:[data bytes] length:dataLength encoding:NSMacOSRomanStringEncoding] autorelease];
+				result = [[[NSString alloc] initWithBytes:[data bytes] length:dataLength encoding:defaultEncoding] autorelease];
 		}
 	}
 	return result; 
@@ -66,8 +69,6 @@
 
 -(NSString *)asString:(NSStringEncoding)encoding
 {	
-	@try
-	{
 		NSString* result = @"";
 		if (data != nil)
 		{
@@ -84,13 +85,6 @@
 			}
 		}
 		return result; 
-		}
-	}
-	@catch (NSException* ex)
-	{
-		NSLog(@"Error %@", ex);
-	}
-	return @""; 
 }
 
 -(NSNumber *)asNumber
@@ -100,7 +94,7 @@
 		{
 			return nil;
 		}
-		NSString *temp = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSMacOSRomanStringEncoding] autorelease];
+		NSString *temp = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding] autorelease];
 		NSNumber *value = [[[NSNumber alloc] initWithFloat:[temp floatValue]] autorelease];
 		return value;
 	}
@@ -115,7 +109,7 @@
 			return 0;
 		}
 		
-		NSString *value = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSMacOSRomanStringEncoding] autorelease];
+		NSString *value = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding] autorelease];
 		
 		return (long)[[NSNumber numberWithFloat:[value floatValue]] longValue];
 	}
@@ -131,7 +125,7 @@
 		}
 		
 		NSString *value = [NSString stringWithCString:(char *)[data bytes]
-											 encoding:NSMacOSRomanStringEncoding];
+											 encoding:NSUTF8StringEncoding];
 		if ([value rangeOfString:@"."].location != NSNotFound)
 		{
 			value = [NSString stringWithFormat:@"%@ +0000", [value substringToIndex:[value rangeOfString:@"."].location]];
@@ -173,6 +167,19 @@
 -(BOOL)isNull
 {
 	return (data == nil);
+}
+
+-(NSStringEncoding)defaultEncoding
+{
+	return defaultEncoding;
+}
+
+-(void)setDefaultEncoding:(NSStringEncoding)value
+{
+    if (defaultEncoding != value) {
+        defaultEncoding = value;
+    }	
+	
 }
 
 @end;

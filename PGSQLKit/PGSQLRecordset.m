@@ -19,6 +19,9 @@
 		isOpen = YES;
 		isEOF = YES;
 		
+		// this will default to NSUTF8StringEncoding with PG9
+		defaultEncoding = NSMacOSRomanStringEncoding;
+		
 		columns = [[[[NSMutableArray alloc] init] retain] autorelease];
 		
 		pgResult = result;
@@ -81,6 +84,7 @@
 	currentRecord = [[PGSQLRecord alloc] initWithResult:pgResult
 														atRow:rowIndex
 													  columns:columns];
+	[currentRecord setDefaultEncoding:defaultEncoding];
 }
 
 - (PGSQLRecord *)moveNext
@@ -225,7 +229,7 @@
 				}
 				break;
 			default:
-				[dict setValue:[[self fieldByName:[column name]] asString] forKey:[column name]];
+				[dict setValue:[[self fieldByName:[column name]] asString:defaultEncoding] forKey:[column name]];
 				break;
 		}
 	}
@@ -234,7 +238,18 @@
 	return result;
 }
 
+-(NSStringEncoding)defaultEncoding
+{
+	return defaultEncoding;
+}
 
+-(void)setDefaultEncoding:(NSStringEncoding)value
+{
+    if (defaultEncoding != value) {
+        defaultEncoding = value;
+    }	
+	
+}
 
 
 @end

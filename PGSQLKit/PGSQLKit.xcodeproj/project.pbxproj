@@ -306,7 +306,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "headerdoc2html -o build/docs ./";
+			shellScript = "headerdoc2html -o build/docs ./\ngatherHeaderDoc build/docs";
 		};
 /* End PBXShellScriptBuildPhase section */
 

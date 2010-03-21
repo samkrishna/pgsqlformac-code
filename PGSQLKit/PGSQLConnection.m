@@ -50,6 +50,9 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 		errorDescription = nil;
 		sqlLog = [[NSMutableString alloc] init];		
 		
+		// this will default to NSUTF8StringEncoding with PG9
+		defaultEncoding = NSMacOSRomanStringEncoding;
+		
 		pgconn = nil;
 		host = [[NSString alloc] initWithString:@"localhost"];
 		port = [[NSString alloc] initWithString:@"5432"];
@@ -136,7 +139,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 		[connectionString retain];
 	}
 	NSAssert( (connectionString != nil), @"Attempted to connect to PostgreSQL with empty connectionString.");
-	pgconn = (PGconn *)PQconnectdb([connectionString cStringUsingEncoding:NSMacOSRomanStringEncoding]);
+	pgconn = (PGconn *)PQconnectdb([connectionString cStringUsingEncoding:NSUTF8StringEncoding]);
 #ifdef DEBUG
 	if (PQoptions(pgconn))
 	{
@@ -151,8 +154,8 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 
 		NSLog(@"Connection to database '%@' failed.", dbName);
 		NSLog(@"\t%@", errorDescription);
-		[self appendSQLLog:[NSMutableString stringWithFormat:@"Connection to database %@ Failed.\n", dbName]]; // why NSMutableString ??
-		[self appendSQLLog:[NSMutableString stringWithFormat:@"Connection string: %@\n\n", connectionString]]; // why NSMutableString ??
+		[self appendSQLLog:[NSString stringWithFormat:@"Connection to database %@ Failed.\n", dbName]]; 
+		[self appendSQLLog:[NSString stringWithFormat:@"Connection string: %@\n\n", connectionString]]; 
 		// append error too??
 
 		PQfinish(pgconn);
@@ -178,7 +181,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 		[sqlLog release];
 	}
 	sqlLog = [[NSMutableString alloc] init];
-	[self appendSQLLog:[NSMutableString stringWithFormat:@"Connected to database %@.\n", dbName]];
+	[self appendSQLLog:[NSString stringWithFormat:@"Connected to database %@.\n", dbName]];
 	isConnected = YES;
 	return YES;
 }
@@ -188,7 +191,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	if (pgconn == nil) { return NO; }
 	if (isConnected == NO) { return NO; }
 	
-	[self appendSQLLog:[NSMutableString stringWithString:@"Disconnected from database.\n"]];
+	[self appendSQLLog:[NSString stringWithString:@"Disconnected from database.\n"]];
 	PQfinish(pgconn);
 	pgconn = nil;
 	isConnected = NO;
@@ -239,7 +242,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 		return NO; 
 	}
 	
-	res = PQexec(pgconn, [sql cStringUsingEncoding:NSMacOSRomanStringEncoding]);
+	res = PQexec(pgconn, [sql cStringUsingEncoding:defaultEncoding]);
 	if (res == nil) 
 	{ 
 		errorDescription = [NSString stringWithString:@"ERROR: No response (PGRES_FATAL_ERROR)"];		
@@ -313,7 +316,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	}
 	
 	gettimeofday(&start, 0);
-	res = PQexec(pgconn, [sql cStringUsingEncoding:NSMacOSRomanStringEncoding]);
+	res = PQexec(pgconn, [sql cStringUsingEncoding:NSUTF8StringEncoding]);
 	if (logInfo)
 	{
 		gettimeofday(&finished, 0);
@@ -333,6 +336,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 		{
 			// build the recordset
 			PGSQLRecordset *rs = [[[PGSQLRecordset alloc] initWithResult:res] autorelease];
+			[rs setDefaultEncoding:defaultEncoding];
 			
 			if (logInfo)
 			{
@@ -432,11 +436,11 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	size_t result;
 	int	error;
 	char *sqlEncodeCharArray = malloc(1 + ([toEncode length] * 2)); // per the libpq doc.
-	const char *sqlCharArrayToEncode = [toEncode cStringUsingEncoding:NSMacOSRomanStringEncoding];
+	const char *sqlCharArrayToEncode = [toEncode cStringUsingEncoding:defaultEncoding];
 	size_t length = strlen(sqlCharArrayToEncode);
 	
 	result = PQescapeStringConn ((PGconn *)pgconn, sqlEncodeCharArray,
-								 (const char *)[toEncode cStringUsingEncoding:NSMacOSRomanStringEncoding], 
+								 (const char *)[toEncode cStringUsingEncoding:defaultEncoding], 
 								 length, &error);
 	
 	NSString *encodedString = [[[NSString alloc] initWithCString:sqlEncodeCharArray] autorelease];
@@ -444,6 +448,17 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	
 	return encodedString;	
 	
+}
+
+- (void)appendSQLLog:(NSString *)value {
+	if (sqlLog == nil)
+	{
+		sqlLog = [[NSMutableString alloc] initWithString:value];
+	}
+	else
+	{
+		[sqlLog appendString:value];
+	}
 }
 
 #pragma mark Dictionary Tools
@@ -543,15 +558,18 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	return sqlLog;
 }
 
-- (void)appendSQLLog:(NSString *)value {
-	if (sqlLog == nil)
-	{
-		sqlLog = [[NSMutableString alloc] initWithString:value];
-	}
-	else
-	{
-		[sqlLog appendString:value];
-	}
+-(NSStringEncoding)defaultEncoding
+{
+	return defaultEncoding;
 }
+
+-(void)setDefaultEncoding:(NSStringEncoding)value
+{
+    if (defaultEncoding != value) {
+        defaultEncoding = value;
+    }	
+	
+}
+
 
 @end

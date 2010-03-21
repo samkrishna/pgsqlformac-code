@@ -72,8 +72,10 @@
 	
 	NSString *errorDescription;
 	NSMutableString	*sqlLog;
+	NSStringEncoding defaultEncoding;
 	
 	/* platform specific definitions */
+	
 	
 	BOOL logInfo;
 	BOOL logSQL;
@@ -179,6 +181,31 @@
 
 -(NSMutableString *)sqlLog;
 -(void)appendSQLLog:(NSString *)value;
+
+/*!
+    @function
+    @abstract   Get the connection's defaultEncoding for all string operations 
+				returning.
+    @discussion The default setting is NSMacOSRoman.  While this default is 
+			    used to maintain existing functionality, this will be changed 
+                NSUTF8StringEncoding when PostgreSQL9 is released.
+    @result     returns the defaultEncoding as an NSSTringEncoding ( 
+				http://developer.apple.com/mac/library/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/Reference/NSString.html#//apple_ref/doc/c_ref/NSStringEncoding )
+*/
+-(NSStringEncoding)defaultEncoding;
+/*!
+    @function
+    @abstract   Set the defaultEncoding for all string operations on the current
+                connection
+    @discussion The default setting is NSMacOSRoman.  While this default is 
+				used to maintain existing functionality, this will be changed 
+				NSUTF8StringEncoding when PostgreSQL9 is released.
+	@param      value the defaultEncoding as an NSSTringEncoding ( 
+			    http://developer.apple.com/mac/library/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/Reference/NSString.html#//apple_ref/doc/c_ref/NSStringEncoding )
+
+    @result     void
+*/
+-(void)setDefaultEncoding:(NSStringEncoding)value;
 	
 /*!
     @method     
