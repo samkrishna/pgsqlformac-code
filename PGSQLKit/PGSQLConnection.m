@@ -431,6 +431,21 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	return connStr;
 }
 
+-(NSString *)sqlEncodeData:(NSData *)toEncode
+{
+	unsigned char *result;
+	size_t resultLength = 0;
+	
+	result = PQescapeByteaConn ((PGconn *)pgconn, (const unsigned char *)[toEncode bytes],
+								 [toEncode length], &resultLength);
+	
+	NSString *encodedString = [[[NSString alloc] initWithCString:(const char *)result] autorelease];
+	
+	PQfreemem(result);
+	
+	return encodedString;	
+}
+
 -(NSString *)sqlEncodeString:(NSString *)toEncode
 {
 	size_t result;

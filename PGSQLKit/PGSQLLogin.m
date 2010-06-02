@@ -406,7 +406,7 @@
 	}
 	
 	// make sure the UI delegates are in place
-	// [savedConnections setDelegate:self];
+	[savedConnections setDelegate:self];
 	
 	[NSApp beginSheet:loginPanel  
 	   modalForWindow:parentWindow 
