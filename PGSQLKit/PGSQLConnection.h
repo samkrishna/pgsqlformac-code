@@ -152,6 +152,7 @@
 #pragma mark -
 #pragma mark Utility Functions
 
+-(NSData *)sqlDecodeData:(NSData *)toDecode;
 -(NSString *)sqlEncodeData:(NSData *)toEncode;
 -(NSString *)sqlEncodeString:(NSString *)toEncode;
 

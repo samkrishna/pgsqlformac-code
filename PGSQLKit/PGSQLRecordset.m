@@ -20,7 +20,7 @@
 		isEOF = YES;
 		
 		// this will default to NSUTF8StringEncoding with PG9
-		defaultEncoding = NSMacOSRomanStringEncoding;
+		// defaultEncoding = NSMacOSRomanStringEncoding;
 		
 		columns = [[[[NSMutableArray alloc] init] retain] autorelease];
 		

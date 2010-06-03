@@ -6,7 +6,7 @@
 //  Copyright 2007 Druware Software Designs. All rights reserved.
 //
 
-//#import <Cocoa/Cocoa.h>
+#import <Cocoa/Cocoa.h>
 #import "PGSQLConnection.h" 
 
 @interface PGSQLLogin : NSObject {

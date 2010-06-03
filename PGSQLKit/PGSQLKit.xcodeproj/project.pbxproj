@@ -40,6 +40,7 @@
 		43F613340F9E5DC000F8273F /* PGSQLConnectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 43F613320F9E5DC000F8273F /* PGSQLConnectionInfo.m */; };
 		7B70BF90100D685D00046E2F /* PGSQLLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CBC57D0BF11AC300A5E5AF /* PGSQLLogin.m */; };
 		7B70BF91100D685E00046E2F /* PGSQLLogin.h in Headers */ = {isa = PBXBuildFile; fileRef = 43CBC57C0BF11AC300A5E5AF /* PGSQLLogin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7B80632A11B05392008E02B2 /* icon_query_tool.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7B80632911B05392008E02B2 /* icon_query_tool.icns */; };
 		7BD75A12100D2A5C005FE311 /* libpq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BD75A11100D2A5C005FE311 /* libpq.a */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
@@ -94,7 +95,7 @@
 		43D812CD1117FAB400804354 /* docs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = docs; path = build/docs; sourceTree = "<group>"; };
 		43F613310F9E5DC000F8273F /* PGSQLConnectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLConnectionInfo.h; sourceTree = "<group>"; };
 		43F613320F9E5DC000F8273F /* PGSQLConnectionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLConnectionInfo.m; sourceTree = "<group>"; };
-		7B70BF8D100D682500046E2F /* Info copy.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info copy.plist"; sourceTree = "<group>"; };
+		7B80632911B05392008E02B2 /* icon_query_tool.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon_query_tool.icns; sourceTree = "<group>"; };
 		7BD75A11100D2A5C005FE311 /* libpq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpq.a; path = "../../../experimental/PostgreSQL Client Tools/pq/build/Release/libpq.a"; sourceTree = SOURCE_ROOT; };
 		8DC2EF5A0486A6940098B216 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* PGSQLKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGSQLKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,10 +149,10 @@
 		089C1665FE841158C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				7B80632911B05392008E02B2 /* icon_query_tool.icns */,
 				43318B350BF1227A008C2560 /* PGSQL Login.nib */,
 				8DC2EF5A0486A6940098B216 /* Info.plist */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
-				7B70BF8D100D682500046E2F /* Info copy.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -289,6 +290,7 @@
 			files = (
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
 				43318B370BF1227A008C2560 /* PGSQL Login.nib in Resources */,
+				7B80632A11B05392008E02B2 /* icon_query_tool.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,10 +448,12 @@
 		1DEB91B208733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.4;
+				SDKROOT = macosx10.5;
 			};
 			name = Debug;
 		};
@@ -457,10 +461,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.4;
+				SDKROOT = macosx10.5;
 			};
 			name = Release;
 		};

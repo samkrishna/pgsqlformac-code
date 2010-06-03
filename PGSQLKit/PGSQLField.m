@@ -28,7 +28,14 @@
 			char* szBuf = nil;
 			
 			column = [forColumn retain];
-			int iLen = PQgetlength(result, atRow, [column index]) + 1;	
+			
+			int format = PQfformat(result, [column index]);
+			
+			int iLen = PQgetlength(result, atRow, [column index]);			// Binary
+			if (format == 0)
+			{
+				iLen = PQgetlength(result, atRow, [column index]) + 1;		// Text
+			}
 			
 			// this may have to be adjust if the column type is not 0 (eg, it's binary)
 			szBuf = PQgetvalue(result, atRow, [column index]);
