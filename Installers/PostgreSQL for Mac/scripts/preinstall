@@ -1,5 +1,12 @@
 #!/bin/sh
-echo ...running preflight
+echo ...running preinstall
+
+processId=`ps auxw | grep '^postgres' |grep 'bin/postgres' | awk -F" " '{print $2}'`
+# echo "Process ID: $x"
+if /bin/test "$processId";  then
+	echo PostgreSQL is Running, will not try to overwrite the current version. 
+	exit 1
+fi
 
 # first let's make sure the the postgres user does
 # not currently exist

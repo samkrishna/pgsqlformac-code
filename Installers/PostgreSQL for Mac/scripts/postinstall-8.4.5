@@ -15,12 +15,12 @@ if /bin/test "$processId";  then
 fi
 
 # this version
-PG_NEW_VERSION=8.4.4
+PG_NEW_VERSION=8.4.5
 
 # *if* the 9.0.0 version is also installed, default to that version, the user
 # can use the pg_set_version.sh script to change it later if they wish.
-if test -d /Library/PostgreSQL/versions/9.0.0; then
-	PG_NEW_VERSION=9.0.0
+if test -d /Library/PostgreSQL/versions/9.0.1; then
+	PG_NEW_VERSION=9.0.1
 fi
 
 # Set the permissions on the directories
