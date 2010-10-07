@@ -32,6 +32,8 @@ do
 	fi
 done
 
+echo +++ Building for: $PLATFORM
+
 SERVER_WAS_RUNNING=NO
 
 #-- backup current installation ------------------------------------------------
@@ -127,8 +129,9 @@ cd postgresql-$BACK_VERSION
 export CFLAGS="-O -arch $PLATFORM"
 export LDFLAGS="-arch $PLATFORM"
 
-./configure --prefix=/opt/local --with-bonjour --without-python --disable-shared \
-	--without-tcl --without-perl --with-openssl --with-ldap --with-pam --with-krb5  > $TEMP_PATH/build.log
+./configure --prefix=/opt/local --with-bonjour --without-python \
+	--without-tcl --without-perl --with-openssl --with-ldap --with-pam \
+	--with-krb5  > $TEMP_PATH/build.log
 make  > $TEMP_PATH/build.log
 make install > $TEMP_PATH/build.log
 make clean > $TEMP_PATH/build.log
@@ -147,8 +150,9 @@ cd postgresql-$BACK_VERSION
 export CFLAGS="-O -arch $PLATFORM"
 export LDFLAGS="-arch $PLATFORM"
 
-./configure --prefix=/Library/PostgreSQL8 --with-bonjour --with-python \
-	--with-tcl --with-perl --with-openssl --with-ldap --with-pam --with-krb5 > $TEMP_PATH/build.log
+./configure --prefix=/Library/PostgreSQL --with-bonjour --with-python \
+	--with-tcl --with-perl --with-openssl --with-ldap --with-pam \
+	--with-krb5 > $TEMP_PATH/build.log
 make > $TEMP_PATH/build.log
 make install > $TEMP_PATH/build.log
 make clean > $TEMP_PATH/build.log
@@ -216,34 +220,6 @@ echo +++ Restoring the previous state post build.
 #fi
 
 #-- build the tar file and upload it to the central server for merging ---------
-
-cd $TEMP_PATH/merge/$CURRENT_VERSION/$PLATFORM/Library/PostgreSQL8/lib/postgresql
-FILES="*.so"
-for f in *
-do
-	if (test -f $f) then
-		LIPO_INFO=`lipo -info $f | grep "Architectures in the fat file:"`
-		if (test "$LIPO_INFO") then
-			echo creating thin version of $f $tmp
-			lipo -thin ppc64 -output $TEMP_PATH/merge/$CURRENT_VERSION/$PLATFORM/Library/PostgreSQL8/lib/postgresql/$f \
-				$TEMP_PATH/merge/$CURRENT_VERSION/$PLATFORM/Library/PostgreSQL8/lib/postgresql/$f
-		fi
-	fi 
-done
-
-cd $TEMP_PATH/merge/$BACK_VERSION/$PLATFORM/Library/PostgreSQL8/lib/postgresql
-FILES="*.so"
-for f in *
-do
-	if (test -f $f) then
-		LIPO_INFO=`lipo -info $f | grep "Architectures in the fat file:"`
-		if (test "$LIPO_INFO") then
-			echo creating thin version of $f $tmp
-			lipo -thin ppc64 -output $TEMP_PATH/merge/$BACK_VERSION/$PLATFORM/Library/PostgreSQL8/lib/postgresql/$f \
-				$TEMP_PATH/merge/$BACK_VERSION/$PLATFORM/Library/PostgreSQL8/lib/postgresql/$f
-		fi
-	fi 
-done
 
 tar cf $TEMP_PATH/merge-$PLATFORM.tar $TEMP_PATH/merge
 gzip $TEMP_PATH/merge-$PLATFORM.tar
