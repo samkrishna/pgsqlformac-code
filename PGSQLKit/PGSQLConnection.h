@@ -141,6 +141,21 @@
 -(void)connectAsync;
 -(NSMutableString *)makeConnectionString;
 
+/*!
+    @method     
+    @abstract   create a new connection that is a clone of the current 
+                connection.
+	@discussion rather than force the client to retain the password in memory,
+				the Connection object enables creating a new instance of the 
+			    connection on demand.  While this is a relatively infrequeny 
+				use case, any instance that requires multiple result sets to 
+				be active and in use at the same time, this provides a quick 
+				way to establish a new connection without prompting the user 
+				for credentials each time, or using a client side caching 
+				mechanism.
+*/
+-(PGSQLConnection *)clone;
+
 #pragma mark -
 #pragma mark Sql Execution Functions
 

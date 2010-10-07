@@ -611,7 +611,8 @@
 	
 	if ([savedConnections indexOfSelectedItem] >= 0)
 	{
-		NSLog(@"Selection Changed");
+		// --debug 
+		// NSLog(@"Selection Changed");
 		
 		NSString *selectedValue = [savedConnections objectValueOfSelectedItem];
 		
@@ -641,6 +642,10 @@
 		}
 		
 		[rememberConnection setState:NSOffState];
+		
+		// collapse the login fields that are not needed- (IBAction)onConnectionDetails:(id)sender
+		[displayConnectionDetails setState:NSOffState];
+		[self onConnectionDetails:nil];
 		
 		while (SecKeychainSearchCopyNext(search, &item) == noErr)
 		{

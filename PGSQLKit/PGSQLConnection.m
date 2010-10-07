@@ -198,6 +198,23 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	return YES;
 }
 
+-(PGSQLConnection *)clone
+{
+	PGSQLConnection *newConnection = [[[PGSQLConnection alloc] init] autorelease];
+	[newConnection setServer:host];
+	[newConnection setPort:port]; 
+	[newConnection setUserName:userName];
+	[newConnection setPassword:password];
+	[newConnection setDatabaseName:dbName];
+		
+	if (isConnected)
+	{
+		[newConnection connect];
+	}
+	
+	return newConnection;
+}
+
 - (void)execCommandAsync:(NSString *)sql
 {
 	// perform the connection on a thread

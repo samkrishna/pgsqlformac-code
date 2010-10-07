@@ -1,0 +1,5 @@
+09/21/2010
+	- added -clone() method to PGSQLConnection for a quick and easy create of a 
+	  duplicate connection from the existing connection.
+	- updated to libpq from PostgreSQL9 release.
+	- PGSQLLogin now collapses when a saved connection is selected.
