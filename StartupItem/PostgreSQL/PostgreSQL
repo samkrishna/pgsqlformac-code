@@ -9,6 +9,10 @@
 # History
 # -------
 #
+# 2010-09-22  Andy Satori <dru@druware.com>
+#             altered to the new /Library/PostgreSQL/ path replacing the 
+#             version specific PostgreSQL8 paths
+#
 # 2009-02-27  Andy Satori <dru@druware.com>
 #             Altered to support reading DATA, LOG and AUTOSTART from a plist
 #             to support the preference panel options
@@ -68,8 +72,8 @@
 # The PostgreSQL BSD-style license applies to this file
 #
 
-DATA_PATH="/Library/PostgreSQL8/data"
-LOG_FILE="/Library/PostgreSQL8/log/PostgreSQL8.log"
+DATA_PATH="/Library/PostgreSQL/data"
+LOG_FILE="/Library/PostgreSQL/log/PostgreSQL.log"
 AUTO_START="YES"
 MANUAL="NO"
 RELOAD="NO"
@@ -147,7 +151,7 @@ StartService ()
 		
 	if [ "$shouldStartPostgres" = "-YES-" ]; then
 	    ConsoleMessage "Starting PostgreSQL database server"
-	    su -m postgres -c "/Library/PostgreSQL8/bin/pg_ctl start -D $DATA_PATH -l $LOG_FILE -o -i"
+	    su -m postgres -c "/Library/PostgreSQL/bin/pg_ctl start -D $DATA_PATH -l $LOG_FILE -o -i"
 	fi
 
 }
@@ -155,7 +159,7 @@ StartService ()
 StopService()
 {
 	ConsoleMessage "Stopping PostgreSQL database services"
-	su -m postgres -c "/Library/PostgreSQL8/bin/pg_ctl stop -D $DATA_PATH"
+	su -m postgres -c "/Library/PostgreSQL/bin/pg_ctl stop -D $DATA_PATH"
 	
 	sleep 1
 	x=`ps auxwc | grep '^postgres' |grep 'postgres$' | awk -F" " '{print $2}'`
@@ -171,7 +175,7 @@ RestartService ()
 {
 	if [ "$reloadOnRestart" = "-YES-" ]; then
 		ConsoleMessage "Stopping PostgreSQL database services"
-		su -m postgres -c "/Library/PostgreSQL8/bin/pg_ctl reload -D $DATA_PATH"		
+		su -m postgres -c "/Library/PostgreSQL/bin/pg_ctl reload -D $DATA_PATH"		
 	else
 		StopService
 		sleep 1

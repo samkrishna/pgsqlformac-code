@@ -14,10 +14,10 @@ then
 fi
 
 # can't compare the version if the symlink doesn't exist
-if test -L /Library/PostgreSQL8/bin
+if test -L /Library/PostgreSQL/bin
 then
 	# if the version is not changing, fail with an error.
-	pg_current_verison=`/Library/PostgreSQL8/bin/psql --version | grep 'psql' | awk -F" " '{print $3}'`
+	pg_current_verison=`/Library/PostgreSQL/bin/psql --version | grep 'psql' | awk -F" " '{print $3}'`
 	if test $pg_current_verison = $PG_NEW_VERSION
 	then
 		echo PostgreSQL will not change the version to the same versions
@@ -26,32 +26,32 @@ then
 fi
 
 # if the version is not found, fail with an error
-if test -d /Library/PostgreSQL8/versions/$PG_NEW_VERSION
+if test -d /Library/PostgreSQL/versions/$PG_NEW_VERSION
 then
-	rm /Library/PostgreSQL8/bin
-	ln -s /Library/PostgreSQL8/versions/$PG_NEW_VERSION/bin /Library/PostgreSQL8/bin
-	rm /Library/PostgreSQL8/include
-	ln -s /Library/PostgreSQL8/versions/$PG_NEW_VERSION/include /Library/PostgreSQL8/include
-	rm /Library/PostgreSQL8/lib
-	ln -s /Library/PostgreSQL8/versions/$PG_NEW_VERSION/lib /Library/PostgreSQL8/lib
-	rm /Library/PostgreSQL8/share
-	ln -s /Library/PostgreSQL8/versions/$PG_NEW_VERSION/share /Library/PostgreSQL8/share
+	rm /Library/PostgreSQL/bin
+	ln -s /Library/PostgreSQL/versions/$PG_NEW_VERSION/bin /Library/PostgreSQL/bin
+	rm /Library/PostgreSQL/include
+	ln -s /Library/PostgreSQL/versions/$PG_NEW_VERSION/include /Library/PostgreSQL/include
+	rm /Library/PostgreSQL/lib
+	ln -s /Library/PostgreSQL/versions/$PG_NEW_VERSION/lib /Library/PostgreSQL/lib
+	rm /Library/PostgreSQL/share
+	ln -s /Library/PostgreSQL/versions/$PG_NEW_VERSION/share /Library/PostgreSQL/share
 	
 	# the next two items may not exist, if they don't, do not create a link to them
-	if (test -d /Library/PostgreSQL8/doc) then
-		rm /Library/PostgreSQL8/doc
+	if (test -d /Library/PostgreSQL/doc) then
+		rm /Library/PostgreSQL/doc
 	fi
-	if (test -d /Library/PostgreSQL8/versions/$PG_NEW_VERSION/doc) then
-		ln -s /Library/PostgreSQL8/versions/$PG_NEW_VERSION/doc /Library/PostgreSQL8/doc
+	if (test -d /Library/PostgreSQL/versions/$PG_NEW_VERSION/doc) then
+		ln -s /Library/PostgreSQL/versions/$PG_NEW_VERSION/doc /Library/PostgreSQL/doc
 	fi
-	if (test -d /Library/PostgreSQL8/man) then
-		rm /Library/PostgreSQL8/man
+	if (test -d /Library/PostgreSQL/man) then
+		rm /Library/PostgreSQL/man
 	fi
-	if (test -d /Library/PostgreSQL8/versions/$PG_NEW_VERSION/man) then
-		ln -s /Library/PostgreSQL8/versions/$PG_NEW_VERSION/man /Library/PostgreSQL8/man
+	if (test -d /Library/PostgreSQL/versions/$PG_NEW_VERSION/man) then
+		ln -s /Library/PostgreSQL/versions/$PG_NEW_VERSION/man /Library/PostgreSQL/man
 	fi
 	
-	echo PostgreSQL8 Version set to $PG_NEW_VERSION.
+	echo PostgreSQL Version set to $PG_NEW_VERSION.
 	exit 0
 fi
 

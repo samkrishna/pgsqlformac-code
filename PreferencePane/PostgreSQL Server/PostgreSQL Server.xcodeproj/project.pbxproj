@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		433CD066125E8DED00F0AE17 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 433CD065125E8DED00F0AE17 /* Security.framework */; };
 		43460BAB0F5396EB009D8EB3 /* PGPostgreSQLConfFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 43460BA90F5396EB009D8EB3 /* PGPostgreSQLConfFile.h */; };
 		43460BAC0F5396EB009D8EB3 /* PGPostgreSQLConfFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 43460BAA0F5396EB009D8EB3 /* PGPostgreSQLConfFile.m */; };
-		434CF81A0E4C88500040ED14 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 434CF8190E4C88500040ED14 /* Security.framework */; };
 		434CF86F0E4C99F50040ED14 /* restart.png in Resources */ = {isa = PBXBuildFile; fileRef = 434CF8670E4C99F50040ED14 /* restart.png */; };
 		434CF8700E4C99F50040ED14 /* start.png in Resources */ = {isa = PBXBuildFile; fileRef = 434CF8680E4C99F50040ED14 /* start.png */; };
 		434CF8710E4C99F50040ED14 /* stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 434CF8690E4C99F50040ED14 /* stop.png */; };
@@ -89,9 +89,9 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCFA20370C41700C91783 /* PostgreSQL Server_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PostgreSQL Server_Prefix.pch"; sourceTree = "<group>"; };
+		433CD065125E8DED00F0AE17 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		43460BA90F5396EB009D8EB3 /* PGPostgreSQLConfFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGPostgreSQLConfFile.h; sourceTree = "<group>"; };
 		43460BAA0F5396EB009D8EB3 /* PGPostgreSQLConfFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGPostgreSQLConfFile.m; sourceTree = "<group>"; };
-		434CF8190E4C88500040ED14 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		434CF8670E4C99F50040ED14 /* restart.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = restart.png; sourceTree = "<group>"; };
 		434CF8680E4C99F50040ED14 /* start.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = start.png; sourceTree = "<group>"; };
 		434CF8690E4C99F50040ED14 /* stop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stop.png; sourceTree = "<group>"; };
@@ -122,6 +122,7 @@
 		43BDF9900F4DE1C100079F3C /* PGHBAFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGHBAFile.m; sourceTree = "<group>"; };
 		43BDF9960F4DE1E700079F3C /* PGHBAConnections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGHBAConnections.h; sourceTree = "<group>"; };
 		43BDF9970F4DE1E700079F3C /* PGHBAConnections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGHBAConnections.m; sourceTree = "<group>"; };
+		43C78822126B5703005F5F52 /* postgresql.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = postgresql.conf; path = /Library/PostgreSQL/data/postgresql.conf; sourceTree = "<absolute>"; };
 		43ECCDBA0F49DCDF002A4AFB /* PGMChangeDataPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMChangeDataPath.h; sourceTree = "<group>"; };
 		43ECCDBB0F49DCDF002A4AFB /* PGMChangeDataPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGMChangeDataPath.m; sourceTree = "<group>"; };
 		43ECCDBF0F49DD69002A4AFB /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ChangeDataPathPanel.xib; sourceTree = "<group>"; };
@@ -141,7 +142,7 @@
 			files = (
 				8D202CF30486D31800D8A456 /* Cocoa.framework in Frameworks */,
 				8D202CF40486D31800D8A456 /* PreferencePanes.framework in Frameworks */,
-				434CF81A0E4C88500040ED14 /* Security.framework in Frameworks */,
+				433CD066125E8DED00F0AE17 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -151,6 +152,7 @@
 		089C166AFE841209C02AAC07 /* PostgreSQL Server */ = {
 			isa = PBXGroup;
 			children = (
+				43C78822126B5703005F5F52 /* postgresql.conf */,
 				43AFFB250ECA7AE500FF139F /* CHANGELOG */,
 				7B5CB83710053D490089BFE5 /* pg_hba.conf */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
@@ -227,7 +229,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				434CF8190E4C88500040ED14 /* Security.framework */,
+				433CD065125E8DED00F0AE17 /* Security.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 				F506C035013D953901CA16C8 /* PreferencePanes.framework */,
 			);
@@ -321,7 +323,14 @@
 			};
 			buildConfigurationList = 1DBD214C08BA80EA00186707 /* Build configuration list for PBXProject "PostgreSQL Server" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 089C166AFE841209C02AAC07 /* PostgreSQL Server */;
 			projectDirPath = "";
 			projectReferences = (
@@ -505,7 +514,7 @@
 				PRODUCT_NAME = "PostgreSQL Server";
 				SDKROOT = macosx10.5;
 				"SDKROOT[arch=i386]" = macosx10.5;
-				"SDKROOT[arch=ppc]" = macosx10.4;
+				"SDKROOT[arch=ppc]" = macosx10.5;
 				WRAPPER_EXTENSION = prefPane;
 			};
 			name = Release;
@@ -526,12 +535,12 @@
 		1DBD214E08BA80EA00186707 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.4;
+				SDKROOT = macosx10.5;
 			};
 			name = Release;
 		};

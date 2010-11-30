@@ -256,7 +256,14 @@
 			isa = PBXProject;
 			buildConfigurationList = 43015CA00BC12FE0006AFACA /* Build configuration list for PBXProject "Service Manager" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* Service Manager */;
 			projectDirPath = "";
 			projectReferences = (

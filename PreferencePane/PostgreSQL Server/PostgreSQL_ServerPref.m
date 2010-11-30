@@ -43,8 +43,8 @@
 	} else {
 		preferences = [[NSMutableDictionary alloc] init];
 		// set the defaults
-		[preferences setValue:@"/Library/PostgreSQL8/data" forKey:@"dataPath"];
-		[preferences setValue:@"/Library/PostgreSQL8/log/PostgreSQL8.log" forKey:@"logPath"];
+		[preferences setValue:@"/Library/PostgreSQL/data" forKey:@"dataPath"];
+		[preferences setValue:@"/Library/PostgreSQL/log/PostgreSQL.log" forKey:@"logPath"];
 		[preferences setValue:@"YES" forKey:@"startAtBoot"];
 	}
 	[[preferences autorelease] retain];	
@@ -63,6 +63,15 @@
 	// /Library/PostgreSQL8/bin/psql --version |  grep psql | awk -F" " '{print $3}'
 	// alternate versions
 	// /Library/PostgreSQL8/versions 
+	
+	NSString *file;
+	NSFileManager *defaultFM = [NSFileManager defaultManager];
+	NSArray *directoryContents = [defaultFM directoryContentsAtPath:@"/Library/PostgreSQL/versions/"];
+	int i;
+	for (i = 0; i < [directoryContents count]; i++)
+	{
+		NSLog(@"%@", [directoryContents objectAtIndex:i]);
+	}
 	
 	[self onTimedUpdate:nil];
 }

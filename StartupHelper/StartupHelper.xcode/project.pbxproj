@@ -103,7 +103,14 @@
 			isa = PBXProject;
 			buildConfigurationList = 4302D214089F0F9100BB8465 /* Build configuration list for PBXProject "StartupHelper" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 08FB7794FE84155DC02AAC07 /* StartupHelper */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -177,7 +184,7 @@
 					i386,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Release;
 		};

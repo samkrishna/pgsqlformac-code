@@ -36,6 +36,8 @@
 	IBOutlet NSButton *modifyNetworkConfiguration;
 	IBOutlet NSButton *modifyPostgreSQLConfiguration;
 	
+	IBOutlet NSPopUpButton *selectVersion;
+	
 	NSBundle *thisBundle;
 	
 	AuthorizationFlags myFlags;

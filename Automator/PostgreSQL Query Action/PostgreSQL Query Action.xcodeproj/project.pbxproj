@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		43078FF30CEBCCD900A1F930 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43078FF20CEBCCD900A1F930 /* WebKit.framework */; };
 		43273FEE0C98745900C9E033 /* PGSQLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43273FED0C98745900C9E033 /* PGSQLKit.framework */; };
 		433A145A0CA8535D006583AA /* PGSQLKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43273FED0C98745900C9E033 /* PGSQLKit.framework */; };
 		43B0134A0CE4FB6B00C29C2B /* query-tool.icns in Resources */ = {isa = PBXBuildFile; fileRef = 43B013490CE4FB6B00C29C2B /* query-tool.icns */; };
@@ -55,7 +54,6 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* PostgreSQL Query Action_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PostgreSQL Query Action_Prefix.pch"; sourceTree = "<group>"; };
-		43078FF20CEBCCD900A1F930 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = SDKs/MacOSX10.4u.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = SYSTEM_DEVELOPER_DIR; };
 		43273FED0C98745900C9E033 /* PGSQLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PGSQLKit.framework; path = /Library/Frameworks/PGSQLKit.framework; sourceTree = "<absolute>"; };
 		4385703A0F86CCEE004D4D95 /* PGSQLKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PGSQLKit.xcodeproj; path = ../../PGSQLKit/PGSQLKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		43B013490CE4FB6B00C29C2B /* query-tool.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "query-tool.icns"; sourceTree = "<group>"; };
@@ -77,7 +75,6 @@
 				650E79E2067AB5AE00B4A4EC /* Automator.framework in Frameworks */,
 				43273FEE0C98745900C9E033 /* PGSQLKit.framework in Frameworks */,
 				43DADC010C9DB4C900C62852 /* Security.framework in Frameworks */,
-				43078FF30CEBCCD900A1F930 /* WebKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,7 +126,6 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				43078FF20CEBCCD900A1F930 /* WebKit.framework */,
 				43DADC000C9DB4C900C62852 /* Security.framework */,
 				43273FED0C98745900C9E033 /* PGSQLKit.framework */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
@@ -202,7 +198,14 @@
 			isa = PBXProject;
 			buildConfigurationList = 4E59C34308A97622001206A8 /* Build configuration list for PBXProject "PostgreSQL Query Action" */;
 			compatibilityVersion = "Xcode 2.4";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 089C166AFE841209C02AAC07 /* PostgreSQL Query Action */;
 			projectDirPath = "";
 			projectReferences = (
@@ -347,20 +350,26 @@
 		4E59C34408A97622001206A8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Debug;
 		};
 		4E59C34508A97622001206A8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
 			};
 			name = Release;
 		};
