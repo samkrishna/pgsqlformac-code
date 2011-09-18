@@ -6,21 +6,6 @@
 	objectVersion = 46;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		43434D141132F882001BE027 /* PGSQLKit Documentation */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 43434D201132F8AA001BE027 /* Build configuration list for PBXAggregateTarget "PGSQLKit Documentation" */;
-			buildPhases = (
-				43434D131132F882001BE027 /* ShellScript */,
-			);
-			dependencies = (
-				43582E5B113AF02800B29148 /* PBXTargetDependency */,
-			);
-			name = "PGSQLKit Documentation";
-			productName = "PGSQLKit Documentation";
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		4313978C0C31BAF600E596BA /* PGSQLColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = 439F7B670C1894AA001CA5A4 /* PGSQLColumn.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4313978D0C31BAF600E596BA /* PGSQLColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = 439F7B680C1894AA001CA5A4 /* PGSQLColumn.m */; };
@@ -29,6 +14,7 @@
 		4324B38A0BF36227001F6E5E /* PGSQLKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* PGSQLKit.framework */; };
 		432A8C110C47074F00CA8F33 /* PGSQLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 439656720BE8C779003EDC3D /* PGSQLKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43318B370BF1227A008C2560 /* PGSQL Login.nib in Resources */ = {isa = PBXBuildFile; fileRef = 43318B350BF1227A008C2560 /* PGSQL Login.nib */; };
+		43416A1313A100A500D77235 /* PGSQLLoginDelegate.h in Sources */ = {isa = PBXBuildFile; fileRef = 43416A1213A100A500D77235 /* PGSQLLoginDelegate.h */; };
 		4349A2B20C31D47100DACE65 /* PGSQLRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 439F7B630C189495001CA5A4 /* PGSQLRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4349A2B30C31D47100DACE65 /* PGSQLRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 439F7B640C189495001CA5A4 /* PGSQLRecord.m */; };
 		4349A2BB0C31D57700DACE65 /* PGSQLRecordset.h in Headers */ = {isa = PBXBuildFile; fileRef = 4325688D0C0D122F007E8DE8 /* PGSQLRecordset.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -45,16 +31,6 @@
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		43582E5A113AF02800B29148 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = PGSQLKit;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		4324B36A0BF36104001F6E5E /* CopyFiles */ = {
@@ -82,6 +58,7 @@
 		43318B360BF1227A008C2560 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = "English.lproj/PGSQL Login.nib"; sourceTree = "<group>"; };
 		43318B520BF16497008C2560 /* PGSQLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLConnection.h; sourceTree = "<group>"; };
 		43318B530BF16497008C2560 /* PGSQLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLConnection.m; sourceTree = "<group>"; };
+		43416A1213A100A500D77235 /* PGSQLLoginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.objj; path = PGSQLLoginDelegate.h; sourceTree = "<group>"; };
 		4357486A0F334F5B00F86110 /* PGSQLPreparedStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLPreparedStatement.h; sourceTree = "<group>"; };
 		4357486B0F334F5B00F86110 /* PGSQLPreparedStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLPreparedStatement.m; sourceTree = "<group>"; };
 		439656720BE8C779003EDC3D /* PGSQLKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLKit.h; sourceTree = "<group>"; };
@@ -176,6 +153,7 @@
 				43318B530BF16497008C2560 /* PGSQLConnection.m */,
 				43CBC57C0BF11AC300A5E5AF /* PGSQLLogin.h */,
 				43CBC57D0BF11AC300A5E5AF /* PGSQLLogin.m */,
+				43416A1213A100A500D77235 /* PGSQLLoginDelegate.h */,
 				4357486A0F334F5B00F86110 /* PGSQLPreparedStatement.h */,
 				4357486B0F334F5B00F86110 /* PGSQLPreparedStatement.m */,
 				43AEC8BD0C306B38009B1479 /* Incomplete */,
@@ -289,7 +267,6 @@
 			projectRoot = "";
 			targets = (
 				8DC2EF4F0486A6940098B216 /* PGSQLKit */,
-				43434D141132F882001BE027 /* PGSQLKit Documentation */,
 			);
 		};
 /* End PBXProject section */
@@ -307,22 +284,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		43434D131132F882001BE027 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "headerdoc2html -o build/docs ./\ngatherHeaderDoc build/docs";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		8DC2EF540486A6940098B216 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -335,18 +296,11 @@
 				4349A2CA0C31DD5800DACE65 /* PGSQLConnection.m in Sources */,
 				43F613340F9E5DC000F8273F /* PGSQLConnectionInfo.m in Sources */,
 				7B70BF90100D685D00046E2F /* PGSQLLogin.m in Sources */,
+				43416A1313A100A500D77235 /* PGSQLLoginDelegate.h in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		43582E5B113AF02800B29148 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8DC2EF4F0486A6940098B216 /* PGSQLKit */;
-			targetProxy = 43582E5A113AF02800B29148 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C1666FE841158C02AAC07 /* InfoPlist.strings */ = {
@@ -371,7 +325,7 @@
 		1DEB91AE08733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -387,7 +341,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = PGSQLKit_Prefix.pch;
-				GCC_VERSION = 4.0;
+				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
@@ -404,11 +358,11 @@
 					"-lldap",
 				);
 				PRODUCT_NAME = PGSQLKit;
-				SDKROOT = macosx10.5;
-				"SDKROOT[arch=i386]" = macosx10.5;
-				"SDKROOT[arch=ppc64]" = macosx10.5;
-				"SDKROOT[arch=ppc]" = macosx10.5;
-				"SDKROOT[arch=x86_64]" = macosx10.5;
+				SDKROOT = macosx;
+				"SDKROOT[arch=i386]" = macosx;
+				"SDKROOT[arch=ppc64]" = macosx;
+				"SDKROOT[arch=ppc]" = macosx;
+				"SDKROOT[arch=x86_64]" = macosx;
 				WRAPPER_EXTENSION = framework;
 				ZERO_LINK = YES;
 			};
@@ -417,12 +371,7 @@
 		1DEB91AF08733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc64,
-					ppc7400,
-					i386,
-					x86_64,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -435,10 +384,10 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = PGSQLKit_Prefix.pch;
-				GCC_VERSION = 4.0;
+				GCC_VERSION = "";
 				HEADER_SEARCH_PATHS = /opt/local/include;
 				INFOPLIST_FILE = Info.plist;
-				INSTALL_PATH = "@loader_path/../Frameworks";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
@@ -452,11 +401,11 @@
 					"-lldap",
 				);
 				PRODUCT_NAME = PGSQLKit;
-				SDKROOT = macosx10.5;
-				"SDKROOT[arch=i386]" = macosx10.5;
-				"SDKROOT[arch=ppc64]" = macosx10.5;
-				"SDKROOT[arch=ppc]" = macosx10.5;
-				"SDKROOT[arch=x86_64]" = macosx10.5;
+				SDKROOT = macosx;
+				"SDKROOT[arch=i386]" = macosx;
+				"SDKROOT[arch=ppc64]" = macosx;
+				"SDKROOT[arch=ppc]" = macosx;
+				"SDKROOT[arch=x86_64]" = macosx;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
@@ -468,6 +417,7 @@
 				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PREBINDING = NO;
 				SDKROOT = macosx10.5;
 			};
@@ -480,29 +430,9 @@
 				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PREBINDING = NO;
 				SDKROOT = macosx10.5;
-			};
-			name = Release;
-		};
-		43434D151132F882001BE027 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = "PGSQLKit Documentation";
-			};
-			name = Debug;
-		};
-		43434D161132F882001BE027 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				PRODUCT_NAME = "PGSQLKit Documentation";
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -523,15 +453,6 @@
 			buildConfigurations = (
 				1DEB91B208733DA50010E9CD /* Debug */,
 				1DEB91B308733DA50010E9CD /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		43434D201132F8AA001BE027 /* Build configuration list for PBXAggregateTarget "PGSQLKit Documentation" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				43434D151132F882001BE027 /* Debug */,
-				43434D161132F882001BE027 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

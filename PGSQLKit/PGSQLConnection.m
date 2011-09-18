@@ -301,6 +301,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	NSMutableDictionary *info = [[[NSMutableDictionary alloc] init] autorelease];
 	
 	PGSQLRecordset *rs = [self open:sql];
+    
 	[info setValue:rs forKey:@"Recordset"];
 	[info setValue:[self lastError] forKey:@"Error"];
 	

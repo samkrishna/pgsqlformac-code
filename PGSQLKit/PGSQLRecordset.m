@@ -247,8 +247,12 @@
 {
     if (defaultEncoding != value) {
         defaultEncoding = value;
+        
+        if (currentRecord != nil)
+        {
+            [currentRecord setDefaultEncoding:defaultEncoding];
+        }
     }	
-	
 }
 
 

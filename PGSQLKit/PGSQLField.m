@@ -21,7 +21,7 @@
 		data = nil;
 		
 		// this will default to NSUTF8StringEncoding with PG9
-		defaultEncoding = NSMacOSRomanStringEncoding;
+		defaultEncoding = NSUTF8StringEncoding;
 
 		if (PQgetisnull(result, atRow, [forColumn index]) != 1)
 		{		
