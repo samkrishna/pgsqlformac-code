@@ -329,7 +329,6 @@
 			{
 				[dbList selectItemAtIndex:i];
 			}
-
 		}
 		
 		// Create the schema explorer.
