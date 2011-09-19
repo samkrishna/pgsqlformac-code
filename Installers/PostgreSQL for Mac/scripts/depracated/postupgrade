@@ -1,17 +1,6 @@
 #!/bin/sh
-echo ...running preinstall
 
-processId=`ps auxw | grep '^postgres' |grep 'bin/postgres' | awk -F" " '{print $2}'`
-# echo "Process ID: $x"
-if /bin/test "$processId";  then
-	echo PostgreSQL is Running, will not try to overwrite the current version. 
-	exit 1
-fi
-
-# first let's make sure the the postgres user does
-# not currently exist
-
-# Leopard/Tiger - this no longer works on Panther
+echo ...running postupgrade
 
 echo Checking for Postgres group...
 PG_GID=`/usr/bin/dscl . read /groups/postgres PrimaryGroupID | grep "PrimaryGroupID:.[0-9]" | sed 's/.*: //' | sed 's/ //'`
@@ -63,15 +52,19 @@ else
 	
 	sudo /usr/bin/dscl . -create /users/postgres UniqueID $PG_UID
 	sudo /usr/bin/dscl . -append /users/postgres PrimaryGroupID $PG_GID
-	sudo /usr/bin/dscl . -append /users/postgres UserShell /bin/bash
-	sudo /usr/bin/dscl . -append /users/postgres RealName "PostgreSQL Server"
-	sudo /usr/bin/dscl . -append /users/postgres NFSHomeDirectory /Library/PostgreSQL
+	sudo /usr/bin/dscl . -append /users/postgres UserShell /usr/bin/false
+#	sudo /usr/bin/dscl . -append /users/postgres RealName "PostgreSQL Server"
+#	sudo /usr/bin/dscl . -append /users/postgres NFSHomeDirectory /var/empty
+	sudo /usr/bin/dscl . -append /users/postgres NFSHomeDirectory /Library/PostgreSQL8
 	
 	echo ...User postgres created with UID $PG_UID
 fi
+
+set -e
 	
-echo completed preinstall 
-exit 0
+echo The Postgres user is configured, but you should set a 
+echo password on the newly created account. \(sudo passwd postgres\)
 
 
+echo completed postupgrade
 

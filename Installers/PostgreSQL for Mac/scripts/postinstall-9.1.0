@@ -1,0 +1,95 @@
+#!/bin/sh
+#set -e
+echo ...running postflight
+
+if ! test -d /Library/PostgreSQL; then
+	echo Cannot find the PostgreSQL folder in /Library/
+	exit 1
+fi
+
+# this version
+PG_NEW_VERSION=9.1.0
+
+# Set the permissions on the directories
+
+echo ...log
+if test ! -d /Library/PostgreSQL/log; then
+	mkdir /Library/PostgreSQL/log
+fi
+sudo touch /Library/PostgreSQL/log/PostgreSQL.log
+if test ! -f /Library/Logs/PostgreSQL.log; then 
+	ln -s /Library/PostgreSQL/log/PostgreSQL.log /Library/Logs/PostgreSQL.log 
+fi
+
+echo ...permissions
+chown -R root:admin /Library/PostgreSQL
+chown -R postgres:admin /Library/PostgreSQL/log
+chmod 755 /Library/PostgreSQL
+
+chmod 755 /Library/StartupItems/PostgreSQL
+chmod 755 /Library/StartupItems/PostgreSQL/PostgreSQL
+chmod 644 /Library/StartupItems/PostgreSQL/StartupParameters.plist
+chown -R root:wheel /Library/StartupItems/PostgreSQL
+
+# set the current version to the active version
+echo ...version $PG_NEW_VERSION
+if test -d /Library/PostgreSQL/versions/$PG_NEW_VERSION
+then
+	rm /Library/PostgreSQL/bin
+	ln -s /Library/PostgreSQL/versions/$PG_NEW_VERSION/bin /Library/PostgreSQL/bin
+	rm /Library/PostgreSQL/include
+	ln -s /Library/PostgreSQL/versions/$PG_NEW_VERSION/include /Library/PostgreSQL/include
+	rm /Library/PostgreSQL/lib
+	ln -s /Library/PostgreSQL/versions/$PG_NEW_VERSION/lib /Library/PostgreSQL/lib
+	rm /Library/PostgreSQL/share
+	ln -s /Library/PostgreSQL/versions/$PG_NEW_VERSION/share /Library/PostgreSQL/share
+	
+	# the following folders no longer exist in the later 8.4 and 9.0 trees.
+	if test -d /Library/PostgreSQL/doc; then
+		rm /Library/PostgreSQL/doc
+	fi
+	if test -d /Library/PostgreSQL/versions/$PG_NEW_VERSION/doc; then
+		ln -s /Library/PostgreSQL/versions/$PG_NEW_VERSION/doc /Library/PostgreSQL/doc
+	fi
+	if test -d /Library/PostgreSQL/man; then
+		rm /Library/PostgreSQL/man
+	fi
+	if test -d /Library/PostgreSQL/versions/$PG_NEW_VERSION/man; then
+		ln -s /Library/PostgreSQL/versions/$PG_NEW_VERSION/man /Library/PostgreSQL/man
+	fi
+	
+	echo PostgreSQL Version set to $PG_NEW_VERSION.
+fi
+
+# set up the data folder (if needed)
+cd /Library/PostgreSQL
+echo ...data /Library/PostgreSQL/data
+if test ! -d /Library/PostgreSQL/data; then
+	echo ...no data folder found 
+	mkdir -p /Library/PostgreSQL/data
+	echo ...changing permissions
+	chown -R postgres:postgres /Library/PostgreSQL/data
+	echo ...calling initdb
+	su -m postgres -c '/Library/PostgreSQL/bin/initdb -E utf8 -D /Library/PostgreSQL/data'
+else
+	sudo chown -R postgres:postgres /Library/PostgreSQL/data
+fi
+
+PG_SHELL=`/usr/bin/dscl . -read /users/postgres | grep "^UserShell:.*$" | sed 's/.*: //' | sed 's/ //'`
+if (test $PG_SHELL != "") then
+	echo ...deleteing old shell
+	sudo /usr/bin/dscl . -delete /users/postgres UserShell $PG_SHELL
+	echo ...appending new shell
+	sudo /usr/bin/dscl . -append /users/postgres UserShell /usr/bin/false
+fi
+
+echo Permissions have been altered to allow the automated startup 
+echo of the PostgreSQL server.
+
+echo ...attempting to start the server
+sudo /Library/StartupItems/PostgreSQL/PostgreSQL start manual
+
+
+
+
+

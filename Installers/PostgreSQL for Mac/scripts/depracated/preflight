@@ -1,12 +1,5 @@
 #!/bin/sh
-echo ...running preinstall
-
-processId=`ps auxw | grep '^postgres' |grep 'bin/postgres' | awk -F" " '{print $2}'`
-# echo "Process ID: $x"
-if /bin/test "$processId";  then
-	echo PostgreSQL is Running, will not try to overwrite the current version. 
-	exit 1
-fi
+echo ...running preflight
 
 # first let's make sure the the postgres user does
 # not currently exist
@@ -65,10 +58,46 @@ else
 	sudo /usr/bin/dscl . -append /users/postgres PrimaryGroupID $PG_GID
 	sudo /usr/bin/dscl . -append /users/postgres UserShell /bin/bash
 	sudo /usr/bin/dscl . -append /users/postgres RealName "PostgreSQL Server"
-	sudo /usr/bin/dscl . -append /users/postgres NFSHomeDirectory /Library/PostgreSQL
+#	sudo /usr/bin/dscl . -append /users/postgres NFSHomeDirectory /var/empty
+	sudo /usr/bin/dscl . -append /users/postgres NFSHomeDirectory /Library/PostgreSQL8
 	
 	echo ...User postgres created with UID $PG_UID
 fi
+
+# by moving to a new directory structure, we do not need all of the rework logic
+
+
+	
+# in the case of an upgrade, we need to move aside the current version and 
+# install the newest, but also to compare the version information.
+
+#if test -L /Library/PostgreSQL/bin; then
+#	X=`ls -al /Library/PostgreSQL8/ | grep bin | grep versions`
+#	if ! test -z $X; then
+#		echo already using symlink structure, will call setVersion at the end.
+#	else
+#		echo /Library/PostgreSQL/bin is a symlink but not to the versions
+#		echo folder.  Exiting because we cannot deal with this configuration.
+#		exit 1
+#	fi
+#else
+#	echo upgrading an existing install with old directory layout, moving to new.
+	
+	# get the current version
+#	CURRENT_VERSION=`/Library/PostgreSQL8/bin/psql --version | grep 'psql' | awk -F" " '{print $3}'`
+#	echo testing: $CURRENT_VERSION
+	
+#	if ! test -d /Library/PostgreSQL8/versions/$CURRENT_VERSION; then
+#		mkdir -p /Library/PostgreSQL8/versions/$CURRENT_VERSION
+#	fi 
+	
+#	mv /Library/PostgreSQL8/bin /Library/PostgreSQL8/versions/$CURRENT_VERSION/
+#	mv /Library/PostgreSQL8/lib /Library/PostgreSQL8/versions/$CURRENT_VERSION/
+#	mv /Library/PostgreSQL8/include /Library/PostgreSQL8/versions/$CURRENT_VERSION/
+#	mv /Library/PostgreSQL8/share /Library/PostgreSQL8/versions/$CURRENT_VERSION/	
+#	mv /Library/PostgreSQL8/doc /Library/PostgreSQL8/versions/$CURRENT_VERSION/	
+#	mv /Library/PostgreSQL8/man /Library/PostgreSQL8/versions/$CURRENT_VERSION/	
+#fi	
 	
 echo completed preinstall 
 exit 0

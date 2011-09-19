@@ -1,0 +1,83 @@
+#!/bin/sh
+#set -e
+echo ...running postflight
+
+if ! test -d /Library/PostgreSQL8; then
+	echo Installer failed to put PostgreSQL in place
+	exit 1
+fi
+
+# this version
+PG_NEW_VERSION=8.4.3
+
+# Set the permissions on the directories
+
+echo ...log
+if test ! -d /Library/PostgreSQL8/log; then
+	mkdir /Library/PostgreSQL8/log
+fi
+sudo touch /Library/PostgreSQL8/log/PostgreSQL8.log
+if test ! -f /Library/Logs/PostgreSQL8.log; then 
+	ln -s /Library/PostgreSQL8/log/PostgreSQL8.log /Library/Logs/PostgreSQL8.log 
+fi
+
+echo ...permissions
+chown -R root:admin /Library/PostgreSQL8
+chown -R postgres:admin /Library/PostgreSQL8/log
+
+chmod 755 /Library/StartupItems/PostgreSQL
+chmod 755 /Library/StartupItems/PostgreSQL/PostgreSQL
+chmod 644 /Library/StartupItems/PostgreSQL/StartupParameters.plist
+chown -R root:wheel /Library/StartupItems/PostgreSQL
+
+# set the current version to the active version
+echo ...version $PG_NEW_VERSION
+if test -d /Library/PostgreSQL8/versions/$PG_NEW_VERSION
+then
+	rm /Library/PostgreSQL8/bin
+	ln -s /Library/PostgreSQL8/versions/$PG_NEW_VERSION/bin /Library/PostgreSQL8/bin
+	rm /Library/PostgreSQL8/include
+	ln -s /Library/PostgreSQL8/versions/$PG_NEW_VERSION/include /Library/PostgreSQL8/include
+	rm /Library/PostgreSQL8/lib
+	ln -s /Library/PostgreSQL8/versions/$PG_NEW_VERSION/lib /Library/PostgreSQL8/lib
+	rm /Library/PostgreSQL8/share
+	ln -s /Library/PostgreSQL8/versions/$PG_NEW_VERSION/share /Library/PostgreSQL8/share
+	rm /Library/PostgreSQL8/doc
+	ln -s /Library/PostgreSQL8/versions/$PG_NEW_VERSION/doc /Library/PostgreSQL8/doc
+	rm /Library/PostgreSQL8/man
+	ln -s /Library/PostgreSQL8/versions/$PG_NEW_VERSION/man /Library/PostgreSQL8/man
+	
+	echo PostgreSQL8 Version set to $PG_NEW_VERSION.
+fi
+
+# set up the data folder (if needed)
+echo ...data /Library/PostgreSQL8/data
+if test ! -d /Library/PostgreSQL8/data; then
+	echo ...no data folder found 
+	mkdir -p /Library/PostgreSQL8/data
+	echo ...changing permissions
+	chown -R postgres:postgres /Library/PostgreSQL8/data
+	echo ...calling initdb
+	su -m postgres -c '/Library/PostgreSQL8/bin/initdb -E utf8 -D /Library/PostgreSQL8/data'
+else
+	sudo chown -R postgres:postgres /Library/PostgreSQL8/data
+fi
+
+PG_SHELL=`/usr/bin/dscl . -read /users/postgres | grep "^UserShell:.*$" | sed 's/.*: //' | sed 's/ //'`
+if (test $PG_SHELL != "") then
+	echo ...deleteing old shell
+	sudo /usr/bin/dscl . -delete /users/postgres UserShell $PG_SHELL
+	echo ...appending new shell
+	sudo /usr/bin/dscl . -append /users/postgres UserShell /usr/bin/false
+fi
+
+echo Permissions have been altered to allow the automated startup 
+echo of the PostgreSQL server.
+
+echo ...attempting to start the server
+sudo /Library/StartupItems/PostgreSQL/PostgreSQL start manual
+
+
+
+
+

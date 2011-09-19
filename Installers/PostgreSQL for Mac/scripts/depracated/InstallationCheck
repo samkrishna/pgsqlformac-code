@@ -1,0 +1,103 @@
+#!/bin/sh
+
+# InstallationCheck Script
+# determines if the system can be installed.
+# there are three checks that need to be made.  
+# 1. Is PostgreSQL already installed
+# 2. Is PostgreSQL already running.
+# 3. Does the system meet minimum requirements
+
+echo Checking Installation
+
+isPostgreSQLInstalled='-NO-'
+isPostgreSQLStartupItem='-NO-'
+isInLibray='-NO-'
+isInUsr='-NO-'
+isInUsrLocal='-NO-'
+isInOpt='-NO-'
+isPostgresUserPresent='-NO-'
+isPostgresGroupPresent='-NO-'
+isPostgresRunning='-NO-'
+
+# should the script fail, it will return different error codes.  
+# 0         : success
+# 32        : warning
+# 48 - 63   : warning with reason from InstallationCheck.strings in the package.
+#             the index of the String is the result - 32. 
+# 64        : error, do not install
+# 112 - 127 : error, do not install with reason from InstallationCheck.strings in the package.
+#             the index of the String is the result - 96. 
+
+# Is PostgreSQL installed
+#    - check for a PostgreSQL for Mac installation
+#    - check for an installation of Postgres in standard unix style paths
+
+echo ...Testing current installation
+
+if test -e /Library/PostgreSQL8/bin/postgres; then
+	isPostgreSQLInstalled='-YES-'
+	isInLibray='-YES-'
+	echo ...found PostgreSQL for Mac
+elif test -e /opt/bin/postgres; then
+	isPostgreSQLInstalled='-YES-'
+	isInOpt='-YES-'
+	echo ...found PostgreSQL in /opt/
+elif test -e /usr/bin/postgres; then
+	isPostgreSQLInstalled='-YES-'
+	isInUsr='-YES-'
+	echo ...found PostgreSQL in /usr/
+elif test -e /usr/local/bin/postgres; then
+	isPostgreSQLInstalled='-YES-'
+	isInUsrLocal='-YES-'
+	echo ...found PostgreSQL in /usr/local
+fi
+
+echo ...Testing for running process
+
+# Is PostgreSQL running
+#    - check for Postmaster
+
+processId=""
+if [ "$isPostgreSQLInstalled" = "-YES-" ]; then
+	processId=`ps auxw | grep '^postgres' |grep 'bin/postgres' | awk -F" " '{print $2}'`
+	# echo "Process ID: $x"
+	if /bin/test "$processId";  then
+		isPostgresRunning='-YES-'
+	fi
+fi
+
+# Known Warnings:
+#  48 - PostgreSQL installation exists and is current
+#  49 - PostgreSQL installation exists but is not a PostgreSQL for Mac install
+#  50 - Postgres user exists, but was not created by a PostgreSQL for Mac 
+#       installer
+#  51 - Postgres group exists, but was not created by a PostgreSQL for Mac 
+#       installer
+#  52 - PostgreSQL is running but is not controllable via a StartupItem.
+#  53 - PostgreSQL is a major version change, make sure to perform a backup 
+#       installation, as the installer will overwrite the current data directory
+
+# Known Errors:
+#  112 - Mac OS X Version is too low
+#  113 - Unknown CPU Type
+#  114 - Insufficie memory
+
+if [ "$isPostgreSQLInstalled" = "-YES-" ]; then
+	echo "PostgreSQL Is Installed"
+	
+	if [ "$isInLibray" = "-YES-" ]; then
+		echo "... in /Library/PostgreSQL"
+	fi
+	
+	if ["$processId" != ""]; then 
+		echo "... existing PostgreSQL process was running"
+		exit 64
+	fi
+fi
+
+if ["$processId" != ""]; then 
+	echo "... existing PostgreSQL process was running :$processId:" 
+	exit 64
+fi
+
+exit 1
