@@ -1,23 +1,4 @@
-#!/bin/sh
-set -e 
-
-# set up the local variables for usage in the script.  These need to be 
-# altered for use by environment.
-
-export INSTALL_PATH=/Library/PostgreSQL8
-export PG_VERSIONS_PATH=~/Projects/PostgreSQL/versions
-export PG4MAC_SVN_PATH=~/Projects/PostgreSQL/svn
-export TEMP_PATH=/var/tmp/postgres
-
-PLATFORM="unknown"
-USE_CONSOLE="-NO"
-
-is_arch="-NO-"
-for f in "$@"
-do
-	if (test "$f" = "-console") 
-	then
-		USE_CONSOLE="-YES-"		
+ww="-YES-"		
 	fi
 
 	if (test "$is_arch" = "-YES-") 

@@ -83,23 +83,16 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 247006084;
-			PBXWorkspaceStateSaveDate = 247006084;
+			PBXPerProjectTemplateStateSaveDate = 325087713;
+			PBXWorkspaceStateSaveDate = 325087713;
 		};
 		perUserProjectItems = {
 			430C225C0AEEF83D00B814BA /* PBXTextBookmark */ = 430C225C0AEEF83D00B814BA /* PBXTextBookmark */;
-			430C225F0AEEF83D00B814BA /* PBXTextBookmark */ = 430C225F0AEEF83D00B814BA /* PBXTextBookmark */;
-			430C22600AEEF83D00B814BA /* PBXTextBookmark */ = 430C22600AEEF83D00B814BA /* PBXTextBookmark */;
-			430C22610AEEF83D00B814BA /* PBXTextBookmark */ = 430C22610AEEF83D00B814BA /* PBXTextBookmark */;
 			431692730AF268A600C88512 /* PBXTextBookmark */ = 431692730AF268A600C88512 /* PBXTextBookmark */;
 			4325A4F90AF42CB100E5848F /* PBXBookmark */ = 4325A4F90AF42CB100E5848F /* PBXBookmark */;
-			4325A4FB0AF42CB100E5848F /* PBXTextBookmark */ = 4325A4FB0AF42CB100E5848F /* PBXTextBookmark */;
-			4325A4FF0AF42CB100E5848F /* PBXBookmark */ = 4325A4FF0AF42CB100E5848F /* PBXBookmark */;
-			4325A5010AF42CB100E5848F /* PBXTextBookmark */ = 4325A5010AF42CB100E5848F /* PBXTextBookmark */;
-			434E70200EB904040082BE2F /* PBXTextBookmark */ = 434E70200EB904040082BE2F /* PBXTextBookmark */;
 			434F5CD40B3C310A00C30B6D /* PBXBookmark */ = 434F5CD40B3C310A00C30B6D /* PBXBookmark */;
-			434F5CD50B3C310A00C30B6D /* PBXBookmark */ = 434F5CD50B3C310A00C30B6D /* PBXBookmark */;
-			43FBFBDF0CBC295A007422EE /* PBXTextBookmark */ = 43FBFBDF0CBC295A007422EE /* PBXTextBookmark */;
+			4353921F135FD533002BCBFC /* PBXTextBookmark */ = 4353921F135FD533002BCBFC /* PBXTextBookmark */;
+			43917E7A1360B2CC0033D4C4 /* PBXTextBookmark */ = 43917E7A1360B2CC0033D4C4 /* PBXTextBookmark */;
 		};
 		sourceControlManager = 430C22420AEEEBA800B814BA /* Source Control */;
 		userBuildSettings = {
@@ -123,6 +116,9 @@
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
 		debuggerPlugin = GDBDebugging;
 		disassemblyDisplayState = 0;
 		dylibVariantSuffix = "";
@@ -135,6 +131,7 @@
 		name = "Backup Database";
 		savedGlobals = {
 		};
+		showTypeColumn = 0;
 		sourceDirectories = (
 		);
 		variableFormatDictionary = {
@@ -145,6 +142,9 @@
 		fallbackIsa = XCSourceControlManager;
 		isSCMEnabled = 0;
 		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
 		};
 		scmType = "";
 	};
@@ -154,9 +154,9 @@
 	};
 	430C22450AEEF5DB00B814BA /* PGBackupController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {908, 6776}}";
-			sepNavSelRange = "{6470, 0}";
-			sepNavVisRange = "{0, 1285}";
+			sepNavIntBoundsRect = "{{0, 0}, {908, 6149}}";
+			sepNavSelRange = "{2774, 0}";
+			sepNavVisRange = "{2113, 1579}";
 			sepNavVisRect = "{{0, 2592}, {644, 606}}";
 			sepNavWindowFrame = "{{15, 553}, {421, 320}}";
 		};
@@ -178,36 +178,6 @@
 		rType = 0;
 		vrLen = 261;
 		vrLoc = 0;
-	};
-	430C225F0AEEF83D00B814BA /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 29B97316FDCFA39411CA2CEA /* main.m */;
-		name = "main.m: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 261;
-		vrLoc = 0;
-	};
-	430C22600AEEF83D00B814BA /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 430C22450AEEF5DB00B814BA /* PGBackupController.m */;
-		name = "PGBackupController.m: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 437;
-		vrLoc = 0;
-	};
-	430C22610AEEF83D00B814BA /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 430C22460AEEF5DC00B814BA /* PGBackupController.h */;
-		name = "PGBackupController.h: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 1484;
-		vrLoc = 51;
 	};
 	431692730AF268A600C88512 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -234,65 +204,14 @@
 		lineNumber = 375;
 		location = PGBackupController.ob;
 		modificationTime = 188494350.19851;
+		originalNumberOfMultipleMatches = 0;
 		state = 1;
 	};
 	4325A4F90AF42CB100E5848F /* PBXBookmark */ = {
 		isa = PBXBookmark;
 		fRef = 431693120AF2808000C88512 /* pg-backup.icns */;
 	};
-	4325A4FB0AF42CB100E5848F /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 4325A4FC0AF42CB100E5848F /* NSTask.h */;
-		name = NSTaskDidTerminateNotification;
-		rLen = 30;
-		rLoc = 1809;
-		rType = 0;
-		vrLen = 1093;
-		vrLoc = 749;
-	};
-	4325A4FC0AF42CB100E5848F /* NSTask.h */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.h;
-		name = NSTask.h;
-		path = /Developer/SDKs/MacOSX10.3.9.sdk/System/Library/Frameworks/Foundation.framework/Versions/C/Headers/NSTask.h;
-		sourceTree = "<absolute>";
-	};
-	4325A4FF0AF42CB100E5848F /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 431693120AF2808000C88512 /* pg-backup.icns */;
-	};
-	4325A5010AF42CB100E5848F /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 4325A5020AF42CB100E5848F /* NSTask.h */;
-		name = NSTaskDidTerminateNotification;
-		rLen = 30;
-		rLoc = 1809;
-		rType = 0;
-		vrLen = 1093;
-		vrLoc = 749;
-	};
-	4325A5020AF42CB100E5848F /* NSTask.h */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.c.h;
-		name = NSTask.h;
-		path = /Developer/SDKs/MacOSX10.3.9.sdk/System/Library/Frameworks/Foundation.framework/Versions/C/Headers/NSTask.h;
-		sourceTree = "<absolute>";
-	};
-	434E70200EB904040082BE2F /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = 430C22450AEEF5DB00B814BA /* PGBackupController.m */;
-		name = "PGBackupController.m: 232";
-		rLen = 0;
-		rLoc = 6470;
-		rType = 0;
-		vrLen = 1285;
-		vrLoc = 0;
-	};
 	434F5CD40B3C310A00C30B6D /* PBXBookmark */ = {
-		isa = PBXBookmark;
-		fRef = 4316930B0AF27FD500C88512 /* pg-backup.png */;
-	};
-	434F5CD50B3C310A00C30B6D /* PBXBookmark */ = {
 		isa = PBXBookmark;
 		fRef = 4316930B0AF27FD500C88512 /* pg-backup.png */;
 	};
@@ -310,6 +229,7 @@
 		ignoreCount = 0;
 		lineNumber = 319;
 		modificationTime = 188494347.161268;
+		originalNumberOfMultipleMatches = 0;
 		state = 2;
 	};
 	434F5CF70B3C320700C30B6D /* PGBackupController.m:364 */ = {
@@ -327,17 +247,28 @@
 		lineNumber = 364;
 		location = PGBackupController.ob;
 		modificationTime = 188494369.609233;
+		originalNumberOfMultipleMatches = 0;
 		state = 1;
 	};
-	43FBFBDF0CBC295A007422EE /* PBXTextBookmark */ = {
+	4353921F135FD533002BCBFC /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = 430C22450AEEF5DB00B814BA /* PGBackupController.m */;
-		name = "PGBackupController.m: 232";
+		name = "PGBackupController.m: 106";
 		rLen = 0;
-		rLoc = 6470;
+		rLoc = 2774;
 		rType = 0;
-		vrLen = 1246;
-		vrLoc = 6034;
+		vrLen = 1581;
+		vrLoc = 2111;
+	};
+	43917E7A1360B2CC0033D4C4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 430C22450AEEF5DB00B814BA /* PGBackupController.m */;
+		name = "PGBackupController.m: 106";
+		rLen = 0;
+		rLoc = 2774;
+		rType = 0;
+		vrLen = 1579;
+		vrLoc = 2113;
 	};
 	8D1107260486CEB800E47090 /* Backup Database */ = {
 		activeExec = 0;
