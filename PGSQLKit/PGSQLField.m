@@ -123,6 +123,22 @@
 	return 0; 
 }
 
+
+-(short)asShort
+{
+	if (data != nil) {
+		if ([data length] <= 0)
+		{
+			return 0;
+		}
+		
+		NSString *value = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding] autorelease];
+		
+		return (short)[[NSNumber numberWithFloat:[value floatValue]] shortValue];
+	}
+	return 0; 
+}
+
 -(NSDate *)asDate
 {
 	if (data != nil) {
@@ -146,6 +162,33 @@
 	}
 	return nil; 	
 }
+
+-(NSDate *)asDateWithGMTOffset:(NSString *)gmtOffset
+{
+	if (data != nil) {
+		if ([data length] <= 0)
+		{
+			return nil;
+		}
+		
+		NSString *value = [NSString stringWithCString:(char *)[data bytes]
+											 encoding:NSUTF8StringEncoding];
+		if ([value rangeOfString:@"."].location != NSNotFound)
+		{
+			value = [NSString stringWithFormat:@"%@ %@", 
+					 [value substringToIndex:[value rangeOfString:@"."].location],
+					 gmtOffset];
+		} else {
+			
+			value = [NSString stringWithFormat:@"%@ %@", value, gmtOffset];
+		}
+		NSDate *newDate = [[[NSDate alloc] initWithString:value] autorelease];
+		
+		return newDate;
+	}
+	return nil; 	
+}
+
 
 -(NSData *)asData
 {

@@ -1,15 +1,13 @@
-/*
- *  PGSQLKit.h
- *  PGSQLKit
- *
- *  Created by Andy Satori on 5/2/07.
- *  Copyright 2007 Druware Software Designs. All rights reserved.
- *
- */
+//
+//  GenDBField.h
+//
+//  Created by Andy Satori on 12/19/10.
+//  Copyright 2010 Satori & Associates, Inc. All rights reserved.
+//
 
 /* License *********************************************************************
  
- Copyright (c) 2007-2011, Druware Software Designs 
+ Copyright (c) 2005-2011, Druware Software Designs 
  All rights reserved. 
  
  Redistribution and use in source or binary forms, with or without modification,
@@ -35,9 +33,38 @@
  
  *******************************************************************************/
 
-#import "PGSQLLogin.h"
-#import "PGSQLConnection.h"
+#import <Foundation/Foundation.h>
 
+@protocol GenDBField
 
+-(NSString *)asString;
+-(NSString *)asString:(NSStringEncoding)encoding;
+-(NSNumber *)asNumber;
+-(short)asShort;
+-(long)asLong;
+-(NSDate *)asDate;
+-(NSDate *)asDateWithGMTOffset:(NSString *)gmtOffset;
+-(NSData *)asData;
 
+/*!
+	@function
+	@abstract   Get the connection's defaultEncoding for all string operations 
+				returning.
+	@discussion The default setting is NSUTF8StringEncoding.  
+	@result     returns the defaultEncoding as an NSSTringEncoding ( 
+				http://developer.apple.com/mac/library/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/Reference/NSString.html#//apple_ref/doc/c_ref/NSStringEncoding )
+*/
+-(NSStringEncoding)defaultEncoding;
 
+/*!
+	@function
+	@abstract   Set the defaultEncoding for all string operations on the current
+				connection
+	@discussion The default setting is NSUTF8StringEncoding.
+	@param      value the defaultEncoding as an NSSTringEncoding ( 
+				http://developer.apple.com/mac/library/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/Reference/NSString.html#//apple_ref/doc/c_ref/NSStringEncoding )
+	@result     void
+*/
+-(void)setDefaultEncoding:(NSStringEncoding)value;
+
+@end

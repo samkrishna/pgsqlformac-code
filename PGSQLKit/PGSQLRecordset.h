@@ -57,6 +57,7 @@
 #import "PGSQLColumn.h"
 #import "PGSQLRecord.h"
 #import "PGSQLField.h"
+#import "GenDBRecordset.h"
 	
 /*!
     @class
@@ -74,7 +75,7 @@
 				 often eases consumption of the data in the realm of Cocoa 
 				 Bindings.
 */
-@interface PGSQLRecordset : NSObject {
+@interface PGSQLRecordset : NSObject <GenDBRecordset> {
 	void *pgResult;
 	
 	BOOL isEOF;
@@ -87,6 +88,7 @@
 	PGSQLRecord *currentRecord;
 	
 	NSStringEncoding defaultEncoding;
+    NSString *lastError;
 }
 
 -(id)initWithResult:(void *)result;
@@ -96,6 +98,7 @@
 
 -(NSArray *)columns;
 
+- (NSUInteger)rowCount;
 - (long)recordCount;
 
 -(PGSQLRecord *)moveFirst;

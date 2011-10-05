@@ -24,6 +24,9 @@ handle_pq_notice(void *arg, const char *message)
 
 @implementation PGSQLConnection
 
+NSString *const GenDBConnectionDidCompleteNotification = @"GenDBConnectionDidCompleteNotification";
+NSString *const GenDBCommandDidCompleteNotification = @"GenDBCommandDidCompleteNotification";
+
 NSString *const PGSQLConnectionDidCompleteNotification = @"PGSQLConnectionDidCompleteNotification";
 NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteNotification";
 
@@ -124,6 +127,10 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	[[NSNotificationCenter defaultCenter] postNotificationName:PGSQLConnectionDidCompleteNotification
 														object:nil
 													  userInfo:info];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GenDBConnectionDidCompleteNotification
+														object:nil
+													  userInfo:info];
+
 	[pool release];
 }
 
@@ -237,6 +244,9 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	[[NSNotificationCenter defaultCenter] postNotificationName:PGSQLCommandDidCompleteNotification
 														object:nil
 													  userInfo:info];
+	[[NSNotificationCenter defaultCenter] postNotificationName:GenDBCommandDidCompleteNotification
+														object:nil
+													  userInfo:info];
 	[pool release];
 }
 
@@ -308,6 +318,10 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	[[NSNotificationCenter defaultCenter] postNotificationName:PGSQLCommandDidCompleteNotification
 														object:nil
 													  userInfo:info];
+    [[NSNotificationCenter defaultCenter] postNotificationName:GenDBCommandDidCompleteNotification
+														object:nil
+													  userInfo:info];
+
 	[pool release];
 }
 

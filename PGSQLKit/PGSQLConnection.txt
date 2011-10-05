@@ -1,0 +1,23 @@
+@abstract		A Connection class that is the root of all data access in 
+PGSQLKit.  Contextually, the PGSQLConnection encapsulates a 
+PQconnectdb() call and the results of that call.
+
+@discussion	The PGSQLConnection class provides the gateway to all of the 
+functionality in the library.  The only class that is not 
+reached through the Connection class is the Login class, which 
+is a utility class intended to provide an easy and reusable 
+tool for obtaining a Connection class without reinventing the
+login panel in every application.
+
+The core functionality of this class wraps around the libpq 
+interface.
+
+@abstract		PGSQLConnection is the core class in the Kit.  Using the 
+PGSQLConnection to create and use a database connection to 
+execute queries and return results from the database, everything
+else in the kit stems from this core class.
+@discussion	The usual use of this class is to create a connection that is 
+used for the duration of the connection.  A single connection 
+can support multiple queries, however, because of local storage
+of the results, it is possible that memory could become a 
+concern if mulitple result sets are open as the same time.

@@ -3,7 +3,7 @@
 //  PGSQLKit
 //
 //  Created by Andy Satori on 5/8/07.
-//  Copyright 2007-2010 Druware Software Designs. All rights reserved.
+//  Copyright 2007-2011 Druware Software Designs. All rights reserved.
 //
 
 /*!
@@ -254,7 +254,9 @@ FOUNDATION_EXPORT NSString * const PGSQLConnectionDidCompleteNotification;
  */
 FOUNDATION_EXPORT NSString * const PGSQLCommandDidCompleteNotification;	
 
+
+
 @end
 
-#pragma unused(globalPGSQLConnection)
 static PGSQLConnection *globalPGSQLConnection;
+#pragma unused(globalPGSQLConnection)

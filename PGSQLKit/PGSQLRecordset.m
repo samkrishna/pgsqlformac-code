@@ -78,6 +78,11 @@
 	return rowCount;
 }
 
+- (NSUInteger)rowCount
+{
+	return rowCount;
+}
+
 - (void)setCurrentRecordWithRowIndex:(long)rowIndex
 {
 	[currentRecord release];
@@ -255,5 +260,8 @@
     }	
 }
 
+- (NSString *)lastError {
+    return lastError;
+}
 
 @end

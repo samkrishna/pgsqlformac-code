@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "PGSQLConnection.h" 
 
-@interface PGSQLLogin : NSObject {
+@interface PGSQLLogin : NSObject <NSComboBoxDelegate> {
 	IBOutlet NSWindow *loginPanel;
 	IBOutlet NSComboBox *savedConnections;
 	IBOutlet NSTextField *loginUserName;

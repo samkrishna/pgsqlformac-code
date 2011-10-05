@@ -47,6 +47,7 @@
 */
 
 #import "PGSQLColumn.h"
+#import "GenDBField.h"
 
 
 /*!
@@ -58,7 +59,7 @@
  
 	@discussion	
  */
-@interface PGSQLField : NSObject {
+@interface PGSQLField : NSObject <GenDBField> {
 	NSData *data;
 	
 	PGSQLColumn *column;
@@ -91,6 +92,7 @@
 -(NSNumber *)asNumber;
 -(long)asLong;
 -(NSDate *)asDate;
+-(NSDate *)asDateWithGMTOffset:(NSString *)gmtOffset;
 -(NSData *)asData;
 -(BOOL)asBoolean;
 

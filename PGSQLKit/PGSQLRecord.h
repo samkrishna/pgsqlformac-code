@@ -46,6 +46,7 @@
 */
 
 #import "PGSQLField.h";
+#import "GenDBRecord.h"
 
 /*!
     @class
@@ -55,7 +56,7 @@
     @discussion  Provides a relatively simple accessor to the child fields, and
 				 is rarely directly referenced in any but the most vague way.
 */
-@interface PGSQLRecord : NSObject {	
+@interface PGSQLRecord : NSObject <GenDBRecord> {	
 	void *pgResult;
 	long  rowNumber;
 	NSArray *columns;
