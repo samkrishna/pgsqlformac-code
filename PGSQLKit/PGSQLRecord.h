@@ -45,7 +45,7 @@
 				THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#import "PGSQLField.h";
+#import "PGSQLField.h"
 #import "GenDBRecord.h"
 
 /*!

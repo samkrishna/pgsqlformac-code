@@ -11,7 +11,6 @@
 		4313978D0C31BAF600E596BA /* PGSQLColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = 439F7B680C1894AA001CA5A4 /* PGSQLColumn.m */; };
 		431397B60C31BC1000E596BA /* PGSQLField.m in Sources */ = {isa = PBXBuildFile; fileRef = 439F7B600C18947C001CA5A4 /* PGSQLField.m */; };
 		431397B70C31BC1000E596BA /* PGSQLField.h in Headers */ = {isa = PBXBuildFile; fileRef = 439F7B5F0C18947C001CA5A4 /* PGSQLField.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4324B38A0BF36227001F6E5E /* PGSQLKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* PGSQLKit.framework */; };
 		432A8C110C47074F00CA8F33 /* PGSQLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 439656720BE8C779003EDC3D /* PGSQLKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43318B370BF1227A008C2560 /* PGSQL Login.nib in Resources */ = {isa = PBXBuildFile; fileRef = 43318B350BF1227A008C2560 /* PGSQL Login.nib */; };
 		4349A2B20C31D47100DACE65 /* PGSQLRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 439F7B630C189495001CA5A4 /* PGSQLRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -20,15 +19,16 @@
 		4349A2BC0C31D57800DACE65 /* PGSQLRecordset.m in Sources */ = {isa = PBXBuildFile; fileRef = 4325688E0C0D122F007E8DE8 /* PGSQLRecordset.m */; };
 		4349A2C90C31DD5700DACE65 /* PGSQLConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 43318B520BF16497008C2560 /* PGSQLConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4349A2CA0C31DD5800DACE65 /* PGSQLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 43318B530BF16497008C2560 /* PGSQLConnection.m */; };
-		436D7C35143BDE7A0060554C /* GenDBColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = 436D7C2F143BDE7A0060554C /* GenDBColumn.h */; };
-		436D7C36143BDE7A0060554C /* GenDBConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 436D7C30143BDE7A0060554C /* GenDBConnection.h */; };
-		436D7C38143BDE7A0060554C /* GenDBField.h in Headers */ = {isa = PBXBuildFile; fileRef = 436D7C32143BDE7A0060554C /* GenDBField.h */; };
-		436D7C39143BDE7A0060554C /* GenDBRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 436D7C33143BDE7A0060554C /* GenDBRecord.h */; };
-		436D7C3A143BDE7A0060554C /* GenDBRecordset.h in Headers */ = {isa = PBXBuildFile; fileRef = 436D7C34143BDE7A0060554C /* GenDBRecordset.h */; };
+		436D7C35143BDE7A0060554C /* GenDBColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = 436D7C2F143BDE7A0060554C /* GenDBColumn.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		436D7C36143BDE7A0060554C /* GenDBConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 436D7C30143BDE7A0060554C /* GenDBConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		436D7C38143BDE7A0060554C /* GenDBField.h in Headers */ = {isa = PBXBuildFile; fileRef = 436D7C32143BDE7A0060554C /* GenDBField.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		436D7C39143BDE7A0060554C /* GenDBRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 436D7C33143BDE7A0060554C /* GenDBRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		436D7C3A143BDE7A0060554C /* GenDBRecordset.h in Headers */ = {isa = PBXBuildFile; fileRef = 436D7C34143BDE7A0060554C /* GenDBRecordset.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		436D7C3C143BDEAB0060554C /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 436D7C3B143BDEAB0060554C /* README.txt */; };
 		436D7C3E143BDEC70060554C /* PGSQLKit.txt in Resources */ = {isa = PBXBuildFile; fileRef = 436D7C3D143BDEC70060554C /* PGSQLKit.txt */; };
 		436D7C40143BE0820060554C /* PGSQLConnection.txt in Resources */ = {isa = PBXBuildFile; fileRef = 436D7C3F143BE0820060554C /* PGSQLConnection.txt */; };
 		439774040C7D29140009F0B4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 439774030C7D29140009F0B4 /* Security.framework */; };
+		43B0EBED14B4F4C7000390E4 /* PGSQLKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* PGSQLKit.framework */; };
 		43F613330F9E5DC000F8273F /* PGSQLConnectionInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 43F613310F9E5DC000F8273F /* PGSQLConnectionInfo.h */; };
 		43F613340F9E5DC000F8273F /* PGSQLConnectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 43F613320F9E5DC000F8273F /* PGSQLConnectionInfo.m */; };
 		7B70BF90100D685D00046E2F /* PGSQLLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CBC57D0BF11AC300A5E5AF /* PGSQLLogin.m */; };
@@ -43,10 +43,10 @@
 		4324B36A0BF36104001F6E5E /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /Library/Frameworks;
+			dstPath = "~/Library/Frameworks";
 			dstSubfolderSpec = 0;
 			files = (
-				4324B38A0BF36227001F6E5E /* PGSQLKit.framework in CopyFiles */,
+				43B0EBED14B4F4C7000390E4 /* PGSQLKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,12 +248,12 @@
 				4349A2C90C31DD5700DACE65 /* PGSQLConnection.h in Headers */,
 				432A8C110C47074F00CA8F33 /* PGSQLKit.h in Headers */,
 				43F613330F9E5DC000F8273F /* PGSQLConnectionInfo.h in Headers */,
-				7B70BF91100D685E00046E2F /* PGSQLLogin.h in Headers */,
 				436D7C35143BDE7A0060554C /* GenDBColumn.h in Headers */,
 				436D7C36143BDE7A0060554C /* GenDBConnection.h in Headers */,
 				436D7C38143BDE7A0060554C /* GenDBField.h in Headers */,
 				436D7C39143BDE7A0060554C /* GenDBRecord.h in Headers */,
 				436D7C3A143BDE7A0060554C /* GenDBRecordset.h in Headers */,
+				7B70BF91100D685E00046E2F /* PGSQLLogin.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -286,7 +286,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0420;
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "PGSQLKit" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -374,7 +374,7 @@
 				);
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -413,7 +413,7 @@
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
 				);
 				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_ENABLE_OBJC_GC = unsupported;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -444,7 +444,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				GCC_VERSION = 4.0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
@@ -456,7 +456,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				GCC_VERSION = 4.0;
+				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;

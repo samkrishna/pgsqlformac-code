@@ -61,6 +61,7 @@
  */
 @interface PGSQLField : NSObject <GenDBField> {
 	NSData *data;
+    BOOL    isNull;
 	
 	PGSQLColumn *column;
 	

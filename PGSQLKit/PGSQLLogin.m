@@ -435,7 +435,6 @@
 	{
 		[windowDelegate loginCompleted:resultConnection];
 	}
-	
 }
 
 - (IBAction)onLogin:(id)sender
@@ -463,7 +462,6 @@
 			}
 		}
 	}
-	
 
 	// attempt the connection.
 	[resultConnection connectAsync];
@@ -638,7 +636,7 @@
 													   &list, &search);
 		if (status != noErr)
 		{
-			NSLog(@"Error reading the keychain: %d", status); 
+			NSLog(@"Error reading the keychain: %d", (int)status); 
 		}
 		
 		[rememberConnection setState:NSOffState];

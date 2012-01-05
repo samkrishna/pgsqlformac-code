@@ -30,9 +30,12 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 # Change Log
 
+## 10/12/2011
+* updated to 9.1.1 libpq code
+* released as part of Universal Installer.
+
 ## 10/04/2011
 * began GenDB implementation and migration for enQuery
-* 
 
 ## 09/21/2010
 * added -clone() method to PGSQLConnection for a quick and easy create of a 
