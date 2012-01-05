@@ -131,7 +131,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 														object:nil
 													  userInfo:info];
 
-	[pool release];
+	[pool drain];
 }
 
 
@@ -247,7 +247,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	[[NSNotificationCenter defaultCenter] postNotificationName:GenDBCommandDidCompleteNotification
 														object:nil
 													  userInfo:info];
-	[pool release];
+	[pool drain];
 }
 
 - (BOOL)execCommand:(NSString *)sql
@@ -322,7 +322,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 														object:nil
 													  userInfo:info];
 
-	[pool release];
+	[pool drain];
 }
 
 - (PGSQLRecordset *)open:(NSString *)sql
@@ -471,7 +471,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	result = PQescapeByteaConn ((PGconn *)pgconn, (const unsigned char *)[toEncode bytes],
 								 [toEncode length], &resultLength);
 	
-	NSString *encodedString = [[[NSString alloc] initWithCString:(const char *)result] autorelease];
+	NSString *encodedString = [[[NSString alloc] initWithFormat:@"%s",(const char *)result] autorelease];
 	
 	PQfreemem(result);
 	
@@ -495,7 +495,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 
 -(NSString *)sqlEncodeString:(NSString *)toEncode
 {
-	size_t result;
+	//size_t result;
 	int	error;
 	char *sqlEncodeCharArray = malloc(1 + ([toEncode length] * 2)); // per the libpq doc.
 	const char *sqlCharArrayToEncode = [toEncode cStringUsingEncoding:defaultEncoding];
@@ -505,7 +505,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 								 (const char *)[toEncode cStringUsingEncoding:defaultEncoding], 
 								 length, &error);
 	
-	NSString *encodedString = [[[NSString alloc] initWithCString:sqlEncodeCharArray] autorelease];
+	NSString *encodedString = [[[NSString alloc] initWithFormat:@"%s",sqlEncodeCharArray] autorelease];
 	free(sqlEncodeCharArray);
 	
 	return encodedString;	

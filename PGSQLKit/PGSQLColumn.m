@@ -16,7 +16,7 @@
     self = [super init];
 	
 	index = columnIndex;
-	name = [[NSString alloc] initWithCString:PQfname(result, columnIndex)];
+	name = [[NSString alloc] initWithFormat:@"%s",PQfname(result, columnIndex)];
 	type = PQftype(result, columnIndex);
 	size = PQfsize(result, columnIndex);
 	offset = PQfmod(result, columnIndex);

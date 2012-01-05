@@ -263,7 +263,7 @@
             default:
                 break;
         }
-        
+        [dateFormatter autorelease];
         return [dateFormatter dateFromString:value];
 	}
 	return nil; 	

@@ -160,7 +160,7 @@
 										&searchList, &search);
 	if (status != noErr)
 	{
-		NSLog(@"Error reading the keychain: %d", status); 
+		NSLog(@"Error reading the keychain: %d", (int)status); 
 	}
 
 
@@ -370,7 +370,7 @@
 												   &list, &search);
 	if (status != noErr)
 	{
-		NSLog(@"Error reading the keychain: %d", status); 
+		NSLog(@"Error reading the keychain: %d", (int)status); 
 	}
 				
 	while (SecKeychainSearchCopyNext(search, &item) == noErr)
