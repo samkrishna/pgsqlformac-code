@@ -264,8 +264,7 @@
                 break;
         }
         
-        NSDate *newDate = [dateFormatter dateFromString:value];
-        return newDate;
+        return [dateFormatter dateFromString:value];
 	}
 	return nil; 	
 }

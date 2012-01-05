@@ -501,7 +501,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	const char *sqlCharArrayToEncode = [toEncode cStringUsingEncoding:defaultEncoding];
 	size_t length = strlen(sqlCharArrayToEncode);
 	
-	result = PQescapeStringConn ((PGconn *)pgconn, sqlEncodeCharArray,
+	PQescapeStringConn ((PGconn *)pgconn, sqlEncodeCharArray,
 								 (const char *)[toEncode cStringUsingEncoding:defaultEncoding], 
 								 length, &error);
 	

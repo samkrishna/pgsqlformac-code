@@ -13,7 +13,7 @@
 
 -(id)initWithResult:(void *)result atIndex:(int)columnIndex
 {	
-    [super init];
+    self = [super init];
 	
 	index = columnIndex;
 	name = [[NSString alloc] initWithCString:PQfname(result, columnIndex)];

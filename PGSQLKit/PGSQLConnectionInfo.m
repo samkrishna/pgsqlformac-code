@@ -12,7 +12,7 @@
 
 -(id)initWithConnection:(PGSQLConnection *)connection
 {
-	[super init];
+	self = [super init];
 	
 	pgConnection = connection;
 	[pgConnection retain];

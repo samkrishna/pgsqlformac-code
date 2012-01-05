@@ -42,7 +42,7 @@
 
 -(id)initWithResult:(void *)result atRow:(long)atRow columns:(NSArray *)columncache
 {
-	[super init];
+	self = [super init];
 
 	pgResult = result;
 	columns = columncache;
