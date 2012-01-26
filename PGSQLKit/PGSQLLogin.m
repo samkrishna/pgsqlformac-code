@@ -164,7 +164,7 @@
 	}
 
 
-	int i = 0;
+	int myCount = 0;
 	while (SecKeychainSearchCopyNext(search, &item) == noErr)
 	{
 		SecKeychainAttribute attributes[12];
@@ -241,11 +241,11 @@
 		
 		free(password);
 		CFRelease(item);
-		i++;
+		myCount++;
 	}
 	CFRelease(search);
 	
-	return (i > 0);
+	return (myCount > 0);
 }
 
 - (BOOL)createKeychainItem
