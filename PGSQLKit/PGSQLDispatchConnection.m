@@ -51,7 +51,8 @@
 }
 
 
-- (void)dealloc {
+- (void)dealloc
+{
     dispatch_release(connectionQueue);
     [super dealloc];
 }

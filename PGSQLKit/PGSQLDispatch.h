@@ -48,10 +48,14 @@
 
 #import <Foundation/Foundation.h>
 
+@class PGSQLRecordset;
+
 @interface PGSQLDispatch : NSObject
 {
     // Dispatcher configuration settings
-    NSUInteger maxNumberConnections;            // The maximum number of connections PGSQLDispatch will open.
+    NSUInteger maxNumberConnections;            // The maximum number of connections PGSQLDispatch can open.
+                                                //      Can be changed on the fly (anytime).
+                                                //      Defaults to 4 connections.
     
     // Dispatcher Processing
     NSMutableArray *sqlConnections;             // Array of (PGSQLDispatchConnection *).
@@ -62,11 +66,23 @@
 }
 
 // Before PGSQLDispatch can be accessed globalPGSQLConnection must be valid and connected.
+// PGSQLDispatch can be alloc init'ed in the standard fashion to create multiple dispatchers or
+// one may use sharedPGSQLDispatch to keep one global dispatch.
 + (PGSQLDispatch *)sharedPGSQLDispatch;
+
 
 // returns error number, callbacks always happen on the main thread
 // The callback method must conform to -(void)resultsToSelector:(PGSQLRecordSet *)recordSet
-- (NSInteger)resultsFromSQL:(NSString *)sql toObject:(id)resultsToObject usingSelector:(SEL)resultsToSelector;
+// ARC will presents some problems with this.
+- (NSInteger)processResultsFromSQL:(NSString *)sql withObject:(id)resultsToObject usingSelector:(SEL)resultsToSelector;
+
+
+// Alternative block based API for dispatching SQL.
+// Will work better with ARC.
+// Example usage:
+// void (^processSQLCallbackBlock)(PGSQLRecordset *) = ^(PGSQLRecordset *recordset){[self processRecordset:recordset];};
+// [[PGSQLDispatch sharedPGSQLDispatch] resultsFromSQL:@"SELECT * from someTable;" usingCallbackBlock:processSQLCallbackBlock];
+- (NSInteger)processResultsFromSQL:(NSString *)sql usingCallbackBlock:(void (^)(PGSQLRecordset *))callbackBlock;
 
 @property (assign) NSUInteger maxNumberConnections;
 
