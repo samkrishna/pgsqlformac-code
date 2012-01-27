@@ -6,6 +6,10 @@
 //  Copyright (c) 2012 Performance Champions, Inc. All rights reserved.
 //
 
+// Values for __MAC_10_6 and __IPHONE_4_0 are used in case this code is compiled on systems
+// where they are not defined and therfor will be evaluated as zero.
+#if (MAC_OS_X_VERSION_MIN_REQUIRED >= 1060) || (__IPHONE_OS_VERSION_MIN_REQUIRED >= 40000)
+
 #import "libpq-fe.h"
 
 #import "PGSQLDispatch.h"
@@ -17,9 +21,8 @@
 @interface PGSQLDispatch ()
 
 @property (nonatomic, retain) NSMutableArray *sqlConnections;
-@property (nonatomic, retain) NSMutableArray *sqlConnectionsStatistics;
 
-- (BOOL)addAConnectionToDispatcher;
+- (BOOL)addAConnectionToDispatcher:(PGSQLConnection *)connToClone;
 
 @end
 
@@ -29,8 +32,6 @@
 #pragma mark Property Accessors
 
 @synthesize sqlConnections;
-@synthesize sqlConnectionsStatistics;
-
 @synthesize maxNumberConnections;
 
 -(void)setMaxNumberConnections:(NSUInteger)max
@@ -42,33 +43,18 @@
 }
 
 #pragma mark -
-#pragma mark Singleton Methods
-
-+ (PGSQLDispatch *)sharedPGSQLDispatch
-{
-    static dispatch_once_t pred = 0;
-    static PGSQLDispatch * _sharedPGSQLDispatch = nil;
-    
-    dispatch_once(&pred, ^{
-        _sharedPGSQLDispatch = [[self alloc] init];
-    });
-    return _sharedPGSQLDispatch;
-}
-
-
-#pragma mark -
 #pragma mark Dispatch Methods
 
 - (NSInteger)findNextIndexToDispatch
 {    
     NSAssert(self.sqlConnections != nil, @"self.sqlConnections == nil");
-    NSAssert(self.sqlConnectionsStatistics != nil, @"self.sqlConnectionsStatistics == nil");
 
     NSUInteger indexOfNextDispatch = 0;
     // Find the first non-busy connections and use it.
     for (indexOfNextDispatch = 0; indexOfNextDispatch < [sqlConnections count]; indexOfNextDispatch++)
     {
-        if ([[sqlConnectionsStatistics objectAtIndex:indexOfNextDispatch] intValue] == 0)
+        PGSQLDispatchConnection *aConn = [sqlConnections objectAtIndex:indexOfNextDispatch];
+        if ([[aConn queueWaitingCount] intValue] == 0)
         {
             //then use this one
             break;
@@ -79,7 +65,16 @@
     if (indexOfNextDispatch == [sqlConnections count])
     {
         // Did not find non-busy connection so try to add a connection
-        if ([self addAConnectionToDispatcher])
+        PGSQLConnection *connectionToClone = nil;
+        if ([sqlConnections count] > 0)
+        {
+            connectionToClone = [sqlConnections objectAtIndex:0];
+        }
+        else
+        {
+            connectionToClone = [PGSQLConnection defaultConnection];
+        }
+        if ([self addAConnectionToDispatcher:connectionToClone])
         {
             // Successful add. Remember init adds the first connection so no need to check for underflow.
             // Set dispatcher to use the new connection.
@@ -96,65 +91,9 @@
     return indexOfNextDispatch;
 }
 
-- (void)addConnectionStatistics:(NSInteger)index
-{
-    NSAssert(self.sqlConnectionsStatistics != nil, @"self.sqlConnectionsStatistics == nil");
-    // This is where we start statistics tracking
-
-    // Increment connection busy counter
-    [sqlConnectionsStatistics replaceObjectAtIndex:index withObject:
-     [NSNumber numberWithInt:[[sqlConnectionsStatistics objectAtIndex:index] intValue] + 1]];
-    
-}
-
-- (void)removeConnectionStatistics:(NSInteger)index
-{
-    NSAssert(self.sqlConnectionsStatistics != nil, @"self.sqlConnectionsStatistics == nil");
-    // This is where we end statistics tracking.
-
-    // Decrement connection busy counter when done.
-    [sqlConnectionsStatistics replaceObjectAtIndex:index withObject:
-     [NSNumber numberWithInt:[[sqlConnectionsStatistics objectAtIndex:index] intValue] - 1]];
-}
-
-- (NSInteger)processResultsFromSQL:(NSString *)sql withObject:(id)resultsToObject usingSelector:(SEL)resultsToSelector
-{
-    NSAssert(self.sqlConnections != nil, @"self.sqlConnections == nil");
-    NSAssert(self.sqlConnectionsStatistics != nil, @"self.sqlConnectionsStatistics == nil");
-
-    // cant process unless we have at least 1 connection.
-    if ([sqlConnections count] < 1)
-    {
-        return 1;
-    }
-    else
-    {
-        NSUInteger indexOfNextDispatch = [self findNextIndexToDispatch];
-        
-        // Now we know which connection to use so dispatch SQL.
-        PGSQLDispatchConnection *aConnection = [sqlConnections objectAtIndex:indexOfNextDispatch];
-        dispatch_queue_t connectionQueue = aConnection.connectionQueue;
-        
-        [self addConnectionStatistics:indexOfNextDispatch];
-        
-        // Actual dispatch
-        dispatch_async(connectionQueue, ^{
-            PGSQLRecordset *resultsRecordSet = [aConnection open:sql];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [resultsToObject performSelector:resultsToSelector withObject:resultsRecordSet];
-                
-                [self removeConnectionStatistics:indexOfNextDispatch];
-            });
-        });
-        indexOfLastDispatch = indexOfNextDispatch;
-    }
-    return 0;
-}
-
 - (NSInteger)processResultsFromSQL:(NSString *)sql usingCallbackBlock:(void (^)(PGSQLRecordset *))callbackBlock
 {
     NSAssert(self.sqlConnections != nil, @"self.sqlConnections == nil");
-    NSAssert(self.sqlConnectionsStatistics != nil, @"self.sqlConnectionsStatistics == nil");
     
     // cant process unless we have at least 1 connection.
     if ([sqlConnections count] < 1)
@@ -169,47 +108,63 @@
         PGSQLDispatchConnection *aConnection = [sqlConnections objectAtIndex:indexOfNextDispatch];
         dispatch_queue_t connectionQueue = aConnection.connectionQueue;
         
-        [self addConnectionStatistics:indexOfNextDispatch];
+        [aConnection incConnectionStatistics];
         
+        // ***************
         // Actual dispatch
+        // ***************
         dispatch_async(connectionQueue, ^{
-            PGSQLRecordset *resultsRecordSet = [aConnection open:sql];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                callbackBlock(resultsRecordSet);
-                [self removeConnectionStatistics:indexOfNextDispatch];
-            });
+            BOOL connectionCheck = [aConnection checkAndRecoverConnection];
+            if (connectionCheck == CONNECTION_BAD)
+            {
+                // Don't even try.
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    callbackBlock(nil);
+                    [aConnection decConnectionStatistics];
+                });
+            }
+            else
+            {
+                PGSQLRecordset *resultsRecordSet = [aConnection open:sql];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    callbackBlock(resultsRecordSet);
+                    [aConnection decConnectionStatistics];
+                });
+            }
         });
         indexOfLastDispatch = indexOfNextDispatch;
     }
     return 0;
 }
 
-- (BOOL)addAConnectionToDispatcher
+- (BOOL)addAConnectionToDispatcher:(PGSQLConnection *)connToClone;
 {
     NSAssert(self.sqlConnections != nil, @"self.sqlConnections == nil");
-    NSAssert(self.sqlConnectionsStatistics != nil, @"self.sqlConnectionsStatistics == nil");
     
     if ([sqlConnections count] < self.maxNumberConnections)
     {
-        NSString *qName = [NSString stringWithFormat:@"PGSQLKit.dispatchQueue%d", (int)[sqlConnections count] + 1];
-        PGSQLDispatchConnection *aConnection = [[PGSQLDispatchConnection alloc] initWithQueueName:qName];
-        [sqlConnections addObject:aConnection];
-        [sqlConnectionsStatistics addObject:[NSNumber numberWithInt:0]];
-        [aConnection release];
-        return YES;
+        if (connToClone != nil)
+        {
+            NSString *qName = [NSString stringWithFormat:@"PGSQLKit.dispatchQueue%d", (int)[sqlConnections count] + 1];
+            PGSQLDispatchConnection *aConnection = [[PGSQLDispatchConnection alloc] initWithQueueName:qName connection:connToClone];
+            [sqlConnections addObject:aConnection];
+            [aConnection release];
+            return YES;
+        }
     }
     else if ([sqlConnections count] > self.maxNumberConnections)
     {
         // Need to remove connection
 #warning Need to complete code to remove connection.
     }
+        
     return NO; 
 }
 
 #pragma mark -
 #pragma mark Lifecycle Methods
 
-- (id)init
+- (id)initWithConnection:(PGSQLConnection *)conn
 {
     self = [super init];
     if (self)
@@ -217,26 +172,23 @@
         if (PQisthreadsafe() == 1)
         {
             // libpq appears to be thread safe.
-            PGSQLConnection *defaultConnection = [PGSQLConnection defaultConnection];
-            if (([PGSQLConnection defaultConnection] != nil) && (defaultConnection.isConnected == YES))
+            self.sqlConnections = [[[NSMutableArray alloc] init] autorelease];
+            NSUInteger processorCount = [[NSProcessInfo processInfo] processorCount];
+            maxNumberConnections = processorCount < 2 ? 1 : processorCount - 1;
+            indexOfLastDispatch = NSUIntegerMax;  // this is set high to force a reset to zero for the first dispatch.
+            if (conn != nil)
             {
-                self.sqlConnections = [[[NSMutableArray alloc] init] autorelease];
-                self.sqlConnectionsStatistics = [[[NSMutableArray alloc] init] autorelease];
-                maxNumberConnections = 4;
-                indexOfLastDispatch = NSUIntegerMax;  // this is set high to force a reset to zero for the first dispatch.
-                if ([self addAConnectionToDispatcher])
+                if (![self addAConnectionToDispatcher:conn])
                 {
-                    // All conditions have been met for initialization.
-                    return self;   
+                    NSLog(@"%@ %s - Warning, not able to add first connection.", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
                 }
-                [sqlConnections release];
-                sqlConnections = nil;
-                NSLog(@"%@ %s - Error, not able to open first connection.", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
             }
             else
             {
-                NSLog(@"%@ %s - Error, a default connection has not been established.", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
+                NSLog(@"%@ %s - Warning, a default connection has not been established.", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
             }
+            // All OK.
+            return self;
         }
         else
         {
@@ -250,11 +202,28 @@
     return self;
 }
 
++ (PGSQLDispatch *)sharedPGSQLDispatch
+{
+    static dispatch_once_t pred = 0;
+    static PGSQLDispatch * _sharedPGSQLDispatch = nil;
+    
+    dispatch_once(&pred, ^{
+        _sharedPGSQLDispatch = [[self alloc] initWithConnection:[PGSQLConnection defaultConnection]];
+    });
+    return _sharedPGSQLDispatch;
+}
+
+- (id)init
+{
+    return [self initWithConnection:[PGSQLConnection defaultConnection]];
+}
+
+
 - (void)dealloc
 {
     self.sqlConnections = nil;
-    self.sqlConnectionsStatistics = nil;
     [super dealloc];
 }
 
 @end
+#endif

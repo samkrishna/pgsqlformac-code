@@ -65,9 +65,7 @@
 				of the results, it is possible that memory could become a 
 				concern if mulitple result sets are open as the same time.
  */
-@interface PGSQLConnection : NSObject {	
-	BOOL isConnected;
-	
+@interface PGSQLConnection : NSObject {		
 	NSString *connectionString;
 	
 	NSString *errorDescription;
@@ -94,6 +92,7 @@
 	NSString		*krbsrvName;
 		
 	NSString		*commandStatus;
+    NSDate          *startTimeStamp;    // Start timestamp if SQL is running or results being processed, nil otherwise.
 }
 
 /*!
@@ -174,7 +173,7 @@
 #pragma mark -
 #pragma mark Simple Accessors
 
--(BOOL)isConnected;
+-(BOOL)isConnected;    // This is a fairly static result and may not represent the state of the current connection if network errors have occured.
 
 -(NSString *)connectionString;
 -(void)setConnectionString:(NSString *)value;
@@ -198,6 +197,14 @@
 
 -(NSMutableString *)sqlLog;
 -(void)appendSQLLog:(NSString *)value;
+
+@property (readonly, retain) NSString *errorDescription;
+@property (readonly, retain) NSDate *startTimeStamp;
+@property BOOL logInfo;
+@property BOOL logSQL;
+
+// attempt to recover connection
+- (BOOL)checkAndRecoverConnection;
 
 /*!
     @function
@@ -257,6 +264,3 @@ FOUNDATION_EXPORT NSString * const PGSQLCommandDidCompleteNotification;
 
 
 @end
-
-static PGSQLConnection *globalPGSQLConnection;
-#pragma unused(globalPGSQLConnection)

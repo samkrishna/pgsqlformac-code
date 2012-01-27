@@ -22,7 +22,21 @@ handle_pq_notice(void *arg, const char *message)
 	[theConn  appendSQLLog:[NSString stringWithFormat: @"%s\n", message]];
 }
 
+static PGSQLConnection *globalPGSQLConnection;
+
+@interface PGSQLConnection ()
+
+@property (readwrite, retain) NSDate *startTimeStamp;
+@property (readwrite, retain) NSString *errorDescription;
+
+@end
+
 @implementation PGSQLConnection
+
+@synthesize errorDescription;
+@synthesize startTimeStamp;
+@synthesize logInfo;
+@synthesize logSQL;
 
 NSString *const GenDBConnectionDidCompleteNotification = @"GenDBConnectionDidCompleteNotification";
 NSString *const GenDBCommandDidCompleteNotification = @"GenDBCommandDidCompleteNotification";
@@ -49,8 +63,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
     self = [super init];
 	
 	if (self != nil) {
-		isConnected	= NO;
-		errorDescription = nil;
+		self.errorDescription = nil;
 		sqlLog = [[NSMutableString alloc] init];		
 		
 		// this will default to NSUTF8StringEncoding with PG9
@@ -96,7 +109,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	[service release];
 	[krbsrvName release];
 	[connectionString release];
-	[errorDescription release];
+	self.errorDescription = nil;
 	[commandStatus release];
 	[sqlLog release];
 	
@@ -156,18 +169,16 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	
 	if (PQstatus(pgconn) == CONNECTION_BAD) 
 	{
-		errorDescription = [NSString stringWithFormat:@"%s", PQerrorMessage(pgconn)];
-		[errorDescription retain];
+		self.errorDescription = [[NSString stringWithFormat:@"%s", PQerrorMessage(pgconn)] autorelease];
 
 		NSLog(@"Connection to database '%@' failed.", dbName);
-		NSLog(@"\t%@", errorDescription);
+		NSLog(@"\t%@", self.errorDescription);
 		[self appendSQLLog:[NSString stringWithFormat:@"Connection to database %@ Failed.\n", dbName]]; 
 		[self appendSQLLog:[NSString stringWithFormat:@"Connection string: %@\n\n", connectionString]]; 
 		// append error too??
 
 		PQfinish(pgconn);
 		pgconn = nil;
-		isConnected = NO;
 		return NO;
     }
 	
@@ -176,12 +187,9 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	
 	// TODO password should be asked for in dialog used and then erased?
 	
-	if (errorDescription)
-	{
-		[errorDescription release];
-		errorDescription = nil;
-	}
-	// set up notification
+    self.errorDescription = nil;
+	
+    // set up notification
 	PQsetNoticeProcessor(pgconn, handle_pq_notice, self);
 	
 	if (sqlLog != nil) {
@@ -189,19 +197,17 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	}
 	sqlLog = [[NSMutableString alloc] init];
 	[self appendSQLLog:[NSString stringWithFormat:@"Connected to database %@.\n", dbName]];
-	isConnected = YES;
 	return YES;
 }
 
 - (BOOL)close
 {
 	if (pgconn == nil) { return NO; }
-	if (isConnected == NO) { return NO; }
+	if ([self isConnected] == NO) { return NO; }
 	
 	[self appendSQLLog:[NSString stringWithString:@"Disconnected from database.\n"]];
 	PQfinish(pgconn);
 	pgconn = nil;
-	isConnected = NO;
 	return YES;
 }
 
@@ -214,7 +220,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	[newConnection setPassword:password];
 	[newConnection setDatabaseName:dbName];
 		
-	if (isConnected)
+	if ([self isConnected])
 	{
 		[newConnection connect];
 	}
@@ -254,32 +260,32 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 {
 	PGresult* res;
 	
-	if(errorDescription) {
-		[errorDescription release];
-		errorDescription = nil;	
-	}
+	self.errorDescription = nil;	
+
 	if(commandStatus) {
 		[commandStatus release];
 		commandStatus = nil;	
 	}
 	if (pgconn == nil) 
 	{ 
-		errorDescription = [NSString stringWithString:@"Object is not Connected."];		
-		[errorDescription retain];
+		self.errorDescription = [[NSString stringWithString:@"Object is not Connected."] autorelease];		
 		return NO; 
 	}
-	
-	res = PQexec(pgconn, [sql cStringUsingEncoding:defaultEncoding]);
+	const char *cString = [sql cStringUsingEncoding:defaultEncoding];
+	if (cString == NULL) 
+	{ 
+		self.errorDescription = [[NSString stringWithString:@"ERROR: command could not be losslessly converted to c string."] autorelease];
+        return NO;
+    }    
+	res = PQexec(pgconn, cString);
 	if (res == nil) 
 	{ 
-		errorDescription = [NSString stringWithString:@"ERROR: No response (PGRES_FATAL_ERROR)"];		
-		[errorDescription retain];
+		self.errorDescription = [[NSString stringWithString:@"ERROR: No response (PGRES_FATAL_ERROR)"] autorelease];		
 		return NO; 
 	}
 	if (PQresultStatus(res) != PGRES_COMMAND_OK) 
 	{
-		errorDescription = [NSString stringWithFormat:@"%s", PQerrorMessage(pgconn)];
-		[errorDescription retain];
+		self.errorDescription = [[NSString stringWithFormat:@"%s", PQerrorMessage(pgconn)] autorelease];
 
 		PQclear(res);
 		return NO;
@@ -327,19 +333,14 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 
 - (PGSQLRecordset *)open:(NSString *)sql
 {
-	struct timeval start, finished;
-	double elapsed_time;
-	long seconds, usecs;
+	double elapsed_time_in_ms;
 	PGresult* res;
 	
-	[errorDescription release];
-	errorDescription = nil;
+	self.errorDescription = nil;
 	
-	if (pgconn == nil) 
-	{ 
-		errorDescription = @"Object is not Connected.";	
-		[self appendSQLLog:@"Object is not Connected.\n"];
-		return nil; 
+	if ([self checkAndRecoverConnection] == NO) 
+	{
+		return nil; // Note: Errors are logged by checkAndRecoverConnection
 	}
 	
 	if (logSQL)
@@ -347,20 +348,21 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 		[self appendSQLLog: [NSString stringWithFormat:@"%@\n", [sql stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]];
 	}
 	
-	gettimeofday(&start, 0);
-	res = PQexec(pgconn, [sql cStringUsingEncoding:NSUTF8StringEncoding]);
+	self.startTimeStamp = [NSDate date];    // this might be used by PGSQLDispatch so it should always be set.
+                                            // be sure to reset to nil when done.
+    const char *cString = [sql cStringUsingEncoding:defaultEncoding];
+    if (cString == NULL)
+    {
+		self.errorDescription = [[NSString stringWithString:@"ERROR: command could not be losslessly converted to c string."] autorelease];
+        [self appendSQLLog:[NSString stringWithFormat:@"%@\n", self.errorDescription]];
+        return nil;
+    }
+	res = PQexec(pgconn, cString);
 	if (logInfo)
 	{
-		gettimeofday(&finished, 0);
-		seconds = finished.tv_sec - start.tv_sec;
-		usecs = finished.tv_usec - start.tv_usec;
-		if (usecs < 0)
-		{
-			seconds--;
-			usecs = usecs + 1000000;
-		}
-		elapsed_time = (double) seconds *1000.0 + (double) usecs *0.001;
-		[self appendSQLLog: [NSString stringWithFormat: @"Completed in %d milliseconds.\n", (long) elapsed_time]];
+        //  If the receiver is earlier than the current date and time, the return value is negative.
+		elapsed_time_in_ms = -1000.0 * [self.startTimeStamp timeIntervalSinceNow];
+		[self appendSQLLog: [NSString stringWithFormat: @"Completed in %.2f milliseconds.\n", elapsed_time_in_ms]];
 	}
 	switch (PQresultStatus(res))
 	{
@@ -376,6 +378,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 				[self appendSQLLog:[NSString stringWithFormat: @"%d rows affected.\n\n", nRecords]];
 			}
 						
+            self.startTimeStamp = nil;
 			return rs;
 			break;
 		}
@@ -387,6 +390,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 				[self appendSQLLog:@"Query ran successfully.\n"];
 			}
 			PQclear(res);
+            self.startTimeStamp = nil;
 			return nil;
 			break;
 		}
@@ -395,6 +399,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 		{
 			[self appendSQLLog:@"Postgres reported Empty Query\n"];
 			PQclear(res);
+            self.startTimeStamp = nil;
 			return nil;
 			break;
 		}
@@ -406,10 +411,10 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 		case PGRES_FATAL_ERROR:
 		default:
 		{
-			errorDescription = [NSString stringWithFormat:@"PostgreSQL Error: %s", PQresultErrorMessage(res)];
-			[errorDescription retain];
-			[self appendSQLLog:[NSString stringWithFormat:@"%@\n", errorDescription]];
+			self.errorDescription = [[NSString stringWithFormat:@"PostgreSQL Error: %s", PQresultErrorMessage(res)] autorelease];
+			[self appendSQLLog:[NSString stringWithFormat:@"%@\n", self.errorDescription]];
 			PQclear(res);
+            self.startTimeStamp = nil;
 			return nil;
 		}
 	}
@@ -523,6 +528,76 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	}
 }
 
+#pragma mark -
+#pragma mark Check & Connection Recovery Methods
+
+- (BOOL)isConnected
+{
+    if (pgconn == nil)
+    {
+        return NO;
+    }
+    ConnStatusType currentConnStatus = PQstatus(pgconn);
+	return (currentConnStatus == CONNECTION_OK);
+}
+
+- (BOOL)checkAndRecoverConnection
+{
+    if (pgconn != nil)
+    {
+        ConnStatusType currentConnStatus = PQstatus(pgconn);
+        // This code only works for synchronious operation otherwise other status may be retreived.
+        if (currentConnStatus != CONNECTION_OK)
+        {
+            NSUInteger loopCount = 0;
+            while (currentConnStatus == CONNECTION_BAD)
+            {
+                PQreset(pgconn);
+                currentConnStatus = PQstatus(pgconn);
+                if (loopCount >= 5)
+                {
+                    break;
+                }
+                loopCount++;
+            }
+            if (currentConnStatus == CONNECTION_BAD)
+            {
+                self.errorDescription = [[NSString stringWithFormat:@"Not able to reestablish connection to database '%@' on server '%@'.", dbName, self.server] autorelease];
+                NSLog(@"%@", errorDescription);
+                [self appendSQLLog:[NSString stringWithFormat:@"%@\n", self.errorDescription]];
+                PGPing pingResult = PQping(pgconn);
+                switch (pingResult)
+                {
+                    case PQPING_OK:
+                        NSLog(@"The server '%@' is running and appears to be accepting connections.", self.server);
+                        [self appendSQLLog:[NSString stringWithFormat:@"The server '%@' is running and appears to be accepting connections.\n", self.server]];
+                        break;
+                    case PQPING_REJECT:
+                        NSLog(@"The server '%@' is running but is in a state that disallows connections (startup, shutdown, or crash recovery).", self.server);
+                        [self appendSQLLog:[NSString stringWithFormat:@"The server '%@' is running but is in a state that disallows connections (startup, shutdown, or crash recovery).\n", self.server]];
+                        break;
+                    case PQPING_NO_RESPONSE:
+                        NSLog(@"The server '%@' could not be contacted. This might indicate that the server is not running, or that there is something wrong with the given "
+                              @"connection parameters (for example, wrong port number), or that there is a network connectivity problem (for example, a firewall blocking the connection request).", self.server);
+                        [self appendSQLLog:[NSString stringWithFormat:@"The server '%@' could not be contacted. This might indicate that the server is not running, or that there is something wrong with the given "
+                                            @"connection parameters (for example, wrong port number), or that there is a network connectivity problem (for example, a firewall blocking the connection request).\n", self.server]];
+                        break;
+                    case PQPING_NO_ATTEMPT:
+                        NSLog(@"No attempt was made to contact the server '%@', because the supplied parameters were obviously incorrect or there was some client-side problem (for example, out of memory).", self.server);
+                        [self appendSQLLog:[NSString stringWithFormat:@"No attempt was made to contact the server '%@', because the supplied parameters were obviously incorrect or there was some client-side problem (for example, out of memory).\n", self.server]];
+                        break;
+                    default:
+                        NSLog(@"Undefined PQping() result.");
+                        break;
+                }
+            }
+        }
+        return (currentConnStatus == CONNECTION_OK);
+    }
+    return NO;
+}
+
+#pragma mark -
 #pragma mark Dictionary Tools
 
 - (BOOL)insertIntoTable:(NSString *)table fromDictionary:(NSDictionary *)dict
@@ -535,11 +610,9 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	return NO;
 }
 
+#pragma mark -
 #pragma mark Property Accessors
 
-- (BOOL)isConnected {
-	return isConnected;
-}
 
 - (NSString *)connectionString {
     return [[connectionString retain] autorelease];

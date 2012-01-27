@@ -1,11 +1,20 @@
 The following developer notes are related to adding multi-threaded queued GCD based SQL dispatching to PGSQLKit.
 
-2012_01_07 - From Neil.  Proposed changes to PGSQLConnection.
-    1. Propose changing the time interval tracking variables in - (PGSQLRecordset *)open:(NSString *)sql to NSDate objects.
-    2. Propose adding @property(readonly) NSDate *startTimeStamp to PGSQLConnection. This way PGSQLDispatch can see if
-        the currently executing SQL is long running or stalled and not dispatch to that connection.
-    3. 
-    
+Changes for next commit
+=======================
+
+TODO
+====
+- Move to ARC?  (need to talk with Dru)
+- Add check for shadow variables to project. (requested 12/26/2012)
+
+SPECS
+=====
+Must work with iOS 4.0+
+Must work with OS X 10.5.8+ (32 and 64 bit).
+
+NOTES
+=====
 2012_01_06 - From Dru.  As for the code, I generally feel that at this point PGSQLConnection, and PGSQLLogin are stable / release level code, meaning there are no outstanding known issues, though I do need to write full test cases for them.  Just a step below them are PGSQLRecord and PGSQLColumn.  PGSQLRecordset is close, though dictinonaryFromRecord needs more work. Today it works, but does everything to strings, and no translation to native datatypes.  PGSQLField is the only bit of code that I still categorize as alpha/beta level code, and most of that stems from my distrust of the -asDate() implementation, which I am working pretty seriously right now.  The underlying NSData is fine, and returning it as a string is fine, but if you request an NSDate *, the results are not what I want to see yet, largely because NSDate does not parse PG Date strings correctly.  You see a good bit of that tweaking already going on. 
 
 2012_01_06 - From Dru.  There is another potential gotcha to keep in mind.   The PGSQLKit as it stands is also usable in iOS 4+, though not as a framework, but as a set of included files.  We would need to be careful that any additions retain that compatibility as I know of a couple of big corporations using it that way.

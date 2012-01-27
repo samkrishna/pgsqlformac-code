@@ -99,7 +99,7 @@
 -(NSArray *)columns;
 
 - (NSUInteger)rowCount;
-- (long)recordCount;
+- (long)recordCount;        // alias for rowCount;
 
 -(PGSQLRecord *)moveFirst;
 -(PGSQLRecord *)movePrevious;
@@ -121,6 +121,7 @@
 				http://developer.apple.com/mac/library/documentation/Cocoa/Reference/Foundation/Classes/NSString_Class/Reference/NSString.html#//apple_ref/doc/c_ref/NSStringEncoding )
  */
 -(NSStringEncoding)defaultEncoding;
+
 /*!
 	@function
 	@abstract   Set the defaultEncoding for all string operations on the current
