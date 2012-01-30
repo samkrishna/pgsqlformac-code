@@ -1,25 +1,23 @@
 //
-//  PGSQLKitUnitTest.m
-//  PGSQLKitUnitTest
+//  AppDelegate.m
+//  PGSQLDispatchTesting
 //
-//  Created by Neil Tiffin on 1/26/12.
+//  Created by Neil Tiffin on 1/29/12.
 //  Copyright (c) 2012 Performance Champions, Inc. All rights reserved.
 //
 
-// Requires a database named: PGSQLKit_Testing
-// Prior to running. 
+#import "AppDelegate.h"
 
-#import "PGSQLKitUnitTest.h"
-#import "PGSQLConnection.h"
-#import "PGSQLRecord.h"
-#import "PGSQLDispatch.h"
+#import <PGSQLKit/PGSQLConnection.h>
+#import <PGSQLKit/PGSQLRecord.h>
+#import "PGSQLKit/PGSQLDispatch.h"
 
 static NSString *sqlCreateFilmsTable = @"CREATE TABLE films ("
-                                "title          varchar PRIMARY KEY,"
-                                "director       varchar,"
-                                "release_date   varchar,"
-                                "genre          varchar"
-                                ");";
+"title          varchar PRIMARY KEY,"
+"director       varchar,"
+"release_date   varchar,"
+"genre          varchar"
+");";
 
 static NSString *sqlInsertFilmsTable = @"INSERT INTO films (title, director, release_date, genre) VALUES "
 "('Citizen Kane', 'Welles, Orson', '1941', 'Drama'),"
@@ -1025,16 +1023,28 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
 "('Forty Guns', 'Fuller, Sam', '1957', 'Western'),"
 "('Toni', 'Renoir, Jean', '1935', 'Drama');";
 
-@implementation PGSQLKitUnitTest
+
+@interface AppDelegate ()
+
+- (void)testDispatchSQLSimpleGoodSQL;
+
+@end
+
+@implementation AppDelegate
+
+@synthesize window = _window;
+
+- (void)dealloc
+{
+    [super dealloc];
+}
 
 - (void)setUp
 {
-    [super setUp];
-    
     if ([PGSQLConnection defaultConnection] == nil)
     {
         PGSQLConnection *myConn = [[PGSQLConnection alloc] init];
-        STAssertNotNil(myConn, @"Failed to connect to database in PGSQLKitUnitTest");
+        NSAssert(myConn != nil, @"Failed to connect to database in PGSQLKitUnitTest");
         
         [myConn setDatabaseName:@"PGSQLKit_Testing"];
         [myConn setDefaultEncoding:NSUTF8StringEncoding];
@@ -1044,7 +1054,7 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
         if (![myConn connect])
         {
             NSLog(@"%@", [myConn errorDescription]);
-            STFail(@"Failed to connect to database in PGSQLKitUnitTest");
+            NSAssert(0, @"Failed to connect to database in PGSQLKitUnitTest");
         }
     }
 }
@@ -1053,7 +1063,6 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
 {
     // Tear-down code here.
     
-    [super tearDown];
 }
 
 #pragma mark -
@@ -1104,14 +1113,14 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
     if (![myConn execCommand:@"DROP TABLE IF EXISTS films;"])
     {
         NSLog(@"%@", [myConn errorDescription]);
-        STFail(@"Failed to drop table 'films'");
+        NSAssert(0, @"Failed to drop table 'films'");
     }
     
     NSLog(@"%@", sqlCreateFilmsTable);
     if (![myConn execCommand:sqlCreateFilmsTable])
     {
         NSLog(@"%@", [myConn errorDescription]);
-        STFail(@"Failed to create table 'films'");
+        NSAssert(0, @"Failed to create table 'films'");
     }    
 }
 
@@ -1122,7 +1131,7 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
     if (![myConn execCommand:sqlInsertFilmsTable])
     {
         NSLog(@"%@", [myConn errorDescription]);
-        STFail(@"Failed to fill table 'films'");
+        NSAssert(0, @"Failed to fill table 'films'");
     }
 }
 
@@ -1133,7 +1142,7 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
     if (![myConn execCommand:sqlInsertFilmsTableLarge])
     {
         NSLog(@"%@", [myConn errorDescription]);
-        STFail(@"Failed to fill table 'films'");
+        NSAssert(0, @"Failed to fill table 'films'");
     }
 }
 
@@ -1143,19 +1152,22 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
     if (![myConn execCommand:@"TRUNCATE TABLE films;"])
     {
         NSLog(@"%@", [myConn errorDescription]);
-        STFail(@"Failed to drop table 'films'");
+        NSAssert(0, @"Failed to drop table 'films'");
     }    
 }
 
 #pragma mark -
 #pragma mark Dispatcher Callback Methods
 
+static BOOL processRecordsetShouldFailDidRun = NO;
 - (void)processRecordsetShouldFail:(PGSQLRecordset *)rs withConnErrorString:(NSString *)connError
 {
 	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
-    STAssertNotNil(connError, @"Error should not be nil.");
+    NSAssert(connError != nil, @"Error should not be nil.");
+    processRecordsetShouldFailDidRun = YES;
 }
 
+static BOOL processRecordsetDidRun = NO;
 - (void)processRecordset:(PGSQLRecordset *)rs withConnErrorString:(NSString *)connError
 {
 	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
@@ -1163,7 +1175,7 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
     {
         NSLog(@"No Connection Error.");
         // No error process PGSQLRecordset.
-        STAssertNotNil(rs, @"No results from database in PGSQLKitUnitTest");
+        NSAssert(rs != nil, @"No results from database in PGSQLKitUnitTest");
         if (rs)
         {
             [self logRecordSet:rs];
@@ -1172,8 +1184,9 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
     else
     {
         NSLog(@"Connection Error: %@", connError);
-        STFail(connError);
+        NSAssert(0, connError);
     }
+    processRecordsetDidRun = YES;
 }
 
 #pragma mark -
@@ -1181,23 +1194,51 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
 
 - (void)waitForDispatchCompletion:(NSUInteger)seconds
 {
+	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
     NSDate *startTimeStamp = [NSDate date];
     while ([[PGSQLDispatch sharedPGSQLDispatch] totalQueuedBlocks] > 0)
     {
         // Wait for completion.
         if (fabs([startTimeStamp timeIntervalSinceNow]) > seconds)
         {
-            STFail(@"Timed out.");
+            NSAssert(0, @"Timed out.");
             break;
         }
     }    
 }
 
-- (void)waitForCallBackMethodCompletion:(NSUInteger)seconds
+static int loopCount = 0;
+NSDate *startTimeStamp;
+- (void)waitForCallBackMethodCompletion:(NSNumber *)seconds
 {
-    // http://www.mikeash.com/pyblog/friday-qa-2011-07-22-writing-unit-tests.html
-#warning Need to complete code.
-    
+	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
+    if (startTimeStamp == nil)
+    {
+        startTimeStamp = [NSDate date];
+    }
+    if (!processRecordsetDidRun)
+    {
+        // Wait for completion.
+        if (fabs([startTimeStamp timeIntervalSinceNow]) > [seconds doubleValue])
+        {
+            // Error
+            NSAssert(0, @"Process callback timed out.");
+        }
+        else
+        {
+            // Wait a bit then Check again.
+            [self performSelector:@selector(waitForCallBackMethodCompletion:) withObject:seconds afterDelay: 1.0];
+        }
+    }
+    else
+    {
+        NSLog(@"Callback Method Completed.");
+        loopCount++;
+        if (loopCount < 5)
+        {
+            [self performSelector:@selector(testDispatchSQLSimpleGoodSQL) withObject:nil afterDelay:0.1];
+        }
+    }
 }
 
 #pragma mark -
@@ -1205,6 +1246,7 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
 
 -  (NSUInteger)countAsUInteger:(PGSQLRecordset *)rs
 {
+	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
     PGSQLRecord *record = [rs moveFirst];
     PGSQLField *field = [record fieldByIndex:0];
     NSString *countStr = [field asString];
@@ -1216,21 +1258,24 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
 
 - (void)testBasicSmallSQLInsert
 {
+	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
     [self createFilms];
     [self loadFilmsShort];
     PGSQLConnection *myConn = [PGSQLConnection defaultConnection];
     PGSQLRecordset *rs = [myConn open:@"SELECT * FROM films;"];
-
+    
     NSLog(@"%@", [myConn sqlLog]);
-    STAssertNotNil(rs, @"No results from database in PGSQLKitUnitTest");
+    NSAssert(rs != nil, @"No results from database in PGSQLKitUnitTest");
     if (rs)
     {
         [self logRecordSet:rs];
     }
 }
 
+
 - (void)testBasicLargeSQLInsert
 {
+	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
     [self createFilms];
     [self loadFilmsShort];
     [self loadFilmsLong];
@@ -1238,23 +1283,15 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
     PGSQLRecordset *rs = [myConn open:@"SELECT count(*) FROM films;"];
     
     NSLog(@"%@", [myConn sqlLog]);
-    STAssertNotNil(rs, @"No results from database in PGSQLKitUnitTest");
+    NSAssert(rs != nil, @"No results from database in PGSQLKitUnitTest");
     
     NSUInteger myCount = [self countAsUInteger:rs];
-    STAssertTrue(myCount == 1000, @"loaded %d instead of 1000.", myCount);
+    NSAssert(myCount == 1000, @"loaded %d instead of 1000.", myCount);
 }
-
-#if 0
-// ******************************************************************************************************************
-//  Cannot logic test PGSQLDispatch with xcode unit testing because of how it handles the main run loop.
-//  The main run loop does not give up control until after all tests are run.  This keeps the results from being
-//  posted via the callback, since the callback runs on the applications main queue.
-//  Testing might be possible with application unut testing instead of logic tests.
-//  See test project for PGSQLDispatch testing.      Neil 1/29/2012
-// ******************************************************************************************************************
 
 - (void)testDispatchSQLSimpleBadTableName
 {
+	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
     [self createFilms];
     [self loadFilmsShort];
     
@@ -1267,16 +1304,15 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
     PGSQLDispatchError_t error = [[PGSQLDispatch sharedPGSQLDispatch] processResultsFromSQL:@"SELECT * from non_existant_table LIMIT 10;" 
                                                                                 longRunning:NO 
                                                                          usingCallbackBlock:processSQLCallbackBlock];
-    STAssertTrue(error == PGSQLDispatchErrorNone, [[PGSQLDispatch sharedPGSQLDispatch] stringDescriptionForErrorNumber:error]);
-
-    [self waitForDispatchCompletion:20];
+    NSAssert(error == PGSQLDispatchErrorNone, [[PGSQLDispatch sharedPGSQLDispatch] stringDescriptionForErrorNumber:error]);    
 }
 
 - (void)testDispatchSQLSimpleGoodSQL
 {
+	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
     [self createFilms];
     [self loadFilmsShort];
-
+    
     PGSQLDispatchCallback_t processSQLCallbackBlock = ^(PGSQLRecordset *recordset, NSString *errorString)
     {
         [self processRecordset:recordset withConnErrorString:errorString];
@@ -1287,10 +1323,19 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
                                                                                 longRunning:NO 
                                                                          usingCallbackBlock:processSQLCallbackBlock];
     
-    STAssertTrue(error == PGSQLDispatchErrorNone, [[PGSQLDispatch sharedPGSQLDispatch] stringDescriptionForErrorNumber:error]);
-    
-    [self waitForDispatchCompletion:20];
+    NSAssert(error == PGSQLDispatchErrorNone, [[PGSQLDispatch sharedPGSQLDispatch] stringDescriptionForErrorNumber:error]);
+    startTimeStamp = nil;
+    [self performSelector:@selector(waitForCallBackMethodCompletion:) withObject:[NSNumber numberWithDouble:20.0] afterDelay: 1.0];
 }
-#endif
+
+
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
+	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
+    // Insert code here to initialize your application
+    [self setUp];
+    [self performSelector:@selector(testDispatchSQLSimpleGoodSQL) withObject:nil afterDelay:0.1];
+}
 
 @end

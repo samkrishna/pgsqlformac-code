@@ -1,0 +1,340 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C91EC7F814D60C5D00800249 /* PGSQLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C91EC7F714D60C5D00800249 /* PGSQLKit.framework */; };
+		C95F077114D5FD18005FBB42 /* libpq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C95F077014D5FD18005FBB42 /* libpq.a */; };
+		C9CD49CA14D5F88E00C8F8C7 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9CD49C914D5F88E00C8F8C7 /* Cocoa.framework */; };
+		C9CD49D414D5F88E00C8F8C7 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9CD49D214D5F88E00C8F8C7 /* InfoPlist.strings */; };
+		C9CD49D614D5F88E00C8F8C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9CD49D514D5F88E00C8F8C7 /* main.m */; };
+		C9CD49DA14D5F88E00C8F8C7 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C9CD49D814D5F88E00C8F8C7 /* Credits.rtf */; };
+		C9CD49DD14D5F88E00C8F8C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C9CD49DC14D5F88E00C8F8C7 /* AppDelegate.m */; };
+		C9CD49E014D5F88F00C8F8C7 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9CD49DE14D5F88F00C8F8C7 /* MainMenu.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C980BC1C14D60826008593FC /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		C91EC7F714D60C5D00800249 /* PGSQLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PGSQLKit.framework; path = "../../../../../Xcode_DerivedData/PGSQLKit-Neil-grydtoqpwxhdeoeyxgmrywxapshf/Build/Products/Debug/PGSQLKit.framework"; sourceTree = "<group>"; };
+		C95F077014D5FD18005FBB42 /* libpq.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libpq.a; path = ../../../../../../Library/PostgreSQL/Versions/9.1.2/lib/libpq.a; sourceTree = "<group>"; };
+		C9CD49C514D5F88E00C8F8C7 /* PGSQLDispatchTesting.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PGSQLDispatchTesting.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9CD49C914D5F88E00C8F8C7 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		C9CD49CC14D5F88E00C8F8C7 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		C9CD49CD14D5F88E00C8F8C7 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		C9CD49CE14D5F88E00C8F8C7 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C9CD49D114D5F88E00C8F8C7 /* PGSQLDispatchTesting-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PGSQLDispatchTesting-Info.plist"; sourceTree = "<group>"; };
+		C9CD49D314D5F88E00C8F8C7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C9CD49D514D5F88E00C8F8C7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C9CD49D714D5F88E00C8F8C7 /* PGSQLDispatchTesting-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PGSQLDispatchTesting-Prefix.pch"; sourceTree = "<group>"; };
+		C9CD49D914D5F88E00C8F8C7 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		C9CD49DB14D5F88E00C8F8C7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		C9CD49DC14D5F88E00C8F8C7 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		C9CD49DF14D5F88F00C8F8C7 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C9CD49C214D5F88E00C8F8C7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9CD49CA14D5F88E00C8F8C7 /* Cocoa.framework in Frameworks */,
+				C95F077114D5FD18005FBB42 /* libpq.a in Frameworks */,
+				C91EC7F814D60C5D00800249 /* PGSQLKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C9CD49BA14D5F88E00C8F8C7 = {
+			isa = PBXGroup;
+			children = (
+				C9CD49E614D5F8F100C8F8C7 /* PGSQLKit */,
+				C91EC7F714D60C5D00800249 /* PGSQLKit.framework */,
+				C9CD49CF14D5F88E00C8F8C7 /* PGSQLDispatchTesting */,
+				C9CD49C814D5F88E00C8F8C7 /* Frameworks */,
+				C9CD49C614D5F88E00C8F8C7 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C9CD49C614D5F88E00C8F8C7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C9CD49C514D5F88E00C8F8C7 /* PGSQLDispatchTesting.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C9CD49C814D5F88E00C8F8C7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C95F077014D5FD18005FBB42 /* libpq.a */,
+				C9CD49C914D5F88E00C8F8C7 /* Cocoa.framework */,
+				C9CD49CB14D5F88E00C8F8C7 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C9CD49CB14D5F88E00C8F8C7 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C9CD49CC14D5F88E00C8F8C7 /* AppKit.framework */,
+				C9CD49CD14D5F88E00C8F8C7 /* CoreData.framework */,
+				C9CD49CE14D5F88E00C8F8C7 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		C9CD49CF14D5F88E00C8F8C7 /* PGSQLDispatchTesting */ = {
+			isa = PBXGroup;
+			children = (
+				C9CD49DB14D5F88E00C8F8C7 /* AppDelegate.h */,
+				C9CD49DC14D5F88E00C8F8C7 /* AppDelegate.m */,
+				C9CD49DE14D5F88F00C8F8C7 /* MainMenu.xib */,
+				C9CD49D014D5F88E00C8F8C7 /* Supporting Files */,
+			);
+			path = PGSQLDispatchTesting;
+			sourceTree = "<group>";
+		};
+		C9CD49D014D5F88E00C8F8C7 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C9CD49D114D5F88E00C8F8C7 /* PGSQLDispatchTesting-Info.plist */,
+				C9CD49D214D5F88E00C8F8C7 /* InfoPlist.strings */,
+				C9CD49D514D5F88E00C8F8C7 /* main.m */,
+				C9CD49D714D5F88E00C8F8C7 /* PGSQLDispatchTesting-Prefix.pch */,
+				C9CD49D814D5F88E00C8F8C7 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C9CD49E614D5F8F100C8F8C7 /* PGSQLKit */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = PGSQLKit;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C9CD49C414D5F88E00C8F8C7 /* PGSQLDispatchTesting */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9CD49E314D5F88F00C8F8C7 /* Build configuration list for PBXNativeTarget "PGSQLDispatchTesting" */;
+			buildPhases = (
+				C9CD49C114D5F88E00C8F8C7 /* Sources */,
+				C9CD49C214D5F88E00C8F8C7 /* Frameworks */,
+				C9CD49C314D5F88E00C8F8C7 /* Resources */,
+				C980BC1C14D60826008593FC /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PGSQLDispatchTesting;
+			productName = PGSQLDispatchTesting;
+			productReference = C9CD49C514D5F88E00C8F8C7 /* PGSQLDispatchTesting.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C9CD49BC14D5F88E00C8F8C7 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+				ORGANIZATIONNAME = "Performance Champions, Inc.";
+			};
+			buildConfigurationList = C9CD49BF14D5F88E00C8F8C7 /* Build configuration list for PBXProject "PGSQLDispatchTesting" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C9CD49BA14D5F88E00C8F8C7;
+			productRefGroup = C9CD49C614D5F88E00C8F8C7 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C9CD49C414D5F88E00C8F8C7 /* PGSQLDispatchTesting */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C9CD49C314D5F88E00C8F8C7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9CD49D414D5F88E00C8F8C7 /* InfoPlist.strings in Resources */,
+				C9CD49DA14D5F88E00C8F8C7 /* Credits.rtf in Resources */,
+				C9CD49E014D5F88F00C8F8C7 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C9CD49C114D5F88E00C8F8C7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9CD49D614D5F88E00C8F8C7 /* main.m in Sources */,
+				C9CD49DD14D5F88E00C8F8C7 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		C9CD49D214D5F88E00C8F8C7 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C9CD49D314D5F88E00C8F8C7 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C9CD49D814D5F88E00C8F8C7 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C9CD49D914D5F88E00C8F8C7 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		C9CD49DE14D5F88F00C8F8C7 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C9CD49DF14D5F88F00C8F8C7 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C9CD49E114D5F88F00C8F8C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		C9CD49E214D5F88F00C8F8C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		C9CD49E414D5F88F00C8F8C7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../Xcode_DerivedData/PGSQLKit-Neil-grydtoqpwxhdeoeyxgmrywxapshf/Build/Products/Debug\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PGSQLDispatchTesting/PGSQLDispatchTesting-Prefix.pch";
+				INFOPLIST_FILE = "PGSQLDispatchTesting/PGSQLDispatchTesting-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(LOCAL_LIBRARY_DIR)/PostgreSQL/Versions/9.1.2/lib\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C9CD49E514D5F88F00C8F8C7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../../../../../Xcode_DerivedData/PGSQLKit-Neil-grydtoqpwxhdeoeyxgmrywxapshf/Build/Products/Debug\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PGSQLDispatchTesting/PGSQLDispatchTesting-Prefix.pch";
+				INFOPLIST_FILE = "PGSQLDispatchTesting/PGSQLDispatchTesting-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(LOCAL_LIBRARY_DIR)/PostgreSQL/Versions/9.1.2/lib\"",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C9CD49BF14D5F88E00C8F8C7 /* Build configuration list for PBXProject "PGSQLDispatchTesting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9CD49E114D5F88F00C8F8C7 /* Debug */,
+				C9CD49E214D5F88F00C8F8C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9CD49E314D5F88F00C8F8C7 /* Build configuration list for PBXNativeTarget "PGSQLDispatchTesting" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9CD49E414D5F88F00C8F8C7 /* Debug */,
+				C9CD49E514D5F88F00C8F8C7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C9CD49BC14D5F88E00C8F8C7 /* Project object */;
+}

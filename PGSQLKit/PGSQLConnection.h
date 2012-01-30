@@ -74,7 +74,8 @@
 	
 	/* platform specific definitions */
 	
-	
+	NSUInteger maxConnectionRetries;
+    
 	BOOL logInfo;
 	BOOL logSQL;
 	
@@ -198,13 +199,16 @@
 -(NSMutableString *)sqlLog;
 -(void)appendSQLLog:(NSString *)value;
 
+@property NSUInteger maxConnectionRetries;
 @property (readonly, retain) NSString *errorDescription;
 @property (readonly, retain) NSDate *startTimeStamp;
 @property BOOL logInfo;
 @property BOOL logSQL;
 
+typedef enum {PGSQLConnectionCheckOK = 0, PGSQLConnectionCheckError } PGSQLConnectionCheckType;
+
 // attempt to recover connection
-- (BOOL)checkAndRecoverConnection;
+- (PGSQLConnectionCheckType)checkAndRecoverConnection;
 
 /*!
     @function

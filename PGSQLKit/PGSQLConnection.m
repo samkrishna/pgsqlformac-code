@@ -37,6 +37,7 @@ static PGSQLConnection *globalPGSQLConnection;
 @synthesize startTimeStamp;
 @synthesize logInfo;
 @synthesize logSQL;
+@synthesize maxConnectionRetries;
 
 NSString *const GenDBConnectionDidCompleteNotification = @"GenDBConnectionDidCompleteNotification";
 NSString *const GenDBCommandDidCompleteNotification = @"GenDBCommandDidCompleteNotification";
@@ -64,6 +65,8 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	
 	if (self != nil) {
 		self.errorDescription = nil;
+        self.maxConnectionRetries = 5;
+        
 		sqlLog = [[NSMutableString alloc] init];		
 		
 		// this will default to NSUTF8StringEncoding with PG9
@@ -266,10 +269,9 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 		[commandStatus release];
 		commandStatus = nil;	
 	}
-	if (pgconn == nil) 
-	{ 
-		self.errorDescription = [[NSString stringWithString:@"Object is not Connected."] autorelease];		
-		return NO; 
+    if ([self checkAndRecoverConnection] == PGSQLConnectionCheckError)
+	{
+		return NO; // Note: Errors are logged by checkAndRecoverConnection
 	}
 	const char *cString = [sql cStringUsingEncoding:defaultEncoding];
 	if (cString == NULL) 
@@ -338,7 +340,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	
 	self.errorDescription = nil;
 	
-	if ([self checkAndRecoverConnection] == NO) 
+	if ([self checkAndRecoverConnection] == PGSQLConnectionCheckError)
 	{
 		return nil; // Note: Errors are logged by checkAndRecoverConnection
 	}
@@ -541,61 +543,73 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	return (currentConnStatus == CONNECTION_OK);
 }
 
-- (BOOL)checkAndRecoverConnection
+- (PGSQLConnectionCheckType)checkAndRecoverConnection
 {
-    if (pgconn != nil)
+    if (pgconn == nil)
     {
-        ConnStatusType currentConnStatus = PQstatus(pgconn);
-        // This code only works for synchronious operation otherwise other status may be retreived.
-        if (currentConnStatus != CONNECTION_OK)
-        {
-            NSUInteger loopCount = 0;
-            while (currentConnStatus == CONNECTION_BAD)
-            {
-                PQreset(pgconn);
-                currentConnStatus = PQstatus(pgconn);
-                if (loopCount >= 5)
-                {
-                    break;
-                }
-                loopCount++;
-            }
-            if (currentConnStatus == CONNECTION_BAD)
-            {
-                self.errorDescription = [[NSString stringWithFormat:@"Not able to reestablish connection to database '%@' on server '%@'.", dbName, self.server] autorelease];
-                NSLog(@"%@", errorDescription);
-                [self appendSQLLog:[NSString stringWithFormat:@"%@\n", self.errorDescription]];
-                PGPing pingResult = PQping(pgconn);
-                switch (pingResult)
-                {
-                    case PQPING_OK:
-                        NSLog(@"The server '%@' is running and appears to be accepting connections.", self.server);
-                        [self appendSQLLog:[NSString stringWithFormat:@"The server '%@' is running and appears to be accepting connections.\n", self.server]];
-                        break;
-                    case PQPING_REJECT:
-                        NSLog(@"The server '%@' is running but is in a state that disallows connections (startup, shutdown, or crash recovery).", self.server);
-                        [self appendSQLLog:[NSString stringWithFormat:@"The server '%@' is running but is in a state that disallows connections (startup, shutdown, or crash recovery).\n", self.server]];
-                        break;
-                    case PQPING_NO_RESPONSE:
-                        NSLog(@"The server '%@' could not be contacted. This might indicate that the server is not running, or that there is something wrong with the given "
-                              @"connection parameters (for example, wrong port number), or that there is a network connectivity problem (for example, a firewall blocking the connection request).", self.server);
-                        [self appendSQLLog:[NSString stringWithFormat:@"The server '%@' could not be contacted. This might indicate that the server is not running, or that there is something wrong with the given "
-                                            @"connection parameters (for example, wrong port number), or that there is a network connectivity problem (for example, a firewall blocking the connection request).\n", self.server]];
-                        break;
-                    case PQPING_NO_ATTEMPT:
-                        NSLog(@"No attempt was made to contact the server '%@', because the supplied parameters were obviously incorrect or there was some client-side problem (for example, out of memory).", self.server);
-                        [self appendSQLLog:[NSString stringWithFormat:@"No attempt was made to contact the server '%@', because the supplied parameters were obviously incorrect or there was some client-side problem (for example, out of memory).\n", self.server]];
-                        break;
-                    default:
-                        NSLog(@"Undefined PQping() result.");
-                        break;
-                }
-            }
-        }
-        return (currentConnStatus == CONNECTION_OK);
+        return PGSQLConnectionCheckError;
     }
-    return NO;
+    
+    ConnStatusType currentConnStatus = PQstatus(pgconn);
+    // This code only works for synchronious operation otherwise other status may be retreived.
+    if (currentConnStatus == CONNECTION_OK)
+    {
+        // No need for recovery all ok.
+        return (PGSQLConnectionCheckOK);
+    }
+    
+    // Attempt to recover connection
+    NSUInteger loopCount = 0;
+    while (currentConnStatus == CONNECTION_BAD)
+    {
+        PQreset(pgconn);
+        currentConnStatus = PQstatus(pgconn);
+        if (loopCount >= self.maxConnectionRetries)
+        {
+            break;
+        }
+        loopCount++;
+    }
+    if (currentConnStatus == CONNECTION_BAD)
+    {
+        // Still bad after multiple attempts at recovery.
+        self.errorDescription = [[NSString stringWithFormat:@"Not able to reestablish connection to database '%@' on server '%@'.", dbName, self.server] autorelease];
+        NSLog(@"%@", errorDescription);
+        [self appendSQLLog:[NSString stringWithFormat:@"%@\n", self.errorDescription]];
+        
+        // See if we can get a little more info.
+        PGPing pingResult = PQping(pgconn);
+        switch (pingResult)
+        {
+            case PQPING_OK:
+                NSLog(@"The server '%@' is running and appears to be accepting connections.", self.server);
+                [self appendSQLLog:[NSString stringWithFormat:@"The server '%@' is running and appears to be accepting connections.\n", self.server]];
+                break;
+            case PQPING_REJECT:
+                NSLog(@"The server '%@' is running but is in a state that disallows connections (startup, shutdown, or crash recovery).", self.server);
+                [self appendSQLLog:[NSString stringWithFormat:@"The server '%@' is running but is in a state that disallows connections (startup, shutdown, or crash recovery).\n", self.server]];
+                break;
+            case PQPING_NO_RESPONSE:
+                NSLog(@"The server '%@' could not be contacted. This might indicate that the server is not running, or that there is something wrong with the given "
+                      @"connection parameters (for example, wrong port number), or that there is a network connectivity problem (for example, a firewall blocking the connection request).", self.server);
+                [self appendSQLLog:[NSString stringWithFormat:@"The server '%@' could not be contacted. This might indicate that the server is not running, or that there is something wrong with the given "
+                                    @"connection parameters (for example, wrong port number), or that there is a network connectivity problem (for example, a firewall blocking the connection request).\n", self.server]];
+                break;
+            case PQPING_NO_ATTEMPT:
+                NSLog(@"No attempt was made to contact the server '%@', because the supplied parameters were obviously incorrect or there was some client-side problem (for example, out of memory).", self.server);
+                [self appendSQLLog:[NSString stringWithFormat:@"No attempt was made to contact the server '%@', because the supplied parameters were obviously incorrect or there was some client-side problem (for example, out of memory).\n", self.server]];
+                break;
+            default:
+                NSLog(@"Undefined PQping() result.");
+                break;
+        }
+        return (PGSQLConnectionCheckError);
+    }
+    // Successfully recovered.
+    return (PGSQLConnectionCheckOK);
 }
+
+
 
 #pragma mark -
 #pragma mark Dictionary Tools

@@ -24,17 +24,16 @@
              correct the faulty connection info.  So the first connection should be established and tested
              prior to calling PGSQLDispatch for the first time.
  
-             If a connection fails for reasons other than the faulty connection info PGSQLDispatch
-             will attempt to reconnect.
+             If a connection fails then PGSQLDispatch will attempt to reconnect.
  
-             If no PGSQLDispatch connections are open, then PGSQLDispatch attempts to open one.  If
-             no connections are available then PGSQLDispatch attempts to open a
-             connection up to the connection limit, then queues the request.  If PGSQLDispatch
-             cannot use or open a connection then it queues the SQL request roundrobin on an existing
-             connection.
+             If only busy connections are available then PGSQLDispatch attempts to open a new
+             connection up to the connection limit, then queues the request on the new connection.  
+             If PGSQLDispatch cannot open a connection then it queues the SQL request roundrobin
+             on an existing connection.
  
              PGSQLDispatch requires iOS 4.0+ or OS X 10.6+ because it uses blocks.  For older systems
-             the classes PGSQLDispatch and PGSQLDispatchConnection are not included.
+             the classes PGSQLDispatch and PGSQLDispatchConnection are not included in
+             the framework.
  
              License 
  
@@ -76,6 +75,8 @@
                                                 //      Defaults to number of cores minus 1.
                                                 //      Minimum setting is 1, Maximum is 30.
     
+    NSUInteger queryTimeoutSeconds;             // queries taking longer than queryTimeoutSeconds may be cancelled.
+    
     // Dispatcher Processing
     NSMutableArray *sqlConnections;             // Array of (PGSQLDispatchConnection *).
     NSUInteger indexOfLastDispatch;             // Index into sqlConnections and sqlConnectionsStatistics 
@@ -87,13 +88,30 @@
 // one may use sharedPGSQLDispatch to keep one global dispatch.
 + (PGSQLDispatch *)sharedPGSQLDispatch;
 
-// All SQL is dispatched through this method.
-// Example usage:
-// void (^processSQLCallbackBlock)(PGSQLRecordset *) = ^(PGSQLRecordset *recordset){[self processRecordset:recordset];};
-// [[PGSQLDispatch sharedPGSQLDispatch] resultsFromSQL:@"SELECT * from someTable;" usingCallbackBlock:processSQLCallbackBlock];
-- (NSInteger)processResultsFromSQL:(NSString *)sql usingCallbackBlock:(void (^)(PGSQLRecordset *))callbackBlock;
+// Error return type.
+typedef enum {PGSQLDispatchErrorNone = 0, PGSQLDispatchErrorNoAvailableConnections} PGSQLDispatchError_t;
+
+// Callback block type.
+typedef void (^PGSQLDispatchCallback_t)(PGSQLRecordset *recordset, NSString *errorString);
+
+// All SQL is dispatched through here.
+// For example see PGSQLKitUnitTest.m
+// Long running SQL queries are mamanged so they don't block all connections.
+- (PGSQLDispatchError_t)processResultsFromSQL:(NSString *)sql
+                                    longRunning:(BOOL)longRunning
+                             usingCallbackBlock:(PGSQLDispatchCallback_t)callbackBlock;
+
+- (NSString *)stringDescriptionForErrorNumber:(NSInteger)error;
 
 @property (assign) NSUInteger maxNumberConnections;
+@property (assign) NSUInteger queryTimeoutSeconds;
+
+#ifdef DEBUG
+// Returns the total queue blocks across all connections.
+// If all work as been submitted then all work will be done when this is zero.
+- (NSUInteger)totalQueuedBlocks;
+#endif
+
 
 @end
 #endif

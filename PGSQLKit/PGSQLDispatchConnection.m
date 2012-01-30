@@ -22,7 +22,7 @@
 @implementation PGSQLDispatchConnection
 
 #pragma mark -
-#pragma mark Accessors Methods
+#pragma mark Accessors
 
 @synthesize connectionQueue;
 @synthesize queueWaitingCount;
@@ -48,8 +48,14 @@
 - (id)initWithQueueName:(NSString *)queueName connection:(PGSQLConnection *)connection
 {
     self = [super init];
-    if (self) {
+    if (self)
+    {
+#if (MAC_OS_X_VERSION_MIN_REQUIRED >= 1070)
+        connectionQueue = dispatch_queue_create([queueName cStringUsingEncoding:[NSString defaultCStringEncoding]], DISPATCH_QUEUE_SERIAL);
+#else
         connectionQueue = dispatch_queue_create([queueName cStringUsingEncoding:[NSString defaultCStringEncoding]], NULL);
+#endif
+        // dispatch_set_target_queue(<#dispatch_object_t object#>, <#dispatch_queue_t queue#>);
         self.queueWaitingCount = [NSNumber numberWithInt:0];
         if (connection)
         {
@@ -87,7 +93,7 @@
 - (void)dealloc
 {
     dispatch_release(connectionQueue);
-    queueWaitingCount = nil;
+    self.queueWaitingCount = nil;
     [super dealloc];
 }
 

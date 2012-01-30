@@ -7,6 +7,8 @@ TODO
 ====
 - Move to ARC?  (need to talk with Dru)
 - Add check for shadow variables to project. (requested 12/26/2012)
+- Add error callback to block API
+- Handle SQL logging and errors from per connectiont to global.
 
 SPECS
 =====
