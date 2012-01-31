@@ -8,6 +8,8 @@
 
 //#import <Cocoa/Cocoa.h>
 
+@class PGSQLRecordset;
+
 @interface PGSQLPreparedStatement : NSObject {
 	NSString *statementName;
 	
@@ -15,6 +17,7 @@
 	NSArray *parameters;
 }
 
+/*
 -(BOOL)prepare;
 
 -(BOOL)exec;
@@ -27,5 +30,5 @@
 
 -(void *)paramterByIndex:(int)index;
 -(void)setParameter:(void *)value forIndex:(int)index ofType:(int)SQL_TYPE;
-
+*/
 @end

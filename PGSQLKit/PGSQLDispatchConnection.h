@@ -7,7 +7,7 @@
 //
 
 // Values for __MAC_10_6 and __IPHONE_4_0 are used in case this code is compiled on systems
-// where they are not defined and therfor will be evaluated as zero.
+// where they are not defined and therefore will be evaluated as zero.
 #if (MAC_OS_X_VERSION_MIN_REQUIRED >= 1060) || (__IPHONE_OS_VERSION_MIN_REQUIRED >= 40000)
 
 /*
@@ -50,6 +50,8 @@
 }
 
 - (id)initWithQueueName:(NSString *)queueName connection:(PGSQLConnection *)connection;
+- (void)processResultsFromSQL:(NSString *)sql 
+                           usingCallbackBlock:(void (^)(PGSQLRecordset *, NSString *))callbackBlock;
 
 @property (readonly) dispatch_queue_t connectionQueue;
 @property (readonly, retain) NSNumber *queueWaitingCount;

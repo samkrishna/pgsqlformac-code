@@ -7,7 +7,7 @@
 //
 
 // Values for __MAC_10_6 and __IPHONE_4_0 are used in case this code is compiled on systems
-// where they are not defined and therfor will be evaluated as zero.
+// where they are not defined and therefore will be evaluated as zero.
 #if (MAC_OS_X_VERSION_MIN_REQUIRED >= 1060) || (__IPHONE_OS_VERSION_MIN_REQUIRED >= 40000)
 
 #import "PGSQLDispatchConnection.h"
@@ -43,6 +43,67 @@
 }
 
 #pragma mark -
+#pragma mark Dispatch Methods
+- (void)processResultsFromSQL:(NSString *)sql 
+           usingCallbackBlock:(void (^)(PGSQLRecordset *, NSString *))callbackBlock
+{    
+    [self incConnectionStatistics];
+    [callbackBlock retain];
+    
+    dispatch_async(self.connectionQueue, ^{
+        PGSQLConnectionCheckType connectionCheck = [self checkAndRecoverConnection];
+        if (connectionCheck == PGSQLConnectionCheckOK)
+        {
+            // Process SQL.
+            __block PGSQLRecordset *resultsRecordSet = [[self open:sql] retain];
+            
+            // Get any error.
+            NSString *myErrorDescription = nil;
+            if (self.errorDescription != nil)
+            {
+                myErrorDescription = [self.errorDescription copy];
+            }
+            
+            //const char *queueName = dispatch_queue_get_label(dispatch_get_current_queue());
+            //NSLog(@"%s Results Recordset: %@", queueName, resultsRecordSet);
+            //NSLog(@"%s Results Error String: %@", queueName, errorDescription);
+            
+            // Process the callback.
+            dispatch_queue_t mainQueue = dispatch_get_main_queue();
+            dispatch_async(mainQueue, ^{
+                //NSLog(@"Processing Good Connection Callback Recordset: %@", resultsRecordSet);
+                //NSLog(@"Processing Good Connection Callback Error String: %@", errorDescription);
+                callbackBlock(resultsRecordSet, myErrorDescription);
+                [self decConnectionStatistics];
+                [resultsRecordSet release];
+                [myErrorDescription release];
+                [callbackBlock release];
+            });
+        }
+        else
+        {
+            // Connection is bad so don't even try to process SQL, just callback with error and nil results.
+            // Get any error.
+            NSString *myErrorDescription = nil;
+            if (self.errorDescription != nil)
+            {
+                myErrorDescription = [self.errorDescription copy];
+            }
+            
+            // Process the callback.
+            dispatch_queue_t mainQueue = dispatch_get_main_queue();
+            dispatch_async(mainQueue, ^{
+                //NSLog(@"Processing Bad Connection Callback with Error: %@", errorDescription);
+                callbackBlock(nil, myErrorDescription);
+                [self decConnectionStatistics];
+                [myErrorDescription release];
+                [callbackBlock release];
+            });
+        }
+    });
+}
+
+#pragma mark -
 #pragma mark Lifecycle Methods
 
 - (id)initWithQueueName:(NSString *)queueName connection:(PGSQLConnection *)connection
@@ -64,6 +125,7 @@
             [self setUserName:[connection userName]];
             [self setPassword:[connection password]];
             [self setDatabaseName:[connection databaseName]];
+            [self setDefaultEncoding:[connection defaultEncoding]];
             if ([self connect])
             {
                 // init complete.
@@ -76,7 +138,7 @@
         }
         else
         {
-            NSLog(@"%@ %s - Error, defaultConnection has not been established.", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
+            NSLog(@"%@ %s - Error, connection passed as parameter is nil.", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
         }
     }
     [self release];
@@ -84,6 +146,7 @@
     return self;
 }
 
+// For completeness, should not be used as queues should have unique names.
 - (id)init
 {
     return [self initWithQueueName:@"PGSQLKit.MyQueue" connection:[PGSQLConnection defaultConnection]];

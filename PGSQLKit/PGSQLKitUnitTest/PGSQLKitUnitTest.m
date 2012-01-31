@@ -1148,59 +1148,6 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
 }
 
 #pragma mark -
-#pragma mark Dispatcher Callback Methods
-
-- (void)processRecordsetShouldFail:(PGSQLRecordset *)rs withConnErrorString:(NSString *)connError
-{
-	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
-    STAssertNotNil(connError, @"Error should not be nil.");
-}
-
-- (void)processRecordset:(PGSQLRecordset *)rs withConnErrorString:(NSString *)connError
-{
-	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
-    if (connError == nil)
-    {
-        NSLog(@"No Connection Error.");
-        // No error process PGSQLRecordset.
-        STAssertNotNil(rs, @"No results from database in PGSQLKitUnitTest");
-        if (rs)
-        {
-            [self logRecordSet:rs];
-        }
-    }
-    else
-    {
-        NSLog(@"Connection Error: %@", connError);
-        STFail(connError);
-    }
-}
-
-#pragma mark -
-#pragma mark Wait for Completion Methods
-
-- (void)waitForDispatchCompletion:(NSUInteger)seconds
-{
-    NSDate *startTimeStamp = [NSDate date];
-    while ([[PGSQLDispatch sharedPGSQLDispatch] totalQueuedBlocks] > 0)
-    {
-        // Wait for completion.
-        if (fabs([startTimeStamp timeIntervalSinceNow]) > seconds)
-        {
-            STFail(@"Timed out.");
-            break;
-        }
-    }    
-}
-
-- (void)waitForCallBackMethodCompletion:(NSUInteger)seconds
-{
-    // http://www.mikeash.com/pyblog/friday-qa-2011-07-22-writing-unit-tests.html
-#warning Need to complete code.
-    
-}
-
-#pragma mark -
 #pragma mark Utility Methods
 
 -  (NSUInteger)countAsUInteger:(PGSQLRecordset *)rs
@@ -1213,6 +1160,14 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
 
 #pragma mark -
 #pragma mark Test Methods
+
+// ******************************************************************************************************************
+//  Cannot logic test PGSQLDispatch with xcode unit testing because of how it handles the main run loop.
+//  The main run loop does not give up control until after all tests are run.  This keeps the results from being
+//  posted via the callback, since the callback runs on the applications main queue.
+//  Testing might be possible with application unit testing instead of logic tests.
+//  See test project for PGSQLDispatch testing and examples.      Neil 1/29/2012
+// ******************************************************************************************************************
 
 - (void)testBasicSmallSQLInsert
 {
@@ -1244,53 +1199,5 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
     STAssertTrue(myCount == 1000, @"loaded %d instead of 1000.", myCount);
 }
 
-#if 0
-// ******************************************************************************************************************
-//  Cannot logic test PGSQLDispatch with xcode unit testing because of how it handles the main run loop.
-//  The main run loop does not give up control until after all tests are run.  This keeps the results from being
-//  posted via the callback, since the callback runs on the applications main queue.
-//  Testing might be possible with application unut testing instead of logic tests.
-//  See test project for PGSQLDispatch testing.      Neil 1/29/2012
-// ******************************************************************************************************************
-
-- (void)testDispatchSQLSimpleBadTableName
-{
-    [self createFilms];
-    [self loadFilmsShort];
-    
-    PGSQLDispatchCallback_t processSQLCallbackBlock = ^(PGSQLRecordset *recordset, NSString *errorString)
-    {
-        [self processRecordsetShouldFail:recordset withConnErrorString:errorString];
-    };
-    
-    // Try something that should fail.
-    PGSQLDispatchError_t error = [[PGSQLDispatch sharedPGSQLDispatch] processResultsFromSQL:@"SELECT * from non_existant_table LIMIT 10;" 
-                                                                                longRunning:NO 
-                                                                         usingCallbackBlock:processSQLCallbackBlock];
-    STAssertTrue(error == PGSQLDispatchErrorNone, [[PGSQLDispatch sharedPGSQLDispatch] stringDescriptionForErrorNumber:error]);
-
-    [self waitForDispatchCompletion:20];
-}
-
-- (void)testDispatchSQLSimpleGoodSQL
-{
-    [self createFilms];
-    [self loadFilmsShort];
-
-    PGSQLDispatchCallback_t processSQLCallbackBlock = ^(PGSQLRecordset *recordset, NSString *errorString)
-    {
-        [self processRecordset:recordset withConnErrorString:errorString];
-    };
-    
-    // Try something that should not fail.
-    PGSQLDispatchError_t error = [[PGSQLDispatch sharedPGSQLDispatch] processResultsFromSQL:@"SELECT * from films LIMIT 10;" 
-                                                                                longRunning:NO 
-                                                                         usingCallbackBlock:processSQLCallbackBlock];
-    
-    STAssertTrue(error == PGSQLDispatchErrorNone, [[PGSQLDispatch sharedPGSQLDispatch] stringDescriptionForErrorNumber:error]);
-    
-    [self waitForDispatchCompletion:20];
-}
-#endif
 
 @end

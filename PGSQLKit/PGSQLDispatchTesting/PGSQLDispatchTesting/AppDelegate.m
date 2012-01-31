@@ -8,9 +8,9 @@
 
 #import "AppDelegate.h"
 
-#import <PGSQLKit/PGSQLConnection.h>
-#import <PGSQLKit/PGSQLRecord.h>
-#import "PGSQLKit/PGSQLDispatch.h"
+#import "PGSQLConnection.h"
+#import "PGSQLRecord.h"
+#import "PGSQLDispatch.h"
 
 static NSString *sqlCreateFilmsTable = @"CREATE TABLE films ("
 "title          varchar PRIMARY KEY,"
@@ -1056,6 +1056,7 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
             NSLog(@"%@", [myConn errorDescription]);
             NSAssert(0, @"Failed to connect to database in PGSQLKitUnitTest");
         }
+        [myConn release];
     }
 }
 
@@ -1157,91 +1158,6 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
 }
 
 #pragma mark -
-#pragma mark Dispatcher Callback Methods
-
-static BOOL processRecordsetShouldFailDidRun = NO;
-- (void)processRecordsetShouldFail:(PGSQLRecordset *)rs withConnErrorString:(NSString *)connError
-{
-	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
-    NSAssert(connError != nil, @"Error should not be nil.");
-    processRecordsetShouldFailDidRun = YES;
-}
-
-static BOOL processRecordsetDidRun = NO;
-- (void)processRecordset:(PGSQLRecordset *)rs withConnErrorString:(NSString *)connError
-{
-	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
-    if (connError == nil)
-    {
-        NSLog(@"No Connection Error.");
-        // No error process PGSQLRecordset.
-        NSAssert(rs != nil, @"No results from database in PGSQLKitUnitTest");
-        if (rs)
-        {
-            [self logRecordSet:rs];
-        }
-    }
-    else
-    {
-        NSLog(@"Connection Error: %@", connError);
-        NSAssert(0, connError);
-    }
-    processRecordsetDidRun = YES;
-}
-
-#pragma mark -
-#pragma mark Wait for Completion Methods
-
-- (void)waitForDispatchCompletion:(NSUInteger)seconds
-{
-	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
-    NSDate *startTimeStamp = [NSDate date];
-    while ([[PGSQLDispatch sharedPGSQLDispatch] totalQueuedBlocks] > 0)
-    {
-        // Wait for completion.
-        if (fabs([startTimeStamp timeIntervalSinceNow]) > seconds)
-        {
-            NSAssert(0, @"Timed out.");
-            break;
-        }
-    }    
-}
-
-static int loopCount = 0;
-NSDate *startTimeStamp;
-- (void)waitForCallBackMethodCompletion:(NSNumber *)seconds
-{
-	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
-    if (startTimeStamp == nil)
-    {
-        startTimeStamp = [NSDate date];
-    }
-    if (!processRecordsetDidRun)
-    {
-        // Wait for completion.
-        if (fabs([startTimeStamp timeIntervalSinceNow]) > [seconds doubleValue])
-        {
-            // Error
-            NSAssert(0, @"Process callback timed out.");
-        }
-        else
-        {
-            // Wait a bit then Check again.
-            [self performSelector:@selector(waitForCallBackMethodCompletion:) withObject:seconds afterDelay: 1.0];
-        }
-    }
-    else
-    {
-        NSLog(@"Callback Method Completed.");
-        loopCount++;
-        if (loopCount < 5)
-        {
-            [self performSelector:@selector(testDispatchSQLSimpleGoodSQL) withObject:nil afterDelay:0.1];
-        }
-    }
-}
-
-#pragma mark -
 #pragma mark Utility Methods
 
 -  (NSUInteger)countAsUInteger:(PGSQLRecordset *)rs
@@ -1256,55 +1172,133 @@ NSDate *startTimeStamp;
 #pragma mark -
 #pragma mark Test Methods
 
-- (void)testBasicSmallSQLInsert
+// *************************************************************************************************************************************
+//  Test 2 - Queue up a bunch of short failures.
+// *************************************************************************************************************************************
+
+static NSMutableArray *testDispatchSQLSimpleBadTableNameSQLResultsArray;
+static NSDate *testDispatchSQLSimpleBadTableNameStartTimeStamp;
+static double testDispatchSQLSimpleBadTableNameWaitSeconds;     // How long we want to wait for completion.
+
+- (void)testDispatchSQLSimpleBadTableNameCheckCompletion:(NSNumber *)expectedCompletedCount
 {
 	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
-    [self createFilms];
-    [self loadFilmsShort];
-    PGSQLConnection *myConn = [PGSQLConnection defaultConnection];
-    PGSQLRecordset *rs = [myConn open:@"SELECT * FROM films;"];
-    
-    NSLog(@"%@", [myConn sqlLog]);
-    NSAssert(rs != nil, @"No results from database in PGSQLKitUnitTest");
-    if (rs)
+    NSLog(@"    Found %lu of %@", [testDispatchSQLSimpleBadTableNameSQLResultsArray count], expectedCompletedCount);
+    if ([testDispatchSQLSimpleBadTableNameSQLResultsArray count] < [expectedCompletedCount integerValue])
     {
-        [self logRecordSet:rs];
+        if (fabs([testDispatchSQLSimpleBadTableNameStartTimeStamp timeIntervalSinceNow]) <= testDispatchSQLSimpleBadTableNameWaitSeconds)
+        {
+            // Check again in a few seconds
+            [self performSelector:@selector(testDispatchSQLSimpleBadTableNameCheckCompletion:) withObject:expectedCompletedCount afterDelay: 1.0];
+        }
+        else
+        {
+            // Timed out, should print error.
+            NSLog(@"    Timed out.");
+        }
     }
-}
-
-
-- (void)testBasicLargeSQLInsert
-{
-	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
-    [self createFilms];
-    [self loadFilmsShort];
-    [self loadFilmsLong];
-    PGSQLConnection *myConn = [PGSQLConnection defaultConnection];
-    PGSQLRecordset *rs = [myConn open:@"SELECT count(*) FROM films;"];
-    
-    NSLog(@"%@", [myConn sqlLog]);
-    NSAssert(rs != nil, @"No results from database in PGSQLKitUnitTest");
-    
-    NSUInteger myCount = [self countAsUInteger:rs];
-    NSAssert(myCount == 1000, @"loaded %d instead of 1000.", myCount);
+    else
+    {
+        // Do something with the results.
+        NSLog(@"    Completed normally in %.6f seconds.", fabs([testDispatchSQLSimpleBadTableNameStartTimeStamp timeIntervalSinceNow]));
+    }
 }
 
 - (void)testDispatchSQLSimpleBadTableName
 {
 	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
-    [self createFilms];
-    [self loadFilmsShort];
     
+    // Make sure we have a results array.
+    if (testDispatchSQLSimpleBadTableNameSQLResultsArray == nil)
+    {
+        testDispatchSQLSimpleBadTableNameSQLResultsArray = [[NSMutableArray alloc] init];
+    }
+    else
+    {
+        [testDispatchSQLSimpleBadTableNameSQLResultsArray removeAllObjects];
+    }
+    
+    // set the start time.
+    [testDispatchSQLSimpleBadTableNameStartTimeStamp release];
+    testDispatchSQLSimpleBadTableNameStartTimeStamp = [[NSDate date] retain];
+
     PGSQLDispatchCallback_t processSQLCallbackBlock = ^(PGSQLRecordset *recordset, NSString *errorString)
     {
-        [self processRecordsetShouldFail:recordset withConnErrorString:errorString];
+        if (recordset)
+        {
+            NSLog(@"Processed result row count %lu and should not have.", [recordset rowCount]);
+        }
+        if (errorString)
+        {
+            [testDispatchSQLSimpleBadTableNameSQLResultsArray addObject:errorString];
+            NSLog(@"%@", errorString);
+        }
     };
     
-    // Try something that should fail.
-    PGSQLDispatchError_t error = [[PGSQLDispatch sharedPGSQLDispatch] processResultsFromSQL:@"SELECT * from non_existant_table LIMIT 10;" 
-                                                                                longRunning:NO 
-                                                                         usingCallbackBlock:processSQLCallbackBlock];
-    NSAssert(error == PGSQLDispatchErrorNone, [[PGSQLDispatch sharedPGSQLDispatch] stringDescriptionForErrorNumber:error]);    
+    NSUInteger completedCount = 0;                  // Set how many result sets we expect.
+    testDispatchSQLSimpleBadTableNameWaitSeconds = 20.0; // Set how long we want to wait for completion.
+    NSArray *badSQLArray = [NSArray arrayWithObjects:
+                            @"SELECT * from non_existant_table LIMIT 10;",  // Bad table name.
+                            @"SELECT * ;",                                  // Malformed SQL
+                            @"INSERT INTO no_table;",                       // Malformed SQL Command
+                            //@"     ",                                       // Empty SQL
+                            @"SELECT birthday from films LIMIT 10;",        // Bad column name
+                            @"TRUNCATE table non_existant_table;",          // Bad command.
+                            @"SELECT * from non_existant_table LIMIT 10;",  // Bad table name.
+                            @"SELECT * from non_existant_table LIMIT 10;",  // Bad table name.
+                            @"SELECT * from non_existant_table LIMIT 10;",  // Bad table name.
+                            nil];
+
+    for (NSString *sql in badSQLArray)
+    {
+        // Try something that should fail (bad table name)
+        PGSQLDispatchError_t error = [[PGSQLDispatch sharedPGSQLDispatch] processResultsFromSQL:sql 
+                                                                                    expectLongRunning:NO 
+                                                                             usingCallbackBlock:processSQLCallbackBlock];
+        
+        NSAssert(error == PGSQLDispatchErrorNone, [[PGSQLDispatch sharedPGSQLDispatch] stringDescriptionForErrorNumber:error]);
+        completedCount++;
+    }
+    
+    if ([testDispatchSQLSimpleBadTableNameSQLResultsArray count] < completedCount)
+    {
+        [self performSelector:@selector(testDispatchSQLSimpleBadTableNameCheckCompletion:) withObject:[NSNumber numberWithInteger:completedCount] afterDelay: 1.0];
+    }
+
+}
+
+// *************************************************************************************************************************************
+//  Test 1 - Queue up a bunch of short running selects.
+// *************************************************************************************************************************************
+
+static NSMutableArray *testDispatchSQLSimpleGoodSQLResultsArray;
+static NSDate *testDispatchSQLSimpleGoodSQLStartTimeStamp;
+static double testDispatchSQLSimpleGoodSQLWaitSeconds;     // How long we want to wait for completion.
+
+- (void)testDispatchSQLSimpleGoodSQLCheckCompletion:(NSNumber *)expectedCompletedCount
+{
+	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
+    NSLog(@"    Found %lu of %@", [testDispatchSQLSimpleGoodSQLResultsArray count], expectedCompletedCount);
+    if ([testDispatchSQLSimpleGoodSQLResultsArray count] < [expectedCompletedCount integerValue])
+    {
+        if (fabs([testDispatchSQLSimpleGoodSQLStartTimeStamp timeIntervalSinceNow]) <= testDispatchSQLSimpleGoodSQLWaitSeconds)
+        {
+            // Check again in a few seconds
+            [self performSelector:@selector(testDispatchSQLSimpleGoodSQLCheckCompletion:) withObject:expectedCompletedCount afterDelay: 1.0];
+        }
+        else
+        {
+            // Timed out, should print error.
+            NSLog(@"    Timed out.");
+            [self performSelector:@selector(testDispatchSQLSimpleBadTableName) withObject:nil afterDelay:0.1];
+        }
+    }
+    else
+    {
+        // Do something with the results.
+        NSLog(@"    Completed normally in %.6f seconds.", fabs([testDispatchSQLSimpleGoodSQLStartTimeStamp timeIntervalSinceNow]));
+        [self performSelector:@selector(testDispatchSQLSimpleBadTableName) withObject:nil afterDelay:0.1];
+    }
 }
 
 - (void)testDispatchSQLSimpleGoodSQL
@@ -1312,22 +1306,72 @@ NSDate *startTimeStamp;
 	NSLog(@"%@ %s", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
     [self createFilms];
     [self loadFilmsShort];
+    [self loadFilmsLong];
+    
+    // Make sure we have a results array.
+    if (testDispatchSQLSimpleGoodSQLResultsArray == nil)
+    {
+        testDispatchSQLSimpleGoodSQLResultsArray = [[NSMutableArray alloc] init];
+    }
+    else
+    {
+        [testDispatchSQLSimpleGoodSQLResultsArray removeAllObjects];
+    }
+    
+    // set the start time.
+    [testDispatchSQLSimpleGoodSQLStartTimeStamp release];
+    testDispatchSQLSimpleGoodSQLStartTimeStamp = [[NSDate date] retain];
     
     PGSQLDispatchCallback_t processSQLCallbackBlock = ^(PGSQLRecordset *recordset, NSString *errorString)
     {
-        [self processRecordset:recordset withConnErrorString:errorString];
+        NSMutableDictionary *resultsDictionary = [[NSMutableDictionary alloc] init];
+        if (recordset)
+        {
+            [resultsDictionary setObject:recordset forKey:@"Recordset"];
+            NSLog(@"Callback processed Result row count %lu", [recordset rowCount]);
+        }
+        if (errorString)
+        {
+            [resultsDictionary setObject:errorString forKey:@"ErrorString"];
+            NSLog(@"Callback errorString:%@", errorString);
+        }
+        [testDispatchSQLSimpleGoodSQLResultsArray addObject:resultsDictionary];
+        [resultsDictionary release];
     };
     
-    // Try something that should not fail.
-    PGSQLDispatchError_t error = [[PGSQLDispatch sharedPGSQLDispatch] processResultsFromSQL:@"SELECT * from films LIMIT 10;" 
-                                                                                longRunning:NO 
-                                                                         usingCallbackBlock:processSQLCallbackBlock];
+    NSUInteger completedCount = 0;                  // Set how many result sets we expect.
+    testDispatchSQLSimpleGoodSQLWaitSeconds = 20.0; // Set how long we want to wait for completion.
     
-    NSAssert(error == PGSQLDispatchErrorNone, [[PGSQLDispatch sharedPGSQLDispatch] stringDescriptionForErrorNumber:error]);
-    startTimeStamp = nil;
-    [self performSelector:@selector(waitForCallBackMethodCompletion:) withObject:[NSNumber numberWithDouble:20.0] afterDelay: 1.0];
+    NSArray *goodSQLArray = [NSArray arrayWithObjects:
+                             sqlInsertFilmsTable,                           // double the data
+                             @"SELECT * from films LIMIT 10 OFFSET 300;",
+                             sqlInsertFilmsTableLarge,                      // double the data
+                             @"SELECT * from films LIMIT 100 OFFSET 800;",
+                             @"SELECT * from films LIMIT 200;",
+                             @"SELECT * from films LIMIT 50;",
+                             @"SELECT * from films LIMIT 25;",
+                             @"SELECT * from films LIMIT 333;",
+                             @"SELECT * from films LIMIT 666;",
+                             nil];
+    
+    for (NSString *sql in goodSQLArray)
+    {
+        // Dispatch something that should not fail.
+        PGSQLDispatchError_t error = [[PGSQLDispatch sharedPGSQLDispatch] processResultsFromSQL:sql
+                                                                                    expectLongRunning:NO 
+                                                                             usingCallbackBlock:processSQLCallbackBlock];
+        NSAssert(error == PGSQLDispatchErrorNone, [[PGSQLDispatch sharedPGSQLDispatch] stringDescriptionForErrorNumber:error]);
+        completedCount++;
+    }
+
+    if ([testDispatchSQLSimpleGoodSQLResultsArray count] < completedCount)
+    {
+        [self performSelector:@selector(testDispatchSQLSimpleGoodSQLCheckCompletion:) withObject:[NSNumber numberWithInteger:completedCount] afterDelay: 1.0];
+    }
 }
 
+#pragma mark -
+#pragma mark NSApplicationDelegate Methods
 
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification

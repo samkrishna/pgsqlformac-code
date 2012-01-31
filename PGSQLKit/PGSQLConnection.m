@@ -7,7 +7,7 @@
 //
 
 #import "PGSQLConnection.h"
-#include "libpq-fe.h"
+#import "libpq-fe.h"
 #import <sys/time.h>
 #import <Security/Security.h>
 #import <Foundation/Foundation.h>
@@ -222,6 +222,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	[newConnection setUserName:userName];
 	[newConnection setPassword:password];
 	[newConnection setDatabaseName:dbName];
+    [newConnection setDefaultEncoding:defaultEncoding];
 		
 	if ([self isConnected])
 	{
@@ -276,18 +277,20 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	const char *cString = [sql cStringUsingEncoding:defaultEncoding];
 	if (cString == NULL) 
 	{ 
-		self.errorDescription = [[NSString stringWithString:@"ERROR: command could not be losslessly converted to c string."] autorelease];
+		self.errorDescription = [NSString stringWithFormat:@"ERROR: execCommand could not be losslessly converted to c string: %@", sql];
+        [self appendSQLLog:[NSString stringWithFormat:@"%@\n", self.errorDescription]];
         return NO;
     }    
 	res = PQexec(pgconn, cString);
-	if (res == nil) 
+	if (res == NULL) 
 	{ 
-		self.errorDescription = [[NSString stringWithString:@"ERROR: No response (PGRES_FATAL_ERROR)"] autorelease];		
+		self.errorDescription = [NSString stringWithFormat:@"ERROR: execCommand response is nil: %@", sql];		
+        [self appendSQLLog:[NSString stringWithFormat:@"%@\n", self.errorDescription]];
 		return NO; 
 	}
 	if (PQresultStatus(res) != PGRES_COMMAND_OK) 
 	{
-		self.errorDescription = [[NSString stringWithFormat:@"%s", PQerrorMessage(pgconn)] autorelease];
+		self.errorDescription = [NSString stringWithFormat:@"%s", PQerrorMessage(pgconn)];
 
 		PQclear(res);
 		return NO;
@@ -347,7 +350,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	
 	if (logSQL)
 	{
-		[self appendSQLLog: [NSString stringWithFormat:@"%@\n", [sql stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]];
+		[self appendSQLLog: [NSString stringWithFormat:@"logSQL open: %@\n", [sql stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]]];
 	}
 	
 	self.startTimeStamp = [NSDate date];    // this might be used by PGSQLDispatch so it should always be set.
@@ -355,7 +358,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
     const char *cString = [sql cStringUsingEncoding:defaultEncoding];
     if (cString == NULL)
     {
-		self.errorDescription = [[NSString stringWithString:@"ERROR: command could not be losslessly converted to c string."] autorelease];
+		self.errorDescription = [NSString stringWithFormat:@"ERROR: open could not be losslessly converted to c string: %@", sql];
         [self appendSQLLog:[NSString stringWithFormat:@"%@\n", self.errorDescription]];
         return nil;
     }
@@ -365,6 +368,11 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
         //  If the receiver is earlier than the current date and time, the return value is negative.
 		elapsed_time_in_ms = -1000.0 * [self.startTimeStamp timeIntervalSinceNow];
 		[self appendSQLLog: [NSString stringWithFormat: @"Completed in %.2f milliseconds.\n", elapsed_time_in_ms]];
+	}
+	if (res == NULL) 
+	{
+		self.errorDescription = [NSString stringWithFormat:@"ERROR: open response is nil: %@", sql];		
+		return nil; 
 	}
 	switch (PQresultStatus(res))
 	{
@@ -543,6 +551,41 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	return (currentConnStatus == CONNECTION_OK);
 }
 
+// May need to do a little more here to make this compatible with pre 9.1 Postgresql libs.
+extern PGPing PQping(const char *conninfo) __attribute__((weak_import));
+
+- (NSString *)pingResults
+{
+    // See if we can get a little more info.
+    NSString *returnString = nil;
+    if (PQping != NULL)
+    {
+        NSString *connString = [self makeConnectionString];
+        const char * aConnCString = [connString cStringUsingEncoding:[self defaultEncoding]];
+        PGPing pingResult = PQping(aConnCString); // Only available in libpq 9.1+
+        switch (pingResult)
+        {
+            case PQPING_OK:
+                returnString = [NSString stringWithFormat:@"The server '%@' is running and appears to be accepting connections.", self.server];                            
+                break;
+            case PQPING_REJECT:
+                returnString = [NSString stringWithFormat:@"The server '%@' is running but is in a state that disallows connections (startup, shutdown, or crash recovery).", self.server];
+                break;
+            case PQPING_NO_RESPONSE:
+                returnString = [NSString stringWithFormat:@"The server '%@' could not be contacted. This might indicate that the server is not running, or that there is something wrong with the given "
+                      @"connection parameters (for example, wrong port number), or that there is a network connectivity problem (for example, a firewall blocking the connection request).", self.server];
+                break;
+            case PQPING_NO_ATTEMPT:
+                returnString = [NSString stringWithFormat:@"No attempt was made to contact the server '%@', because the supplied parameters were obviously incorrect or there was some client-side problem (for example, out of memory).", self.server];
+                break;
+            default:
+                returnString = [NSString stringWithFormat:@"Undefined PQping() result."];
+                break;
+        }
+    }
+    return returnString;
+}
+
 - (PGSQLConnectionCheckType)checkAndRecoverConnection
 {
     if (pgconn == nil)
@@ -578,30 +621,11 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
         [self appendSQLLog:[NSString stringWithFormat:@"%@\n", self.errorDescription]];
         
         // See if we can get a little more info.
-        PGPing pingResult = PQping(pgconn);
-        switch (pingResult)
+        NSString *pingString = [self pingResults];
+        if (pingString)
         {
-            case PQPING_OK:
-                NSLog(@"The server '%@' is running and appears to be accepting connections.", self.server);
-                [self appendSQLLog:[NSString stringWithFormat:@"The server '%@' is running and appears to be accepting connections.\n", self.server]];
-                break;
-            case PQPING_REJECT:
-                NSLog(@"The server '%@' is running but is in a state that disallows connections (startup, shutdown, or crash recovery).", self.server);
-                [self appendSQLLog:[NSString stringWithFormat:@"The server '%@' is running but is in a state that disallows connections (startup, shutdown, or crash recovery).\n", self.server]];
-                break;
-            case PQPING_NO_RESPONSE:
-                NSLog(@"The server '%@' could not be contacted. This might indicate that the server is not running, or that there is something wrong with the given "
-                      @"connection parameters (for example, wrong port number), or that there is a network connectivity problem (for example, a firewall blocking the connection request).", self.server);
-                [self appendSQLLog:[NSString stringWithFormat:@"The server '%@' could not be contacted. This might indicate that the server is not running, or that there is something wrong with the given "
-                                    @"connection parameters (for example, wrong port number), or that there is a network connectivity problem (for example, a firewall blocking the connection request).\n", self.server]];
-                break;
-            case PQPING_NO_ATTEMPT:
-                NSLog(@"No attempt was made to contact the server '%@', because the supplied parameters were obviously incorrect or there was some client-side problem (for example, out of memory).", self.server);
-                [self appendSQLLog:[NSString stringWithFormat:@"No attempt was made to contact the server '%@', because the supplied parameters were obviously incorrect or there was some client-side problem (for example, out of memory).\n", self.server]];
-                break;
-            default:
-                NSLog(@"Undefined PQping() result.");
-                break;
+            NSLog(@"%@", pingString);
+            [self appendSQLLog:[NSString stringWithFormat:@"%@\n", pingString]];
         }
         return (PGSQLConnectionCheckError);
     }
