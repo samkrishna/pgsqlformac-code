@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'PGSQLKit_DataObject' target in the 'PGSQLKit_DataObject' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif

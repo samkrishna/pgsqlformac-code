@@ -194,6 +194,19 @@
 	return 0; 
 }
 
+/* asDate
+ *   description
+ *     return the value of the field as an NSDate object using
+ *   arguments
+ *     none
+ *   returns
+ *     an NSDate representing the data from the field
+ *   history
+ *     who   date    change
+ *     --- -------- ----------------------------------------------------------- 
+ *     dru 01/23/12 work to deal with the myriad of possible returns from PG
+ *                  to then convert them to an NSDate without problems. 
+ ******************************************************************************/
 -(NSDate *)asDate
 {
 	if (data != nil) {
@@ -226,7 +239,7 @@
         
 
         NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setTimeZone:[NSTimeZone defaultTimeZone]];
+        [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
         
         // need to determine which output style we have:
         //  ISO         ISO 8601/SQL standard	1997-12-17 07:37:16-08      
@@ -249,11 +262,11 @@
                 break;
                 
             case 1114:  // timestamp
-                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.s"];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
                 break;
                 
             case 1184:  // timestamptz
-                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.sZ"];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ssZ"];
                 break;
                 
             case 1266:  // timetz

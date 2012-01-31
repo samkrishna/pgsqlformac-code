@@ -37,6 +37,7 @@
 
 #import "PGSQLLogin.h"
 #import "PGSQLConnection.h"
+#import "PGSQLDataObject.h"
 
 
 

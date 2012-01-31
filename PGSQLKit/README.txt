@@ -3,7 +3,7 @@
 
 # License
 
-Copyright (c) 2005-2011, Druware Software Designs
+Copyright (c) 2005-2012, Druware Software Designs
 All rights reserved.
 
 Redistribution and use in binary forms, with or without modification, are 
@@ -29,6 +29,11 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
 THE POSSIBILITY OF SUCH DAMAGE.
 
 # Change Log
+
+## 01/30/2012
+* initial add of PGSQLDataObject into the PGSQLKit from the internal 
+  experimental branch
+* added NSData+Base64.h/m from Matt Gallagher to support the xml serialization
 
 ## 10/12/2011
 * updated to 9.1.1 libpq code
