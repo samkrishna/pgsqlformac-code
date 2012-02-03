@@ -31,6 +31,8 @@
 		436D7C3E143BDEC70060554C /* PGSQLKit.txt in Resources */ = {isa = PBXBuildFile; fileRef = 436D7C3D143BDEC70060554C /* PGSQLKit.txt */; };
 		436D7C40143BE0820060554C /* PGSQLConnection.txt in Resources */ = {isa = PBXBuildFile; fileRef = 436D7C3F143BE0820060554C /* PGSQLConnection.txt */; };
 		439774040C7D29140009F0B4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 439774030C7D29140009F0B4 /* Security.framework */; };
+		43A6C9E414D8D98E0051779D /* PGSQLDataObjectList.h in Headers */ = {isa = PBXBuildFile; fileRef = 43A6C9E214D8D98E0051779D /* PGSQLDataObjectList.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		43A6C9E514D8D98E0051779D /* PGSQLDataObjectList.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A6C9E314D8D98E0051779D /* PGSQLDataObjectList.m */; };
 		43B0EBED14B4F4C7000390E4 /* PGSQLKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* PGSQLKit.framework */; };
 		43C1A66E14D77B5B009F7111 /* PGSQLDataObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 43C1A66C14D77B5B009F7111 /* PGSQLDataObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43C1A66F14D77B5B009F7111 /* PGSQLDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 43C1A66D14D77B5B009F7111 /* PGSQLDataObject.m */; };
@@ -115,6 +117,8 @@
 		439F7B640C189495001CA5A4 /* PGSQLRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLRecord.m; sourceTree = "<group>"; };
 		439F7B670C1894AA001CA5A4 /* PGSQLColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLColumn.h; sourceTree = "<group>"; };
 		439F7B680C1894AA001CA5A4 /* PGSQLColumn.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLColumn.m; sourceTree = "<group>"; };
+		43A6C9E214D8D98E0051779D /* PGSQLDataObjectList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.objj; path = PGSQLDataObjectList.h; sourceTree = "<group>"; };
+		43A6C9E314D8D98E0051779D /* PGSQLDataObjectList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLDataObjectList.m; sourceTree = "<group>"; };
 		43C1A66C14D77B5B009F7111 /* PGSQLDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLDataObject.h; sourceTree = "<group>"; };
 		43C1A66D14D77B5B009F7111 /* PGSQLDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLDataObject.m; sourceTree = "<group>"; };
 		43C1A67014D78FB7009F7111 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
@@ -257,6 +261,8 @@
 				43F613320F9E5DC000F8273F /* PGSQLConnectionInfo.m */,
 				43C1A66C14D77B5B009F7111 /* PGSQLDataObject.h */,
 				43C1A66D14D77B5B009F7111 /* PGSQLDataObject.m */,
+				43A6C9E214D8D98E0051779D /* PGSQLDataObjectList.h */,
+				43A6C9E314D8D98E0051779D /* PGSQLDataObjectList.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -396,6 +402,7 @@
 				436D7C39143BDE7A0060554C /* GenDBRecord.h in Headers */,
 				43C1A66E14D77B5B009F7111 /* PGSQLDataObject.h in Headers */,
 				43C1A67214D78FB7009F7111 /* NSData+Base64.h in Headers */,
+				43A6C9E414D8D98E0051779D /* PGSQLDataObjectList.h in Headers */,
 				436D7C3A143BDE7A0060554C /* GenDBRecordset.h in Headers */,
 				7B70BF91100D685E00046E2F /* PGSQLLogin.h in Headers */,
 			);
@@ -585,6 +592,7 @@
 				43F613340F9E5DC000F8273F /* PGSQLConnectionInfo.m in Sources */,
 				7B70BF90100D685D00046E2F /* PGSQLLogin.m in Sources */,
 				43C1A66F14D77B5B009F7111 /* PGSQLDataObject.m in Sources */,
+				43A6C9E514D8D98E0051779D /* PGSQLDataObjectList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

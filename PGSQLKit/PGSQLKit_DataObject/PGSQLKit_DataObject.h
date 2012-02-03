@@ -14,7 +14,7 @@
     PGSQLConnection *connection;
 }
 
-
+- (void)testDataObjectList;
 - (void)testDataObject_abstime;
 - (void)testDataObject_bit;
 - (void)testDataObject_boolean;

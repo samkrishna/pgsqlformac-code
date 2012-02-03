@@ -78,6 +78,10 @@
 - (id)initWithConnection:(PGSQLConnection *)pgConn
                 forTable:(NSString *)tableName
           withPrimaryKey:(NSString *)keyName;
+- (id)initWithConnection:(PGSQLConnection *)pgConn 
+                forTable:(NSString *)tableName
+          withPrimaryKey:(NSString *)keyName
+               forRecord:(PGSQLRecordset *)rs;
 - (id)initWithConnection:(PGSQLConnection *)pgConn
                 forTable:(NSString *)tableName
           withPrimaryKey:(NSString *)keyName

@@ -43,6 +43,42 @@
 
 #pragma mark Data Object Tests
 
+- (void)testDataObjectList
+{
+    // setup the table
+    
+    NSMutableString *tableCmd = [[NSMutableString alloc] init];
+    [tableCmd appendString:@"create table pgdo_test ( "];
+    [tableCmd appendString:@"   record_id serial primary key, "];
+    [tableCmd appendString:@"   v_char varchar(16) not null "];
+    [tableCmd appendString:@")"];
+    [connection execCommand:tableCmd];
+    [tableCmd release];
+    
+    // insert a couple of records
+    NSMutableString *insertCmd = [[NSMutableString alloc] init];
+    [insertCmd appendString:@"insert into pgdo_test (v_char) values ('first test'); "];
+    [insertCmd appendString:@"insert into pgdo_test (v_char) values ('second test'); "];
+    [connection execCommand:insertCmd];
+    [insertCmd release];    
+
+    // create
+    
+    PGSQLDataObjectList *objList;
+    objList = [[PGSQLDataObjectList alloc] initWithConnection:connection 
+                                                     forTable:@"pgdo_test" 
+                                               withPrimaryKey:@"record_id"];
+    
+    // do we have 2 records ?
+    STAssertTrue([objList count] == 2, @"Count is not the expected 2 records");
+    
+    // cleanup the table
+    tableCmd = [[NSMutableString alloc] init];
+    [tableCmd appendString:@"drop table pgdo_test"];
+    [connection execCommand:tableCmd];
+    [tableCmd release];
+}
+
 - (void)testDataObject_abstime
 {
     NSNumber *refId;

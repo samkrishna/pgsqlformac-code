@@ -95,16 +95,13 @@
  ******************************************************************************/
 - (id)initWithConnection:(PGSQLConnection *)pgConn
 {
-	self = [super init];
-	if (!self) {return nil;}
-	
-	connection = [pgConn retain];
-	properties = nil;
+    NSException* myException = [NSException
+								exceptionWithName:@"InvalidInitCalled"
+								reason:@"Init Cannot be called without a parameter"
+								userInfo:nil];
+	@throw myException;
     
-	isDirty					= NO;
-	isNew					= YES;
-	
-	return self;
+    return nil;
 }
 
 /* initWithConnection
@@ -160,17 +157,13 @@
  ******************************************************************************/
 - (id)initWithConnection:(PGSQLConnection *)pgConn forRecord:(PGSQLRecordset *)rs
 {
-	self = [super init];
-	if (!self) {return nil;}
-	
-	connection = [pgConn retain];
+	NSException* myException = [NSException
+								exceptionWithName:@"InvalidInitCalled"
+								reason:@"Init Cannot be called in the base class with a reference"
+								userInfo:nil];
+	@throw myException;
     
-    properties = nil;
-	
-	// load the record from the recordset as passed in
-	[self loadFromRecord:rs];
-	
-	return self;
+    return nil;
 }
 
 /* initWithConnection
@@ -193,8 +186,8 @@
  *                  practical without lots of boilerplate.
  ******************************************************************************/
 - (id)initWithConnection:(PGSQLConnection *)pgConn
-forTable:(NSString *)tableName
-withPrimaryKey:(NSString *)keyName
+                forTable:(NSString *)tableName
+          withPrimaryKey:(NSString *)keyName
 {
 	self = [super init];
 	if (!self) {return nil;}
@@ -215,6 +208,42 @@ withPrimaryKey:(NSString *)keyName
         [self defaultsFromRecord:rs];
         [rs close];
 	}
+    isNew = YES;
+	return self;
+}
+
+/* init
+ *   description
+ *     override the default NSObject init method to prevent a bare init for the
+ *     data object. Throws an exception if called.
+ *   arguments
+ *     none
+ *   returns
+ *     none
+ *   history
+ *     who   date    change
+ *     --- -------- ----------------------------------------------------------- 
+ *     dru 01/31/12 added to deal with proper subclassing as the default 
+ *                  forRecord has no way to id table or primary key
+ *
+ ******************************************************************************/
+- (id)initWithConnection:(PGSQLConnection *)pgConn
+                forTable:(NSString *)tableName
+          withPrimaryKey:(NSString *)keyName
+               forRecord:(PGSQLRecordset *)rs
+{
+	self = [super init];
+	if (!self) {return nil;}
+	
+	connection = [pgConn retain];
+    table = [[tableName copy] retain];
+	primaryKey = [[keyName copy] retain];
+    
+    properties = nil;
+	isNew = NO;
+	// load the record from the recordset as passed in
+	[self loadFromRecord:rs];
+	
 	return self;
 }
 
@@ -240,9 +269,9 @@ withPrimaryKey:(NSString *)keyName
  *                  practical without lots of boilerplate.
  ******************************************************************************/
 - (id)initWithConnection:(PGSQLConnection *)pgConn
-forTable:(NSString *)tableName
-withPrimaryKey:(NSString *)keyName
-forId:(NSNumber *)referenceId
+                forTable:(NSString *)tableName
+          withPrimaryKey:(NSString *)keyName
+                   forId:(NSNumber *)referenceId
 {
 	self = [super init];
 	if (!self) {return nil;}
@@ -253,6 +282,7 @@ forId:(NSNumber *)referenceId
     refId = [[referenceId copy] retain];
     
     properties = nil;
+    isNew = NO;
     
 	// load the record by Id
 	NSString *cmd = [NSString stringWithFormat:@"select * from %@ where %@ = %d", 
@@ -367,21 +397,29 @@ forId:(NSNumber *)referenceId
         
         for (i = 0; i < [[properties allKeys] count]; i++)
         {
+            if (i > 0)
+            {
+                if (![[[properties allKeys] objectAtIndex:i-1] isEqualToString:primaryKey])
+                {
+                    if (i < [[properties allKeys] count] - 1)
+                    {
+                        if (![[[properties allKeys] objectAtIndex:i+1] isEqualToString:primaryKey])
+                        {
+                            [cmd appendString:@", "];
+                        }
+                    } 
+                    
+                }                
+            }
+            
             NSDictionary *column = [properties objectForKey:[[properties allKeys] objectAtIndex:i]];
             if (![[[properties allKeys] objectAtIndex:i] isEqualToString:primaryKey])
             {                
                 [cmd appendFormat:@"%@ = %@",
                  [[properties allKeys] objectAtIndex:i], 
                  [self stringForColumn:column]];
-                
-                if (i < [[properties allKeys] count] - 1)
-                {
-                    if (![[[properties allKeys] objectAtIndex:i+1] isEqualToString:primaryKey])
-                    {
-                        [cmd appendString:@", "];
-                    }
-                }
             }
+            
 		}
         
 		[cmd appendFormat:@" where %@ = %@;",
