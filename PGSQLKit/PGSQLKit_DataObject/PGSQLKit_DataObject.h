@@ -26,13 +26,13 @@
 - (void)testDataObject_int2;
 - (void)testDataObject_int4;
 - (void)testDataObject_int8;
-// - (void)testDataObject_interval;
+- (void)testDataObject_interval;
 - (void)testDataObject_money;
 - (void)testDataObject_numeric;
 - (void)testDataObject_text;
 - (void)testDataObject_time;
 - (void)testDataObject_timestamp;
-// - (void)testDataObject_timetz;
+- (void)testDataObject_timetz;
 - (void)testDataObject_timestamptz;
 - (void)testDataObject_uuid;
 - (void)testDataObject_varbit;

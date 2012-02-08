@@ -1639,6 +1639,145 @@
     [tableCmd release];
 }
 
+- (void)testDataObject_interval
+{
+    NSNumber *refId;
+    NSString *initialValue = [[NSString alloc] initWithString:@"1 day 10:30:25"]; // 1 day, 10 hours, 30 minutes, 25 seconds
+    NSString *updateValue = [[NSString alloc] initWithString:@"10 days 01:25:30"]; // 10 day, 1 hours, 25 minutes, 30 seconds
+    
+    // setup the table
+    
+    NSMutableString *tableCmd = [[NSMutableString alloc] init];
+    [tableCmd appendString:@"create table pgdo_test ( "];
+    [tableCmd appendString:@"   record_id serial primary key, "];
+    [tableCmd appendString:@"   v_interval interval not null "];
+    [tableCmd appendString:@")"];
+    [connection execCommand:tableCmd];
+    [tableCmd release];
+    
+    // create
+    
+    PGSQLDataObject *objCreate;
+    objCreate = [[PGSQLDataObject alloc] initWithConnection:connection 
+                                                   forTable:@"pgdo_test" 
+                                             withPrimaryKey:@"record_id"];
+    
+    // set the property
+    [objCreate setValue:initialValue forProperty:@"v_interval"];
+    
+    // Create -----------------------------------------------------------------
+    
+    BOOL result = [objCreate save];
+    if (result)
+    {
+        refId  = [[[objCreate refId] copy] retain];
+        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+                     [objCreate lastError]);
+    } else {
+        STAssertTrue(result == YES, @"DataObject (v_interval) Save Failed: %@", 
+                     [objCreate lastError]);
+        [objCreate release];
+        return;
+    }
+    [objCreate release];
+    
+    // Read 
+    
+    PGSQLDataObject *objRead;
+    objRead = [[PGSQLDataObject alloc] initWithConnection:connection 
+                                                 forTable:@"pgdo_test"
+                                           withPrimaryKey:@"record_id"
+                                                    forId:refId];
+    // get the property
+    
+    STAssertTrue([[objRead valueForProperty:@"v_interval"] isEqualToString:initialValue], 
+                 @"DataObject (v_interval) Read Failed");
+    
+    [objRead release];
+    
+    // Update 
+    
+    PGSQLDataObject *objUpdate;
+    objUpdate = [[PGSQLDataObject alloc] initWithConnection:connection 
+                                                   forTable:@"pgdo_test"
+                                             withPrimaryKey:@"record_id"
+                                                      forId:refId];
+    
+    [objUpdate setValue:updateValue forProperty:@"v_interval"];
+    
+    STAssertTrue([objUpdate  save], 
+                 @"DataObject (v_interval) Update failed: %@", [objUpdate lastError]);
+    [objUpdate release];
+    
+    // Xml Fetch
+    
+    PGSQLDataObject *objXmlFetch;
+    objXmlFetch = [[PGSQLDataObject alloc] initWithConnection:connection 
+                                                     forTable:@"pgdo_test"
+                                               withPrimaryKey:@"record_id"
+                                                        forId:refId];
+    
+    NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
+    
+    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+                 @"DataObject (v_interval) xmlForObject failed: %@", [objXmlFetch lastError]);
+    
+    int iFoundChildren = 0;
+    for (int i = 0; i < [[xmlDocument rootElement] childCount]; i++)
+    {
+        NSXMLNode *currentElement = [[xmlDocument rootElement] childAtIndex:i];
+        
+        if ([[currentElement name] isEqualToString:@"v_interval"])
+        {
+            NSString *currentValue = [currentElement stringValue];
+            
+            STAssertTrue([currentValue isEqualToString:updateValue], 
+                         @"DataObject (v_interval) xmlForObject Xml value not expected value");
+            
+            iFoundChildren++;
+        }
+    }
+    STAssertTrue(iFoundChildren >= 1, 
+                 @"DataObject (v_interval) xmlForObject failed to find field in Xml");
+    
+    [objXmlFetch release];
+    
+    // Xml Load
+    
+    PGSQLDataObject *objXmlSet;
+    objXmlSet = [[PGSQLDataObject alloc] initWithConnection:connection
+                                                   forTable:@"pgdo_test"
+                                             withPrimaryKey:@"record_id"]; 
+    
+    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+                 @"DataObject (v_interval) loadFromXml Failed: no xml document");
+    
+    STAssertTrue([[objXmlSet valueForProperty:@"v_interval"] isEqualToString:updateValue], 
+                 @"DataObject (v_interval) loadFromXml Failed: value does not match expected");
+    
+    [objXmlSet setValue:initialValue forProperty:@"v_interval"];
+    
+    STAssertTrue([objXmlSet save], 
+                 @"DataObject (v_interval) Save after loadFromXml: %@", [objXmlSet lastError]);
+    [objXmlSet release];
+    
+    // Delete    
+    PGSQLDataObject *objDelete;
+    objDelete = [[PGSQLDataObject alloc] initWithConnection:connection 
+                                                   forTable:@"pgdo_test"
+                                             withPrimaryKey:@"record_id"
+                                                      forId:refId];
+    STAssertTrue([objDelete remove], 
+                 @"DataObject Delete failed: %@", [objDelete lastError]);
+    [objDelete release];  
+    
+    // cleanup the table
+    tableCmd = [[NSMutableString alloc] init];
+    [tableCmd appendString:@"drop table pgdo_test"];
+    [connection execCommand:tableCmd];
+    [tableCmd release];
+}
+
 - (void)testDataObject_money
 {
     NSNumber *refId;
@@ -2075,7 +2214,7 @@
     NSMutableString *tableCmd = [[NSMutableString alloc] init];
     [tableCmd appendString:@"create table pgdo_test ( "];
     [tableCmd appendString:@"   record_id serial primary key, "];
-    [tableCmd appendString:@"   v_time date not null "];
+    [tableCmd appendString:@"   v_time time not null "];
     [tableCmd appendString:@")"];
     [connection execCommand:tableCmd];
     [tableCmd release];
@@ -2084,8 +2223,8 @@
     
     PGSQLDataObject *objCreate;
     objCreate = [[PGSQLDataObject alloc] initWithConnection:connection 
-                                                 forTable:@"pgdo_test" 
-                                           withPrimaryKey:@"record_id"];
+                                                   forTable:@"pgdo_test" 
+                                             withPrimaryKey:@"record_id"];
     
     // set the property
     [objCreate setValue:initialValue forProperty:@"v_time"];
@@ -2110,9 +2249,9 @@
     
     PGSQLDataObject *objRead;
     objRead = [[PGSQLDataObject alloc] initWithConnection:connection 
-                                               forTable:@"pgdo_test"
-                                         withPrimaryKey:@"record_id"
-                                                  forId:refId];
+                                                 forTable:@"pgdo_test"
+                                           withPrimaryKey:@"record_id"
+                                                    forId:refId];
     // get the property
     
     STAssertTrue([[objRead valueForProperty:@"v_time"] isEqualToDate:initialValue], 
@@ -2124,9 +2263,9 @@
     
     PGSQLDataObject *objUpdate;
     objUpdate = [[PGSQLDataObject alloc] initWithConnection:connection 
-                                                 forTable:@"pgdo_test"
-                                           withPrimaryKey:@"record_id"
-                                                    forId:refId];
+                                                   forTable:@"pgdo_test"
+                                             withPrimaryKey:@"record_id"
+                                                      forId:refId];
     
     [objUpdate setValue:updateValue forProperty:@"v_time"];
     
@@ -2138,9 +2277,9 @@
     
     PGSQLDataObject *objXmlFetch;
     objXmlFetch = [[PGSQLDataObject alloc] initWithConnection:connection 
-                                                   forTable:@"pgdo_test"
-                                             withPrimaryKey:@"record_id"
-                                                      forId:refId];
+                                                     forTable:@"pgdo_test"
+                                               withPrimaryKey:@"record_id"
+                                                        forId:refId];
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
@@ -2176,8 +2315,8 @@
     
     PGSQLDataObject *objXmlSet;
     objXmlSet = [[PGSQLDataObject alloc] initWithConnection:connection
-                                                 forTable:@"pgdo_test"
-                                           withPrimaryKey:@"record_id"]; 
+                                                   forTable:@"pgdo_test"
+                                             withPrimaryKey:@"record_id"]; 
     
     STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_time) loadFromXml Failed: no xml document");
@@ -2194,9 +2333,153 @@
     // Delete    
     PGSQLDataObject *objDelete;
     objDelete = [[PGSQLDataObject alloc] initWithConnection:connection 
+                                                   forTable:@"pgdo_test"
+                                             withPrimaryKey:@"record_id"
+                                                      forId:refId];
+    STAssertTrue([objDelete remove], 
+                 @"DataObject Delete failed: %@", [objDelete lastError]);
+    [objDelete release];  
+    
+    // cleanup the table
+    tableCmd = [[NSMutableString alloc] init];
+    [tableCmd appendString:@"drop table pgdo_test"];
+    [connection execCommand:tableCmd];
+    [tableCmd release];
+}
+
+- (void)testDataObject_timetz
+{
+    NSNumber *refId;
+    NSDate *initialValue = [[NSDate alloc] initWithString:@"1970-01-01 08:24:13 +000"];
+    NSDate *updateValue = [[NSDate alloc] initWithString:@"1970-01-01 17:02:54 +000"];
+    
+    // setup the table
+    
+    NSMutableString *tableCmd = [[NSMutableString alloc] init];
+    [tableCmd appendString:@"create table pgdo_test ( "];
+    [tableCmd appendString:@"   record_id serial primary key, "];
+    [tableCmd appendString:@"   v_timetz timetz not null "];
+    [tableCmd appendString:@")"];
+    [connection execCommand:tableCmd];
+    [tableCmd release];
+    
+    // create
+    
+    PGSQLDataObject *objCreate;
+    objCreate = [[PGSQLDataObject alloc] initWithConnection:connection 
+                                                   forTable:@"pgdo_test" 
+                                             withPrimaryKey:@"record_id"];
+    
+    // set the property
+    [objCreate setValue:initialValue forProperty:@"v_timetz"];
+    
+    // Create -----------------------------------------------------------------
+    
+    BOOL result = [objCreate save];
+    if (result)
+    {
+        refId  = [[[objCreate refId] copy] retain];
+        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+                     [objCreate lastError]);
+    } else {
+        STAssertTrue(result == YES, @"DataObject (v_timetz) Save Failed: %@", 
+                     [objCreate lastError]);
+        [objCreate release];
+        return;
+    }
+    [objCreate release];
+    
+    // Read 
+    
+    PGSQLDataObject *objRead;
+    objRead = [[PGSQLDataObject alloc] initWithConnection:connection 
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
+    // get the property
+    
+    STAssertTrue([[objRead valueForProperty:@"v_timetz"] isEqualToDate:initialValue], 
+                 @"DataObject (v_timetz) Read Failed");
+    
+    [objRead release];
+    
+    // Update 
+    
+    PGSQLDataObject *objUpdate;
+    objUpdate = [[PGSQLDataObject alloc] initWithConnection:connection 
+                                                   forTable:@"pgdo_test"
+                                             withPrimaryKey:@"record_id"
+                                                      forId:refId];
+    
+    [objUpdate setValue:updateValue forProperty:@"v_timetz"];
+    
+    STAssertTrue([objUpdate  save], 
+                 @"DataObject (v_timetz) Update failed: %@", [objUpdate lastError]);
+    [objUpdate release];
+    
+    // Xml Fetch
+    
+    PGSQLDataObject *objXmlFetch;
+    objXmlFetch = [[PGSQLDataObject alloc] initWithConnection:connection 
+                                                     forTable:@"pgdo_test"
+                                               withPrimaryKey:@"record_id"
+                                                        forId:refId];
+    
+    NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
+    
+    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+                 @"DataObject (v_timetz) xmlForObject failed: %@", [objXmlFetch lastError]);
+    
+    int iFoundChildren = 0;
+    for (int i = 0; i < [[xmlDocument rootElement] childCount]; i++)
+    {
+        NSXMLNode *currentElement = [[xmlDocument rootElement] childAtIndex:i];
+        
+        if ([[currentElement name] isEqualToString:@"v_timetz"])
+        {
+            // this is not a string type, so it must be parsed back to an 
+            // NSNumber before we can really use it.
+            NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+            [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+            [dateFormatter setDateFormat:@"HH:mm:ss"];
+            NSDate *currentValue = [dateFormatter dateFromString:[currentElement stringValue]];
+            
+            STAssertTrue([currentValue isEqualToDate:updateValue], 
+                         @"DataObject (v_timetz) xmlForObject Xml value not expected value");
+            
+            iFoundChildren++;
+        }
+    }
+    STAssertTrue(iFoundChildren >= 1, 
+                 @"DataObject (v_timetz) xmlForObject failed to find field in Xml");
+    
+    [objXmlFetch release];
+    
+    // Xml Load
+    
+    PGSQLDataObject *objXmlSet;
+    objXmlSet = [[PGSQLDataObject alloc] initWithConnection:connection
+                                                   forTable:@"pgdo_test"
+                                             withPrimaryKey:@"record_id"]; 
+    
+    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+                 @"DataObject (v_timetz) loadFromXml Failed: no xml document");
+    
+    STAssertTrue([[objXmlSet valueForProperty:@"v_timetz"] isEqualToDate:updateValue], 
+                 @"DataObject (v_timetz) loadFromXml Failed: value does not match expected");
+    
+    [objXmlSet setValue:initialValue forProperty:@"v_timetz"];
+    
+    STAssertTrue([objXmlSet save], 
+                 @"DataObject (v_timetz) Save after loadFromXml: %@", [objXmlSet lastError]);
+    [objXmlSet release];
+    
+    // Delete    
+    PGSQLDataObject *objDelete;
+    objDelete = [[PGSQLDataObject alloc] initWithConnection:connection 
+                                                   forTable:@"pgdo_test"
+                                             withPrimaryKey:@"record_id"
+                                                      forId:refId];
     STAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  

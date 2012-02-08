@@ -408,7 +408,6 @@
                             [cmd appendString:@", "];
                         }
                     } 
-                    
                 }                
             }
             
@@ -562,12 +561,20 @@
                     break;
                     
                 case 1083:  // time
+                case 1266:  // timetz
+                {
+                    NSDateFormatter *format = [[[NSDateFormatter alloc] init] autorelease];
+                    [format setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+                    [format setDateFormat:@"HH:mm:ss"];                    
+                    [childNode setStringValue:[format stringFromDate:[column objectForKey:@"value"]]];
+                    break;
+                }
+                    
                 case 1114:  // timestamp
                 case 1184:  // timestamptz
-                case 1266:  // timetz
                     [childNode setStringValue:[column objectForKey:@"value"]];
                     break;
-                    
+    
                 case 1186:  // interval
                     [childNode setStringValue:[column objectForKey:@"value"]];
                     break;
@@ -725,6 +732,7 @@
                         }
                             
                         case 1083:  // time
+                        case 1266:  // timetz
                         {
                             //"2012-01-01T16:15:31"
                             NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
@@ -758,27 +766,7 @@
                             [property setObject:newDate forKey:@"value"];
                             break;
                         }
-                        case 1266:  // timetz
-                        {
-                            //"2012-01-01T16:15:31"
-                            NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-                            [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
-                            [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
-                            NSDate *newDate = [dateFormatter dateFromString:[currentElement stringValue]];
-                            [property setObject:newDate forKey:@"value"];
-                            break;
-                        }
-                            
-                        case 1186:  // interval
-                        {
-                            //"2012-01-01T16:15:31"
-                            NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-                            [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
-                            [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
-                            NSDate *newDate = [dateFormatter dateFromString:[currentElement stringValue]];
-                            [property setObject:newDate forKey:@"value"];
-                            break;
-                        }
+
                             
                             // Numbers -- this probably ought to format into a much
                             //            more specific format
@@ -800,6 +788,7 @@
                         }
                             
                             // Strings
+                        case 1186:  // interval
                         case 2950:  // UUID
                             [property setObject:[currentElement stringValue] 
                                          forKey:@"value"];
@@ -1029,7 +1018,7 @@
                     [columnDict setValue:[field asDate] forKey:@"value"];
                     break;
                 case 1082:  // date  
-                case 1083:  // time
+                case 1083:  // time // needs to be specific
                 case 1114:  // timestamp
                 case 1184:  // timestamptz
                 case 1266:  // timetz
@@ -1037,8 +1026,6 @@
                     break;
                     
                 case 1186:  // interval
-                    // TODO: need to evaluate the best method for this, it could 
-                    // TODO: require a good bit more than just this.
                     [columnDict setValue:[field asString] forKey:@"value"];
                     break;
                     
@@ -1063,7 +1050,7 @@
                     break;
                 }
                     
-                    // Strings
+                // Strings
                 case 25:    // text
                 case 2950:  // UUID
                 case 142:   // xml
@@ -1208,6 +1195,9 @@
         case 1083:  // time
             result = [self stringForTime:[column objectForKey:@"value"]];
             break;
+        case 1266:  // timetz
+            result = [self stringForTimeTZ:[column objectForKey:@"value"]];
+            break;
             
         case 1114:  // timestamp
             result = [self stringForTimeStamp:[column objectForKey:@"value"]];
@@ -1216,11 +1206,7 @@
         case 1184:  // timestamptz
             result = [self stringForTimeStampTZ:[column objectForKey:@"value"]];
             break;
-            
-        case 1266:  // timetz
-            result = [self stringForTimeTZ:[column objectForKey:@"value"]];
-            break;
-            
+                    
         case 1186:  // interval
             result = [self stringForString:[column objectForKey:@"value"]];
             break;
@@ -1351,17 +1337,18 @@
 
 - (NSString *)stringForTimeStampTZ:(NSDate *)value
 {
-	if (value == nil) 
-	{
-		return [NSString stringWithString:@"null"];
-	}
-	
-	NSDateFormatter *format = [[[NSDateFormatter alloc] init] autorelease];
-    [format setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
-	[format setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    
-	return [NSString stringWithFormat:@"'%@ +0'", 
-            [format stringFromDate:value]];
+    {
+        if (value == nil) 
+        {
+            return [NSString stringWithString:@"null"];
+        }
+        
+        NSDateFormatter *format = [[[NSDateFormatter alloc] init] autorelease];
+        [format setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+        [format setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        
+        return [NSString stringWithFormat:@"'%@ +0'", [format stringFromDate:value]];
+    }
 }
 
 - (NSString *)stringForTimeTZ:(NSDate *)value
@@ -1372,9 +1359,10 @@
 	}
 	
 	NSDateFormatter *format = [[[NSDateFormatter alloc] init] autorelease];
-	[format setDateFormat:@"HH:mm:ss z"];
+    [format setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+	[format setDateFormat:@"HH:mm:ss"];
     
-	return [NSString stringWithFormat:@"'%@'", 
+	return [NSString stringWithFormat:@"'%@ +0'", 
             [format stringFromDate:value]];
 }
 

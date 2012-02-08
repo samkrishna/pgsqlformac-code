@@ -258,7 +258,7 @@
                 break;
                 
             case 1083:  // time
-                [dateFormatter setDateFormat:@"HH:mm:ss.s"];
+                [dateFormatter setDateFormat:@"HH:mm:ss"];
                 break;
                 
             case 1114:  // timestamp
@@ -270,7 +270,7 @@
                 break;
                 
             case 1266:  // timetz
-                [dateFormatter setDateFormat:@"HH:mm:ss.sZ"];
+                [dateFormatter setDateFormat:@"HH:mm:ssZ"];
                 break;
                 
             default:
