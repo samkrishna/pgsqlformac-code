@@ -41,15 +41,15 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "PGSQLConnection.h"
+#import "PGSQLConnectionBase.h"
 
-@interface PGSQLDispatchConnection : PGSQLConnection
+@interface PGSQLDispatchConnection : PGSQLConnectionBase
 {
     dispatch_queue_t connectionQueue;
     NSNumber *queueWaitingCount;               // Count of unfinished processes in the queue
 }
 
-- (id)initWithQueueName:(NSString *)queueName connection:(PGSQLConnection *)connection;
+- (id)initWithQueueName:(NSString *)queueName connection:(PGSQLConnectionBase *)connection;
 - (void)processResultsFromSQL:(NSString *)sql 
                            usingCallbackBlock:(void (^)(PGSQLRecordset *, NSString *))callbackBlock;
 

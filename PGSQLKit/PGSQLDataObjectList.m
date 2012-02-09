@@ -39,6 +39,7 @@
  ******************************************************************************/
 
 #import "PGSQLDataObjectList.h"
+#import "PGSQLRecordset.h"
 
 @implementation PGSQLDataObjectList
 

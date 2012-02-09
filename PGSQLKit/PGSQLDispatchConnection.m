@@ -106,7 +106,7 @@
 #pragma mark -
 #pragma mark Lifecycle Methods
 
-- (id)initWithQueueName:(NSString *)queueName connection:(PGSQLConnection *)connection
+- (id)initWithQueueName:(NSString *)queueName connection:(PGSQLConnectionBase *)connection
 {
     self = [super init];
     if (self)
@@ -149,7 +149,7 @@
 // For completeness, should not be used as queues should have unique names.
 - (id)init
 {
-    return [self initWithQueueName:@"PGSQLKit.MyQueue" connection:[PGSQLConnection defaultConnection]];
+    return [self initWithQueueName:@"PGSQLKit.MyQueue" connection:[PGSQLConnectionBase defaultConnection]];
 }
 
 

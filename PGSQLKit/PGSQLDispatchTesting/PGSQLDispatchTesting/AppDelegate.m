@@ -11,6 +11,7 @@
 #import "PGSQLConnection.h"
 #import "PGSQLRecord.h"
 #import "PGSQLDispatch.h"
+#import "PGSQLRecordset.h"
 
 static NSString *sqlCreateFilmsTable = @"CREATE TABLE films ("
 "title          varchar PRIMARY KEY,"
@@ -1067,45 +1068,6 @@ static NSString *sqlInsertFilmsTableLarge = @"INSERT INTO films (title, director
 }
 
 #pragma mark -
-#pragma mark Log Utility Methods
-
-- (void)logColumnNames:(NSArray *)columnArray
-{
-    NSMutableString *str = [[[NSMutableString alloc] init] autorelease];
-    for (PGSQLColumn *col in columnArray)
-    {
-        if ([str length] != 0)
-        {
-            [str appendString:@", "];
-        }
-        [str appendFormat:@"'%@'", [col name]];
-    }
-    NSLog(@"%@", str);
-}
-
-- (void)logRecordSet:(PGSQLRecordset *)rs
-{
-    [self logColumnNames:[rs columns]];
-    PGSQLRecord *record = [rs moveFirst];
-    while (![rs isEOF])
-    {
-        NSMutableString *string = [[[NSMutableString alloc] init] autorelease];
-        for (int myIndex = 0; myIndex < [[rs columns] count]; myIndex++)
-        {
-            if ([string length] != 0)
-            {
-                [string appendString:@", "];
-            }
-            PGSQLField *field = [record fieldByIndex:myIndex];
-            [string appendFormat:@"'%@'", [field asString]];
-        }
-        NSLog(@"%@", string);
-        [string setString:@""];
-        record = [rs moveNext];
-    }
-}
-
-#pragma mark -
 #pragma mark Data Creation Utility Methods
 
 - (void)createFilms
@@ -1329,6 +1291,7 @@ static double testDispatchSQLSimpleGoodSQLWaitSeconds;     // How long we want t
         {
             [resultsDictionary setObject:recordset forKey:@"Recordset"];
             NSLog(@"Callback processed Result row count %lu", [recordset rowCount]);
+            //NSLog(@"    %@", recordset);
         }
         if (errorString)
         {

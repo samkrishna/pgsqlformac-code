@@ -40,6 +40,7 @@
 
 #import "PGSQLDataObject.h"
 #import "NSData+Base64.h"
+#import "PGSQLRecordset.h"
 
 @interface PGSQLDataObject () // private elements
 - (long)getNextSequenceValue;

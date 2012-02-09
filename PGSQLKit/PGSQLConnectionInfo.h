@@ -7,15 +7,17 @@
 //
 
 // #import <Cocoa/Cocoa.h>
-#import "PGSQLConnection.h"
 
-@interface PGSQLConnectionInfo : NSObject {
+@class PGSQLConnection;
+
+@interface PGSQLConnectionInfo : NSObject
+{
 	PGSQLConnection			*pgConnection;
 
 	NSString *versionString;
 }
 
--(id)initWithConnection:(PGSQLConnection *)connection;
+- (id)initWithConnection:(PGSQLConnection *)connection;
 - (NSString *)versionString;
 
 @end

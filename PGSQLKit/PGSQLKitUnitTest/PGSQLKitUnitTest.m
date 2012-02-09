@@ -13,6 +13,7 @@
 #import "PGSQLConnection.h"
 #import "PGSQLRecord.h"
 #import "PGSQLDispatch.h"
+#import "PGSQLRecordset.h"
 
 static NSString *sqlCreateFilmsTable = @"CREATE TABLE films ("
                                 "title          varchar PRIMARY KEY,"

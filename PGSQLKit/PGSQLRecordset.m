@@ -11,6 +11,48 @@
 
 @implementation PGSQLRecordset
 
+#pragma mark -
+#pragma mark NSObject Override Methods
+
+// Returned string contains column names in the first line, then data for each row of the record set.
+- (NSString *)description
+{
+    // column names.
+    NSMutableString *descriptionStr = [[[NSMutableString alloc] init] autorelease];
+    for (PGSQLColumn *col in self.columns)
+    {
+        if ([descriptionStr length] != 0)
+        {
+            [descriptionStr appendString:@", "];
+        }
+        [descriptionStr appendFormat:@"'%@'", [col name]];
+    }
+    [descriptionStr appendString:@"\n"];
+
+    // column data.
+    PGSQLRecord *record = [self moveFirst];
+    while (![self isEOF])
+    {
+        NSMutableString *columnDataStr = [[[NSMutableString alloc] init] autorelease];
+        for (int myIndex = 0; myIndex < [[self columns] count]; myIndex++)
+        {
+            if ([columnDataStr length] != 0)
+            {
+                [columnDataStr appendString:@", "];
+            }
+            PGSQLField *field = [record fieldByIndex:myIndex];
+            [columnDataStr appendFormat:@"'%@'", [field asString]];
+        }
+        [descriptionStr appendFormat:@"%@\n", columnDataStr];
+        [columnDataStr setString:@""];
+        record = [self moveNext];
+    }
+    return descriptionStr;
+}
+
+#pragma mark -
+#pragma mark Lifecycle Methods
+
 -(id)initWithResult:(void *)result
 {
     self = [super init];
@@ -58,6 +100,28 @@
     return self;
 }
 
+-(void)close
+{
+	if (isOpen) {
+		[columns release];
+		columns = nil;
+		PQclear(pgResult);
+		pgResult = nil;
+	}
+	[currentRecord release];
+	currentRecord = nil;
+	isOpen = NO;
+}
+
+-(void)dealloc
+{
+	[self close];
+	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark Info Methods
+
 -(PGSQLField *)fieldByName:(NSString *)fieldName
 {
 	return [currentRecord fieldByName:fieldName];
@@ -91,6 +155,70 @@
 													  columns:columns];
 	[currentRecord setDefaultEncoding:defaultEncoding];
 }
+
+- (NSString *)lastError {
+    return lastError;
+}
+
+-(NSDictionary *)dictionaryFromRecord
+{
+	NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+	long i;
+	for (i = 0; i < [columns count]; i++)
+	{
+		PGSQLColumn *column = [columns objectAtIndex:i];
+		
+		// for each column, add the value for the key.
+		// select oid, typname from pg_type
+		
+		switch ([column type])
+		{
+                /*
+                 case SQL_UNKNOWN_TYPE:
+                 [dict setValue:[[self fieldByName:[column name]] asData] forKey:[[column name] lowercaseString]];
+                 break;				
+                 case SQL_CHAR:
+                 case SQL_VARCHAR:
+                 [dict setValue:[[self fieldByName:[column name]] asString] forKey:[[column name] lowercaseString]];
+                 break;
+                 case SQL_NUMERIC:
+                 case SQL_DECIMAL:
+                 case SQL_INTEGER:
+                 case SQL_SMALLINT:
+                 case SQL_FLOAT:
+                 case SQL_REAL:
+                 case SQL_DOUBLE:
+                 [dict setValue:[[self fieldByName:[column name]] asNumber] forKey:[[column name] lowercaseString]];
+                 break;				
+                 case SQL_DATETIME:
+                 [dict setValue:[[self fieldByName:[column name]] asDate] forKey:[[column name] lowercaseString]];
+                 NSLog(@"Date Being Set: %@ for: %@", [[self fieldByName:[column name]] asDate], [[column name] lowercaseString]);
+                 break;
+                 case 11: // Undefined, MSSQL SHORTDATETIME
+                 [dict setValue:[[self fieldByName:[column name]] asDate] forKey:[[column name] lowercaseString]];
+                 NSLog(@"Date Being Set: %@ for: %@", [[self fieldByName:[column name]] asDate], [[column name] lowercaseString]);
+                 break;
+                 */
+			case 16: // BOOL
+				if ([[self fieldByName:[column name]] asBoolean])
+				{
+					[dict setValue:@"true" forKey:[column name]];
+				} else {
+					[dict setValue:@"false" forKey:[column name]];
+				}
+				break;
+			default:
+				[dict setValue:[[self fieldByName:[column name]] asString:defaultEncoding] forKey:[column name]];
+				break;
+		}
+	}
+	NSDictionary *result = [[[NSDictionary alloc] initWithDictionary:dict] autorelease];
+	[dict release];
+	return result;
+}
+
+#pragma mark -
+#pragma mark Navigation Methods
 
 - (PGSQLRecord *)moveNext
 {
@@ -162,86 +290,14 @@
 	return [[currentRecord retain] autorelease];
 }
 
--(void)close
-{
-	if (isOpen) {
-		[columns release];
-		columns = nil;
-		PQclear(pgResult);
-		pgResult = nil;
-	}
-	[currentRecord release];
-	currentRecord = nil;
-	isOpen = NO;
-}
-
--(void)dealloc
-{
-	[self close];
-	[super dealloc];
-}
-
 -(BOOL)isEOF
 {
 	return isEOF;
 }
 
--(NSDictionary *)dictionaryFromRecord
-{
-	NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-	long i;
-	for (i = 0; i < [columns count]; i++)
-	{
-		PGSQLColumn *column = [columns objectAtIndex:i];
-		
-		// for each column, add the value for the key.
-		// select oid, typname from pg_type
-		
-		switch ([column type])
-		{
-/*
-			case SQL_UNKNOWN_TYPE:
-				[dict setValue:[[self fieldByName:[column name]] asData] forKey:[[column name] lowercaseString]];
-				break;				
-			case SQL_CHAR:
-			case SQL_VARCHAR:
-				[dict setValue:[[self fieldByName:[column name]] asString] forKey:[[column name] lowercaseString]];
-				break;
-			case SQL_NUMERIC:
-			case SQL_DECIMAL:
-			case SQL_INTEGER:
-			case SQL_SMALLINT:
-			case SQL_FLOAT:
-			case SQL_REAL:
-			case SQL_DOUBLE:
-				[dict setValue:[[self fieldByName:[column name]] asNumber] forKey:[[column name] lowercaseString]];
-				break;				
-			case SQL_DATETIME:
-				[dict setValue:[[self fieldByName:[column name]] asDate] forKey:[[column name] lowercaseString]];
-				NSLog(@"Date Being Set: %@ for: %@", [[self fieldByName:[column name]] asDate], [[column name] lowercaseString]);
-				break;
-			case 11: // Undefined, MSSQL SHORTDATETIME
-				[dict setValue:[[self fieldByName:[column name]] asDate] forKey:[[column name] lowercaseString]];
-				NSLog(@"Date Being Set: %@ for: %@", [[self fieldByName:[column name]] asDate], [[column name] lowercaseString]);
-				break;
-*/
-			case 16: // BOOL
-				if ([[self fieldByName:[column name]] asBoolean])
-				{
-					[dict setValue:@"true" forKey:[column name]];
-				} else {
-					[dict setValue:@"false" forKey:[column name]];
-				}
-				break;
-			default:
-				[dict setValue:[[self fieldByName:[column name]] asString:defaultEncoding] forKey:[column name]];
-				break;
-		}
-	}
-	NSDictionary *result = [[[NSDictionary alloc] initWithDictionary:dict] autorelease];
-	[dict release];
-	return result;
-}
+
+#pragma mark -
+#pragma mark Encoding Methods
 
 -(NSStringEncoding)defaultEncoding
 {
@@ -258,10 +314,6 @@
             [currentRecord setDefaultEncoding:defaultEncoding];
         }
     }	
-}
-
-- (NSString *)lastError {
-    return lastError;
 }
 
 @end

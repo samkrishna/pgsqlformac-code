@@ -7,6 +7,8 @@
 //
 
 #import "PGSQLConnectionInfo.h"
+#import "PGSQLConnection.h"
+#import "PGSQLRecordset.h"
 
 @implementation PGSQLConnectionInfo
 
