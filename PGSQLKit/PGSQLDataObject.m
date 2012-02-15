@@ -396,31 +396,36 @@
 		// perform an update
 		[cmd appendFormat:@"update %@ set ", table];
         
+        int primaryKeyIndex = -1;
         for (i = 0; i < [[properties allKeys] count]; i++)
         {
-            if (i > 0)
+            if ([[[properties allKeys] objectAtIndex:i] isEqualToString:primaryKey])
             {
-                if (![[[properties allKeys] objectAtIndex:i-1] isEqualToString:primaryKey])
-                {
-                    if (i < [[properties allKeys] count] - 1)
-                    {
-                        if (![[[properties allKeys] objectAtIndex:i+1] isEqualToString:primaryKey])
-                        {
-                            [cmd appendString:@", "];
-                        }
-                    } 
-                }                
+                primaryKeyIndex = i;
+                break;
             }
-            
-            NSDictionary *column = [properties objectForKey:[[properties allKeys] objectAtIndex:i]];
-            if (![[[properties allKeys] objectAtIndex:i] isEqualToString:primaryKey])
+        }
+        
+        bool firstItemProcessed = NO;
+        for (i = 0; i < [[properties allKeys] count]; i++)
+        {
+            if (i != primaryKeyIndex)
             {                
+                NSDictionary *column = [properties objectForKey:[[properties allKeys] objectAtIndex:i]];
+                if (firstItemProcessed)
+                {
+//                    if (i < [[properties allKeys] count] - 1)
+//                    {
+                        [cmd appendString:@", "];
+//                    } 
+                }                
+                
                 [cmd appendFormat:@"%@ = %@",
                  [[properties allKeys] objectAtIndex:i], 
                  [self stringForColumn:column]];
+                firstItemProcessed = YES;
             }
-            
-		}
+        }
         
 		[cmd appendFormat:@" where %@ = %@;",
          primaryKey, 
@@ -851,6 +856,7 @@
 	if (![rs isEOF])
 	{
 		refId = [[[rs fieldByName:@"_id"] asNumber] retain];
+        [self setValue:refId forProperty:primaryKey]; 
 	}
 	[rs close];
     [cmd release];
