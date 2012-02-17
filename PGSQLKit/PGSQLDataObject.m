@@ -346,6 +346,8 @@
  *     dru 01/20/12 addressed an issue where if the primary key was the last 
  *                  item in the properties allKeys array an extra , would be 
  *                  added
+ *     dru 02/15/12 fixed another issue with save and comma locations (first 
+ *                  position in the properties list)
  ******************************************************************************/
 - (BOOL)save
 {
@@ -553,8 +555,9 @@
                     NSXMLNode *cdata = [[NSXMLNode alloc] initWithKind:NSXMLTextKind options:NSXMLNodeIsCDATA];
                     NSString *dataString = [(NSData *)[column objectForKey:@"value"] base64EncodedString];
                     [cdata setStringValue:dataString];
-                    [dataString release];
+                    // [dataString release];
                     [childNode addChild:cdata];
+                    [cdata release];
                     break;
                 }
                     // Date & Time
@@ -614,6 +617,7 @@
                     NSXMLNode *cdata = [[NSXMLNode alloc] initWithKind:NSXMLTextKind options:NSXMLNodeIsCDATA];
                     [cdata setStringValue:[column objectForKey:@"value"]];
                     [childNode addChild:cdata];
+                    [cdata release];
                     break;
                 }
                     
@@ -622,6 +626,7 @@
                     NSXMLNode *cdata = [[NSXMLNode alloc] initWithKind:NSXMLTextKind options:NSXMLNodeIsCDATA];
                     [cdata setStringValue:[column objectForKey:@"value"]];
                     [childNode addChild:cdata];
+                    [cdata release];
                     break;
                 }
             }

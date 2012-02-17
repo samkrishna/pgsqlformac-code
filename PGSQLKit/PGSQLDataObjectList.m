@@ -143,6 +143,7 @@
                                            forRecord:rs];
             [items addObject:dataObject];
             [rs moveNext];
+            [dataObject release];
         }
         [rs close];}
 	
@@ -230,7 +231,7 @@
  ******************************************************************************/
 - (NSXMLElement *)xmlForObject
 {
-	NSXMLElement *thisNode = [[NSXMLElement alloc] initWithName:table];
+	NSXMLElement *thisNode = [[[NSXMLElement alloc] initWithName:table] autorelease];
     
 	int i;
 	for (i = 0; i < [items count]; i++)
@@ -238,10 +239,9 @@
 		PGSQLDataObject *item = [items objectAtIndex:i];
 		NSXMLElement *childNode = [item xmlForObject];
 		[thisNode addChild:childNode];
-		[childNode release];
 	}
 	
-	return [thisNode retain];	
+	return thisNode;	
 }
 
 /* loadFromXml
