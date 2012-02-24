@@ -416,10 +416,7 @@
                 NSDictionary *column = [properties objectForKey:[[properties allKeys] objectAtIndex:i]];
                 if (firstItemProcessed)
                 {
-//                    if (i < [[properties allKeys] count] - 1)
-//                    {
-                        [cmd appendString:@", "];
-//                    } 
+                    [cmd appendString:@", "];
                 }                
                 
                 [cmd appendFormat:@"%@ = %@",

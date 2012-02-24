@@ -30,6 +30,18 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 # Change Log
 
+## 02/15/2012
+* added ntiffin's refactoring of PGSQLConnection to use PGSQLConnectionBase 
+  and use of PGSQLDispatch to replace the underlying asynchronous methods. 
+  initial testing shows strong performance improvements with the usage of 
+  blocks
+* clean up of PGSQLDataObject(List) implementations to address bugs in save and
+  xml behavior, as well as remove last few analyzer issues
+
+## 02/08/2012
+* completed initial implementation of PGSQLDataObject, DataObjectList and 
+  associated unit tests.
+
 ## 01/30/2012
 * initial add of PGSQLDataObject into the PGSQLKit from the internal 
   experimental branch
