@@ -86,6 +86,11 @@
                 forTable:(NSString *)tableName
           withPrimaryKey:(NSString *)keyName
                    forId:(NSNumber *)referenceId;
+- (id)initWithConnection:(PGSQLConnection *)pgConn
+                forTable:(NSString *)tableName
+          withPrimaryKey:(NSString *)primaryKeyName
+               lookupKey:(NSNumber *)keyName
+             lookupValue:(NSString *)keyValue;
 
 #pragma mark utility methods
 

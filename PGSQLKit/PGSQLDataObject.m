@@ -298,6 +298,56 @@
 	return self;
 }
 
+/* initWithConnection
+ *   description
+ *     implements an init that takes an active PGSQLConnection for use in data
+ *     operations withing the object (and it's children as needed) 
+ *   arguments
+ *     (PGSQLConnection *) as the connection to be used for the current object.
+ *       note that this connection cannot have multiple result sets open at a 
+ *       time.
+ *     (NSString *) as the name of the table this object represents
+ *     (NSString *) as the name of the field that is the primary key
+ *     (NSNumber *) as the number referencing the value of the primary key to 
+ *       load the record with.
+ *   returns
+ *     (id) as the current object reference initialized as the referenced 
+ *       data record
+ *   history
+ *     who   date    change
+ *     --- -------- -----------------------------------------------------------
+ *     dru 11/23/11 added to base object to make quick and dirty object wrappers
+ *                  practical without lots of boilerplate.
+ ******************************************************************************/
+- (id)initWithConnection:(PGSQLConnection *)pgConn
+                forTable:(NSString *)tableName
+          withPrimaryKey:(NSString *)primaryKeyName
+               lookupKey:(NSNumber *)keyName
+             lookupValue:(NSString *)keyValue
+{
+	self = [super init];
+	if (!self) {return nil;}
+    
+	connection = [pgConn retain];
+    table = [[tableName copy] retain];
+	primaryKey = [[primaryKeyName copy] retain];
+    
+    properties = nil;
+    isNew = NO;
+    
+	// load the record by Id
+	NSString *cmd = [NSString stringWithFormat:@"select * from %@ where %@ = '%@'", 
+                     table, primaryKey,keyName,keyValue];
+	PGSQLRecordset *rs = [pgConn open:cmd]; 
+	if (![rs isEOF])
+	{
+		[self loadFromRecord:rs];
+	}
+	[rs close];
+	
+	return self;
+}
+
 /* dealloc
  *   description
  *     performs the cleanup of the object, releasing any allocated resources.
