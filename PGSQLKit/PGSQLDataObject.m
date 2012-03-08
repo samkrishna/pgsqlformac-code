@@ -308,21 +308,21 @@
  *       time.
  *     (NSString *) as the name of the table this object represents
  *     (NSString *) as the name of the field that is the primary key
- *     (NSNumber *) as the number referencing the value of the primary key to 
- *       load the record with.
+ *     (NSString *) as the name of the key to lookup against
+ *     (NSString *) as the value of the key to lookup against
  *   returns
  *     (id) as the current object reference initialized as the referenced 
  *       data record
  *   history
  *     who   date    change
  *     --- -------- -----------------------------------------------------------
- *     dru 11/23/11 added to base object to make quick and dirty object wrappers
+ *     dru 03/07/12 added to base object to make quick and dirty object wrappers
  *                  practical without lots of boilerplate.
  ******************************************************************************/
 - (id)initWithConnection:(PGSQLConnection *)pgConn
                 forTable:(NSString *)tableName
           withPrimaryKey:(NSString *)primaryKeyName
-               lookupKey:(NSNumber *)keyName
+               lookupKey:(NSString *)keyName
              lookupValue:(NSString *)keyValue
 {
 	self = [super init];
@@ -336,7 +336,7 @@
     isNew = NO;
     
 	// load the record by Id
-	NSString *cmd = [NSString stringWithFormat:@"select * from %@ where %@ = '%@'", 
+	NSString *cmd = [NSString stringWithFormat:@"select * from %@ where %@ = '%@' limit 1", 
                      table, primaryKey,keyName,keyValue];
 	PGSQLRecordset *rs = [pgConn open:cmd]; 
 	if (![rs isEOF])

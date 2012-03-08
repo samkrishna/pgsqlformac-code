@@ -89,7 +89,7 @@
 - (id)initWithConnection:(PGSQLConnection *)pgConn
                 forTable:(NSString *)tableName
           withPrimaryKey:(NSString *)primaryKeyName
-               lookupKey:(NSNumber *)keyName
+               lookupKey:(NSString *)keyName
              lookupValue:(NSString *)keyValue;
 
 #pragma mark utility methods
