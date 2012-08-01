@@ -101,7 +101,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	
 	NSMutableDictionary *info = [[[NSMutableDictionary alloc] init] autorelease];
 	
-	PGSQLRecordset *rs = [self open:sql];
+	PGSQLRecordset *rs = (PGSQLRecordset*)[self open:sql];
     
 	[info setValue:rs forKey:@"Recordset"];
 	[info setValue:[self lastError] forKey:@"Error"];
@@ -114,6 +114,25 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 													  userInfo:info];
 
 	[pool drain];
+}
+
+- (NSString *)datasourceFilter
+{
+    return nil; // this method is not valid for PostgreSQL
+}
+
+- (void)setDatasourceFilter:(NSString *)value
+{
+	return;
+}
+
+- (BOOL)enableCursors
+{
+	return enableCursors;
+}
+- (void)setEnableCursors:(BOOL)value
+{
+	enableCursors = value;
 }
 
 @end

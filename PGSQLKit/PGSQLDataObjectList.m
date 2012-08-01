@@ -132,7 +132,7 @@
         // or something
 		NSString *cmd = [NSString stringWithFormat:@"select * from %@", 
                          table];
-        PGSQLRecordset *rs = [connection open:cmd]; 
+        PGSQLRecordset *rs = (PGSQLRecordset *)[connection open:cmd];
         while (![rs isEOF])
         {
             // do the load here

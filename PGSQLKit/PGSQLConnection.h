@@ -41,13 +41,22 @@
  */
 
 #import "PGSQLConnectionBase.h"
+#import "GenDBConnection.h"
 
-@interface PGSQLConnection : PGSQLConnectionBase
-{		
+@interface PGSQLConnection : PGSQLConnectionBase <GenDBConnection>
+{
+	BOOL enableCursors;
 }
 
 #pragma mark -
 #pragma mark Compatibility Functions
+
+- (NSString *)datasourceFilter;
+- (void)setDatasourceFilter:(NSString *)value;
+
+- (BOOL)enableCursors;
+- (void)setEnableCursors:(BOOL)value;
+
 
 // Really should use -(PGSQLConnectionBase *)clone instead.  This is provided for
 // compatibility only.

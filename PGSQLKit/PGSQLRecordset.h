@@ -78,8 +78,8 @@
 @interface PGSQLRecordset : NSObject <GenDBRecordset> {
 	void *pgResult;
 	
-	BOOL isEOF;
-	BOOL isOpen;
+	BOOL _isEOF;
+	BOOL _isOpen;
 	
 	long rowCount;
 	

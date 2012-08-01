@@ -30,6 +30,12 @@ THE POSSIBILITY OF SUCH DAMAGE.
 
 # Change Log
 
+## 07/31/2012
+* cleaned up a bunch of warnings
+* reworked project file to better work with relocating the framework into 
+  applications, bundles and other frameworks in order to make the framework
+  sandbox friendly
+
 ## 02/15/2012
 * added ntiffin's refactoring of PGSQLConnection to use PGSQLConnectionBase 
   and use of PGSQLDispatch to replace the underlying asynchronous methods. 

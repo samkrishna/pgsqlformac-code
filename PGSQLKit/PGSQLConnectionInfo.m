@@ -21,7 +21,7 @@
 	
 	NSMutableString *cmd = [[NSMutableString alloc] init];
 	[cmd appendString:@"select current_database() as db, current_user as user, version() as version, current_schema() as schema"]; 
-	PGSQLRecordset *rs = [pgConnection open:cmd];
+	PGSQLRecordset *rs = (PGSQLRecordset *)[pgConnection open:cmd];
 	if (![rs isEOF])
 	{
 		//userName = [[rs fieldByIndex:1] asString];

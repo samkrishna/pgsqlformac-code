@@ -200,9 +200,9 @@
     properties = nil;
     
 	// load the record by Id
-	NSString *cmd = [NSString stringWithFormat:@"select * from %@ limit 1", 
-                     table, primaryKey];
-	PGSQLRecordset *rs = [pgConn open:cmd]; 
+	NSString *cmd = [NSString stringWithFormat:@"select * from %@ limit 1",
+                     table];
+	PGSQLRecordset *rs = (PGSQLRecordset *)[pgConn open:cmd];
     
     if (rs != nil)
     {
@@ -286,9 +286,9 @@
     isNew = NO;
     
 	// load the record by Id
-	NSString *cmd = [NSString stringWithFormat:@"select * from %@ where %@ = %d", 
+	NSString *cmd = [NSString stringWithFormat:@"select * from %@ where %@ = %ld", 
                      table, primaryKey, [referenceId longValue]];
-	PGSQLRecordset *rs = [pgConn open:cmd]; 
+	PGSQLRecordset *rs = (PGSQLRecordset *)[pgConn open:cmd];
 	if (![rs isEOF])
 	{
 		[self loadFromRecord:rs];
@@ -336,9 +336,9 @@
     isNew = NO;
     
 	// load the record by Id
-	NSString *cmd = [NSString stringWithFormat:@"select * from %@ where %@ = '%@' limit 1", 
-                     table, primaryKey,keyName,keyValue];
-	PGSQLRecordset *rs = [pgConn open:cmd]; 
+	NSString *cmd = [NSString stringWithFormat:@"select * from %@ where %@ = '%@' limit 1",
+                     table,keyName,keyValue];
+	PGSQLRecordset *rs = (PGSQLRecordset*)[pgConn open:cmd];
 	if (![rs isEOF])
 	{
 		[self loadFromRecord:rs];
@@ -522,7 +522,7 @@
     
     NSMutableString *deleteCmd = [[NSMutableString alloc] init];
     [deleteCmd appendFormat:@"delete from %@ ", table];
-    [deleteCmd appendFormat:@"where %@ =  %d;", primaryKey, [refId longValue]];
+    [deleteCmd appendFormat:@"where %@ =  %ld;", primaryKey, [refId longValue]];
     
     if ([connection execCommand:deleteCmd] == 0)
     {
@@ -904,7 +904,7 @@
 	// fetch the next sequence value for the primary key / serial insert logic
     NSString *cmd = [[NSString alloc] initWithFormat:@"select nextval('%@_%@_seq') as _id;",
                      table, primaryKey];
-	PGSQLRecordset *rs = [connection open:cmd]; 
+	PGSQLRecordset *rs = (PGSQLRecordset*)[connection open:cmd];
 	if (![rs isEOF])
 	{
 		refId = [[[rs fieldByName:@"_id"] asNumber] retain];
@@ -1231,9 +1231,9 @@
         {
             if ([[column objectForKey:@"value"] isEqualToString:@"yes"])
             {
-                result = [NSString stringWithString:@"true"];
+                result = @"true";
             } else {
-                result = [NSString stringWithString:@"false"];
+                result = @"false";
             }
             break;
         }
@@ -1324,7 +1324,7 @@
 {
 	if (value == nil)
 	{
-		return [NSString stringWithString:@"null"];
+		return @"null";
 	}
 	return [NSString stringWithFormat:@"B'%@'", value];
 }
@@ -1333,16 +1333,16 @@
 {
 	if (value)
 	{
-		return [NSString stringWithString:@"true"];
+		return @"true";
 	}
-	return [NSString stringWithString:@"false"];
+	return @"false";
 }
 
 - (NSString *)stringForAbsTime:(NSDate *)value
 {
 	if (value == nil) 
 	{
-		return [NSString stringWithString:@"null"];
+		return @"null";
 	}
 	
 	NSDateFormatter *format = [[[NSDateFormatter alloc] init] autorelease];
@@ -1355,7 +1355,7 @@
 {
 	if (value == nil) 
 	{
-		return [NSString stringWithString:@"null"];
+		return @"null";
 	}
 	
 	NSDateFormatter *format = [[[NSDateFormatter alloc] init] autorelease];
@@ -1369,7 +1369,7 @@
 {
 	if (value == nil) 
 	{
-		return [NSString stringWithString:@"null"];
+		return @"null";
 	}
 	
 	NSDateFormatter *format = [[[NSDateFormatter alloc] init] autorelease];
@@ -1383,7 +1383,7 @@
 {
 	if (value == nil) 
 	{
-		return [NSString stringWithString:@"null"];
+		return @"null";
 	}
 	
 	NSDateFormatter *format = [[[NSDateFormatter alloc] init] autorelease];
@@ -1399,7 +1399,7 @@
     {
         if (value == nil) 
         {
-            return [NSString stringWithString:@"null"];
+            return @"null";
         }
         
         NSDateFormatter *format = [[[NSDateFormatter alloc] init] autorelease];
@@ -1414,7 +1414,7 @@
 {
 	if (value == nil) 
 	{
-		return [NSString stringWithString:@"null"];
+		return @"null";
 	}
 	
 	NSDateFormatter *format = [[[NSDateFormatter alloc] init] autorelease];
@@ -1429,7 +1429,7 @@
 {
 	if (value == nil) 
 	{
-		return [NSString stringWithString:@"null"];
+		return @"null";
 	}
     
     return [NSString stringWithFormat:@"'%@'", 
@@ -1440,7 +1440,7 @@
 {
 	if (value == nil) 
 	{
-		return [NSString stringWithString:@"null"];
+		return @"null";
 	}
 	return [NSString stringWithFormat:@"'%@'", [connection sqlEncodeString:value]];
 }
@@ -1449,16 +1449,16 @@
 {
 	if (value == nil) 
 	{
-		return [NSString stringWithString:@"null"];
+		return @"null";
 	}
-	return [NSString stringWithFormat:@"%d", [value longValue]];
+	return [NSString stringWithFormat:@"%ld", [value longValue]];
 }
 
 - (NSString *)stringForRealNumber:(NSNumber *)value
 {
 	if (value == nil) 
 	{
-		return [NSString stringWithString:@"null"];
+		return @"null";
 	}
 	return [NSString stringWithFormat:@"%f", [value floatValue]];
 }
@@ -1467,7 +1467,7 @@
 {
 	if (value == nil) 
 	{
-		return [NSString stringWithString:@"null"];
+		return @"null";
 	}
 	return [NSString stringWithFormat:@"'%.2f'", [value floatValue]];
 }

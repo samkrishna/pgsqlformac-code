@@ -171,7 +171,7 @@ static PGSQLConnectionBase *globalPGSQLConnection;
 	if (pgconn == nil) { return NO; }
 	if ([self isConnected] == NO) { return NO; }
 	
-	[self appendSQLLog:[NSString stringWithString:@"Disconnected from database.\n"]];
+	[self appendSQLLog:@"Disconnected from database.\n"];
 	PQfinish(pgconn);
 	pgconn = nil;
 	return YES;
@@ -291,7 +291,7 @@ static PGSQLConnectionBase *globalPGSQLConnection;
 			if (logInfo)
 			{
 				long nRecords = PQntuples(res);
-				[self appendSQLLog:[NSString stringWithFormat: @"%d rows affected.\n\n", nRecords]];
+				[self appendSQLLog:[NSString stringWithFormat: @"%ld rows affected.\n\n", nRecords]];
 			}
             
             self.startTimeStamp = nil;

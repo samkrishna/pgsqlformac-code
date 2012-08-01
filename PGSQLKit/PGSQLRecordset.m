@@ -58,8 +58,8 @@
     self = [super init];
 	if (self != nil)
 	{
-		isOpen = YES;
-		isEOF = YES;
+		_isOpen = YES;
+		_isEOF = YES;
 		
 		// this will default to NSUTF8StringEncoding with PG9
 		// defaultEncoding = NSMacOSRomanStringEncoding;
@@ -88,11 +88,11 @@
 		
 		if (rowCount == 0)
 		{
-			isEOF = YES;
+			_isEOF = YES;
 			return self;
 		}
 		
-		isEOF = NO;
+		_isEOF = NO;
 		
 		// move to the first record (and check EOF / BOF state)
 		[self moveFirst];
@@ -102,7 +102,7 @@
 
 -(void)close
 {
-	if (isOpen) {
+	if (_isOpen) {
 		[columns release];
 		columns = nil;
 		PQclear(pgResult);
@@ -110,7 +110,7 @@
 	}
 	[currentRecord release];
 	currentRecord = nil;
-	isOpen = NO;
+	_isOpen = NO;
 }
 
 -(void)dealloc
@@ -234,7 +234,7 @@
 	currentRowIndex++;
 	
 	if (currentRowIndex >= rowCount) {
-		isEOF = true;
+		_isEOF = true;
 		[currentRecord release];
 		currentRecord = nil;
 		return nil;
@@ -250,7 +250,7 @@
 		return nil;
 	}
 	long currentRowIndex = 0;
-	isEOF = false;
+	_isEOF = false;
 	
 	[self setCurrentRecordWithRowIndex:currentRowIndex];
 	return [[currentRecord retain] autorelease];
@@ -269,7 +269,7 @@
 	currentRowIndex--;
 	
 	if (currentRowIndex < 0) {
-		isEOF = true;
+		_isEOF = true;
 		currentRecord = nil;
 		return nil;
 	}
@@ -284,7 +284,7 @@
 		return nil;
 	}
 	long currentRowIndex = rowCount;
-	isEOF = false;
+	_isEOF = false;
 
 	[self setCurrentRecordWithRowIndex:currentRowIndex];
 	return [[currentRecord retain] autorelease];
@@ -292,7 +292,7 @@
 
 -(BOOL)isEOF
 {
-	return isEOF;
+	return _isEOF;
 }
 
 
