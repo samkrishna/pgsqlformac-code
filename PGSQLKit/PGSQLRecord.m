@@ -40,7 +40,7 @@
 @implementation PGSQLRecord
 
 
--(id)initWithResult:(void *)result atRow:(long)atRow columns:(NSArray *)columncache
+-(id)initWithResult:(void *)result atRow:(int)atRow columns:(NSArray *)columncache
 {
 	self = [super init];
 
@@ -86,7 +86,7 @@
 	return [result autorelease];
 }
 
--(long)rowNumber
+-(int)rowNumber
 {
 	return rowNumber;
 }

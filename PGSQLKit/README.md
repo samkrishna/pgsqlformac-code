@@ -3,7 +3,7 @@
 
 # License
 
-Copyright (c) 2005-2012, Druware Software Designs
+Copyright (c) 2005-2013, Druware Software Designs
 All rights reserved.
 
 Redistribution and use in binary forms, with or without modification, are 
@@ -29,6 +29,10 @@ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
 THE POSSIBILITY OF SUCH DAMAGE.
 
 # Change Log
+
+## 04/23/2013
+* fixed a bug in PQSQLField asNumber: method.  Could trunctate values due to 
+  an improper use of float versus double
 
 ## 07/31/2012
 * cleaned up a bunch of warnings

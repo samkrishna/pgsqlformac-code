@@ -73,7 +73,7 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 	
 	NSMutableDictionary *info = [[[NSMutableDictionary alloc] init] autorelease];
 	
-	NSNumber *recordCount = [[[NSNumber alloc] initWithInt:[self execCommand:sql]] autorelease];
+	NSNumber *recordCount = [[[NSNumber alloc] initWithLong:[self execCommand:sql]] autorelease];
 	[info setValue:recordCount forKey:@"RecordCount"];
 	[info setValue:[self lastError] forKey:@"Error"];
 	[info setValue:[self lastCmdStatus] forKey:@"Status"];

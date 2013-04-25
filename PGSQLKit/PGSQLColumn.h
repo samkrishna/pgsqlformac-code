@@ -6,7 +6,7 @@
 //  Copyright 2007 Druware Software Designs. All rights reserved.
 //
 
-#import "GenDBColumn.h"
+#import "GenDBProtocol.h"
 
 @interface PGSQLColumn : NSObject <GenDBColumn> {
 	NSString *name;

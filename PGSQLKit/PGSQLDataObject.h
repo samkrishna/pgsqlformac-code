@@ -65,6 +65,8 @@
 	BOOL             isDirty;
 	NSString        *lastError;
 	
+    NSMutableArray  *omittedFields;
+    
 	PGSQLConnection *connection;
 }
 
@@ -120,10 +122,13 @@
 
 - (void)setLastError:(NSString *)value;
 
+- (BOOL)addOmittedField:(NSString *)fieldName;
+
 #pragma mark standard data connection properties
 
 - (void)setValue:(id)value forProperty:(NSString *)property;
 - (id)valueForProperty:(NSString *)property;
+- (long)sizeOfProperty:(NSString *)property;
 - (BOOL)propertyIsNull:(NSString *)property;
 
 @property (assign,readonly) BOOL isNew;

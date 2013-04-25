@@ -147,7 +147,7 @@
 	return rowCount;
 }
 
-- (void)setCurrentRecordWithRowIndex:(long)rowIndex
+- (void)setCurrentRecordWithRowIndex:(int)rowIndex
 {
 	[currentRecord release];
 	currentRecord = [[PGSQLRecord alloc] initWithResult:pgResult
@@ -226,7 +226,7 @@
 		return nil;
 	}
 	
-	long currentRowIndex = -1;
+	int currentRowIndex = -1;
 	if (currentRecord != nil) 
 	{
 		currentRowIndex = [currentRecord rowNumber];
@@ -249,7 +249,7 @@
 	if (rowCount == 0) {
 		return nil;
 	}
-	long currentRowIndex = 0;
+	int currentRowIndex = 0;
 	_isEOF = false;
 	
 	[self setCurrentRecordWithRowIndex:currentRowIndex];
@@ -261,7 +261,7 @@
 	if (rowCount == 0) {
 		return nil;
 	}
-	long currentRowIndex = -1;
+	int currentRowIndex = -1;
 	if (currentRecord != nil) 
 	{
 		currentRowIndex = [currentRecord rowNumber];
@@ -283,7 +283,7 @@
 	if (rowCount == 0) {
 		return nil;
 	}
-	long currentRowIndex = rowCount;
+	int currentRowIndex = rowCount;
 	_isEOF = false;
 
 	[self setCurrentRecordWithRowIndex:currentRowIndex];

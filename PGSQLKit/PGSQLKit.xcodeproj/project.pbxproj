@@ -22,11 +22,7 @@
 		4349A2BC0C31D57800DACE65 /* PGSQLRecordset.m in Sources */ = {isa = PBXBuildFile; fileRef = 4325688E0C0D122F007E8DE8 /* PGSQLRecordset.m */; };
 		4349A2C90C31DD5700DACE65 /* PGSQLConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 43318B520BF16497008C2560 /* PGSQLConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4349A2CA0C31DD5800DACE65 /* PGSQLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 43318B530BF16497008C2560 /* PGSQLConnection.m */; };
-		436D7C35143BDE7A0060554C /* GenDBColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = 436D7C2F143BDE7A0060554C /* GenDBColumn.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		436D7C36143BDE7A0060554C /* GenDBConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 436D7C30143BDE7A0060554C /* GenDBConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		436D7C38143BDE7A0060554C /* GenDBField.h in Headers */ = {isa = PBXBuildFile; fileRef = 436D7C32143BDE7A0060554C /* GenDBField.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		436D7C39143BDE7A0060554C /* GenDBRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 436D7C33143BDE7A0060554C /* GenDBRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		436D7C3A143BDE7A0060554C /* GenDBRecordset.h in Headers */ = {isa = PBXBuildFile; fileRef = 436D7C34143BDE7A0060554C /* GenDBRecordset.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		435C18B517296F8B0003AEC3 /* GenDBProtocol.h in Sources */ = {isa = PBXBuildFile; fileRef = 435C18B417296F8B0003AEC3 /* GenDBProtocol.h */; };
 		436D7C3C143BDEAB0060554C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 436D7C3B143BDEAB0060554C /* README.md */; };
 		436D7C3E143BDEC70060554C /* PGSQLKit.txt in Resources */ = {isa = PBXBuildFile; fileRef = 436D7C3D143BDEC70060554C /* PGSQLKit.txt */; };
 		436D7C40143BE0820060554C /* PGSQLConnection.txt in Resources */ = {isa = PBXBuildFile; fileRef = 436D7C3F143BE0820060554C /* PGSQLConnection.txt */; };
@@ -107,11 +103,7 @@
 		43416A1213A100A500D77235 /* PGSQLLoginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.objj; path = PGSQLLoginDelegate.h; sourceTree = "<group>"; };
 		4357486A0F334F5B00F86110 /* PGSQLPreparedStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLPreparedStatement.h; sourceTree = "<group>"; };
 		4357486B0F334F5B00F86110 /* PGSQLPreparedStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLPreparedStatement.m; sourceTree = "<group>"; };
-		436D7C2F143BDE7A0060554C /* GenDBColumn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenDBColumn.h; sourceTree = "<group>"; };
-		436D7C30143BDE7A0060554C /* GenDBConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenDBConnection.h; sourceTree = "<group>"; };
-		436D7C32143BDE7A0060554C /* GenDBField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenDBField.h; sourceTree = "<group>"; };
-		436D7C33143BDE7A0060554C /* GenDBRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenDBRecord.h; sourceTree = "<group>"; };
-		436D7C34143BDE7A0060554C /* GenDBRecordset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenDBRecordset.h; sourceTree = "<group>"; };
+		435C18B417296F8B0003AEC3 /* GenDBProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.objj; path = GenDBProtocol.h; sourceTree = "<group>"; };
 		436D7C3B143BDEAB0060554C /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		436D7C3D143BDEC70060554C /* PGSQLKit.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PGSQLKit.txt; sourceTree = "<group>"; };
 		436D7C3F143BE0820060554C /* PGSQLConnection.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PGSQLConnection.txt; sourceTree = "<group>"; };
@@ -323,11 +315,7 @@
 		436D7C2E143BDE3B0060554C /* GenDB */ = {
 			isa = PBXGroup;
 			children = (
-				436D7C30143BDE7A0060554C /* GenDBConnection.h */,
-				436D7C2F143BDE7A0060554C /* GenDBColumn.h */,
-				436D7C32143BDE7A0060554C /* GenDBField.h */,
-				436D7C33143BDE7A0060554C /* GenDBRecord.h */,
-				436D7C34143BDE7A0060554C /* GenDBRecordset.h */,
+				435C18B417296F8B0003AEC3 /* GenDBProtocol.h */,
 			);
 			name = GenDB;
 			sourceTree = "<group>";
@@ -417,14 +405,9 @@
 				43CAC6A514EC5EBA003E60DF /* PGSQLConnectionBase.h in Headers */,
 				43CAC6A714EC5EBA003E60DF /* PGSQLDispatch.h in Headers */,
 				43CAC6A914EC5EBA003E60DF /* PGSQLDispatchConnection.h in Headers */,
-				436D7C35143BDE7A0060554C /* GenDBColumn.h in Headers */,
-				436D7C36143BDE7A0060554C /* GenDBConnection.h in Headers */,
-				436D7C38143BDE7A0060554C /* GenDBField.h in Headers */,
-				436D7C39143BDE7A0060554C /* GenDBRecord.h in Headers */,
 				43C1A66E14D77B5B009F7111 /* PGSQLDataObject.h in Headers */,
 				43C1A67214D78FB7009F7111 /* NSData+Base64.h in Headers */,
 				43A6C9E414D8D98E0051779D /* PGSQLDataObjectList.h in Headers */,
-				436D7C3A143BDE7A0060554C /* GenDBRecordset.h in Headers */,
 				7B70BF91100D685E00046E2F /* PGSQLLogin.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -617,6 +600,7 @@
 				43CAC6A614EC5EBA003E60DF /* PGSQLConnectionBase.m in Sources */,
 				43CAC6A814EC5EBA003E60DF /* PGSQLDispatch.m in Sources */,
 				43CAC6AA14EC5EBA003E60DF /* PGSQLDispatchConnection.m in Sources */,
+				435C18B517296F8B0003AEC3 /* GenDBProtocol.h in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

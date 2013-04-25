@@ -57,7 +57,7 @@
 #import "PGSQLColumn.h"
 #import "PGSQLRecord.h"
 #import "PGSQLField.h"
-#import "GenDBRecordset.h"
+#import "GenDBProtocol.h"
 	
 /*!
     @class
@@ -81,7 +81,7 @@
 	BOOL _isEOF;
 	BOOL _isOpen;
 	
-	long rowCount;
+	int rowCount;
 	
 	NSMutableArray *columns;
 	

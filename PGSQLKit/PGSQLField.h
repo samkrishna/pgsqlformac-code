@@ -47,7 +47,7 @@
 */
 
 #import "PGSQLColumn.h"
-#import "GenDBField.h"
+#import "GenDBProtocol.h"
 
 
 /*!

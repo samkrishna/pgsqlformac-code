@@ -54,8 +54,7 @@
  */
 
 //#import <Foundation/Foundation.h>
-#import "GenDBRecordset.h"
-#import "GenDBConnection.h"
+#import "GenDBProtocol.h"
 
 @class PGSQLRecordset;
 @class PGSQLConnection;

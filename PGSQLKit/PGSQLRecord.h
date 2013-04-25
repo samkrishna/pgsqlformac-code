@@ -46,7 +46,7 @@
 */
 
 #import "PGSQLField.h"
-#import "GenDBRecord.h"
+#import "GenDBProtocol.h"
 
 /*!
     @class
@@ -58,17 +58,17 @@
 */
 @interface PGSQLRecord : NSObject <GenDBRecord> {	
 	void *pgResult;
-	long  rowNumber;
+	int   rowNumber;
 	NSArray *columns;
 	NSStringEncoding defaultEncoding;
 }
 
--(id)initWithResult:(void *)result atRow:(long)atRow columns:(NSArray *)columncache;
+-(id)initWithResult:(void *)result atRow:(int)atRow columns:(NSArray *)columncache;
 
 -(PGSQLField *)fieldByIndex:(long)fieldIndex;
 -(PGSQLField *)fieldByName:(NSString *)name;
 
--(long)rowNumber;
+-(int)rowNumber;
 
 /*!
 	@function

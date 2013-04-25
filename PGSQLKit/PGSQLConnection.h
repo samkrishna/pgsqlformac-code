@@ -41,7 +41,7 @@
  */
 
 #import "PGSQLConnectionBase.h"
-#import "GenDBConnection.h"
+#import "GenDBProtocol.h"
 
 @interface PGSQLConnection : PGSQLConnectionBase <GenDBConnection>
 {

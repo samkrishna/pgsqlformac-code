@@ -114,7 +114,7 @@
 	NSString* result = @"";
 	if (data != nil)
 	{
-		int dataLength = [data length];
+		long dataLength = [data length];
 		if (dataLength > 0)
 		{
 			// check for null terminator
@@ -134,7 +134,7 @@
 		NSString* result = @"";
 		if (data != nil)
 		{
-			int dataLength = [data length];
+			long dataLength = [data length];
 			if (dataLength > 0)
 			{
 				// check for null terminator
@@ -157,7 +157,7 @@
 			return nil;
 		}
 		NSString *temp = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding] autorelease];
-		NSNumber *value = [[[NSNumber alloc] initWithFloat:[temp floatValue]] autorelease];
+		NSNumber *value = [[[NSNumber alloc] initWithDouble:[temp doubleValue]] autorelease];
 		return value;
 	}
 	return nil;
