@@ -45,6 +45,7 @@
 		43CAC6A814EC5EBA003E60DF /* PGSQLDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CAC6A214EC5EBA003E60DF /* PGSQLDispatch.m */; };
 		43CAC6A914EC5EBA003E60DF /* PGSQLDispatchConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 43CAC6A314EC5EBA003E60DF /* PGSQLDispatchConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43CAC6AA14EC5EBA003E60DF /* PGSQLDispatchConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CAC6A414EC5EBA003E60DF /* PGSQLDispatchConnection.m */; };
+		43E6FCEB179B3D7D000ED9C5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E6FCEA179B3D7D000ED9C5 /* Security.framework */; };
 		43F613330F9E5DC000F8273F /* PGSQLConnectionInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 43F613310F9E5DC000F8273F /* PGSQLConnectionInfo.h */; };
 		43F613340F9E5DC000F8273F /* PGSQLConnectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 43F613320F9E5DC000F8273F /* PGSQLConnectionInfo.m */; };
 		7B70BF90100D685D00046E2F /* PGSQLLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CBC57D0BF11AC300A5E5AF /* PGSQLLogin.m */; };
@@ -142,6 +143,7 @@
 		43CBC57C0BF11AC300A5E5AF /* PGSQLLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLLogin.h; sourceTree = "<group>"; };
 		43CBC57D0BF11AC300A5E5AF /* PGSQLLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLLogin.m; sourceTree = "<group>"; };
 		43D812CD1117FAB400804354 /* docs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = docs; path = build/docs; sourceTree = "<group>"; };
+		43E6FCEA179B3D7D000ED9C5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		43F613310F9E5DC000F8273F /* PGSQLConnectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLConnectionInfo.h; sourceTree = "<group>"; };
 		43F613320F9E5DC000F8273F /* PGSQLConnectionInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLConnectionInfo.m; sourceTree = "<group>"; };
 		7B80632911B05392008E02B2 /* icon_query_tool.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon_query_tool.icns; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				43E6FCEB179B3D7D000ED9C5 /* Security.framework in Frameworks */,
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -194,6 +197,7 @@
 		0867D691FE84028FC02AAC07 /* PGSQLKit */ = {
 			isa = PBXGroup;
 			children = (
+				43E6FCEA179B3D7D000ED9C5 /* Security.framework */,
 				436D7C3B143BDEAB0060554C /* README.md */,
 				430DBB6012490D560000790F /* LICENSE.txt */,
 				436D7C2D143BDD970060554C /* Documentation */,
