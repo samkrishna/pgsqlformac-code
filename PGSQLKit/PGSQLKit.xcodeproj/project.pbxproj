@@ -22,11 +22,10 @@
 		4349A2BC0C31D57800DACE65 /* PGSQLRecordset.m in Sources */ = {isa = PBXBuildFile; fileRef = 4325688E0C0D122F007E8DE8 /* PGSQLRecordset.m */; };
 		4349A2C90C31DD5700DACE65 /* PGSQLConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 43318B520BF16497008C2560 /* PGSQLConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4349A2CA0C31DD5800DACE65 /* PGSQLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 43318B530BF16497008C2560 /* PGSQLConnection.m */; };
-		435C18B517296F8B0003AEC3 /* GenDBProtocol.h in Sources */ = {isa = PBXBuildFile; fileRef = 435C18B417296F8B0003AEC3 /* GenDBProtocol.h */; };
 		436D7C3C143BDEAB0060554C /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 436D7C3B143BDEAB0060554C /* README.md */; };
 		436D7C3E143BDEC70060554C /* PGSQLKit.txt in Resources */ = {isa = PBXBuildFile; fileRef = 436D7C3D143BDEC70060554C /* PGSQLKit.txt */; };
 		436D7C40143BE0820060554C /* PGSQLConnection.txt in Resources */ = {isa = PBXBuildFile; fileRef = 436D7C3F143BE0820060554C /* PGSQLConnection.txt */; };
-		439774040C7D29140009F0B4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 439774030C7D29140009F0B4 /* Security.framework */; };
+		437D0F6017984D5700F3A639 /* GenDBProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 435C18B417296F8B0003AEC3 /* GenDBProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43A6C9E414D8D98E0051779D /* PGSQLDataObjectList.h in Headers */ = {isa = PBXBuildFile; fileRef = 43A6C9E214D8D98E0051779D /* PGSQLDataObjectList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43A6C9E514D8D98E0051779D /* PGSQLDataObjectList.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A6C9E314D8D98E0051779D /* PGSQLDataObjectList.m */; };
 		43B0EBED14B4F4C7000390E4 /* PGSQLKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* PGSQLKit.framework */; };
@@ -35,11 +34,9 @@
 		43C1A67214D78FB7009F7111 /* NSData+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 43C1A67014D78FB7009F7111 /* NSData+Base64.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43C1A67314D78FB7009F7111 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 43C1A67114D78FB7009F7111 /* NSData+Base64.m */; };
 		43C1A67C14D7903C009F7111 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C1A67B14D7903C009F7111 /* SenTestingKit.framework */; };
-		43C1A67E14D7903C009F7111 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C1A67D14D7903C009F7111 /* Cocoa.framework */; };
 		43C1A68814D7903C009F7111 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 43C1A68614D7903C009F7111 /* InfoPlist.strings */; };
 		43C1A68B14D7903C009F7111 /* PGSQLKit_Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 43C1A68A14D7903C009F7111 /* PGSQLKit_Tests.m */; };
 		43C1A69614D7913C009F7111 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C1A67B14D7903C009F7111 /* SenTestingKit.framework */; };
-		43C1A69714D7913D009F7111 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43C1A67D14D7903C009F7111 /* Cocoa.framework */; };
 		43C1A69D14D7913D009F7111 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 43C1A69B14D7913D009F7111 /* InfoPlist.strings */; };
 		43C1A6A014D7913D009F7111 /* PGSQLKit_DataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 43C1A69F14D7913D009F7111 /* PGSQLKit_DataObject.m */; };
 		43CAC6A514EC5EBA003E60DF /* PGSQLConnectionBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 43CAC69F14EC5EBA003E60DF /* PGSQLConnectionBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -53,7 +50,6 @@
 		7B70BF90100D685D00046E2F /* PGSQLLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CBC57D0BF11AC300A5E5AF /* PGSQLLogin.m */; };
 		7B70BF91100D685E00046E2F /* PGSQLLogin.h in Headers */ = {isa = PBXBuildFile; fileRef = 43CBC57C0BF11AC300A5E5AF /* PGSQLLogin.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7B80632A11B05392008E02B2 /* icon_query_tool.icns in Resources */ = {isa = PBXBuildFile; fileRef = 7B80632911B05392008E02B2 /* icon_query_tool.icns */; };
-		7BD75A12100D2A5C005FE311 /* libpq.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7BD75A11100D2A5C005FE311 /* libpq.a */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -123,7 +119,6 @@
 		43C1A67114D78FB7009F7111 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
 		43C1A67914D7903C009F7111 /* PGSQLKit_Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PGSQLKit_Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		43C1A67B14D7903C009F7111 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		43C1A67D14D7903C009F7111 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		43C1A68014D7903C009F7111 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		43C1A68114D7903C009F7111 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		43C1A68214D7903C009F7111 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -161,7 +156,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				43C1A67C14D7903C009F7111 /* SenTestingKit.framework in Frameworks */,
-				43C1A67E14D7903C009F7111 /* Cocoa.framework in Frameworks */,
 				4343CB5B14D85C5000DBED85 /* PGSQLKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -171,7 +165,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				43C1A69614D7913C009F7111 /* SenTestingKit.framework in Frameworks */,
-				43C1A69714D7913D009F7111 /* Cocoa.framework in Frameworks */,
 				4343CB5814D85BE000DBED85 /* PGSQLKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -181,8 +174,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */,
-				439774040C7D29140009F0B4 /* Security.framework in Frameworks */,
-				7BD75A12100D2A5C005FE311 /* libpq.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,7 +315,6 @@
 			isa = PBXGroup;
 			children = (
 				43C1A67B14D7903C009F7111 /* SenTestingKit.framework */,
-				43C1A67D14D7903C009F7111 /* Cocoa.framework */,
 				43C1A67F14D7903C009F7111 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -408,6 +398,7 @@
 				43C1A66E14D77B5B009F7111 /* PGSQLDataObject.h in Headers */,
 				43C1A67214D78FB7009F7111 /* NSData+Base64.h in Headers */,
 				43A6C9E414D8D98E0051779D /* PGSQLDataObjectList.h in Headers */,
+				437D0F6017984D5700F3A639 /* GenDBProtocol.h in Headers */,
 				7B70BF91100D685E00046E2F /* PGSQLLogin.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -600,7 +591,6 @@
 				43CAC6A614EC5EBA003E60DF /* PGSQLConnectionBase.m in Sources */,
 				43CAC6A814EC5EBA003E60DF /* PGSQLDispatch.m in Sources */,
 				43CAC6AA14EC5EBA003E60DF /* PGSQLDispatchConnection.m in Sources */,
-				435C18B517296F8B0003AEC3 /* GenDBProtocol.h in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
