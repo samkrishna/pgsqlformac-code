@@ -937,7 +937,7 @@
     NSString *cmd = [[NSString alloc] initWithFormat:@"select nextval('%@_%@_seq') as _id;",
                      table, primaryKey];
 	PGSQLRecordset *rs = (PGSQLRecordset*)[connection open:cmd];
-	if (![rs isEOF])
+    if (![rs isEOF])
 	{
 		refId = [[[rs fieldByName:@"_id"] asNumber] retain];
         [self setValue:refId forProperty:primaryKey]; 
