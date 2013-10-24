@@ -6,6 +6,9 @@
 //  Copyright 2008 Druware Software Designs. All rights reserved.
 //
 
+
+
+
 #import "PGHBAFile.h"
 
 
@@ -17,9 +20,9 @@
 	
 	if (self != nil) {
 		rawSourceData = nil;
-		comments = [[[[NSMutableArray alloc] init] autorelease] retain];
-		allConnections = [[[[PGHBAConnections alloc] init] autorelease] retain];
-		
+        comments = [[[[NSMutableArray alloc] init] autorelease] retain];
+        allConnections = [[[[PGHBAConnections alloc] init] autorelease] retain];
+        
 		NSError *readError = nil;
 		rawSourceData = [[NSMutableString alloc] initWithContentsOfFile:file 
 														   usedEncoding:&encoding 
@@ -61,6 +64,17 @@
 	groupLocalOrigin = 0;
 	groupIPv4Origin = 0;
 	groupIPv6Origin = 0;
+    
+    // clear the arrays first
+    if ([comments count] > 0)
+    {
+        [comments removeAllObjects];
+    }
+    
+    if ([[allConnections items] count] > 0)
+    {
+        [[allConnections items]  removeAllObjects];
+    }
 	
 	NSArray *lines = [rawSourceData componentsSeparatedByString:@"\n"];
 	int x;
@@ -89,48 +103,48 @@
 			int i;
 			for (i = 0; i < [tempElements count]; i++)
 			{
-				NSString *element = [tempElements objectAtIndex:i];
-				if ([element length] > 0)
-				{
-					[elements addObject:element];
-				}
+                NSString *element = [tempElements objectAtIndex:i];
+                if ([element length] > 0)
+                {
+                    [elements addObject:element];
+                }
 			}
 			
 			// determine the record type and add it to the correct array.
 			if ([[elements objectAtIndex:0] caseInsensitiveCompare:@"local"] == NSOrderedSame)
 			{
-				if (groupLocalOrigin == 0) { groupLocalOrigin = x; }
-				[dict setObject:@"Local" forKey:@"group"];				
-				[dict setObject:[elements objectAtIndex:0] forKey:@"type"];
-				[dict setObject:[elements objectAtIndex:1] forKey:@"database"];
-				[dict setObject:[elements objectAtIndex:2] forKey:@"user"];
-				[dict setObject:[elements objectAtIndex:3] forKey:@"method"];
-				[dict setObject:@"" forKey:@"address"];
-				[dict setObject:@"" forKey:@"option"];
-				if ([elements count] > 4)
-					[dict setObject:[elements objectAtIndex:4] forKey:@"option"];
+                if (groupLocalOrigin == 0) { groupLocalOrigin = x; }
+                [dict setObject:@"Local" forKey:@"group"];				
+                [dict setObject:[elements objectAtIndex:0] forKey:@"type"];
+                [dict setObject:[elements objectAtIndex:1] forKey:@"database"];
+                [dict setObject:[elements objectAtIndex:2] forKey:@"user"];
+                [dict setObject:[elements objectAtIndex:3] forKey:@"method"];
+                [dict setObject:@"" forKey:@"address"];
+                [dict setObject:@"" forKey:@"option"];
+                if ([elements count] > 4)
+                    [dict setObject:[elements objectAtIndex:4] forKey:@"option"];
 				
 			} else {
-				NSRange rangeOfColon = [[elements objectAtIndex:3] rangeOfString:@":"];
-				
-				[dict setObject:[elements objectAtIndex:0] forKey:@"type"];
-				[dict setObject:[elements objectAtIndex:1] forKey:@"database"];
-				[dict setObject:[elements objectAtIndex:2] forKey:@"user"];
-				[dict setObject:[elements objectAtIndex:3] forKey:@"address"];
-				[dict setObject:[elements objectAtIndex:4] forKey:@"method"];
-				[dict setObject:@"" forKey:@"option"];
-				if ([elements count] > 5)
-					[dict setObject:[elements objectAtIndex:5] forKey:@"option"];
-				
-				// determine if element index 3 is an ipv4 or ipv6 address.
-				if (rangeOfColon.location == NSNotFound)
-				{
-					if (groupIPv4Origin == 0) { groupIPv4Origin = x; }
-					[dict setObject:@"IPv4" forKey:@"group"];				
-				} else {
-					if (groupIPv6Origin == 0) { groupIPv6Origin = x; }
-					[dict setObject:@"IPv6" forKey:@"group"];				
-				}
+                NSRange rangeOfColon = [[elements objectAtIndex:3] rangeOfString:@":"];
+                
+                [dict setObject:[elements objectAtIndex:0] forKey:@"type"];
+                [dict setObject:[elements objectAtIndex:1] forKey:@"database"];
+                [dict setObject:[elements objectAtIndex:2] forKey:@"user"];
+                [dict setObject:[elements objectAtIndex:3] forKey:@"address"];
+                [dict setObject:[elements objectAtIndex:4] forKey:@"method"];
+                [dict setObject:@"" forKey:@"option"];
+                if ([elements count] > 5)
+                    [dict setObject:[elements objectAtIndex:5] forKey:@"option"];
+                
+                // determine if element index 3 is an ipv4 or ipv6 address.
+                if (rangeOfColon.location == NSNotFound)
+                {
+                    if (groupIPv4Origin == 0) { groupIPv4Origin = x; }
+                    [dict setObject:@"IPv4" forKey:@"group"];				
+                } else {
+                    if (groupIPv6Origin == 0) { groupIPv6Origin = x; }
+                    [dict setObject:@"IPv6" forKey:@"group"];				
+                }
 			}
 			[[allConnections items] addObject:dict];
 		}
@@ -139,51 +153,143 @@
 	return YES;
 }
 
+-(int)getMaxLineNumber
+{
+    int maxLineNum = 0;
+	int x;
+    
+	// find the max line number so we know how many lines to write
+    for (x = 0; x < [comments count]; x++)
+	{
+        if ([[[comments objectAtIndex:x] objectForKey:@"Line#"] intValue] > maxLineNum)
+            maxLineNum = [[[comments objectAtIndex:x] objectForKey:@"Line#"] intValue];
+	}
+    
+    for (x = 0; x < [[allConnections items] count]; x++)
+	{
+        if ([[[[allConnections items] objectAtIndex:x] objectForKey:@"Line#"] intValue] > maxLineNum)
+            maxLineNum = [[[[allConnections items] objectAtIndex:x] objectForKey:@"Line#"] intValue];
+	}
+    
+    return maxLineNum;
+}
+
+-(int)getMaxLineNumberForGroup:(NSString *)group
+{
+    int maxLineNum = 0;
+	int x;
+    
+	// find the max line number so we know how many lines to write
+    for (x = 0; x < [[allConnections items] count]; x++)
+	{
+        if ([[[[allConnections items] objectAtIndex:x] objectForKey:@"group"] isEqualToString:group] == NSOrderedSame)
+            if ([[[[allConnections items] objectAtIndex:x] objectForKey:@"Line#"] intValue] > maxLineNum)
+                maxLineNum = [[[[allConnections items] objectAtIndex:x] objectForKey:@"Line#"] intValue];
+	}
+    
+    return maxLineNum;
+}
+
+-(void)incrementLineNumbersFromNumber:(int)startingWith
+{
+	int x;
+    
+    NSLog(@"Incrementing Comment Line#'s from %d", startingWith);
+    
+	// find the max line number so we know how many lines to write
+    for (x = 0; x < [comments count]; x++)
+	{
+        if ([[[comments objectAtIndex:x] objectForKey:@"Line#"] intValue] >= startingWith)
+            [[comments objectAtIndex:x] setValue:[NSNumber numberWithInt:[[[comments objectAtIndex:x] objectForKey:@"Line#"] intValue] + 1] forKey:@"Line#"];
+	}
+    
+    NSLog(@"Incrementing Connection Line#'s from %d", startingWith);
+
+    for (x = 0; x < [[allConnections items] count]; x++)
+	{
+        if ([[[[allConnections items] objectAtIndex:x] objectForKey:@"Line#"] intValue] >= startingWith)
+            [[[allConnections items] objectAtIndex:x] setValue:[NSNumber numberWithInt:[[[[allConnections items] objectAtIndex:x] objectForKey:@"Line#"] intValue] + 1] forKey:@"Line#"];
+	}
+}
+
+-(void)decrementLineNumbersFromNumber:(int)startingWith
+{
+	int x;
+    
+    NSLog(@"Incrementing Comment Line#'s from %d", startingWith);
+    
+	// find the max line number so we know how many lines to write
+    for (x = 0; x < [comments count]; x++)
+	{
+        if ([[[comments objectAtIndex:x] objectForKey:@"Line#"] intValue] >= startingWith)
+            [[comments objectAtIndex:x] setValue:[NSNumber numberWithInt:[[[comments objectAtIndex:x] objectForKey:@"Line#"] intValue] - 1] forKey:@"Line#"];
+	}
+    
+    NSLog(@"Incrementing Connection Line#'s from %d", startingWith);
+    
+    for (x = 0; x < [[allConnections items] count]; x++)
+	{
+        if ([[[[allConnections items] objectAtIndex:x] objectForKey:@"Line#"] intValue] >= startingWith)
+            [[[allConnections items] objectAtIndex:x] setValue:[NSNumber numberWithInt:[[[[allConnections items] objectAtIndex:x] objectForKey:@"Line#"] intValue] - 1] forKey:@"Line#"];
+	}
+}
+
+
 -(BOOL)generateSourceData
 {
 	NSMutableString *newSource = [[NSMutableString alloc] init];
-	NSString *currentLine = nil;
 	
-
-	/*
-	// write the lines to newSource from comments until groupLocalOrigin
+    // write the lines to newSource from comments until groupLocalOrigin
 	// then loop the connections for all locals
 	// rinse and repeat for IPv4 and IPv6
 	
 	int lineNum = 0;
-	int x;
-	
-	for (x = 0; x < [comments count]; x++)
-	{	
-		lineNum = [[[comments objectAtIndex:x] objectForKey:@"Line#"] intValue];
-		[newSource appendFormat:@"%@\n", [[comments objectAtIndex:x] objectForKey:@"Comment"]];
-		
-	}
+	int maxLineNum = [self getMaxLineNumber];
+    int x;
+    
+    // find the current line number object and write it to the file
 
-	int lineNum = 0;
-	int maxLineNum = 0;
-	int x;
-	
-	// loop the lists to get a line number.
-	for (x = 0; x < [comments count]; x++)
-	{
-		int recordLineNum = [comments valueForKey:@"Line#"];
-		if (recordLineNum > maxLineNum)
-		{
-			maxLineNum = recordLineNum;
-		}
-	}
-	
-	
-	if (lineNum >= maxLineNum) 
-	{
-		return NO;
-	}
+	for (lineNum = 0; lineNum <= maxLineNum; lineNum++)
+    {
+        BOOL found = NO;
+        for (x = 0; x < [comments count]; x++)
+        {
+            if ([[[comments objectAtIndex:x] objectForKey:@"Line#"] intValue] == lineNum)
+            {
+                [newSource appendFormat:@"%@\n", [[comments objectAtIndex:x] objectForKey:@"Comment"]];
+                found = YES;
+                break;
+            }
+        }
+        
+        if (!found)
+        {
+            for (x = 0; x < [[allConnections items] count]; x++)
+            {
+                if ([[[[allConnections items] objectAtIndex:x] objectForKey:@"Line#"] intValue] == lineNum)
+                {
+                    // type database postgres 127.0.0.1/32 trust option
+                    [newSource appendFormat:@"%@ \t %@ \t %@ \t %@ \t %@ \t %@ \n",
+                     [[[allConnections items] objectAtIndex:x] objectForKey:@"type"],
+                     [[[allConnections items] objectAtIndex:x] objectForKey:@"database"],
+                     [[[allConnections items] objectAtIndex:x] objectForKey:@"user"],
+                     [[[allConnections items] objectAtIndex:x] objectForKey:@"address"],
+                     [[[allConnections items] objectAtIndex:x] objectForKey:@"method"],
+                     [[[allConnections items] objectAtIndex:x] objectForKey:@"option"]
+                     ];
+                    break;
+                }
+            }
+        }
+    }
 
-	[rawSourceData release];
-	[[rawSourceData alloc] initWithString:newSource];
+	
+	if (rawSourceData != nil)
+        [rawSourceData release];
+	rawSourceData = [[NSMutableString alloc] initWithString:newSource];
 	[[rawSourceData autorelease] retain];
-	*/
+    [newSource release];
+
 	return YES;
 }
 

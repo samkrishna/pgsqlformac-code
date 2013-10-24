@@ -20,6 +20,10 @@
 	
 	IBOutlet NSTextView *rawSource;
 	
+    IBOutlet NSTabView *tabs;
+    IBOutlet NSTabViewItem *sourceTab;
+    IBOutlet NSTabViewItem *dataTab;
+    
 	IBOutlet NSTableView *allConnectionList;
 	
 	IBOutlet NSPanel *connectionDetails;
@@ -30,6 +34,10 @@
 	IBOutlet NSTextField *address;
 	IBOutlet NSPopUpButton *method;
 	IBOutlet NSTextField *option;
+    
+    IBOutlet NSButton *addConnection;
+    IBOutlet NSButton *removeConnection;
+    
 	NSWindow *parentWindow;
 }
 
@@ -38,9 +46,16 @@
 - (IBAction)onSelectRecord:(id)sender;
 - (IBAction)onSetRecord:(id)sender;
 
+- (IBAction)onChangeView:(id)sender;
+
 - (IBAction)onOK:(id)sender;
 - (IBAction)onCancel:(id)sender;
 
+- (IBAction)onAddConnection:(id)sender;
+- (IBAction)onRemoveConnection:(id)sender;
+
 - (BOOL)shouldRestartService;
+
+- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem;
 
 @end

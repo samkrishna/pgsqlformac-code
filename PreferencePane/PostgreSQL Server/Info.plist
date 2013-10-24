@@ -21,7 +21,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>8.4.1</string>
+	<string>9.2.3</string>
 	<key>NSMainNibFile</key>
 	<string>PostgreSQL_ServerPref</string>
 	<key>NSPrefPaneIconFile</key>

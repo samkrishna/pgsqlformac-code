@@ -6,6 +6,9 @@
 //  Copyright 2009 Druware Software Designs. All rights reserved.
 //
 
+
+// TODO: Reparse the file when leaving Source view.
+
 #import "PGMNetworkConfiguration.h"
 
 
@@ -47,7 +50,7 @@
 	[allConnectionList setDataSource:[hbaConfiguration allConnections]];
 	[allConnectionList reloadData];	
 	
-	// set up the popup buttons
+	// set up the popup buttons 
 	[type removeAllItems];
 	[type addItemWithTitle:@""];
 	[type addItemWithTitle:@"local"];
@@ -84,12 +87,23 @@
 	[NSApp runModalForWindow:thisPanel];
 }
 
-- (IBAction)onChangeView:(id)sender
+- (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {
 	// update the hbafile source
 	// if the current view is the data view update the source
 	// else reparse the source and update the data view
-	NSLog(@"Change View Called");
+    
+    // TODO: if this is the source tab, reparse the source otherwise regenerate it
+    if ([[tabViewItem identifier] isEqualToString:@"source"] == NSOrderedSame)
+    {
+        // parse the data
+        [hbaConfiguration setSource:[rawSource string]];
+       	[allConnectionList reloadData];
+    } else {
+        // generate the source
+        [hbaConfiguration generateSourceData];
+        [rawSource setString:[hbaConfiguration source]];
+    }
 }
 
 - (IBAction)onSelectRecord:(id)sender
@@ -142,6 +156,8 @@
 
 - (IBAction)onSetRecord:(id)sender
 {
+    // don't do anything if
+    
 	NSMutableDictionary *dict = [[[hbaConfiguration allConnections] items] objectAtIndex:[allConnectionList selectedRow]];	
 	
 	[dict setValue:[address stringValue] forKey:@"address"];
@@ -153,6 +169,10 @@
 	[dict setValue:[method titleOfSelectedItem] forKey:@"method"];
 		
 	[allConnectionList reloadData];
+    
+    // rebuild the source data so it can be saved.
+    [hbaConfiguration generateSourceData];
+    [rawSource setString:[hbaConfiguration source]];
 }
 
 - (IBAction)onOK:(id)sender
@@ -179,6 +199,100 @@
 - (BOOL)shouldRestartService
 {
 	return shouldRestartService;
+}
+
+- (IBAction)onAddConnection:(id)sender
+{
+    // add a new record
+    // adjust all ines from the current record up one.
+    // select the newly added record.
+    
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+	
+	[dict setValue:@"127.0.0.1/32" forKey:@"address"];
+	[dict setValue:@"postgres" forKey:@"database"];
+	[dict setValue:@"all" forKey:@"user"];
+	[dict setValue:@"" forKey:@"option"];
+	[dict setValue:@"host" forKey:@"type"];
+	[dict setValue:@"IPv4" forKey:@"group"];
+	[dict setValue:@"trust" forKey:@"method"];
+    
+    // we really want the following to adjust the line #'s based
+    // upon the current selection, but for the moment, make it
+    // work, then make it pretty
+    
+    NSNumber *lineNumber;
+    if ([allConnectionList selectedRow] >= 0)
+    {
+        NSDictionary *selectedObject = [[[hbaConfiguration allConnections] items] objectAtIndex:[allConnectionList selectedRow]];
+        // use the selected object, and adjust all other line#'s up by one
+        lineNumber = [[NSNumber alloc] initWithInt:[[selectedObject valueForKey:@"Line#"] intValue] + 1];
+        
+        // adjust line numbers from a line number
+        [hbaConfiguration incrementLineNumbersFromNumber:[lineNumber intValue]];
+        
+    } else {
+        // find the highest line# and add one.
+        // lineNumber = [[NSNumber alloc] initWithInt:[hbaConfiguration getMaxLineNumberForGroup:[dict valueForKey:@"group"]] + 1];
+        lineNumber = [[NSNumber alloc] initWithInt:[hbaConfiguration getMaxLineNumber] + 1];
+    }
+    [dict setObject:lineNumber forKey:@"Line#"];
+    
+    NSLog(@"New Dictionary: %@", dict);
+
+        
+        // clear the current record
+        NSLog(@"DeslectAll");
+        [allConnectionList deselectAll:sender];
+        
+    // add the new dict to the list
+    if ([allConnectionList selectedRow] >= 0)
+    {
+        [[[hbaConfiguration allConnections] items] insertObject:dict
+                                                        atIndex:[allConnectionList selectedRow]];
+    } else {
+        [[[hbaConfiguration allConnections] items] addObject:dict];
+    }
+    
+    [allConnectionList reloadData];
+    
+    NSMutableIndexSet *mutableIndexSet = [[NSMutableIndexSet alloc] init];
+    [mutableIndexSet addIndex:[[[hbaConfiguration allConnections] items] count]];
+    [allConnectionList selectRowIndexes:mutableIndexSet byExtendingSelection:NO];
+    
+    // rebuild the source data so it can be saved.
+    [hbaConfiguration generateSourceData];
+    [rawSource setString:[hbaConfiguration source]];
+    
+    return;
+}
+
+- (IBAction)onRemoveConnection:(id)sender
+{
+    // remove the select item from the list.
+    NSNumber *lineNumber;
+    if ([allConnectionList selectedRow] >= 0)
+    {
+        NSDictionary *selectedObject = [[[hbaConfiguration allConnections] items] objectAtIndex:[allConnectionList selectedRow]];
+        // use the selected object, and adjust all other line#'s down by one
+        lineNumber = [[NSNumber alloc] initWithInt:[[selectedObject valueForKey:@"Line#"] intValue]];
+        
+        // adjust line numbers from a line number
+        [hbaConfiguration decrementLineNumbersFromNumber:[lineNumber intValue]];
+        
+        // remove the old one
+        [[[hbaConfiguration allConnections] items] removeObjectAtIndex:[allConnectionList selectedRow]];
+        
+        [allConnectionList deselectAll:sender];
+        
+        [allConnectionList reloadData];
+        
+        // rebuild the source data so it can be saved.
+        [hbaConfiguration generateSourceData];
+        [rawSource setString:[hbaConfiguration source]];
+    }
+        
+    return;
 }
 
 @end

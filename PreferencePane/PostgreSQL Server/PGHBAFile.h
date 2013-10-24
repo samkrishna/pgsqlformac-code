@@ -33,4 +33,9 @@
 -(NSString *)source;
 -(void)setSource:(NSString *)value;
 
+-(int)getMaxLineNumber;
+-(int)getMaxLineNumberForGroup:(NSString *)group;
+-(void)incrementLineNumbersFromNumber:(int)startingWith;
+-(void)decrementLineNumbersFromNumber:(int)startingWith;
+
 @end
