@@ -164,6 +164,11 @@
 	[resultOutput setString:[NSString stringWithFormat:@"executing sql command: %@\n", 
 		cmd]];
 		
+    /* TODO: alter the following to check for success and report the failure, as
+     *       well as the reason for any failures.  It should ALSO report any non
+     *       fatal messages reported from the connection and command as well.
+     */
+    
 	[_conn execCommand:cmd];
 	[cmd release];
 	

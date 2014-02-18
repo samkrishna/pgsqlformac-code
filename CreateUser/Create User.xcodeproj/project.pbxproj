@@ -44,7 +44,7 @@
 		434CDC6F07CAD73E000F3026 /* PGNewUserUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGNewUserUI.m; sourceTree = "<group>"; };
 		434CDC9207CADA42000F3026 /* create_user_wiz.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = create_user_wiz.png; sourceTree = "<group>"; };
 		434CDDD307CC3F41000F3026 /* add user_32.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "add user_32.icns"; sourceTree = "<group>"; };
-		436D43D90EBA112F003BE656 /* PGSQLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PGSQLKit.framework; path = ../PGSQLKit/build/Release/PGSQLKit.framework; sourceTree = SOURCE_ROOT; };
+		436D43D90EBA112F003BE656 /* PGSQLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PGSQLKit.framework; path = ../../../../../Library/Frameworks/PGSQLKit.framework; sourceTree = SOURCE_ROOT; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Create User.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Create User.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -166,6 +166,8 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = 43F67E6C0CBC623B00B36845 /* Build configuration list for PBXProject "Create User" */;
 			compatibilityVersion = "Xcode 2.4";
 			developmentRegion = English;
@@ -235,11 +237,10 @@
 		43F67E690CBC623B00B36845 /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					../pgCocoaDB/build,
+					"~/Library/Frameworks",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 				);
@@ -256,7 +257,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "Create User";
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = macosx10.8;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
@@ -265,11 +266,10 @@
 		43F67E6A0CBC623B00B36845 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					../pgCocoaDB/build,
+					"~/Library/Frameworks",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 				);
@@ -284,7 +284,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "Create User";
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = macosx10.8;
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
@@ -293,10 +293,9 @@
 		43F67E6B0CBC623B00B36845 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				FRAMEWORK_SEARCH_PATHS = (
-					../pgCocoaDB/build,
+					"~/Library/Frameworks",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_FOR_TARGET_2)",
 				);
@@ -310,7 +309,7 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "Create User";
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT = macosx10.8;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Default;
