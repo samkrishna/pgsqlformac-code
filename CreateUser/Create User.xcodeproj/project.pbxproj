@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4327BF2D18B39D030088F6C5 /* PGSQLAdminUser.h in Sources */ = {isa = PBXBuildFile; fileRef = 4327BF2B18B39D030088F6C5 /* PGSQLAdminUser.h */; };
+		4327BF2E18B39D030088F6C5 /* PGSQLAdminUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4327BF2C18B39D030088F6C5 /* PGSQLAdminUser.m */; };
 		434CDC7007CAD73E000F3026 /* PGNewUserUI.h in Resources */ = {isa = PBXBuildFile; fileRef = 434CDC6E07CAD73E000F3026 /* PGNewUserUI.h */; };
 		434CDC7107CAD73E000F3026 /* PGNewUserUI.m in Sources */ = {isa = PBXBuildFile; fileRef = 434CDC6F07CAD73E000F3026 /* PGNewUserUI.m */; };
 		434CDC9307CADA42000F3026 /* create_user_wiz.png in Resources */ = {isa = PBXBuildFile; fileRef = 434CDC9207CADA42000F3026 /* create_user_wiz.png */; };
@@ -40,6 +42,8 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Create User_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Create User_Prefix.pch"; sourceTree = "<group>"; };
+		4327BF2B18B39D030088F6C5 /* PGSQLAdminUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.objj; path = PGSQLAdminUser.h; sourceTree = "<group>"; };
+		4327BF2C18B39D030088F6C5 /* PGSQLAdminUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLAdminUser.m; sourceTree = "<group>"; };
 		434CDC6E07CAD73E000F3026 /* PGNewUserUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGNewUserUI.h; sourceTree = "<group>"; };
 		434CDC6F07CAD73E000F3026 /* PGNewUserUI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGNewUserUI.m; sourceTree = "<group>"; };
 		434CDC9207CADA42000F3026 /* create_user_wiz.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = create_user_wiz.png; sourceTree = "<group>"; };
@@ -67,6 +71,8 @@
 			children = (
 				434CDC6E07CAD73E000F3026 /* PGNewUserUI.h */,
 				434CDC6F07CAD73E000F3026 /* PGNewUserUI.m */,
+				4327BF2B18B39D030088F6C5 /* PGSQLAdminUser.h */,
+				4327BF2C18B39D030088F6C5 /* PGSQLAdminUser.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -208,6 +214,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				4327BF2D18B39D030088F6C5 /* PGSQLAdminUser.h in Sources */,
+				4327BF2E18B39D030088F6C5 /* PGSQLAdminUser.m in Sources */,
 				434CDC7107CAD73E000F3026 /* PGNewUserUI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
