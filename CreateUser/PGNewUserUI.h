@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <PGSQLKit/PGSQLKit.h>
+#import "PGSQLAdminUser.h"
 
 @interface PGNewUserUI : NSObject 
 {
