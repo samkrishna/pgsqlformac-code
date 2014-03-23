@@ -9,21 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface PGMChangeDataPath : NSObject {
-	IBOutlet NSTextField *dataFilePath;
-	IBOutlet NSPanel *thisPanel;
-	
-	NSString *currentPath;
-	
-	NSWindow *parentWindow;
-}
+@interface PGMChangeDataPath : NSObject
+
+@property (strong, nonatomic) NSString *currentPath;
 
 - (void)showModalForWindow:(NSWindow *)window;
-
-- (void)setCurrentPath:(NSString *)value;
-
-- (IBAction)onBrowseForFolder:(id)sender;
-- (IBAction)onSetDataPath:(id)sender;
-- (IBAction)onCancelSetDataPath:(id)sender;
 
 @end

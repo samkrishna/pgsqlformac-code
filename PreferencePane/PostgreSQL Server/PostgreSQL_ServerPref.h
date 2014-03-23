@@ -85,6 +85,6 @@
 - (void)pushConfigFile:(NSString *)fileName;
 - (BOOL)removeFile:(NSString *)filePath;
 
-
++ (void)debugErrorBreakInCode:(NSString *)errorString;
 
 @end

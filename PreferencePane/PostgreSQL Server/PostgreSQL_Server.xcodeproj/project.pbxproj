@@ -51,6 +51,7 @@
 		8D202CF10486D31800D8A456 /* PostgreSQL_ServerPref.m in Sources */ = {isa = PBXBuildFile; fileRef = F506C03D013D9D7901CA16C8 /* PostgreSQL_ServerPref.m */; };
 		8D202CF30486D31800D8A456 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		8D202CF40486D31800D8A456 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F506C035013D953901CA16C8 /* PreferencePanes.framework */; };
+		C962B97F18DF53FD00F1A0EE /* commit.txt in Resources */ = {isa = PBXBuildFile; fileRef = C962B97E18DF53FD00F1A0EE /* commit.txt */; };
 		C9B4BC4018DF3FEB00AF3226 /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = C9B4BC3F18DF3FEB00AF3226 /* version.h */; };
 /* End PBXBuildFile section */
 
@@ -128,10 +129,11 @@
 		43ECCDBF0F49DD69002A4AFB /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ChangeDataPathPanel.xib; sourceTree = "<group>"; };
 		8D202CF70486D31800D8A456 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D202CF80486D31800D8A456 /* PostgreSQL Server.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PostgreSQL Server.prefPane"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C962B97E18DF53FD00F1A0EE /* commit.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = commit.txt; sourceTree = "<group>"; };
 		C9B4BC3F18DF3FEB00AF3226 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		F506C035013D953901CA16C8 /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
 		F506C03C013D9D7901CA16C8 /* PostgreSQL_ServerPref.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostgreSQL_ServerPref.h; sourceTree = "<group>"; };
-		F506C03D013D9D7901CA16C8 /* PostgreSQL_ServerPref.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostgreSQL_ServerPref.m; sourceTree = "<group>"; };
+		F506C03D013D9D7901CA16C8 /* PostgreSQL_ServerPref.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PostgreSQL_ServerPref.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F506C043013D9D8C01CA16C8 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PostgreSQL_ServerPref.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -254,6 +256,7 @@
 		32DBCFA10370C40200C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				C962B97E18DF53FD00F1A0EE /* commit.txt */,
 				C9B4BC3F18DF3FEB00AF3226 /* version.h */,
 				32DBCFA20370C41700C91783 /* PostgreSQL Server_Prefix.pch */,
 			);
@@ -370,6 +373,7 @@
 				434CF8720E4C99F50040ED14 /* Xserve 42U.icns in Resources */,
 				434CF8730E4C99F50040ED14 /* xserve-alert.png in Resources */,
 				434CF8740E4C99F50040ED14 /* xserve-running.png in Resources */,
+				C962B97F18DF53FD00F1A0EE /* commit.txt in Resources */,
 				434CF8750E4C99F50040ED14 /* xserve-stopped.png in Resources */,
 				434CF8760E4C99F50040ED14 /* xserve-unknown.png in Resources */,
 				434CF8A90E4CA60B0040ED14 /* lock_32.png in Resources */,
@@ -412,7 +416,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# get the build date\n# build_timestamp=`date -u +\"%a %b %d %T GMT %Y\"`\nbuild_timestamp=`date`\n\necho \"#define BUILD_TIMESTAMP @\\\"$build_timestamp\\\"\" > version.h\n";
+			shellScript = "# get the build date\n# build_timestamp=`date -u +\"%a %b %d %T GMT %Y\"`\nbuild_timestamp=`date`\n\necho \"#define BUILD_TIMESTAMP @\\\"$build_timestamp\\\"\" > version.h\n\n# create the commit text file if it does not exist\nif [ ! -f commit.txt ]; then\n    echo \"\" > commit.txt\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

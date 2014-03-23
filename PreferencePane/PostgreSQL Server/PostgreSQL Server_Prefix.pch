@@ -5,4 +5,15 @@
 #ifdef __OBJC__
     #import <Foundation/Foundation.h>
     #import <AppKit/AppKit.h>
+    #import "PostgreSQL_ServerPref.h"       // Needs to be refactored for (void)debugErrorBreakInCode:(NSString *)errorString
+                                            // terrible way to do it.
 #endif
+
+#define DRUWARE_PREF_FILE_CSTRING "/Library/Preferences/com.druware.postgresqlformac.plist"
+#define DRUWARE_PREF_FILE_NSSTRING @DRUWARE_PREF_FILE_CSTRING
+
+#define PREF_KEY_DATA_PATH      @"dataPath"
+#define PREF_KEY_LOG_PATH       @"logPath"
+#define PREF_KEY_BIN_PATH       @"binPath"
+#define PREF_KEY_PORT_NUMBER    @"portNumber"
+#define PREF_KEY_START_AT_BOOT  @"startAtBoot"

@@ -20,13 +20,25 @@ int main (int argc, const char * argv[]) {
         }
     }
 
+    /* form command */
 	char* szCommand = (char *)malloc(512);
 	int x = 0;
 	for (x = 1; x < argc; x++)
 	{
 		sprintf(szCommand, "%s %s", szCommand, argv[x]);
 	}
-	system(szCommand);
+    
+    /* Execute Command */
+	result = system(szCommand);
+    if ((result < 0) || (result == 127))
+    {
+        aslclient log_client = asl_open("PostgresqlForMac", "The PostgresqlForMac Log Facility", ASL_OPT_STDERR);
+        if (log_client != NULL)
+        {
+            asl_log(log_client, NULL, ASL_LEVEL_ERR, "StartupHelper command failed: %s", szCommand);
+            asl_close(log_client);
+        }
+    }
 	free(szCommand);
-    return 0;
+    return result;
 }

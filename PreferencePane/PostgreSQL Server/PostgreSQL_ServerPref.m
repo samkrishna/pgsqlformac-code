@@ -25,9 +25,28 @@
 
 @property (weak) IBOutlet NSTextField *debugBuildDateTextLable;
 
+@property (strong, nonatomic) NSArray *postgresqlForMacPgConfigPaths;
+@property (strong, nonatomic) NSString *mainPathPgConfigPath;
+
 @end
 
 @implementation PostgreSQL_ServerPref
+
+    // call using [PostgreSQL_ServerPref debugErrorBreakInCode:@""];
+    // will cause the debugger to breakpoint
++ (void)debugErrorBreakInCode:(NSString *)errorString
+{
+#ifdef DEBUG
+    [NSException raise:@"Debug Error" format:@"%@", errorString];
+#else
+    return;
+#endif
+}
+
+- (void) searchUsingPGConfig
+{
+        // Search for postgresql using the results from pg_config using 'pg_config --bindir'
+}
 
 - (void) checkForAvailableVersions
 {
@@ -38,13 +57,14 @@
         // /Library/PostgreSQL8/versions
 	
         //NSString *file;
-	NSFileManager *defaultFM = [NSFileManager defaultManager];
+    
+    NSFileManager *defaultFM = [NSFileManager defaultManager];
     NSError *error;
-	NSArray *directoryContents = [defaultFM contentsOfDirectoryAtPath:@"/Library/PostgreSQL/versions/" error:&error];
-	int i;
-	for (i = 0; i < [directoryContents count]; i++)
+	
+    self.postgresqlForMacPgConfigPaths = [defaultFM contentsOfDirectoryAtPath:@"/Library/PostgreSQL/versions/" error:&error];
+	for (NSString *directory in self.postgresqlForMacPgConfigPaths)
 	{
-		NSLog(@"%@", directoryContents[i]);
+		NSLog(@"%@", directory);
 	}
 }
 
@@ -69,40 +89,58 @@
 #endif
 #endif
     
-	// check for a preferences file
+    [self checkForAvailableVersions];
+
+        // check for a preferences file
 	NSFileManager *fm = [[NSFileManager alloc] init];
-	if ([fm fileExistsAtPath:@"/Library/Preferences/com.druware.postgresqlformac.plist"])
+	if ([fm fileExistsAtPath:DRUWARE_PREF_FILE_NSSTRING])
 	{
 		// replace with NSUserDefaults/NSGlobalDomain
 		
-		preferences = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/Library/Preferences/com.druware.postgresqlformac.plist"];
+		preferences = [[NSMutableDictionary alloc] initWithContentsOfFile:DRUWARE_PREF_FILE_NSSTRING];
 		
-		if (preferences[@"startAtBoot"] == nil)
+		if (preferences[PREF_KEY_DATA_PATH] == nil)
 		{
-			[preferences setValue:@"YES" forKey:@"startAtBoot"];
+			[preferences setValue:@"/Library/PostgreSQL/data" forKey:PREF_KEY_DATA_PATH];
+		}
+		if (preferences[PREF_KEY_LOG_PATH] == nil)
+		{
+			[preferences setValue:@"/Library/PostgreSQL/log/PostgreSQL.log" forKey:PREF_KEY_LOG_PATH];
+		}
+		if (preferences[PREF_KEY_START_AT_BOOT] == nil)
+		{
+			[preferences setValue:@"YES" forKey:PREF_KEY_START_AT_BOOT];
+		}
+		if (preferences[PREF_KEY_PORT_NUMBER] == nil)
+		{
+			[preferences setValue:@"5432" forKey:PREF_KEY_PORT_NUMBER];
+		}
+		if (preferences[PREF_KEY_BIN_PATH] == nil)
+		{
+			[preferences setValue:@"/Library/PostgreSQL/bin" forKey:PREF_KEY_BIN_PATH];
 		}
 		
 	} else {
-        [self checkForAvailableVersions];
         
+            // create the initial defaults
 		preferences = [[NSMutableDictionary alloc] init];
-		// set the defaults
-		[preferences setValue:@"/Library/PostgreSQL/data" forKey:@"dataPath"];
-		[preferences setValue:@"/Library/PostgreSQL/log/PostgreSQL.log" forKey:@"logPath"];
-		[preferences setValue:@"YES" forKey:@"startAtBoot"];
+		[preferences setValue:@"/Library/PostgreSQL/data" forKey:PREF_KEY_DATA_PATH];
+		[preferences setValue:@"/Library/PostgreSQL/log/PostgreSQL.log" forKey:PREF_KEY_LOG_PATH];
+		[preferences setValue:@"YES" forKey:PREF_KEY_START_AT_BOOT];
+		[preferences setValue:@"5432" forKey:PREF_KEY_PORT_NUMBER];
+		[preferences setValue:@"/Library/PostgreSQL/bin" forKey:PREF_KEY_BIN_PATH];
 	}
 	
-	if ([[preferences valueForKey:@"startAtBoot"] isEqualToString:@"YES"])
+	if ([[preferences valueForKey:PREF_KEY_START_AT_BOOT] isEqualToString:@"YES"])
 	{
 		[autostartOption setState:NSOnState];
 	} else {
 		[autostartOption setState:NSOffState];		
 	}
 	
-	dataPath = [[NSString alloc] initWithString:preferences[@"dataPath"]];
-	
-	
-	[self onTimedUpdate:nil];
+	dataPath = [[NSString alloc] initWithString:preferences[PREF_KEY_DATA_PATH]];
+    
+    [self onTimedUpdate:nil];
 }
 
 #pragma mark --
@@ -137,6 +175,7 @@
 	if (myStatus == errAuthorizationSuccess) 
 	{
 		isLocked = NO;
+        [self savePreferencesFile:nil];    // for the time being make sure we always have saved the pref file so it can be used by PGMChangeDataPath.
 		return YES;
 	}
 		
@@ -456,10 +495,10 @@
 - (IBAction)onChangeStartAtBoot:(id)sender
 {
 	// update the preferences and save them.
-	[preferences setValue:@"YES" forKey:@"startAtBoot"];
+	[preferences setValue:@"YES" forKey:PREF_KEY_START_AT_BOOT];
 	if ([autostartOption state] == NSOffState)
 	{
-		[preferences setValue:@"NO" forKey:@"startAtBoot"];
+		[preferences setValue:@"NO" forKey:PREF_KEY_START_AT_BOOT];
 	} 
 	[self savePreferencesFile:nil];
 }
@@ -470,7 +509,7 @@
 	// create the owner.
 	PGMChangeDataPath *dialogOwner = [[PGMChangeDataPath alloc] init];
 	
-	[dialogOwner setCurrentPath:preferences[@"dataPath"]];
+	[dialogOwner setCurrentPath:preferences[PREF_KEY_DATA_PATH]];
 	[dialogOwner showModalForWindow:[NSApp mainWindow]];
 
 	[self savePreferencesFile:nil];
@@ -549,13 +588,18 @@
 												  myToolPath, myFlags, myArguments, &myCommunicationsPipe);      
 	
 	if (myStatus == errAuthorizationSuccess)
+    {
 		for(;;)
 		{
 			int bytesRead = read (fileno (myCommunicationsPipe),
 								  myReadBuffer, sizeof (myReadBuffer));
 			if (bytesRead < 1) break;
 			NSLog(@"%s", myReadBuffer);
-		}	
+		}
+    } else {
+        NSLog(@"Authorization Services Failure: %d", myStatus);
+        [PostgreSQL_ServerPref debugErrorBreakInCode:@""];
+    }
 }
 
 -(void)pushConfigFile:(NSString *)fileName
@@ -583,13 +627,18 @@
 												  myToolPath, myFlags, myArguments, &myCommunicationsPipe);      
 	
 	if (myStatus == errAuthorizationSuccess)
+    {
 		for(;;)
 		{
 			int bytesRead = read (fileno (myCommunicationsPipe),
 								  myReadBuffer, sizeof (myReadBuffer));
 			if (bytesRead < 1) break;
 			NSLog(@"%s", myReadBuffer);
-		}	
+		}
+    } else {
+        NSLog(@"Authorization Services Failure: %d", myStatus);
+        [PostgreSQL_ServerPref debugErrorBreakInCode:@""];
+    }
 }
 
 -(BOOL)removeFile:(NSString *)filePath
@@ -613,13 +662,18 @@
 												  myToolPath, myFlags, myArguments, &myCommunicationsPipe);      
 	
 	if (myStatus == errAuthorizationSuccess)
+    {
 		for(;;)
 		{
 			int bytesRead = read (fileno (myCommunicationsPipe),
 								  myReadBuffer, sizeof (myReadBuffer));
 			if (bytesRead < 1) break;
 			NSLog(@"%s", myReadBuffer);
-		}	
+		}
+    } else {
+        NSLog(@"Authorization Services Failure: %d", myStatus);
+        [PostgreSQL_ServerPref debugErrorBreakInCode:@""];
+    }
 	return YES;
 }
 
@@ -632,6 +686,7 @@
 	if (![preferences writeToFile:@"/var/tmp/com.druware.postgresqlformac.plist" atomically:YES])
 	{
 		NSLog(@"Failed to write file");
+        [PostgreSQL_ServerPref debugErrorBreakInCode:@""];
 		return;
 	}
 	
@@ -640,7 +695,7 @@
 	myArguments[0] = "/bin/cat";
 	myArguments[1] = "/var/tmp/com.druware.postgresqlformac.plist";
 	myArguments[2] = ">";
-	myArguments[3] = "/Library/Preferences/com.druware.postgresqlformac.plist";
+	myArguments[3] = DRUWARE_PREF_FILE_CSTRING;
 	myArguments[4] = NULL;
 	
 	NSLog(@"pushing configuration");
@@ -653,14 +708,18 @@
 												  myToolPath, myFlags, myArguments, &myCommunicationsPipe);      
 	
 	if (myStatus == errAuthorizationSuccess)
+    {
 		for(;;)
 		{
 			int bytesRead = read (fileno (myCommunicationsPipe),
 								  myReadBuffer, sizeof (myReadBuffer));
 			if (bytesRead < 1) break;
 			NSLog(@"%s", myReadBuffer);
-		}			
-	
+		}
+	} else {
+        NSLog(@"Authorization Services Failure: %d", myStatus);
+        [PostgreSQL_ServerPref debugErrorBreakInCode:@""];
+    }
 	[self removeFile:@"/var/tmp/com.druware.postgresqlformac.plist"];
 }
 
