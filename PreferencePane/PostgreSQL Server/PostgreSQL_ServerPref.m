@@ -11,6 +11,9 @@
 #import "PGMChangeDataPath.h"
 #import "PGMNetworkConfiguration.h"
 #import "PGMPostgreSQLConfiguration.h"
+
+    // Note that you have to build the project once to make version.h available.
+    // version.h is not (or should not be) in scm because it changes with every build.
 #import "version.h"
 
 #include <sys/types.h>
@@ -53,6 +56,7 @@
 	
 	isLocked = YES;
 	
+        // Update the build date text field if necessary.
     [self.debugBuildDateTextLable setEditable:NO];
     [self.debugBuildDateTextLable setSelectable:YES];
     [self.debugBuildDateTextLable setHidden:YES];
