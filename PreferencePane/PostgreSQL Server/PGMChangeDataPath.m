@@ -38,7 +38,6 @@
 - (void)setCurrentPath:(NSString *)value
 {
 	currentPath = [[NSString alloc] initWithString:value];
-	[[currentPath autorelease] retain];
 }
 
 - (IBAction)onBrowseForFolder:(id)sender

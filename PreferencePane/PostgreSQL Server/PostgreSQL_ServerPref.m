@@ -11,12 +11,39 @@
 #import "PGMChangeDataPath.h"
 #import "PGMNetworkConfiguration.h"
 #import "PGMPostgreSQLConfiguration.h"
+#import "version.h"
 
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
 
+
+@interface PostgreSQL_ServerPref()
+
+@property (weak) IBOutlet NSTextField *debugBuildDateTextLable;
+
+@end
+
 @implementation PostgreSQL_ServerPref
+
+- (void) checkForAvailableVersions
+{
+        // get alternate version list
+        // get current version --
+        // /Library/PostgreSQL8/bin/psql --version |  grep psql | awk -F" " '{print $3}'
+        // alternate versions
+        // /Library/PostgreSQL8/versions
+	
+        //NSString *file;
+	NSFileManager *defaultFM = [NSFileManager defaultManager];
+    NSError *error;
+	NSArray *directoryContents = [defaultFM contentsOfDirectoryAtPath:@"/Library/PostgreSQL/versions/" error:&error];
+	int i;
+	for (i = 0; i < [directoryContents count]; i++)
+	{
+		NSLog(@"%@", directoryContents[i]);
+	}
+}
 
 - (void) mainViewDidLoad
 {
@@ -26,28 +53,40 @@
 	
 	isLocked = YES;
 	
+    [self.debugBuildDateTextLable setEditable:NO];
+    [self.debugBuildDateTextLable setSelectable:YES];
+    [self.debugBuildDateTextLable setHidden:YES];
+
+#ifdef DEBUG
+#ifdef BUILD_TIMESTAMP
+    NSString *debugString = [NSString stringWithFormat:@"Debug Build: %@", BUILD_TIMESTAMP];
+    [self.debugBuildDateTextLable setStringValue:debugString];
+    [self.debugBuildDateTextLable setHidden:NO];
+#endif
+#endif
+    
 	// check for a preferences file
-	NSFileManager *fm = [[[NSFileManager alloc] init] autorelease];
+	NSFileManager *fm = [[NSFileManager alloc] init];
 	if ([fm fileExistsAtPath:@"/Library/Preferences/com.druware.postgresqlformac.plist"])
 	{
 		// replace with NSUserDefaults/NSGlobalDomain
 		
-		
 		preferences = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/Library/Preferences/com.druware.postgresqlformac.plist"];
 		
-		if ([preferences objectForKey:@"startAtBoot"] == nil)
+		if (preferences[@"startAtBoot"] == nil)
 		{
 			[preferences setValue:@"YES" forKey:@"startAtBoot"];
 		}
 		
 	} else {
+        [self checkForAvailableVersions];
+        
 		preferences = [[NSMutableDictionary alloc] init];
 		// set the defaults
 		[preferences setValue:@"/Library/PostgreSQL/data" forKey:@"dataPath"];
 		[preferences setValue:@"/Library/PostgreSQL/log/PostgreSQL.log" forKey:@"logPath"];
 		[preferences setValue:@"YES" forKey:@"startAtBoot"];
 	}
-	[[preferences autorelease] retain];	
 	
 	if ([[preferences valueForKey:@"startAtBoot"] isEqualToString:@"YES"])
 	{
@@ -56,22 +95,8 @@
 		[autostartOption setState:NSOffState];		
 	}
 	
-	dataPath = [[NSString alloc] initWithString:[preferences objectForKey:@"dataPath"]];
+	dataPath = [[NSString alloc] initWithString:preferences[@"dataPath"]];
 	
-	// get alternate version list
-	// get current version --
-	// /Library/PostgreSQL8/bin/psql --version |  grep psql | awk -F" " '{print $3}'
-	// alternate versions
-	// /Library/PostgreSQL8/versions 
-	
-	NSString *file;
-	NSFileManager *defaultFM = [NSFileManager defaultManager];
-	NSArray *directoryContents = [defaultFM directoryContentsAtPath:@"/Library/PostgreSQL/versions/"];
-	int i;
-	for (i = 0; i < [directoryContents count]; i++)
-	{
-		NSLog(@"%@", [directoryContents objectAtIndex:i]);
-	}
 	
 	[self onTimedUpdate:nil];
 }
@@ -168,14 +193,14 @@
 	{
 		// set the image to running
 		NSString *imagePath = [thisBundle pathForResource:@"xserve-running" ofType:@"png"];
-		NSImage *image = [[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease];
+		NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
 		[serviceImage setImage:image];
 		[status setStringValue:@"Current Status: Running"];
 		
 	} else {
 		// set the image to stopped
 		NSString *imagePath = [thisBundle pathForResource:@"xserve-stopped" ofType:@"png"];
-		NSImage *image = [[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease];
+		NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
 		[serviceImage setImage:image];
 		[status setStringValue:@"Current Status: Down"];
 	}
@@ -186,13 +211,13 @@
 - (BOOL)checkPostmasterStatus
 {
 	// check the current run state of postmaster
-	NSString *serverProcessName = [[[NSString alloc] initWithString:@"postgres"] autorelease];
-	NSString *serverProcessNameAlt = [[[NSString alloc] initWithString:@"postmaster"] autorelease];
+	NSString *serverProcessName = @"postgres";
+	NSString *serverProcessNameAlt = @"postmaster";
 	NSArray *processes = [AGProcess allProcesses];
 	int i;
 	for (i = 0; i < [processes count]; i++)
 	{
-		AGProcess *process = (AGProcess *)[processes objectAtIndex:i];	
+		AGProcess *process = (AGProcess *)processes[i];	
 		if ([process command] != nil) 
 		{
 			if ([[process command] isEqual:serverProcessName])
@@ -247,20 +272,17 @@
 	
 	if (command != nil) 
 	{
-		[command release];
 		command = nil;
 	}
- 	command = [[NSString alloc] initWithString:@"/Library/StartupItems/PostgreSQL/PostgreSQL"];
+ 	command = @"/Library/StartupItems/PostgreSQL/PostgreSQL";
 	
 	if (operation != nil)
 	{
-		[operation release];
 		operation = nil;
 	}
- 	operation = [[NSString alloc] initWithString:@"restart"];
+ 	operation = @"restart";
 	if (option != nil)
 	{
-		[option release];
 		option = nil;
 	}
 	
@@ -284,21 +306,18 @@
 	
 	if (command != nil) 
 	{
-		[command release];
 		command = nil;
 	}
- 	command = [[NSString alloc] initWithString:@"/Library/StartupItems/PostgreSQL/PostgreSQL"];
+ 	command = @"/Library/StartupItems/PostgreSQL/PostgreSQL";
 	
 	if (operation != nil)
 	{
-		[operation release];
 		operation = nil;
 	}
- 	operation = [[NSString alloc] initWithString:@"start"];
+ 	operation = @"start";
 	
 	if (option != nil)
 	{
-		[option release];
 		option = nil;
 	}
 	
@@ -321,21 +340,18 @@
 	
 	if (command != nil) 
 	{
-		[command release];
 		command = nil;
 	}
- 	command = [[NSString alloc] initWithString:@"/Library/StartupItems/PostgreSQL/PostgreSQL"];
+ 	command = @"/Library/StartupItems/PostgreSQL/PostgreSQL";
 	
 	if (operation != nil)
 	{
-		[operation release];
 		operation = nil;
 	}
- 	operation = [[NSString alloc] initWithString:@"stop"];
+ 	operation = @"stop";
 	
 	if (option != nil)
 	{
-		[option release];
 		option = nil;
 	}
 	
@@ -361,24 +377,21 @@
 	
 	if (command != nil) 
 	{
-		[command release];
 		command = nil;
 	}
- 	command = [[NSString alloc] initWithString:@"/Library/StartupItems/PostgreSQL/PostgreSQL"];
+ 	command = @"/Library/StartupItems/PostgreSQL/PostgreSQL";
 	
 	if (operation != nil)
 	{
-		[operation release];
 		operation = nil;
 	}
- 	operation = [[NSString alloc] initWithString:@"restart"];
+ 	operation = @"restart";
 	
 	if (option != nil)
 	{
-		[option release];
 		option = nil;
 	}
- 	option = [[NSString alloc] initWithString:@"RELOAD"];
+ 	option = @"RELOAD";
 	
 	[NSThread detachNewThreadSelector:@selector(execStartupWithRights) toTarget:self withObject:operation];	
     return;	
@@ -386,47 +399,47 @@
 
 - (void)execStartupWithRights
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	
-    OSStatus myStatus;
-    
-	NSString *pathToHelper = [thisBundle pathForResource:@"StartupHelper" ofType:nil];
-
-	const char *myToolPath = [pathToHelper cStringUsingEncoding:NSMacOSRomanStringEncoding]; 
-	char *myArguments[4];
-	
-	myArguments[0] = (char *)[command cStringUsingEncoding:NSMacOSRomanStringEncoding];
-	myArguments[1] = (char *)[operation cStringUsingEncoding:NSMacOSRomanStringEncoding];
-	if (option != nil)	
-	{
-		myArguments[2] = (char *)[option cStringUsingEncoding:NSMacOSRomanStringEncoding];
-	} else {
-		myArguments[2] = "MANUAL";
-	} 
-	myArguments[3] = NULL;		
-	
-	FILE *myCommunicationsPipe = NULL;
-	
-	myFlags = kAuthorizationFlagDefaults;			
-	myStatus = AuthorizationExecuteWithPrivileges(myAuthorizationRef, 
-												  myToolPath, myFlags, myArguments, &myCommunicationsPipe);      
-	
-	if (myStatus == errAuthorizationSuccess)
-		for(;;)
-		{
-			
-			char myReadBuffer[4096];
-			
-			int bytesRead = read(fileno(myCommunicationsPipe),
-								 myReadBuffer, sizeof(myReadBuffer));
-			//NSLog(@"Buffer: %s", &myReadBuffer);
-			if (bytesRead < 1) break;
-		} 
-	
-	// update the buttons
-	[progress stopAnimation:nil];
-	
-	[pool release];
+	@autoreleasepool {
+        
+        OSStatus myStatus;
+        
+        NSString *pathToHelper = [thisBundle pathForResource:@"StartupHelper" ofType:nil];
+        
+        const char *myToolPath = [pathToHelper cStringUsingEncoding:NSMacOSRomanStringEncoding];
+        char *myArguments[4];
+        
+        myArguments[0] = (char *)[command cStringUsingEncoding:NSMacOSRomanStringEncoding];
+        myArguments[1] = (char *)[operation cStringUsingEncoding:NSMacOSRomanStringEncoding];
+        if (option != nil)
+        {
+            myArguments[2] = (char *)[option cStringUsingEncoding:NSMacOSRomanStringEncoding];
+        } else {
+            myArguments[2] = "MANUAL";
+        }
+        myArguments[3] = NULL;
+        
+        FILE *myCommunicationsPipe = NULL;
+        
+        myFlags = kAuthorizationFlagDefaults;
+        myStatus = AuthorizationExecuteWithPrivileges(myAuthorizationRef,
+                                                      myToolPath, myFlags, myArguments, &myCommunicationsPipe);
+        
+        if (myStatus == errAuthorizationSuccess)
+            for(;;)
+            {
+                
+                char myReadBuffer[4096];
+                
+                int bytesRead = read(fileno(myCommunicationsPipe),
+                                     myReadBuffer, sizeof(myReadBuffer));
+                    //NSLog(@"Buffer: %s", &myReadBuffer);
+                if (bytesRead < 1) break;
+            } 
+        
+            // update the buttons
+        [progress stopAnimation:nil];
+        
+	}
 	[NSThread exit];
 	
     return;
@@ -453,7 +466,7 @@
 	// create the owner.
 	PGMChangeDataPath *dialogOwner = [[PGMChangeDataPath alloc] init];
 	
-	[dialogOwner setCurrentPath:[preferences objectForKey:@"dataPath"]];
+	[dialogOwner setCurrentPath:preferences[@"dataPath"]];
 	[dialogOwner showModalForWindow:[NSApp mainWindow]];
 
 	[self savePreferencesFile:nil];

@@ -41,7 +41,6 @@
 	// load the ui from the file
 	// load the file.
 	pgConfiguration = [[PGPostgreSQLConfFile alloc] initWithContentsOfFile:@"/var/tmp/postgresql.conf.in"];
-	[[pgConfiguration retain] autorelease];
 	
 	// set up the UI
 	

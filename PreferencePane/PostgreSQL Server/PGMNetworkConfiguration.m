@@ -43,11 +43,10 @@
 	// load the ui from the file
 	// load the file.
 	hbaConfiguration = [[PGHBAFile alloc] initWithContentsOfFile:@"/var/tmp/pg_hba.conf.in"];
-	[[hbaConfiguration retain] autorelease];
 	
 	// set up the UI
 	[rawSource setString:[hbaConfiguration source]];
-	[allConnectionList setDataSource:[hbaConfiguration allConnections]];
+	[allConnectionList setDataSource: (id)[hbaConfiguration allConnections]];
 	[allConnectionList reloadData];	
 	
 	// set up the popup buttons 
@@ -132,7 +131,7 @@
 	
 	// get the dictionary to make this easier
 	
-	NSMutableDictionary *dict = [[[hbaConfiguration allConnections] items] objectAtIndex:[allConnectionList selectedRow]];	
+	NSMutableDictionary *dict = [[hbaConfiguration allConnections] items][[allConnectionList selectedRow]];	
 
 	// use the selected record from the list and display the details for edit.
 	[address setStringValue:[dict valueForKey:@"address"]];
@@ -158,7 +157,7 @@
 {
     // don't do anything if
     
-	NSMutableDictionary *dict = [[[hbaConfiguration allConnections] items] objectAtIndex:[allConnectionList selectedRow]];	
+	NSMutableDictionary *dict = [[hbaConfiguration allConnections] items][[allConnectionList selectedRow]];	
 	
 	[dict setValue:[address stringValue] forKey:@"address"];
 	[dict setValue:[database stringValue] forKey:@"database"];
@@ -224,9 +223,9 @@
     NSNumber *lineNumber;
     if ([allConnectionList selectedRow] >= 0)
     {
-        NSDictionary *selectedObject = [[[hbaConfiguration allConnections] items] objectAtIndex:[allConnectionList selectedRow]];
+        NSDictionary *selectedObject = [[hbaConfiguration allConnections] items][[allConnectionList selectedRow]];
         // use the selected object, and adjust all other line#'s up by one
-        lineNumber = [[NSNumber alloc] initWithInt:[[selectedObject valueForKey:@"Line#"] intValue] + 1];
+        lineNumber = @([[selectedObject valueForKey:@"Line#"] intValue] + 1);
         
         // adjust line numbers from a line number
         [hbaConfiguration incrementLineNumbersFromNumber:[lineNumber intValue]];
@@ -234,9 +233,9 @@
     } else {
         // find the highest line# and add one.
         // lineNumber = [[NSNumber alloc] initWithInt:[hbaConfiguration getMaxLineNumberForGroup:[dict valueForKey:@"group"]] + 1];
-        lineNumber = [[NSNumber alloc] initWithInt:[hbaConfiguration getMaxLineNumber] + 1];
+        lineNumber = @([hbaConfiguration getMaxLineNumber] + 1);
     }
-    [dict setObject:lineNumber forKey:@"Line#"];
+    dict[@"Line#"] = lineNumber;
     
     NSLog(@"New Dictionary: %@", dict);
 
@@ -273,9 +272,9 @@
     NSNumber *lineNumber;
     if ([allConnectionList selectedRow] >= 0)
     {
-        NSDictionary *selectedObject = [[[hbaConfiguration allConnections] items] objectAtIndex:[allConnectionList selectedRow]];
+        NSDictionary *selectedObject = [[hbaConfiguration allConnections] items][[allConnectionList selectedRow]];
         // use the selected object, and adjust all other line#'s down by one
-        lineNumber = [[NSNumber alloc] initWithInt:[[selectedObject valueForKey:@"Line#"] intValue]];
+        lineNumber = @([[selectedObject valueForKey:@"Line#"] intValue]);
         
         // adjust line numbers from a line number
         [hbaConfiguration decrementLineNumbersFromNumber:[lineNumber intValue]];

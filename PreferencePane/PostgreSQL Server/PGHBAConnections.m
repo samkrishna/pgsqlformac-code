@@ -18,7 +18,6 @@
 	if (self != nil) {
 		// perform custom implementation details (if required)
 		items = [[NSMutableArray alloc] init];
-		[[items autorelease] retain];
 	}
 	
     return self;
@@ -31,12 +30,7 @@
 
 - (void)setItems:(NSMutableDictionary *)value
 {
-	if (items != value)
-	{
-		[items release];
 		items = [[NSMutableArray alloc] initWithArray:(id)value];
-		[[items autorelease] retain];
-	}
 }
 
 
@@ -52,7 +46,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 			row:(int)rowIndex 
 {
     NSString *ident = [aTableColumn identifier];
-    NSMutableDictionary *anItem = [items objectAtIndex:rowIndex];
+    NSMutableDictionary *anItem = items[rowIndex];
     return [anItem valueForKey:ident];
 }
 
@@ -62,7 +56,7 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 			  row:(int)rowIndex
 {
 	// NSString *ident = [aTableColumn identifier];
-    NSMutableDictionary *anItem = [items objectAtIndex:rowIndex];
+    NSMutableDictionary *anItem = items[rowIndex];
 	
 	if ([[aTableColumn identifier] compare:@"isKey"] == NSOrderedSame)
 	{

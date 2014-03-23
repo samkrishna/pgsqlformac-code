@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>E331BB07-26D8-46B1-B6C1-06D08A0D2843</string>
+	<key>IDESourceControlProjectName</key>
+	<string>PostgreSQL_Server_x86_64</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>5C250D5E-E0E3-4324-B0A0-EF14DD6F0CC2</key>
+		<string>http://svn.code.sf.net/p/pgsqlformac/code/trunk</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>PreferencePane/PostgreSQL Server/PostgreSQL_Server_x86_64.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>5C250D5E-E0E3-4324-B0A0-EF14DD6F0CC2</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>5C250D5E-E0E3-4324-B0A0-EF14DD6F0CC2</key>
+		<string>http://svn.code.sf.net/p/pgsqlformac/code</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>http://svn.code.sf.net/p/pgsqlformac/code/trunk/PreferencePane/PostgreSQL%20Server/PostgreSQL_Server_x86_64.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>5C250D5E-E0E3-4324-B0A0-EF14DD6F0CC2</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryBranchesRelativeLocationKey</key>
+			<string>branches</string>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlRepositoryTagsRelativeLocationKey</key>
+			<string>tags</string>
+			<key>IDESourceControlRepositoryTrunkRelativeLocationKey</key>
+			<string>trunk</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>5C250D5E-E0E3-4324-B0A0-EF14DD6F0CC2</string>
+			<key>IDESourceControlWCCName</key>
+			<string>pgsqlformac-code</string>
+		</dict>
+	</array>
+</dict>
+</plist>

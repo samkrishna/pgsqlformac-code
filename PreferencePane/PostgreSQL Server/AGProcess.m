@@ -120,38 +120,39 @@ AGGetMachThreadPriority(thread_t thread, int *current_priority, int *base_priori
 	kern_return_t error;
 	struct thread_basic_info th_info;
 	mach_msg_type_number_t th_info_count = THREAD_BASIC_INFO_COUNT;
-	int my_current_priority, my_base_priority;
+	int my_current_priority = 0;
+    int my_base_priority = 0;
 	
 	if ((error = thread_info(thread, THREAD_BASIC_INFO, (thread_info_t)&th_info, &th_info_count)) != KERN_SUCCESS)
 		return error;
 	
 	switch (th_info.policy) {
-	case POLICY_TIMESHARE: {
-		struct policy_timeshare_info pol_info;
-		mach_msg_type_number_t pol_info_count = POLICY_TIMESHARE_INFO_COUNT;
-		
-		if ((error = thread_info(thread, THREAD_SCHED_TIMESHARE_INFO, (thread_info_t)&pol_info, &pol_info_count)) != KERN_SUCCESS)
-			return error;
-		my_current_priority = pol_info.cur_priority;
-		my_base_priority = pol_info.base_priority;
-		break;
-	} case POLICY_RR: {
-		struct policy_rr_info pol_info;
-		mach_msg_type_number_t pol_info_count = POLICY_RR_INFO_COUNT;
-		
-		if ((error = thread_info(thread, THREAD_SCHED_RR_INFO, (thread_info_t)&pol_info, &pol_info_count)) != KERN_SUCCESS)
-			return error;
-		my_current_priority = my_base_priority = pol_info.base_priority;
-		break;
-	} case POLICY_FIFO: {
-		struct policy_fifo_info pol_info;
-		mach_msg_type_number_t pol_info_count = POLICY_FIFO_INFO_COUNT;
-		
-		if ((error = thread_info(thread, THREAD_SCHED_FIFO_INFO, (thread_info_t)&pol_info, &pol_info_count)) != KERN_SUCCESS)
-			return error;
-		my_current_priority = my_base_priority = pol_info.base_priority;
-		break;
-	}
+        case POLICY_TIMESHARE: {
+            struct policy_timeshare_info pol_info;
+            mach_msg_type_number_t pol_info_count = POLICY_TIMESHARE_INFO_COUNT;
+            
+            if ((error = thread_info(thread, THREAD_SCHED_TIMESHARE_INFO, (thread_info_t)&pol_info, &pol_info_count)) != KERN_SUCCESS)
+                return error;
+            my_current_priority = pol_info.cur_priority;
+            my_base_priority = pol_info.base_priority;
+            break;
+        } case POLICY_RR: {
+            struct policy_rr_info pol_info;
+            mach_msg_type_number_t pol_info_count = POLICY_RR_INFO_COUNT;
+            
+            if ((error = thread_info(thread, THREAD_SCHED_RR_INFO, (thread_info_t)&pol_info, &pol_info_count)) != KERN_SUCCESS)
+                return error;
+            my_current_priority = my_base_priority = pol_info.base_priority;
+            break;
+        } case POLICY_FIFO: {
+            struct policy_fifo_info pol_info;
+            mach_msg_type_number_t pol_info_count = POLICY_FIFO_INFO_COUNT;
+            
+            if ((error = thread_info(thread, THREAD_SCHED_FIFO_INFO, (thread_info_t)&pol_info, &pol_info_count)) != KERN_SUCCESS)
+                return error;
+            my_current_priority = my_base_priority = pol_info.base_priority;
+            break;
+        }
 	}
 	
 	if (current_priority != NULL) *current_priority = my_current_priority;
@@ -315,9 +316,9 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 	count = length / sizeof(struct kinfo_proc);
 		
 	for (i = 0; i < count; i++) {
-		if (proc = [[self alloc] initWithProcessIdentifier:info[i].kp_proc.p_pid])
-		[processes addObject:proc];
-		[proc release];
+        proc = [[self alloc] initWithProcessIdentifier:info[i].kp_proc.p_pid];
+		if (proc)
+            [processes addObject:proc];
 	}
 	
 	NSZoneFree(NULL, info);
@@ -347,9 +348,8 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 		if (sysctl(mib, 4, &info, &length, NULL, 0) < 0)
 			command = [[NSString alloc] init];
 		else
-			command = [[NSString alloc] initWithCString:info.kp_proc.p_comm];
+			command = [[NSString alloc] initWithCString:info.kp_proc.p_comm encoding:NSUTF8StringEncoding];
 		
-		[command retain];
 	} else {
 		// find the comm string, should be the first non-garbage string in the buffer
 		offset = last_offset = 0;
@@ -373,14 +373,13 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 			command = [[NSString stringWithCString:buffer + last_offset encoding:NSMacOSRomanStringEncoding] lastPathComponent];
 		} while ([command isEqualToString:@"LaunchCFMApp"]);  // skip LaunchCFMApp
 		
-		[command retain];
 		
 		// get rest of args and env
 		for ( ; offset < length; offset++) {
 			if (buffer[offset]) {
 				NSString *string = [NSString stringWithCString:buffer + offset encoding:NSMacOSRomanStringEncoding];
 				[args addObject:string];
-				offset += [string cStringLength];
+				offset += [string lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
 			}
 		}
 		
@@ -390,21 +389,21 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 		// ** THIS IS THE CRASH POINT ***
 		
 		for (i = [args count] - 1; i > 0; i--) {
-			NSString *string = [args objectAtIndex:i];
-			int index = [string rangeOfString:@"="].location;
+			NSString *string = args[i];
+			NSInteger index = [string rangeOfString:@"="].location;
 			if (index == NSNotFound)
 				break;
 			if (index >= 0) {
-				[env setObject:[string substringFromIndex:index + 1] forKey:[string substringToIndex:index]];
+				env[[string substringToIndex:index]] = [string substringFromIndex:index + 1];
 			}
 		}
 		args = [args subarrayWithRange:NSMakeRange(0, i + 1)];
 	}
 	
 	if (![args count])
-		args = [NSArray arrayWithObject:command];
-	arguments = [args retain];
-	environment = [env retain];
+		args = @[command];
+	arguments = args;
+	environment = env;
 }    
 
 @end
@@ -417,7 +416,6 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 		if (task_for_pid(mach_task_self(), process, &task) != KERN_SUCCESS)
 			task = MACH_PORT_NULL;
 		if ([self state] == AGProcessStateExited) {
-			[self release];
 			return nil;
 		}
 	}
@@ -437,7 +435,7 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 }
 
 + (AGProcess *)processForProcessIdentifier:(int)pid {
-	return [[[self alloc] initWithProcessIdentifier:pid] autorelease];
+	return [[self alloc] initWithProcessIdentifier:pid];
 }
 	
 + (NSArray *)processesForProcessGroup:(int)pgid {
@@ -461,15 +459,15 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 	NSMutableArray *result = [NSMutableArray array];
 	int i, count = [all count];
 	for (i = 0; i < count; i++)
-		if ([[[all objectAtIndex:i] command] isEqualToString:comm])
-			[result addObject:[all objectAtIndex:i]];
+		if ([[all[i] command] isEqualToString:comm])
+			[result addObject:all[i]];
 	return result;
 }
 	
 + (AGProcess *)processForCommand:(NSString *)comm {
 	NSArray *processes = [self processesForCommand:comm];
 	if ([processes count])
-		return [processes objectAtIndex:0];
+		return processes[0];
 	return nil;
 }
 	
@@ -567,8 +565,8 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 	NSMutableArray *children = [NSMutableArray array];
 	int i, count = [all count];
 	for (i = 0; i < count; i++)
-		if ([[all objectAtIndex:i] parentProcessIdentifier] == process)
-			[children addObject:[all objectAtIndex:i]];
+		if ([all[i] parentProcessIdentifier] == process)
+			[children addObject:all[i]];
 	return children;
 }
 	
@@ -577,8 +575,8 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 	NSMutableArray *siblings = [NSMutableArray array];
 	int i, count = [all count], ppid = [self parentProcessIdentifier];
 	for (i = 0; i < count; i++)
-		if ([[all objectAtIndex:i] parentProcessIdentifier] == ppid)
-			[siblings addObject:[all objectAtIndex:i]];
+		if ([all[i] parentProcessIdentifier] == ppid)
+			[siblings addObject:all[i]];
 	return siblings;
 }
 	
@@ -704,14 +702,10 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 	
 - (void)dealloc {
 	mach_port_deallocate(mach_task_self(), task);
-	[command release];
-	[arguments release];
-	[environment release];
-	[super dealloc];
 }
 	
 - (id)copyWithZone:(NSZone *)zone {
-	return [self retain];
+	return self;
 }
 	
 @end

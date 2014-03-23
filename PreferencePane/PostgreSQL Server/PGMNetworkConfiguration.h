@@ -46,7 +46,7 @@
 - (IBAction)onSelectRecord:(id)sender;
 - (IBAction)onSetRecord:(id)sender;
 
-- (IBAction)onChangeView:(id)sender;
+    //- (IBAction)onChangeView:(id)sender;
 
 - (IBAction)onOK:(id)sender;
 - (IBAction)onCancel:(id)sender;

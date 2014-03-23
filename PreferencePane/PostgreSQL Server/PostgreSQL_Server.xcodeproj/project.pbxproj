@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 45;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -51,6 +51,7 @@
 		8D202CF10486D31800D8A456 /* PostgreSQL_ServerPref.m in Sources */ = {isa = PBXBuildFile; fileRef = F506C03D013D9D7901CA16C8 /* PostgreSQL_ServerPref.m */; };
 		8D202CF30486D31800D8A456 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		8D202CF40486D31800D8A456 /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F506C035013D953901CA16C8 /* PreferencePanes.framework */; };
+		C9B4BC4018DF3FEB00AF3226 /* version.h in Headers */ = {isa = PBXBuildFile; fileRef = C9B4BC3F18DF3FEB00AF3226 /* version.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -122,13 +123,12 @@
 		43BDF9900F4DE1C100079F3C /* PGHBAFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGHBAFile.m; sourceTree = "<group>"; };
 		43BDF9960F4DE1E700079F3C /* PGHBAConnections.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGHBAConnections.h; sourceTree = "<group>"; };
 		43BDF9970F4DE1E700079F3C /* PGHBAConnections.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGHBAConnections.m; sourceTree = "<group>"; };
-		43C78822126B5703005F5F52 /* postgresql.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = postgresql.conf; path = /Library/PostgreSQL/data/postgresql.conf; sourceTree = "<absolute>"; };
 		43ECCDBA0F49DCDF002A4AFB /* PGMChangeDataPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGMChangeDataPath.h; sourceTree = "<group>"; };
 		43ECCDBB0F49DCDF002A4AFB /* PGMChangeDataPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGMChangeDataPath.m; sourceTree = "<group>"; };
 		43ECCDBF0F49DD69002A4AFB /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ChangeDataPathPanel.xib; sourceTree = "<group>"; };
-		7B5CB83710053D490089BFE5 /* pg_hba.conf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pg_hba.conf; sourceTree = "<group>"; };
 		8D202CF70486D31800D8A456 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D202CF80486D31800D8A456 /* PostgreSQL Server.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PostgreSQL Server.prefPane"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9B4BC3F18DF3FEB00AF3226 /* version.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = version.h; sourceTree = "<group>"; };
 		F506C035013D953901CA16C8 /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
 		F506C03C013D9D7901CA16C8 /* PostgreSQL_ServerPref.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostgreSQL_ServerPref.h; sourceTree = "<group>"; };
 		F506C03D013D9D7901CA16C8 /* PostgreSQL_ServerPref.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostgreSQL_ServerPref.m; sourceTree = "<group>"; };
@@ -152,9 +152,7 @@
 		089C166AFE841209C02AAC07 /* PostgreSQL Server */ = {
 			isa = PBXGroup;
 			children = (
-				43C78822126B5703005F5F52 /* postgresql.conf */,
 				43AFFB250ECA7AE500FF139F /* CHANGELOG */,
-				7B5CB83710053D490089BFE5 /* pg_hba.conf */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32DBCFA10370C40200C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -256,6 +254,7 @@
 		32DBCFA10370C40200C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				C9B4BC3F18DF3FEB00AF3226 /* version.h */,
 				32DBCFA20370C41700C91783 /* PostgreSQL Server_Prefix.pch */,
 			);
 			name = "Other Sources";
@@ -281,6 +280,7 @@
 				434CF8790E4C9A490040ED14 /* AGProcess.h in Headers */,
 				43ECCDBC0F49DCDF002A4AFB /* PGMChangeDataPath.h in Headers */,
 				43BDF9630F4DBEC500079F3C /* PGMNetworkConfiguration.h in Headers */,
+				C9B4BC4018DF3FEB00AF3226 /* version.h in Headers */,
 				43BDF9670F4DBF0800079F3C /* PGMPostgreSQLConfiguration.h in Headers */,
 				43BDF9910F4DE1C100079F3C /* PGHBAFile.h in Headers */,
 				43BDF9980F4DE1E700079F3C /* PGHBAConnections.h in Headers */,
@@ -295,6 +295,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DBD214808BA80EA00186707 /* Build configuration list for PBXNativeTarget "PostgreSQLServer" */;
 			buildPhases = (
+				C9B4BC3E18DF3F6D00AF3226 /* Create build timestamp header Script */,
 				8D202CE90486D31800D8A456 /* Headers */,
 				8D202CEC0486D31800D8A456 /* Resources */,
 				8D202CF00486D31800D8A456 /* Sources */,
@@ -320,16 +321,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 0510;
 			};
-			buildConfigurationList = 1DBD214C08BA80EA00186707 /* Build configuration list for PBXProject "PostgreSQL Server" */;
-			compatibilityVersion = "Xcode 3.1";
+			buildConfigurationList = 1DBD214C08BA80EA00186707 /* Build configuration list for PBXProject "PostgreSQL_Server" */;
+			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
-			hasScannedForEncodings = 1;
+			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
+				en,
+				Base,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* PostgreSQL Server */;
 			projectDirPath = "";
@@ -398,6 +398,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXRezBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		C9B4BC3E18DF3F6D00AF3226 /* Create build timestamp header Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Create build timestamp header Script";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# get the build date\n# build_timestamp=`date -u +\"%a %b %d %T GMT %Y\"`\nbuild_timestamp=`date`\n\necho \"#define BUILD_TIMESTAMP @\\\"$build_timestamp\\\"\" > version.h\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D202CF00486D31800D8A456 /* Sources */ = {
@@ -472,49 +489,39 @@
 		1DBD214908BA80EA00186707 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_ENABLE_OBJC_GC = supported;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PostgreSQL Server_Prefix.pch";
-				GCC_VERSION = 4.2;
-				"GCC_VERSION[arch=i386]" = "";
-				"GCC_VERSION[arch=ppc]" = 4.0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "PostgreSQL Server";
-				SDKROOT = macosx10.5;
-				"SDKROOT[arch=i386]" = macosx10.5;
-				"SDKROOT[arch=ppc]" = macosx10.4;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = prefPane;
-				ZERO_LINK = YES;
 			};
 			name = Debug;
 		};
 		1DBD214A08BA80EA00186707 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_OBJC_GC = supported;
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PostgreSQL Server_Prefix.pch";
-				GCC_VERSION = 4.2;
-				"GCC_VERSION[arch=i386]" = "";
-				"GCC_VERSION[arch=ppc]" = 4.0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/PreferencePanes";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "PostgreSQL Server";
-				SDKROOT = macosx10.5;
-				"SDKROOT[arch=i386]" = macosx10.5;
-				"SDKROOT[arch=ppc]" = macosx10.5;
+				SDKROOT = macosx;
 				WRAPPER_EXTENSION = prefPane;
 			};
 			name = Release;
@@ -522,27 +529,33 @@
 		1DBD214D08BA80EA00186707 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				GCC_C_LANGUAGE_STANDARD = c99;
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_ENABLE_MODULES = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				ONLY_ACTIVE_ARCH = YES;
-				PREBINDING = NO;
-				SDKROOT = macosx10.4;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
 		1DBD214E08BA80EA00186707 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				GCC_C_LANGUAGE_STANDARD = c99;
+				ARCHS = "$(ARCHS_STANDARD)";
+				CLANG_ENABLE_MODULES = YES;
+				ENABLE_NS_ASSERTIONS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
@@ -558,7 +571,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1DBD214C08BA80EA00186707 /* Build configuration list for PBXProject "PostgreSQL Server" */ = {
+		1DBD214C08BA80EA00186707 /* Build configuration list for PBXProject "PostgreSQL_Server" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1DBD214D08BA80EA00186707 /* Debug */,

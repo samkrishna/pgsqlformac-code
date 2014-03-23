@@ -17,7 +17,7 @@
 	
 	if (self != nil) {
 		rawSourceData = nil;
-		allOptions = [[[[NSMutableArray alloc] init] autorelease] retain];
+		allOptions = [[NSMutableArray alloc] init];
 		
 		NSError *readError = nil;
 		rawSourceData = [[NSMutableString alloc] initWithContentsOfFile:file 
@@ -28,7 +28,6 @@
 			NSLog(@"Error Reading File: %@", rawSourceData); 
 			return nil;
 		}
-		[[rawSourceData retain] autorelease];
 		
 		// parse the raw data into the data elements
 		[self parseSourceData];						  
@@ -134,7 +133,8 @@
 	return allOptions;
 }
 
--(NSString *)source {
+-(NSString *)source
+{
 	return rawSourceData;
 }
 
@@ -142,12 +142,10 @@
 {
 	if (rawSourceData != nil)
 	{
-		[rawSourceData release];
 		rawSourceData = nil;
 	}
 	
-	rawSourceData = [[NSString alloc] initWithString:value];
-	[[rawSourceData retain] autorelease];
+	rawSourceData = [[NSMutableString alloc] initWithString:value];
 	
 	[self parseSourceData];
 }

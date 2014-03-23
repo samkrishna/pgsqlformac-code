@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>35448E86-DC66-4C70-927F-CEF7D9AC8741</string>
+	<key>IDESourceControlProjectName</key>
+	<string>PostgreSQL_Server</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>59ECDD19-A521-47B9-B786-28EC52EAE76A</key>
+		<string>svn+ssh://svn.code.sf.net/p/pgsqlformac/code/trunk</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>PreferencePane/PostgreSQL Server/PostgreSQL_Server.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>59ECDD19-A521-47B9-B786-28EC52EAE76A</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>59ECDD19-A521-47B9-B786-28EC52EAE76A</key>
+		<string>svn+ssh://svn.code.sf.net/p/pgsqlformac/code</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>svn+ssh://svn.code.sf.net/p/pgsqlformac/code/trunk/PreferencePane/PostgreSQL%20Server/PostgreSQL_Server.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>59ECDD19-A521-47B9-B786-28EC52EAE76A</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>59ECDD19-A521-47B9-B786-28EC52EAE76A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>pgsqlformac-code</string>
+		</dict>
+	</array>
+</dict>
+</plist>
