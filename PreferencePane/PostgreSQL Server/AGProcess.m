@@ -1,6 +1,6 @@
 // AGProcess.m
 //
-// Copyright (c) 2002 Aram Greenman. All rights reserved.
+// Copyright (c) 2002-2003 Aram Greenman. All rights reserved.
 //
 // Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 //
@@ -10,11 +10,50 @@
 //
 // THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
+// Version History:
+//
+// 0.1 - February 13, 2003
+//	Initial release - Aram Greenman
+//
+// 0.2 - August 4, 2003
+//	Added code to check OS versions in computations for task memory usage - Aram Greenman
+//	Added methods to retrieve task events (pageins, faults, etc.) - Craig Hockenberry
+//	Fixed compilation warnings in AGGetMachThreadPriority - Craig Hockenberry
+//	Fixed -siblings method to exclude the receiver - Steve Gehrman
+//
+// 0.3 - November 3, 2003
+//	Added code in doProcargs to handle command names with UTF-8 characters - Craig Hockenberry
+//	Changed code to weed out bogus entries in the argument list (isprint only works with 7-bit ASCII characters) - Craig Hockenberry
+//
+// 0.4 - May 31, 2005
+//	Cleaned up parsing in doProcargs - Craig Hockenberry
+//		Fixed the parser to handle the buffer returned by KERN_PROCARGS (the contents vary depending on the version of Mac OS X)
+//		Added a special case for Tiger that uses KERN_PROCARGS2 -- this version provides an argument count for more reliable results
+//		Fixed a bug with parsing arguments on Japanese systems
+//		Tested the parser on Jaguar, Panther and Tiger (10.2 to 10.4)
+//	Added an annotation for Java and DashboardClient commands - Craig Hockenberry
+//		Added an -annotation method which can be used to distinguish multiple instances of each command
+//		Added an -annotatedCommand method which produces a composite of the command and annotation strings
+//	Changed the computation of VM sizes to match the "top" command (which differs from how "ps" does it) - Craig Hockenberry
+//	Fixed compilation warnings when using GCC 4.0 and Xcode 2.0 - Craig Hockenberry
+//	Updated the ProcessTest application to use new methods and shown unknown values - Craig Hockenberry
+//
+// 0.5 - August 8, 2005
+//	Cleaned up parsing in doProcargs - Craig Hockenberry
+//		Fixed a bug with the parser's argument count causing a NSRangeException for processes with no arguments running from
+//		a bash shell
+//	Fixed a memory leak during command allocation when the parser failed - Steve Gehrman
+//	Fixed a memory leak when deallocating an instance -- the annotation was not being freed - Craig Hockenberry
+//	Added annotations for Konfabulator widgets - Craig Hockenberry
+
+
 #import "AGProcess.h"
 #import <Foundation/Foundation.h>
 #include <mach/mach_host.h>
 #include <mach/mach_port.h>
 #include <mach/mach_traps.h>
+    //#include <mach/shared_memory_server.h>
+#include <mach/shared_region.h>
 #include <mach/task.h>
 #include <mach/thread_act.h>
 #include <mach/vm_map.h>
@@ -24,6 +63,75 @@
 #include <signal.h>
 #include <unistd.h>
 
+static unsigned global_shared_text_segment;
+static unsigned shared_data_region_size;
+static unsigned shared_text_region_size;
+static int argument_buffer_size;
+static int major_version;
+    //static int minor_version;
+    //static int update_version;
+
+
+    //	// call this before any of the AGGetMach... functions
+    //	// sets the correct split library segment for running kernel
+    //	// should work at least through Darwin 6.6 (Mac OS X 10.2.6)
+    //	static kern_return_t
+    //	AGMachStatsInit() {
+    //		int mib[2];
+    //		size_t len = 256;
+    //		char rel[len];
+    //
+    //		// get the OS version and set the correct split library segment for the kernel
+    //		mib[0] = CTL_KERN;
+    //		mib[1] = KERN_OSRELEASE;
+    //
+    //		if (sysctl(mib, 2, &rel, &len, NULL, 0) < 0)
+    //			return KERN_FAILURE;
+    //
+    //		major_version = 0;
+    //		minor_version = 0;
+    //		update_version = 0;
+    //		sscanf(rel, "%d.%d.%d", &major_version, &minor_version, &update_version);
+    //		//NSLog(@"AGProcess: AGMacStatsInit: major_version = %d, minor_version = %d, update_version = %d", major_version, minor_version, update_version);
+    //
+    //		if (major_version < 6) { // kernel version before 6.0 (Mac OS X 10.2 - Jaguar)
+    //			//NSLog(@"AGProcess: AGMachStatsInit: using constant values");
+    //
+    //			global_shared_text_segment = 0x70000000;
+    //			shared_data_region_size = 0x10000000;
+    //			shared_text_region_size = 0x10000000;
+    //		}
+    //		else { // use values defined for the kernel we built under
+    //			//NSLog(@"AGProcess: AGMachStatsInit: using definitions");
+    //
+    //			global_shared_text_segment = GLOBAL_SHARED_TEXT_SEGMENT;
+    //			shared_data_region_size = SHARED_DATA_REGION_SIZE;
+    //			shared_text_region_size = SHARED_TEXT_REGION_SIZE;
+    //		}
+    //
+    //		// get the buffer size that will be large enough to hold the maximum arguments
+    //		size_t	size = sizeof(argument_buffer_size);
+    //
+    //		mib[0] = CTL_KERN;
+    //		mib[1] = KERN_ARGMAX;
+    //
+    //		if (sysctl(mib, 2, &argument_buffer_size, &size, NULL, 0) == -1) {
+    //			//NSLog(@"AGProcess: AGMachStatsInit: using default for argument_buffer_size");
+    //			argument_buffer_size = 4096; // kernel failed to provide the maximum size, use a default of 4K
+    //		}
+    //		if (major_version < 7) // kernel version < 7.0 (Mac OS X 10.3 - Panther)
+    //		{
+    //			if (argument_buffer_size > 8192) {
+    //				//NSLog(@"AGProcess: AGMachStatsInit: adjusting argument_buffer_size = %d", argument_buffer_size);
+    //				argument_buffer_size = 8192; // avoid a kernel bug and use a maximum of 8K
+    //			}
+    //		}
+    //		
+    //		//NSLog(@"AGProcess: AGMachStatsInit: argument_buffer_size = %d", argument_buffer_size);
+    //	
+    //		return KERN_SUCCESS;
+    //	}
+
 static kern_return_t
 AGGetMachTaskMemoryUsage(task_t task, unsigned *virtual_size, unsigned *resident_size, double *percent) {
 	kern_return_t error;
@@ -31,10 +139,10 @@ AGGetMachTaskMemoryUsage(task_t task, unsigned *virtual_size, unsigned *resident
 	struct host_basic_info h_info;
 	struct vm_region_basic_info_64 vm_info;
 	mach_msg_type_number_t t_info_count = TASK_BASIC_INFO_COUNT, h_info_count = HOST_BASIC_INFO_COUNT, vm_info_count = VM_REGION_BASIC_INFO_COUNT_64;
-	vm_address_t address = 0x70000000;
-	vm_size_t size, fw_size = 0x20000000, fw_text_size = 0x10000000;
+	vm_address_t address = global_shared_text_segment;
+	vm_size_t size;
 	mach_port_t object_name;
-	
+		
 	if ((error = task_info(task, TASK_BASIC_INFO, (task_info_t)&t_info, &t_info_count)) != KERN_SUCCESS)
 		return error;
 	if ((error = host_info(mach_host_self(), HOST_BASIC_INFO, (host_info_t)&h_info, &h_info_count)) != KERN_SUCCESS)
@@ -44,13 +152,25 @@ AGGetMachTaskMemoryUsage(task_t task, unsigned *virtual_size, unsigned *resident
 	// this is copied from the ps source code
 	if ((error = vm_region_64(task, &address, &size, VM_REGION_BASIC_INFO, (vm_region_info_t)&vm_info, &vm_info_count, &object_name)) != KERN_SUCCESS)
 		return error;
-	
-	if (vm_info.reserved && size == fw_text_size && t_info.virtual_size > fw_size)
-		t_info.virtual_size -= fw_size;
+
+	if (vm_info.reserved)
+		t_info.virtual_size -= (shared_text_region_size + shared_data_region_size);
 		
+	vm_statistics_data_t vm_stat;
+	vm_size_t pagesize;
+	mach_msg_type_number_t host_count;
+
+	host_page_size( mach_host_self(), &pagesize );
+	host_count = sizeof(vm_stat)/sizeof(integer_t);
+
+	if ((error = host_statistics( mach_host_self(), HOST_VM_INFO, (host_info_t)&vm_stat, &host_count )) != KERN_SUCCESS)
+		return error;
+
+	uint64_t physicalRam = ( vm_stat.active_count + vm_stat.inactive_count + vm_stat.wire_count + vm_stat.free_count ) * (uint64_t)pagesize;
+
 	if (virtual_size != NULL) *virtual_size = t_info.virtual_size;
 	if (resident_size != NULL) *resident_size = t_info.resident_size;
-	if (percent != NULL) *percent = (double)t_info.resident_size / h_info.memory_size;
+	if (percent != NULL) *percent = (double)t_info.resident_size / physicalRam;
 	
 	return error;
 }
@@ -121,38 +241,38 @@ AGGetMachThreadPriority(thread_t thread, int *current_priority, int *base_priori
 	struct thread_basic_info th_info;
 	mach_msg_type_number_t th_info_count = THREAD_BASIC_INFO_COUNT;
 	int my_current_priority = 0;
-    int my_base_priority = 0;
+	int my_base_priority = 0;
 	
 	if ((error = thread_info(thread, THREAD_BASIC_INFO, (thread_info_t)&th_info, &th_info_count)) != KERN_SUCCESS)
 		return error;
 	
 	switch (th_info.policy) {
-        case POLICY_TIMESHARE: {
-            struct policy_timeshare_info pol_info;
-            mach_msg_type_number_t pol_info_count = POLICY_TIMESHARE_INFO_COUNT;
-            
-            if ((error = thread_info(thread, THREAD_SCHED_TIMESHARE_INFO, (thread_info_t)&pol_info, &pol_info_count)) != KERN_SUCCESS)
-                return error;
-            my_current_priority = pol_info.cur_priority;
-            my_base_priority = pol_info.base_priority;
-            break;
-        } case POLICY_RR: {
-            struct policy_rr_info pol_info;
-            mach_msg_type_number_t pol_info_count = POLICY_RR_INFO_COUNT;
-            
-            if ((error = thread_info(thread, THREAD_SCHED_RR_INFO, (thread_info_t)&pol_info, &pol_info_count)) != KERN_SUCCESS)
-                return error;
-            my_current_priority = my_base_priority = pol_info.base_priority;
-            break;
-        } case POLICY_FIFO: {
-            struct policy_fifo_info pol_info;
-            mach_msg_type_number_t pol_info_count = POLICY_FIFO_INFO_COUNT;
-            
-            if ((error = thread_info(thread, THREAD_SCHED_FIFO_INFO, (thread_info_t)&pol_info, &pol_info_count)) != KERN_SUCCESS)
-                return error;
-            my_current_priority = my_base_priority = pol_info.base_priority;
-            break;
-        }
+	case POLICY_TIMESHARE: {
+		struct policy_timeshare_info pol_info;
+		mach_msg_type_number_t pol_info_count = POLICY_TIMESHARE_INFO_COUNT;
+		
+		if ((error = thread_info(thread, THREAD_SCHED_TIMESHARE_INFO, (thread_info_t)&pol_info, &pol_info_count)) != KERN_SUCCESS)
+			return error;
+		my_current_priority = pol_info.cur_priority;
+		my_base_priority = pol_info.base_priority;
+		break;
+	} case POLICY_RR: {
+		struct policy_rr_info pol_info;
+		mach_msg_type_number_t pol_info_count = POLICY_RR_INFO_COUNT;
+		
+		if ((error = thread_info(thread, THREAD_SCHED_RR_INFO, (thread_info_t)&pol_info, &pol_info_count)) != KERN_SUCCESS)
+			return error;
+		my_current_priority = my_base_priority = pol_info.base_priority;
+		break;
+	} case POLICY_FIFO: {
+		struct policy_fifo_info pol_info;
+		mach_msg_type_number_t pol_info_count = POLICY_FIFO_INFO_COUNT;
+		
+		if ((error = thread_info(thread, THREAD_SCHED_FIFO_INFO, (thread_info_t)&pol_info, &pol_info_count)) != KERN_SUCCESS)
+			return error;
+		my_current_priority = my_base_priority = pol_info.base_priority;
+		break;
+	}
 	}
 	
 	if (current_priority != NULL) *current_priority = my_current_priority;
@@ -285,6 +405,27 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 	return error;
 }
 
+static kern_return_t
+AGGetMachTaskEvents(task_t task, int *faults, int *pageins, int *cow_faults, int *messages_sent, int *messages_received, int *syscalls_mach, int *syscalls_unix, int *csw) {
+	kern_return_t error;
+	task_events_info_data_t t_events_info;
+	mach_msg_type_number_t t_events_info_count = TASK_EVENTS_INFO_COUNT;
+	
+	if ((error = task_info(task, TASK_EVENTS_INFO, (task_info_t)&t_events_info, &t_events_info_count)) != KERN_SUCCESS)
+		return error;
+
+	if (faults != NULL) *faults = t_events_info.faults;
+	if (pageins != NULL) *pageins = t_events_info.pageins;
+	if (cow_faults != NULL) *cow_faults = t_events_info.cow_faults;
+	if (messages_sent != NULL) *messages_sent = t_events_info.messages_sent;
+	if (messages_received != NULL) *messages_received = t_events_info.messages_received;
+	if (syscalls_mach != NULL) *syscalls_mach = t_events_info.syscalls_mach;
+	if (syscalls_unix != NULL) *syscalls_unix = t_events_info.syscalls_unix;
+	if (csw != NULL) *csw = t_events_info.csw;
+	
+	return error;
+}
+
 @interface AGProcess (Private)
 + (NSArray *)processesForThirdLevelName:(int)name value:(int)value;
 - (void)doProcargs;
@@ -318,98 +459,203 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 	for (i = 0; i < count; i++) {
         proc = [[self alloc] initWithProcessIdentifier:info[i].kp_proc.p_pid];
 		if (proc)
-            [processes addObject:proc];
+		[processes addObject:proc];
 	}
 	
 	NSZoneFree(NULL, info);
 	return processes;
 }
 
-- (void)doProcargs {       
+- (void)doProcargs
+{       
 	id args = [NSMutableArray array];
 	id env = [NSMutableDictionary dictionary];
-	size_t length = 4096; // max buffer accepted by sysctl() KERN_PROCARGS
-	char buffer[length + 1];
-	int mib[3] = { CTL_KERN, KERN_PROCARGS, process };
-	int offset, last_offset, i;
-	BOOL word;
-	char c;
-	
+	int mib[3];
+
 	// make sure this is only executed once for an instance
 	if (command)
 		return;
+	
+	if (major_version >= 8) { // kernel version >= 8.0 (Mac OS X 10.4 - Tiger)
+		// a newer sysctl selector is available -- it includes the number of arguments as an integer at the beginning of the buffer
+		mib[0] = CTL_KERN;
+		mib[1] = KERN_PROCARGS2;
+		mib[2] = process;
+	} else {
+		// use the older sysctl selector -- the argument/environment boundary will be determined heuristically
+		mib[0] = CTL_KERN;
+		mib[1] = KERN_PROCARGS;
+		mib[2] = process;
+	}
+	
+	size_t length = argument_buffer_size;
+	char *buffer = (char *)malloc(length);;
+	
+	BOOL parserFailure = NO;
+	if (sysctl(mib, 3, buffer, &length, NULL, 0) == 0) {  
+		char *cp;
+		BOOL isFirstArgument = YES;
+		BOOL createAnnotation = NO;
 		
-	if (sysctl(mib, 3, buffer, &length, NULL, 0) < 0) {  
-		// probably a zombie or exited proc, try to at least get the accounting name
+		int argumentCount;
+		if (major_version >= 8) { // kernel version >= 8.0 (Mac OS X 10.4 - Tiger)
+			memcpy(&argumentCount, buffer, sizeof(argumentCount));
+			cp = buffer + sizeof(argumentCount);
+		} else {
+			cp = buffer;
+			argumentCount = -1;
+		}
+
+		// skip the exec_path
+		BOOL execPathFound = NO;
+		for (; cp < buffer + length; cp++) {
+			if (*cp == '\0') {
+				execPathFound = YES;
+				break;
+			}
+		}
+		if (execPathFound) {
+			// skip trailing '\0' characters
+			BOOL argumentStartFound = NO;
+			for (; cp < buffer + length; cp++) {
+				if (*cp != '\0') {
+					// beginning of first argument reached
+					argumentStartFound = YES;
+					break;
+				}
+			}
+			if (argumentStartFound) {
+				char *currentItem = cp;
+				
+				// get all arguments
+				for (; cp < buffer + length; cp++) {
+					if (*cp == '\0') {
+						if (strlen(currentItem) > 0) {
+							NSString *itemString = [NSString stringWithUTF8String:currentItem];
+							if (itemString) {
+								//NSLog(@"AGProcess: doProcArgs: itemString = %@", itemString);
+
+								NSString *lastPathComponent = [itemString lastPathComponent];
+
+								if (! [lastPathComponent isEqualToString:@"LaunchCFMApp"]) {
+									if (isFirstArgument) {
+										// save command
+										command = lastPathComponent;
+										isFirstArgument = NO;
+										
+										// these are the commands we will annotate
+										if ([command isEqualToString:@"DashboardClient"]) {
+											createAnnotation = YES;
+										} else if ([command isEqualTo:@"Konfabulator"]) {
+											createAnnotation = YES;
+										} else if ([command isEqualTo:@"java"]) {
+											createAnnotation = YES;
+										}
+									} else {
+										// the command argument is sometimes duplicated, ignore the duplicates (unless it
+										//	is part of the bash shell's "_" environment variable)
+										if ([itemString hasPrefix:@"_="] || (! [lastPathComponent isEqualToString:command])) {
+											// add to the argument list
+											[args addObject:itemString];
+										}
+										else
+										{
+											argumentCount--;
+										}
+										
+										// check if we need to annotate
+										if (createAnnotation && (! annotation)) {
+											NSString *pathExtension = [itemString pathExtension];
+											
+											if ([pathExtension isEqualTo:@"wdgt"]) { // for DashboardClient
+												annotation = [lastPathComponent stringByDeletingPathExtension];
+											} else if ([pathExtension isEqualTo:@"widget"]) { // for Konfabulator
+												annotation = [lastPathComponent stringByDeletingPathExtension];
+											} else if ([pathExtension isEqualTo:@"jar"]) { // for java
+												annotation = lastPathComponent;
+											}
+										}
+									}
+								} else {
+									argumentCount--;
+								}
+							} else {
+								//NSLog(@"AGProcess: doProcArgs: couldn't convert 0x%08x (0x%08x) [%d of %d] = '%s' (%d) to NSString", currentItem, buffer, currentItem - buffer, length, currentItem, currentItem);
+							}
+						}
+							
+						currentItem = cp + 1;
+					}
+				}
+			} else {
+				//NSLog(@"AGProcess: doProcArgs: start of argument list not found for pid = %d", process);
+				parserFailure = YES;
+			}
+		} else {
+			//NSLog(@"AGProcess: doProcArgs: exec_path not found for pid = %d", process);
+			parserFailure = YES;
+		}
+
+		// extract environment variables from the argument list
+		if (argumentCount >= 0) {
+			// we're using the newer sysctl selector, so use the argument count (less one for the command argument)
+			int i;
+			for (i = [args count] - 1; i >= (argumentCount - 1); i--) {
+				NSString *string = [args objectAtIndex:i];
+				NSInteger index = [string rangeOfString:@"="].location;
+				if (index != NSNotFound)
+					[env setObject:[string substringFromIndex:index + 1] forKey:[string substringToIndex:index]];
+			}
+			args = [args subarrayWithRange:NSMakeRange(0, i + 1)];
+		} else {
+			// we're using the older sysctl selector, so we just guess by looking for an '=' in the argument
+			int i;
+			for (i = [args count] - 1; i >= 0; i--) {
+				NSString *string = [args objectAtIndex:i];
+				NSInteger index = [string rangeOfString:@"="].location;
+				if (index == NSNotFound)
+					break;
+				[env setObject:[string substringFromIndex:index + 1] forKey:[string substringToIndex:index]];
+			}
+			args = [args subarrayWithRange:NSMakeRange(0, i + 1)];
+		}
+	} else {
+		parserFailure = YES;
+	}
+	
+	if (parserFailure) {
+		// probably caused by a zombie or exited process, but could also be bad data in the process arguments buffer
+		// try to get the accounting name to partially recover from the error
 		struct kinfo_proc info;
 		size_t length = sizeof(struct kinfo_proc);
 		int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, process };
 		
-		if (sysctl(mib, 4, &info, &length, NULL, 0) < 0)
+		if (sysctl(mib, 4, &info, &length, NULL, 0) < 0) {
 			command = [[NSString alloc] init];
-		else
+			//NSLog(@"AGProcess: doProcArgs: no command");
+		} else {
 			command = [[NSString alloc] initWithCString:info.kp_proc.p_comm encoding:NSUTF8StringEncoding];
-		
-	} else {
-		// find the comm string, should be the first non-garbage string in the buffer
-		offset = last_offset = 0;
-		buffer[length] = NULL; // prevent buffer overrun
-		
-		do {
-			for ( ; offset < length; offset++) {
-				if (buffer[offset]) { // found a chunk of data
-					last_offset = offset;
-					word = YES;
-					for ( ; offset < length; offset++) {
-						if (!(c = buffer[offset])) // reached end of data
-							break;
-						if (!(isprint(c))) // found a non-printing character
-							word = NO;
-					}
-					if (word)
-						break;
-				}
-			}
-			command = [[NSString stringWithCString:buffer + last_offset encoding:NSMacOSRomanStringEncoding] lastPathComponent];
-		} while ([command isEqualToString:@"LaunchCFMApp"]);  // skip LaunchCFMApp
-		
-		
-		// get rest of args and env
-		for ( ; offset < length; offset++) {
-			if (buffer[offset]) {
-				NSString *string = [NSString stringWithCString:buffer + offset encoding:NSMacOSRomanStringEncoding];
-				[args addObject:string];
-				offset += [string lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-			}
+			//NSLog(@"AGProcess: doProcArgs: info.kp_proc.p_comm = %s", info.kp_proc.p_comm);
 		}
-		
-		// count backwards past env
-		// first string which does not contain an '=' should usually be the last arg             	
-
-		// ** THIS IS THE CRASH POINT ***
-		
-		for (i = [args count] - 1; i > 0; i--) {
-			NSString *string = args[i];
-			NSInteger index = [string rangeOfString:@"="].location;
-			if (index == NSNotFound)
-				break;
-			if (index >= 0) {
-				env[[string substringToIndex:index]] = [string substringFromIndex:index + 1];
-			}
-		}
-		args = [args subarrayWithRange:NSMakeRange(0, i + 1)];
 	}
+
+	//NSLog(@"AGProcess: doProcArgs: command = '%@', annotation = '%@', args = %@, env = %@", command, annotation, [args description], [env description]);
+			
+	free(buffer);
 	
-	if (![args count])
-		args = @[command];
 	arguments = args;
 	environment = env;
-}    
+}
 
 @end
 
 @implementation AGProcess
-	
+
++ (void)initialize {
+        //AGMachStatsInit();
+	[super initialize];
+}
+
 - (id)initWithProcessIdentifier:(int)pid {
 	if (self = [super init]) {
 		process = pid;
@@ -459,15 +705,15 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 	NSMutableArray *result = [NSMutableArray array];
 	int i, count = [all count];
 	for (i = 0; i < count; i++)
-		if ([[all[i] command] isEqualToString:comm])
-			[result addObject:all[i]];
+		if ([[[all objectAtIndex:i] command] isEqualToString:comm])
+			[result addObject:[all objectAtIndex:i]];
 	return result;
 }
 	
 + (AGProcess *)processForCommand:(NSString *)comm {
 	NSArray *processes = [self processesForCommand:comm];
 	if ([processes count])
-		return processes[0];
+		return [processes objectAtIndex:0];
 	return nil;
 }
 	
@@ -546,6 +792,19 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 	return command;
 }
 	
+- (NSString *)annotation {
+	[self doProcargs];
+	return annotation;
+}
+	
+- (NSString *)annotatedCommand {
+	[self doProcargs];
+	if (annotation)
+		return [NSString stringWithFormat:@"%@ (%@)", command, annotation];
+	else
+		return command;
+}
+	
 - (NSArray *)arguments {
 	[self doProcargs];
 	return arguments;
@@ -565,8 +824,8 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 	NSMutableArray *children = [NSMutableArray array];
 	int i, count = [all count];
 	for (i = 0; i < count; i++)
-		if ([all[i] parentProcessIdentifier] == process)
-			[children addObject:all[i]];
+		if ([[all objectAtIndex:i] parentProcessIdentifier] == process)
+			[children addObject:[all objectAtIndex:i]];
 	return children;
 }
 	
@@ -574,9 +833,11 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 	NSArray *all = [[self class] allProcesses];
 	NSMutableArray *siblings = [NSMutableArray array];
 	int i, count = [all count], ppid = [self parentProcessIdentifier];
-	for (i = 0; i < count; i++)
-		if ([all[i] parentProcessIdentifier] == ppid)
-			[siblings addObject:all[i]];
+	for (i = 0; i < count; i++) {
+        AGProcess *p = [all objectAtIndex:i];
+		if ([p parentProcessIdentifier] == ppid && [p processIdentifier] != process)
+			[siblings addObject:p];
+    }
 	return siblings;
 }
 	
@@ -629,7 +890,7 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 	return size;
 }
 	
-- (int)state {
+- (AGProcessState)state {
 	int state;
 	struct kinfo_proc info;
 	size_t length = sizeof(struct kinfo_proc);
@@ -666,6 +927,28 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 	return count;
 } 
 	
+- (unsigned long)hash {
+	return process;
+}
+	
+- (BOOL)isEqual:(id)object {
+	if (![object isKindOfClass:[self class]])
+		return NO;
+	return process == [(AGProcess *)object processIdentifier];
+}
+
+- (NSString *)description {
+	return [NSString stringWithFormat:@"%@ process = %d, task = %u, command = %@, arguments = %@, environment = %@", [super description], process, task, [self command], [[self arguments] description], [[self environment] description]];
+}
+	
+- (void)dealloc {
+	mach_port_deallocate(mach_task_self(), task);
+}
+	
+@end
+
+@implementation AGProcess (Signals)
+
 - (BOOL)suspend {
 	return [self kill:SIGSTOP];
 }
@@ -685,27 +968,65 @@ AGGetMachTaskThreadCount(task_t task, int *count) {
 - (BOOL)kill:(int)signal {
 	return kill(process, signal) == 0;
 }
-	
-- (unsigned)hash {
-	return process;
-}
-	
-- (BOOL)isEqual:(id)object {
-	if (![object isKindOfClass:[self class]])
-		return NO;
-	return process == [(AGProcess *)object processIdentifier];
+
+@end
+
+@implementation AGProcess (MachTaskEvents)
+
+- (int)faults {
+	int faults;
+	if (AGGetMachTaskEvents(task, &faults, NULL, NULL, NULL, NULL, NULL, NULL, NULL) != KERN_SUCCESS)
+		return AGProcessValueUnknown;
+	return faults;
 }
 
-- (NSString *)description {
-	return [NSString stringWithFormat:@"%@ process = %d, task = %u, command = %@, arguments = %@, environment = %@", [super description], process, task, [self command], [self arguments], [self environment]];
+- (int)pageins {
+	int pageins;
+	if (AGGetMachTaskEvents(task, NULL, &pageins, NULL, NULL, NULL, NULL, NULL, NULL) != KERN_SUCCESS)
+		return AGProcessValueUnknown;
+	return pageins;
 }
-	
-- (void)dealloc {
-	mach_port_deallocate(mach_task_self(), task);
+
+- (int)copyOnWriteFaults {
+	int cow_faults;
+	if (AGGetMachTaskEvents(task, NULL, NULL, &cow_faults, NULL, NULL, NULL, NULL, NULL) != KERN_SUCCESS)
+		return AGProcessValueUnknown;
+	return cow_faults;
 }
-	
-- (id)copyWithZone:(NSZone *)zone {
-	return self;
+
+- (int)messagesSent {
+	int messages_sent;
+	if (AGGetMachTaskEvents(task, NULL, NULL, NULL, &messages_sent, NULL, NULL, NULL, NULL) != KERN_SUCCESS)
+		return AGProcessValueUnknown;
+	return messages_sent;
+}
+
+- (int)messagesReceived {
+	int messages_received;
+	if (AGGetMachTaskEvents(task, NULL, NULL, NULL, NULL, &messages_received, NULL, NULL, NULL) != KERN_SUCCESS)
+		return AGProcessValueUnknown;
+	return messages_received;
+}
+
+- (int)machSystemCalls {
+	int syscalls_mach;
+	if (AGGetMachTaskEvents(task, NULL, NULL, NULL, NULL, NULL, &syscalls_mach, NULL, NULL) != KERN_SUCCESS)
+		return AGProcessValueUnknown;
+	return syscalls_mach;
+}
+
+- (int)unixSystemCalls {
+	int syscalls_unix;
+	if (AGGetMachTaskEvents(task, NULL, NULL, NULL, NULL, NULL, NULL, &syscalls_unix, NULL) != KERN_SUCCESS)
+		return AGProcessValueUnknown;
+	return syscalls_unix;
+}
+
+- (int)contextSwitches {
+	int csw;
+	if (AGGetMachTaskEvents(task, NULL, NULL, NULL, NULL, NULL, NULL, NULL, &csw) != KERN_SUCCESS)
+		return AGProcessValueUnknown;
+	return csw;
 }
 	
 @end

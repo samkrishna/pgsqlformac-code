@@ -8,11 +8,16 @@
 
 #import <Cocoa/Cocoa.h>
 
+typedef void (^SaveCallback)(NSMutableDictionary *);
+typedef void (^CancelCallback)(void);
 
-@interface PGMChangeDataPath : NSObject
+@interface PGMChangeDataPath : NSObject <NSTextDelegate>
 
 @property (strong, nonatomic) NSString *currentPath;
 
 - (void)showModalForWindow:(NSWindow *)window;
+
+    // SaveCallback is required and is only called if preferences are changed.
+- (instancetype)initWithSaveCallback:(SaveCallback)saveBlock cancelCallback:(CancelCallback)cancelBlock;
 
 @end
