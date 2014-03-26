@@ -702,13 +702,11 @@
 
 #pragma mark - Preferences Get & Save
 
+
 - (NSMutableDictionary *)getPreferencesFromFile
 {
     DEBUG_LOG_METHOD
-    
-        // check for a preferences file
     NSMutableDictionary *localPref = nil;
-    
 	NSFileManager *fm = [[NSFileManager alloc] init];
 	if ([fm fileExistsAtPath:DRUWARE_PREF_FILE_NSSTRING])
 	{
@@ -718,7 +716,9 @@
             // create the initial defaults
 		localPref = [[NSMutableDictionary alloc] init];
     }
+    
     NSParameterAssert(localPref != nil);
+    NSLog(@"%@\n%@", DRUWARE_PREF_FILE_NSSTRING, localPref);
     
         // set the default prefs if not already set.
     if (localPref[PREF_KEY_DATA_PATH] == nil)
@@ -741,60 +741,56 @@
     {
         [localPref setValue:PREF_BIN_PATH_DEFAULT forKey:PREF_KEY_BIN_PATH];
     }
-		
+    
     return localPref;
 }
 
 -(void)savePreferencesFile:(NSMutableDictionary *)savePreferences
 {
     DEBUG_LOG_METHOD
-    
 	OSStatus myStatus;
 	NSString *pathToHelper = [self.thisBundle pathForResource:@"StartupHelper" ofType:nil];
-	const char *myToolPath = [pathToHelper cStringUsingEncoding:NSASCIIStringEncoding]; 
-	
-	if (![savePreferences writeToFile:@"/var/tmp/com.druware.postgresqlformac.plist" atomically:YES])
-	{
-		NSLog(@"Failed to write file");
-        [Debug debugErrorBreakInCode:@""];
-		return;
-	}
-	
+	const char *myToolPath = [pathToHelper cStringUsingEncoding:NSASCIIStringEncoding];
 	char *myArguments[5];
-	
-	myArguments[0] = "/bin/cat";
-	myArguments[1] = "/var/tmp/com.druware.postgresqlformac.plist";
-	myArguments[2] = ">";
-	myArguments[3] = DRUWARE_PREF_FILE_CSTRING;
-	myArguments[4] = NULL;
-	
-	NSLog(@"pushing configuration");
-	
-	FILE *myCommunicationsPipe = NULL;
-	char myReadBuffer[128];
-	
-	self.myFlags = kAuthorizationFlagDefaults;
-	myStatus = AuthorizationExecuteWithPrivileges(self.myAuthorizationRef,
-												  myToolPath, self.myFlags, myArguments, &myCommunicationsPipe);      
-	
-	if (myStatus == errAuthorizationSuccess)
+    
+    for (NSString *key in savePreferences)
     {
-		for(;;)
-		{
-			int bytesRead = read (fileno (myCommunicationsPipe), myReadBuffer, sizeof (myReadBuffer));
-			if (bytesRead < 1) break;
+        NSMutableString *defaultStr = [NSMutableString stringWithFormat:@" \"%@\" '%@'", key, savePreferences[key]];
+        
+        myArguments[0] = "/usr/bin/defaults write " DRUWARE_PREF_FILE_CSTRING;
+        myArguments[1] = (char *)[defaultStr cStringUsingEncoding:NSUTF8StringEncoding];
+        myArguments[2] = NULL;
+        myArguments[3] = NULL;
+        myArguments[4] = NULL;
+        
 #ifdef DEBUG
-            else {
-                myReadBuffer[bytesRead] = 0;
-                NSLog(@"Buffer: %s", (char *)&myReadBuffer);
-            }
+        NSLog(@"Writing Preferences\n%s%s", myArguments[0], myArguments[1]);
 #endif
-		}
-	} else {
-        NSLog(@"Authorization Services Failure: %d", myStatus);
-        [Debug debugErrorBreakInCode:@""];
+        FILE *myCommunicationsPipe = NULL;
+        char myReadBuffer[128];
+        
+        self.myFlags = kAuthorizationFlagDefaults;
+        myStatus = AuthorizationExecuteWithPrivileges(self.myAuthorizationRef,
+                                                      myToolPath, self.myFlags, myArguments, &myCommunicationsPipe);
+        
+        if (myStatus == errAuthorizationSuccess)
+        {
+            for(;;)
+            {
+                int bytesRead = read (fileno (myCommunicationsPipe), myReadBuffer, sizeof (myReadBuffer));
+                if (bytesRead < 1) break;
+#ifdef DEBUG
+                else {
+                    myReadBuffer[bytesRead] = 0;
+                    NSLog(@"Buffer: %s", (char *)&myReadBuffer);
+                }
+#endif
+            }
+        } else {
+            NSLog(@"Authorization Services Failure: %d", myStatus);
+            [Debug debugErrorBreakInCode:@""];
+        }
     }
-	[self removeFile:@"/var/tmp/com.druware.postgresqlformac.plist"];
 }
 
 @end
