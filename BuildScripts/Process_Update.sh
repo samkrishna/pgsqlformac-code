@@ -21,6 +21,11 @@ set -e
 #  9. build package installer
 # 10. build the disk image
 
+# Notes:
+#   It is best to build on the lowest compatible OS X version in order to ensure
+#   max compatibility. At present, 10.7 is the minimum, but this will move to
+#   10.8 in Q2 of 2014.
+
 # Constants -------2---------3---------4---------5---------6---------7---------8
 
 # set some constants that we will use throughout the script but can be altered
@@ -28,10 +33,15 @@ set -e
 
 # NOTIFY_EMAIL - who do we need to let know this is running
 NOTIFY_EMAIL=dru@druware.com
+# INSTALL_PATH - where shall we put the installed version
 INSTALL_PATH=/Library/PostgreSQL
+# PG_VERSIONS_PATH - where shall we stash the source tar balls
 PG_VERSIONS_PATH=/Users/Shared/Projects/PostgreSQL/Versions
+# TEMP_PATH - where shall we do all of the grunt work
 TEMP_PATH=/var/tmp/postgres
+# DOWNLOAD_HOST - which download host should we abuse for this
 DOWNLOAD_HOST=http://ftp.postgresql.org/pub/source
+# SYNCH_FOLDER - where should we look for synched versions to merge (PPC, i386)
 SYNCH_FOLDER=/Users/arsatori/Dropbox/Projects/PostgreSQL
 
 # Functions -------2---------3---------4---------5---------6---------7---------8
