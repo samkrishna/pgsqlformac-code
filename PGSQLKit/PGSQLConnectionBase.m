@@ -118,13 +118,17 @@ static PGSQLConnectionBase *globalPGSQLConnection;
 {
 	// replace with postgres connect code
 	[self close];
-	
-	if (connectionString == nil)
-	{
-		connectionString = [self makeConnectionString];
-		[connectionString retain];
-	}
-	NSAssert( (connectionString != nil), @"Attempted to connect to PostgreSQL with empty connectionString.");
+    
+    // even if we have a connection string, we need to pass through the make
+    // connection string logic in order to complete the string if some elements
+    // are not present in it. for example, the user provides a connectcion
+    // string that does not contain a user/password, and provides the user/pass
+    // in the properties.
+    
+    connectionString = [self makeConnectionString];
+    [connectionString retain];
+
+    NSAssert( (connectionString != nil), @"Attempted to connect to PostgreSQL with empty connectionString.");
 	pgconn = (PGconn *)PQconnectdb([connectionString cStringUsingEncoding:NSUTF8StringEncoding]);
 #ifdef DEBUG
 	if (PQoptions(pgconn))
@@ -336,6 +340,11 @@ static PGSQLConnectionBase *globalPGSQLConnection;
 	}
 }
 
+
+// this needs to be modified to support adding elements when a partial
+// string is provided, and the values are present.
+// in addition, it needs to ALSO support when the string is ; delimited instead
+// of space delimited
 -(NSMutableString *)makeConnectionString
 {
 	NSMutableString *connStr = [[[NSMutableString alloc] init] autorelease];
