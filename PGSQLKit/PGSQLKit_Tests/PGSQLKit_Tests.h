@@ -6,10 +6,10 @@
 //  Copyright (c) 2012 Druware Software Development. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 #import <PGSQLKit/PGSQLKit.h>
 
-@interface PGSQLKit_Tests : SenTestCase
+@interface PGSQLKit_Tests : XCTestCase
 {
     PGSQLConnection *connection;
 }

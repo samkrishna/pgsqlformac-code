@@ -36,7 +36,7 @@
     [connection connect];
     
     if (![connection isConnected])
-        STFail(@"Unable to connection to server, cannot test data objects without a data server");
+        XCTFail(@"Unable to connection to server, cannot test data objects without a data server");
     
     [connection retain];
     

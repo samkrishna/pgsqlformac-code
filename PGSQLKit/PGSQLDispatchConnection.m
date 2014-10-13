@@ -15,7 +15,7 @@
 
 @interface PGSQLDispatchConnection ()
 
-@property (retain, readwrite) NSNumber *queueWaitingCount;
+@property (strong, readwrite) NSNumber *queueWaitingCount;
 
 @end
 
@@ -48,14 +48,13 @@
            usingCallbackBlock:(void (^)(PGSQLRecordset *, NSString *))callbackBlock
 {    
     [self incConnectionStatistics];
-    [callbackBlock retain];
     
     dispatch_async(self.connectionQueue, ^{
         PGSQLConnectionCheckType connectionCheck = [self checkAndRecoverConnection];
         if (connectionCheck == PGSQLConnectionCheckOK)
         {
             // Process SQL.
-            __block PGSQLRecordset *resultsRecordSet = [[self open:sql] retain];
+            __unsafe_unretained id resultsRecordSet = [self open:sql];
             
             // Get any error.
             NSString *myErrorDescription = nil;
@@ -75,9 +74,6 @@
                 //NSLog(@"Processing Good Connection Callback Error String: %@", errorDescription);
                 callbackBlock(resultsRecordSet, myErrorDescription);
                 [self decConnectionStatistics];
-                [resultsRecordSet release];
-                [myErrorDescription release];
-                [callbackBlock release];
             });
         }
         else
@@ -96,8 +92,6 @@
                 //NSLog(@"Processing Bad Connection Callback with Error: %@", errorDescription);
                 callbackBlock(nil, myErrorDescription);
                 [self decConnectionStatistics];
-                [myErrorDescription release];
-                [callbackBlock release];
             });
         }
     });
@@ -141,7 +135,6 @@
             NSLog(@"%@ %s - Error, connection passed as parameter is nil.", [[NSString stringWithUTF8String:__FILE__] lastPathComponent], __func__);
         }
     }
-    [self release];
     self = nil;
     return self;
 }
@@ -153,12 +146,6 @@
 }
 
 
-- (void)dealloc
-{
-    dispatch_release(connectionQueue);
-    self.queueWaitingCount = nil;
-    [super dealloc];
-}
 
 @end
 #endif

@@ -54,7 +54,7 @@
                            usingCallbackBlock:(void (^)(PGSQLRecordset *, NSString *))callbackBlock;
 
 @property (readonly) dispatch_queue_t connectionQueue;
-@property (readonly, retain) NSNumber *queueWaitingCount;
+@property (readonly, strong) NSNumber *queueWaitingCount;
 
 // Connection statistics
 - (void)incConnectionStatistics;

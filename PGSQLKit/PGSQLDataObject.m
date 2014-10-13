@@ -193,9 +193,9 @@
 	self = [super init];
 	if (!self) {return nil;}
     
-	connection = [pgConn retain];
-    table = [[tableName copy] retain];
-	primaryKey = [[keyName copy] retain];
+	connection = pgConn;
+    table = [tableName copy];
+	primaryKey = [keyName copy];
     
     properties = nil;
     omittedFields = nil;
@@ -237,9 +237,9 @@
 	self = [super init];
 	if (!self) {return nil;}
 	
-	connection = [pgConn retain];
-    table = [[tableName copy] retain];
-	primaryKey = [[keyName copy] retain];
+	connection = pgConn;
+    table = [tableName copy];
+	primaryKey = [keyName copy];
     
     properties = nil;
     omittedFields = nil;
@@ -283,10 +283,10 @@
     NSLog(@"PGDO ReferenceID: %@", referenceId);
     
     
-	connection = [pgConn retain];
-    table = [[tableName copy] retain];
-	primaryKey = [[keyName copy] retain];
-    refId = [[referenceId copy] retain];
+	connection = pgConn;
+    table = [tableName copy];
+	primaryKey = [keyName copy];
+    refId = [referenceId copy];
     
     properties = nil;
     omittedFields = nil;
@@ -336,9 +336,9 @@
 	self = [super init];
 	if (!self) {return nil;}
     
-	connection = [pgConn retain];
-    table = [[tableName copy] retain];
-	primaryKey = [[primaryKeyName copy] retain];
+	connection = pgConn;
+    table = [tableName copy];
+	primaryKey = [primaryKeyName copy];
     
     properties = nil;
     omittedFields = nil;
@@ -371,17 +371,15 @@
  ******************************************************************************/
 - (void)dealloc
 {
-	if (table != nil) { [table release]; table = nil; }
-	if (primaryKey != nil) { [primaryKey release]; primaryKey = nil; }	
-	if (refId != nil) { [refId release]; refId = nil; }	
-	if (properties != nil) { [properties release]; properties = nil; }	
-    if (omittedFields != nil) { [omittedFields release]; omittedFields = nil; }
+	if (table != nil) {  table = nil; }
+	if (primaryKey != nil) {  primaryKey = nil; }	
+	if (refId != nil) {  refId = nil; }	
+	if (properties != nil) {  properties = nil; }	
+    if (omittedFields != nil) {  omittedFields = nil; }
 
-    if (lastError != nil) { [lastError release]; lastError = nil; }
+    if (lastError != nil) {  lastError = nil; }
 	
-	[connection release];
 	
-	[super dealloc];
 }
 
 #pragma mark mata management methods (RDBMS & Xml)
@@ -428,7 +426,6 @@
         
         if ([self getNextSequenceValue] < 1)
         { 
-            [cmd release];
             lastError = @"Sequence Failed";
             return NO; 
         } 
@@ -501,11 +498,9 @@
         [self setLastError:[connection lastError]];
         if (isNew && refId != nil)
         {
-            [refId release];
             refId = nil;            
         }
     }
-    [cmd release];
     
     if (result)
     {
@@ -541,12 +536,10 @@
     
     if ([connection execCommand:deleteCmd] == 0)
     {
-        lastError = [[[NSString alloc] initWithFormat:@"Unable to delete Data Object: %@", 
-                      [connection lastError]] retain];
-        [deleteCmd release];
+        lastError = [[NSString alloc] initWithFormat:@"Unable to delete Data Object: %@", 
+                      [connection lastError]];
         return NO;
     }
-    [deleteCmd release];
     
     return YES;
 }
@@ -635,7 +628,6 @@
                         [cdata setStringValue:dataString];
                         // [dataString release];
                         [childNode addChild:cdata];
-                        [cdata release];
                         break;
                     }
                         // Date & Time
@@ -650,7 +642,7 @@
                     case 1083:  // time
                     case 1266:  // timetz
                     {
-                        NSDateFormatter *format = [[[NSDateFormatter alloc] init] autorelease];
+                        NSDateFormatter *format = [[NSDateFormatter alloc] init];
                         [format setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
                         [format setDateFormat:@"HH:mm:ss"];                    
                         [childNode setStringValue:[format stringFromDate:[column objectForKey:@"value"]]];
@@ -695,7 +687,6 @@
                         NSXMLNode *cdata = [[NSXMLNode alloc] initWithKind:NSXMLTextKind options:NSXMLNodeIsCDATA];
                         [cdata setStringValue:[column objectForKey:@"value"]];
                         [childNode addChild:cdata];
-                        [cdata release];
                         break;
                     }
                         
@@ -704,20 +695,17 @@
                         NSXMLNode *cdata = [[NSXMLNode alloc] initWithKind:NSXMLTextKind options:NSXMLNodeIsCDATA];
                         [cdata setStringValue:[column objectForKey:@"value"]];
                         [childNode addChild:cdata];
-                        [cdata release];
                         break;
                     }
                 }
             }
             
             [thisNode addChild:childNode];
-            [childNode release];
         }
     }
     
-    [nodeName release];
     
-	return [thisNode autorelease];	
+	return thisNode;	
 }
 
 /* loadFromXml
@@ -757,8 +745,7 @@
                 // get the value and transform it to an NSNumber
                 NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
                 [f setNumberStyle:NSNumberFormatterDecimalStyle];
-                refId = [[f numberFromString:[currentElement stringValue]] retain];
-                [f release];
+                refId = [f numberFromString:[currentElement stringValue]];
                 iFoundChildren++;
             } else if ([[currentElement name] isEqualToString:[[properties allKeys] objectAtIndex:x]])
             {
@@ -802,7 +789,7 @@
                         case 702:   // abstime (date and time)
                         {
                             //"2012-01-01T16:15:31"
-                            NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+                            NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
                             [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
                             [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
                             NSDate *newDate = [dateFormatter dateFromString:[currentElement stringValue]];
@@ -813,7 +800,7 @@
                         case 1082:  // date  
                         {
                             //"2012-01-01T16:15:31"
-                            NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+                            NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
                             [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
                             [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
                             NSDate *newDate = [dateFormatter dateFromString:[currentElement stringValue]];
@@ -825,7 +812,7 @@
                         case 1266:  // timetz
                         {
                             //"2012-01-01T16:15:31"
-                            NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+                            NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
                             [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
                             [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
                             // prepend a reference date of 1970-01-01 to the time to get a valid NSdate
@@ -839,7 +826,7 @@
                         case 1114:  // timestamp
                         {
                             //"2012-01-01T16:15:31"
-                            NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+                            NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
                             [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
                             [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
                             NSDate *newDate = [dateFormatter dateFromString:[currentElement stringValue]];
@@ -849,7 +836,7 @@
                             
                         case 1184:  // timestamptz
                         {
-                            NSDateFormatter* dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+                            NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
                             [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
                             [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
                             NSDate *newDate = [dateFormatter dateFromString:[currentElement stringValue]];
@@ -873,7 +860,6 @@
                             [f setNumberStyle:NSNumberFormatterDecimalStyle];
                             [property setObject:[f numberFromString:[currentElement stringValue]] 
                                          forKey:@"value"];
-                            [f release];
                             break;
                         }
                             
@@ -939,11 +925,10 @@
 	PGSQLRecordset *rs = (PGSQLRecordset*)[connection open:cmd];
     if (![rs isEOF])
 	{
-		refId = [[[rs fieldByName:@"_id"] asNumber] retain];
+		refId = [[rs fieldByName:@"_id"] asNumber];
         [self setValue:refId forProperty:primaryKey]; 
 	}
 	[rs close];
-    [cmd release];
 	
 	return [refId longValue];
 }
@@ -1077,12 +1062,10 @@
     // build the properties dictionary from the record
     if (properties != nil)
     {
-        [properties release];
         properties = nil;
     }
     
     properties = [[NSMutableDictionary alloc] init];
-    [properties retain];    
     int i = 0;
     for (i = 0; i < [[rs columns] count]; i++)
     {
@@ -1160,7 +1143,6 @@
                     NSNumberFormatter * f = [[NSNumberFormatter alloc] init];
                     [f setNumberStyle:NSNumberFormatterCurrencyStyle];
                     [columnDict setValue:[f numberFromString:[field asString]] forKey:@"value"];
-                    [f release];
                     break;
                 }
                     
@@ -1182,7 +1164,6 @@
         }
         
         [properties setValue:columnDict forKey:[column name]];
-        [columnDict release];
     }
     
 	isDirty					= NO;
@@ -1210,12 +1191,10 @@
 {
     if (properties != nil)
     {
-        [properties release];
         properties = nil;
     }
     
     properties = [[NSMutableDictionary alloc] init];
-    [properties retain];    
     int i = 0;
     for (i = 0; i < [[rs columns] count]; i++)
     {
@@ -1232,7 +1211,6 @@
         [columnDict setValue:@"" forKey:@"value"];
         
         [properties setValue:columnDict forKey:[column name]];
-        [columnDict release];
     }
 	
 	isDirty					= NO;
@@ -1264,7 +1242,7 @@
     // handle nulls gracefulle
     if ([[column objectForKey:@"isnull"] isEqualToString:@"yes"])
     {
-        result = [[[NSString alloc] initWithString:@"null"] autorelease];
+        result = [[NSString alloc] initWithString:@"null"];
         return result;
     }
     
@@ -1400,7 +1378,7 @@
 		return @"null";
 	}
 	
-	NSDateFormatter *format = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *format = [[NSDateFormatter alloc] init];
 	[format setDateFormat:@"MMM dd HH:mm:ss yyyy"];
     
 	return [NSString stringWithFormat:@"'%@'", [format stringFromDate:value]];
@@ -1413,7 +1391,7 @@
 		return @"null";
 	}
 	
-	NSDateFormatter *format = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
 	[format setDateFormat:@"yyyy-MM-dd"];
     
@@ -1427,7 +1405,7 @@
 		return @"null";
 	}
 	
-	NSDateFormatter *format = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
 	[format setDateFormat:@"HH:mm:ss"];
     
@@ -1441,7 +1419,7 @@
 		return @"null";
 	}
 	
-	NSDateFormatter *format = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
 	[format setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     
@@ -1457,7 +1435,7 @@
             return @"null";
         }
         
-        NSDateFormatter *format = [[[NSDateFormatter alloc] init] autorelease];
+        NSDateFormatter *format = [[NSDateFormatter alloc] init];
         [format setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
         [format setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         
@@ -1472,7 +1450,7 @@
 		return @"null";
 	}
 	
-	NSDateFormatter *format = [[[NSDateFormatter alloc] init] autorelease];
+	NSDateFormatter *format = [[NSDateFormatter alloc] init];
     [format setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
 	[format setDateFormat:@"HH:mm:ss"];
     
@@ -1531,18 +1509,17 @@
 {
     if (lastError != nil)
     {
-        [lastError release];
         lastError = nil;
     }
     
-    lastError = [[[NSString alloc] initWithString:value] retain];
+    lastError = [[NSString alloc] initWithString:value];
 }
 
 - (BOOL)addOmittedField:(NSString *)fieldName
 {
     if (omittedFields == nil)
     {
-        omittedFields = [[[[NSMutableArray alloc] init] autorelease] retain];
+        omittedFields = [[NSMutableArray alloc] init];
     }
     
     [omittedFields addObject:fieldName];

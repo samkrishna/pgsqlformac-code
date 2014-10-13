@@ -205,8 +205,8 @@
 -(void)appendSQLLog:(NSString *)value;
 
 @property NSUInteger maxConnectionRetries;
-@property (readonly, retain) NSString *errorDescription;
-@property (readonly, retain) NSDate *startTimeStamp;
+@property (readonly, strong) NSString *errorDescription;
+@property (readonly, strong) NSDate *startTimeStamp;
 @property BOOL logInfo;
 @property BOOL logSQL;
 

@@ -73,7 +73,7 @@
 														   atRow:rowNumber];
 	[result setDefaultEncoding:defaultEncoding];
 	
-	return [result autorelease];
+	return result;
 }
 
 -(PGSQLField *)fieldByIndex:(long)fieldIndex
@@ -83,7 +83,7 @@
 													  atRow:rowNumber];
 	[result setDefaultEncoding:defaultEncoding];
 
-	return [result autorelease];
+	return result;
 }
 
 -(int)rowNumber

@@ -24,15 +24,10 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[name release];
-	[super dealloc];
-}
 
 - (NSString *)name
 {
-    return [[name retain] autorelease];
+    return name;
 }
 
 -(int)index

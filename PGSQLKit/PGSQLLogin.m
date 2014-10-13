@@ -42,7 +42,7 @@
 			{
 				strncpy(buffer, attr.data, attr.length);
 				buffer[attr.length] = '\0';
-				result = [[[NSString alloc] initWithFormat:@"%s", buffer] autorelease];
+				result = [[NSString alloc] initWithFormat:@"%s", buffer];
 			}
 		}
 	}
@@ -89,7 +89,7 @@
 					{
 						strncpy(buffer, attr.data, attr.length);
 						buffer[attr.length] = '\0';
-						where = [[[NSString alloc] initWithFormat:@"%s", buffer] autorelease];
+						where = [[NSString alloc] initWithFormat:@"%s", buffer];
 						
 						// split the where into the location elements
 						[serverName setStringValue:where];
@@ -113,7 +113,7 @@
 					{
 						strncpy(buffer, attr.data, attr.length);
 						buffer[attr.length] = '\0';
-						NSString *who = [[[NSString alloc] initWithFormat:@"%s", buffer] autorelease];
+						NSString *who = [[NSString alloc] initWithFormat:@"%s", buffer];
 						[loginUserName setStringValue:who];
 					}
 					break;
@@ -307,7 +307,7 @@
 {
     self = [super init];
 	
-	resultConnection = [[[[PGSQLConnection alloc] init] retain] autorelease];
+	resultConnection = [[PGSQLConnection alloc] init];
 	defaultDSN = nil;
 	defaultUser = nil;
 	defaultPassword = nil;
@@ -322,16 +322,13 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	if (resultConnection != nil) {
-		[resultConnection release];	
 		resultConnection = nil;
 	}
 	
 	if (loginPanel != nil) {
-		[loginPanel release];	
 		loginPanel = nil;
 	}
 	
-	[super dealloc];
 }
 
 
@@ -555,7 +552,7 @@
 {
 	if (resultConnection != nil)
 	{
-		return [resultConnection retain];
+		return resultConnection;
 	}
 	return nil;
 }
@@ -569,25 +566,23 @@
 {    
 	//[resultConnection setConnectionString:value];
 	if (defaultDSN != value) {
-        [defaultDSN release];
         defaultDSN = [value copy];
     }
 }
 
 - (NSString *)defaultDSN
 {
-    return [[defaultDSN retain] autorelease];
+    return defaultDSN;
 }
 
 - (NSString *)defaultUser
 {
-    return [[defaultUser retain] autorelease];
+    return defaultUser;
 }
 
 - (void)setDefaultUser:(NSString *)value
 {    
 	if (defaultUser != value) {
-        [defaultUser release];
         defaultUser = [value copy];
     }
 }
@@ -595,7 +590,6 @@
 - (void)setDefaultPassword:(NSString *)value
 {    
 	if (defaultPassword != value) {
-        [defaultPassword release];
         defaultPassword = [value copy];
     }
 }

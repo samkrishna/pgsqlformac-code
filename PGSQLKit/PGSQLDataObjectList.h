@@ -52,7 +52,7 @@
     NSMutableArray  *items;
     NSString        *primaryKey;
     
-    NSString *lastError;
+    NSString *__weak lastError;
     PGSQLConnection *connection;
     
 }
@@ -82,8 +82,8 @@
 
 #pragma mark standard data connection properties
 
-@property (assign,readonly) NSString *lastError;
-@property (assign,readonly) PGSQLConnection *connection;
+@property (weak,readonly) NSString *lastError;
+@property (readonly) PGSQLConnection *connection;
 
 @end
 

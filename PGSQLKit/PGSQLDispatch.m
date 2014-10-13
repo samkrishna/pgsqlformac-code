@@ -20,7 +20,7 @@
 // Private Interface
 @interface PGSQLDispatch ()
 
-@property (nonatomic, retain) NSMutableArray *sqlConnections;
+@property (nonatomic, strong) NSMutableArray *sqlConnections;
 
 - (BOOL)addConnectionToDispatcher:(PGSQLConnection *)connToClone;
 - (void)removeConnectionFromDispatcher;
@@ -194,7 +194,6 @@
             }
             [sqlConnections addObject:aConnection];
             NSLog(@"Added Connection with queue name: %@", qName);
-            [aConnection release];
             return YES;
         }
     }        
@@ -225,7 +224,7 @@
         if (PQisthreadsafe() == 1)
         {
             // libpq appears to be thread safe.
-            self.sqlConnections = [[[NSMutableArray alloc] init] autorelease];
+            self.sqlConnections = [[NSMutableArray alloc] init];
             NSUInteger processorCount = [[NSProcessInfo processInfo] processorCount];
             maxNumberConnections = processorCount < 2 ? 1 : processorCount - 1;
             indexOfLastDispatch = NSUIntegerMax;  // this is set high to force a reset to zero for the first dispatch.
@@ -250,7 +249,6 @@
     }
     
     // Initialization has failed.
-    [self release];
     self = nil;
     return self;
 }
@@ -271,11 +269,6 @@
     return [self initWithConnection:[PGSQLConnection defaultConnection]];
 }
 
-- (void)dealloc
-{
-    self.sqlConnections = nil;
-    [super dealloc];
-}
 
 #ifdef DEBUG
 #pragma mark -

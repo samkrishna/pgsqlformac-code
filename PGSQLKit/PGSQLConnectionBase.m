@@ -18,17 +18,17 @@
 void
 handle_pq_notice(void *arg, const char *message)
 {
-	PGSQLConnection *theConn = (PGSQLConnection *) arg;
+	// PGSQLConnection *theConn = (__bridge PGSQLConnection *) arg;
 	//NSLog(@"%s", message);
-	[theConn  appendSQLLog:[NSString stringWithFormat: @"%s\n", message]];
+	[(__bridge id)arg  appendSQLLog:[NSString stringWithFormat: @"%s\n", message]];
 }
 
 static PGSQLConnectionBase *globalPGSQLConnection;
 
 @interface PGSQLConnectionBase ()
 
-@property (readwrite, retain) NSDate *startTimeStamp;
-@property (readwrite, retain) NSString *errorDescription;
+@property (readwrite, strong) NSDate *startTimeStamp;
+@property (readwrite, strong) NSString *errorDescription;
 
 @end
 
@@ -84,7 +84,6 @@ static PGSQLConnectionBase *globalPGSQLConnection;
 		
 		if (globalPGSQLConnection == nil)
 		{
-			[self retain];
 			globalPGSQLConnection = self;
 		}
 	}
@@ -96,22 +95,7 @@ static PGSQLConnectionBase *globalPGSQLConnection;
 {
 	[self close];
 	
-	[host release];
-	[port release];
-	[options release];
-	[tty release];
-	[dbName release];
-	[userName release];
-	[password release];
-	[sslMode release];
-	[service release];
-	[krbsrvName release];
-	[connectionString release];
-	self.errorDescription = nil;
-	[commandStatus release];
-	[sqlLog release];
 	
-	[super dealloc];
 }
 
 - (BOOL)connect
@@ -126,7 +110,6 @@ static PGSQLConnectionBase *globalPGSQLConnection;
     // in the properties.
     
     connectionString = [self makeConnectionString];
-    [connectionString retain];
 
     NSAssert( (connectionString != nil), @"Attempted to connect to PostgreSQL with empty connectionString.");
 	pgconn = (PGconn *)PQconnectdb([connectionString cStringUsingEncoding:NSUTF8StringEncoding]);
@@ -160,11 +143,8 @@ static PGSQLConnectionBase *globalPGSQLConnection;
     self.errorDescription = nil;
 	
     // set up notification
-	PQsetNoticeProcessor(pgconn, handle_pq_notice, self);
+	PQsetNoticeProcessor(pgconn, handle_pq_notice, (__bridge void *)(self));
 	
-	if (sqlLog != nil) {
-		[sqlLog release];
-	}
 	sqlLog = [[NSMutableString alloc] init];
 	[self appendSQLLog:[NSString stringWithFormat:@"Connected to database %@.\n", dbName]];
 	return YES;
@@ -183,7 +163,7 @@ static PGSQLConnectionBase *globalPGSQLConnection;
 
 -(PGSQLConnectionBase *)clone
 {
-	PGSQLConnectionBase *newConnection = [[[PGSQLConnectionBase alloc] init] autorelease];
+	PGSQLConnectionBase *newConnection = [[PGSQLConnectionBase alloc] init];
 	[newConnection setServer:host];
 	[newConnection setPort:port]; 
 	[newConnection setUserName:userName];
@@ -206,7 +186,6 @@ static PGSQLConnectionBase *globalPGSQLConnection;
 	self.errorDescription = nil;	
     
 	if(commandStatus) {
-		[commandStatus release];
 		commandStatus = nil;	
 	}
     if ([self checkAndRecoverConnection] == PGSQLConnectionCheckError)
@@ -237,7 +216,6 @@ static PGSQLConnectionBase *globalPGSQLConnection;
 	if (strlen(PQcmdStatus(res)))
 	{
 		commandStatus = [NSString stringWithFormat:@"%s", PQcmdStatus(res)];
-		[commandStatus retain];
 		[self appendSQLLog:[NSString stringWithFormat:@"%@\n", commandStatus]];
 	}
     //	results = [[[NSString alloc] initWithCString:PQcmdTuples(res)] autorelease];
@@ -289,7 +267,7 @@ static PGSQLConnectionBase *globalPGSQLConnection;
 		case PGRES_TUPLES_OK:
 		{
 			// build the recordset
-			PGSQLRecordset *rs = [[[PGSQLRecordset alloc] initWithResult:res] autorelease];
+			PGSQLRecordset *rs = [[PGSQLRecordset alloc] initWithResult:res];
 			[rs setDefaultEncoding:defaultEncoding];
 			
 			if (logInfo)
@@ -347,7 +325,7 @@ static PGSQLConnectionBase *globalPGSQLConnection;
 // of space delimited
 -(NSMutableString *)makeConnectionString
 {
-	NSMutableString *connStr = [[[NSMutableString alloc] init] autorelease];
+	NSMutableString *connStr = [[NSMutableString alloc] init];
 	
 	if (connectionString)
 	{
@@ -401,7 +379,7 @@ static PGSQLConnectionBase *globalPGSQLConnection;
 	result = PQescapeByteaConn ((PGconn *)pgconn, (const unsigned char *)[toEncode bytes],
                                 [toEncode length], &resultLength);
 	
-	NSString *encodedString = [[[NSString alloc] initWithFormat:@"%s",(const char *)result] autorelease];
+	NSString *encodedString = [[NSString alloc] initWithFormat:@"%s",(const char *)result];
 	
 	PQfreemem(result);
 	
@@ -416,7 +394,7 @@ static PGSQLConnectionBase *globalPGSQLConnection;
 	
 	result = PQunescapeBytea((const unsigned char *)[toDecode bytes], &resultLength);
 	
-	NSData *decodedData = [[[NSData alloc] initWithBytes:result length:resultLength] autorelease];
+	NSData *decodedData = [[NSData alloc] initWithBytes:result length:resultLength];
 	
 	PQfreemem(result);
 	
@@ -435,7 +413,7 @@ static PGSQLConnectionBase *globalPGSQLConnection;
                         (const char *)[toEncode cStringUsingEncoding:defaultEncoding], 
                         length, &error);
 	
-	NSString *encodedString = [[[NSString alloc] initWithFormat:@"%s",sqlEncodeCharArray] autorelease];
+	NSString *encodedString = [[NSString alloc] initWithFormat:@"%s",sqlEncodeCharArray];
 	free(sqlEncodeCharArray);
 	
 	return encodedString;	
@@ -568,67 +546,61 @@ extern PGPing PQping(const char *conninfo) __attribute__((weak_import));
 
 
 - (NSString *)connectionString {
-    return [[connectionString retain] autorelease];
+    return connectionString;
 }
 
 - (void)setConnectionString:(NSString *)value {
     if (connectionString != value) {
-        [connectionString release];
         connectionString = [value copy];
     }
 }
 
 - (NSString *)userName {
-    return [[userName retain] autorelease];
+    return userName;
 }
 
 - (void)setUserName:(NSString *)value {
     if (userName != value) {
-        [userName release];
         userName = [value copy];
     }
 }
 
 - (NSString *)password {
-    return [[password retain] autorelease];
+    return password;
 }
 
 - (void)setPassword:(NSString *)value {
     if (password != value) {
-        [password release];
         password = [value copy];
     }
 }
 
 - (NSString *)server {
-    return [[host retain] autorelease];
+    return host;
 }
 
 - (void)setServer:(NSString *)value {
     if (host != value) {
-        [host release];
         host = [value copy];
     }
 }
 
 -(NSString *)port {
-    return [[port retain] autorelease];
+    return port;
 }
 
 -(void)setPort:(NSString *)value {
     if (port != value) {
-        [port release];
         port = [value copy];
     }
 }
 
 -(NSString *)databaseName {
-    return [[dbName retain] autorelease];
+    return dbName;
 }
 
 -(void)setDatabaseName:(NSString *)value {
     if (dbName != value) {
-        [dbName release];
         dbName = [value copy];
     }
 }

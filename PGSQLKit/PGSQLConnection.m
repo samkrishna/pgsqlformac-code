@@ -38,25 +38,25 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 - (void)performConnectThread
 {
 	// allocate the thread, begin the connection and send the notification when done.
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	
-	NSMutableDictionary *info = [[[NSMutableDictionary alloc] init] autorelease];
-	
-	if ([self connect])
-	{
-		[info setValue:nil forKey:@"Error"];
-	} else {
-		[info setValue:[self lastError] forKey:@"Error"];
-	}
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:PGSQLConnectionDidCompleteNotification
-														object:nil
-													  userInfo:info];
+		NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
+		
+		if ([self connect])
+		{
+			[info setValue:nil forKey:@"Error"];
+		} else {
+			[info setValue:[self lastError] forKey:@"Error"];
+		}
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:PGSQLConnectionDidCompleteNotification
+															object:nil
+														  userInfo:info];
     [[NSNotificationCenter defaultCenter] postNotificationName:GenDBConnectionDidCompleteNotification
-														object:nil
-													  userInfo:info];
+															object:nil
+														  userInfo:info];
 
-	[pool drain];
+	}
 }
 
 - (void)execCommandAsync:(NSString *)sql
@@ -67,24 +67,24 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 
 - (void)performExecCommand:(id)sqlCommand
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	
-	NSString *sql = (NSString *)sqlCommand;
-	
-	NSMutableDictionary *info = [[[NSMutableDictionary alloc] init] autorelease];
-	
-	NSNumber *recordCount = [[[NSNumber alloc] initWithLong:[self execCommand:sql]] autorelease];
-	[info setValue:recordCount forKey:@"RecordCount"];
-	[info setValue:[self lastError] forKey:@"Error"];
-	[info setValue:[self lastCmdStatus] forKey:@"Status"];
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:PGSQLCommandDidCompleteNotification
-														object:nil
-													  userInfo:info];
-	[[NSNotificationCenter defaultCenter] postNotificationName:GenDBCommandDidCompleteNotification
-														object:nil
-													  userInfo:info];
-	[pool drain];
+		NSString *sql = (NSString *)sqlCommand;
+		
+		NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
+		
+		NSNumber *recordCount = [[NSNumber alloc] initWithLong:[self execCommand:sql]];
+		[info setValue:recordCount forKey:@"RecordCount"];
+		[info setValue:[self lastError] forKey:@"Error"];
+		[info setValue:[self lastCmdStatus] forKey:@"Status"];
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:PGSQLCommandDidCompleteNotification
+															object:nil
+														  userInfo:info];
+		[[NSNotificationCenter defaultCenter] postNotificationName:GenDBCommandDidCompleteNotification
+															object:nil
+														  userInfo:info];
+	}
 }
 
 - (void)openAsync:(NSString *)sql
@@ -95,25 +95,25 @@ NSString *const PGSQLCommandDidCompleteNotification = @"PGSQLCommandDidCompleteN
 
 - (void)performOpen:(id)sqlCommand
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 	
-	NSString *sql = (NSString *)sqlCommand;
-	
-	NSMutableDictionary *info = [[[NSMutableDictionary alloc] init] autorelease];
-	
-	PGSQLRecordset *rs = (PGSQLRecordset*)[self open:sql];
+		NSString *sql = (NSString *)sqlCommand;
+		
+		NSMutableDictionary *info = [[NSMutableDictionary alloc] init];
+		
+		PGSQLRecordset *rs = (PGSQLRecordset*)[self open:sql];
     
-	[info setValue:rs forKey:@"Recordset"];
-	[info setValue:[self lastError] forKey:@"Error"];
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:PGSQLCommandDidCompleteNotification
-														object:nil
-													  userInfo:info];
+		[info setValue:rs forKey:@"Recordset"];
+		[info setValue:[self lastError] forKey:@"Error"];
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:PGSQLCommandDidCompleteNotification
+															object:nil
+														  userInfo:info];
     [[NSNotificationCenter defaultCenter] postNotificationName:GenDBCommandDidCompleteNotification
-														object:nil
-													  userInfo:info];
+															object:nil
+														  userInfo:info];
 
-	[pool drain];
+	}
 }
 
 - (NSString *)datasourceFilter

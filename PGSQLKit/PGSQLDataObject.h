@@ -133,10 +133,10 @@
 
 @property (assign,readonly) BOOL isNew;
 @property (assign,readonly) BOOL isDirty;
-@property (assign,readonly, nonatomic) NSString *lastError;
-@property (assign,readonly) PGSQLConnection *connection;
-@property (assign,readonly) NSString *table;
-@property (assign,readonly) NSString *primaryKey;
-@property (assign,readonly) NSNumber *refId;
+@property (readonly, nonatomic) NSString *lastError;
+@property (readonly) PGSQLConnection *connection;
+@property (readonly) NSString *table;
+@property (readonly) NSString *primaryKey;
+@property (readonly) NSNumber *refId;
 
 @end

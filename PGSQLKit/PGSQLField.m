@@ -82,7 +82,7 @@
 		{		
 			char* szBuf = nil;
 			
-			column = [forColumn retain];
+			column = forColumn;
 			
 			int format = PQfformat(result, [column index]);
 			
@@ -102,12 +102,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[data release];
-	[column release];
-	[super dealloc];
-}
 
 -(NSString *)asString
 {	
@@ -123,7 +117,7 @@
 			if (lastChar == '\0')
 				dataLength--;
 			if (dataLength > 0)
-				result = [[[NSString alloc] initWithBytes:[data bytes] length:dataLength encoding:defaultEncoding] autorelease];
+				result = [[NSString alloc] initWithBytes:[data bytes] length:dataLength encoding:defaultEncoding];
 		}
 	}
 	return result; 
@@ -143,7 +137,7 @@
 				if (lastChar == '\0')
 					dataLength--;
 				if (dataLength > 0)
-					result = [[[NSString alloc] initWithBytes:[data bytes] length:dataLength encoding:encoding] autorelease];
+					result = [[NSString alloc] initWithBytes:[data bytes] length:dataLength encoding:encoding];
 			}
 		}
 		return result; 
@@ -156,8 +150,8 @@
 		{
 			return nil;
 		}
-		NSString *temp = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding] autorelease];
-		NSNumber *value = [[[NSNumber alloc] initWithDouble:[temp doubleValue]] autorelease];
+		NSString *temp = [[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding];
+		NSNumber *value = [[NSNumber alloc] initWithDouble:[temp doubleValue]];
 		return value;
 	}
 	return nil;
@@ -171,7 +165,7 @@
 			return 0;
 		}
 		
-		NSString *value = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding] autorelease];
+		NSString *value = [[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding];
 		
 		return (long)[[NSNumber numberWithFloat:[value floatValue]] longValue];
 	}
@@ -187,7 +181,7 @@
 			return 0;
 		}
 		
-		NSString *value = [[[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding] autorelease];
+		NSString *value = [[NSString alloc] initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding];
 		
 		return (short)[[NSNumber numberWithFloat:[value floatValue]] shortValue];
 	}
@@ -276,7 +270,6 @@
             default:
                 break;
         }
-        [dateFormatter autorelease];
         return [dateFormatter dateFromString:value];
 	}
 	return nil; 	
@@ -301,7 +294,7 @@
 			
 			value = [NSString stringWithFormat:@"%@ %@", value, gmtOffset];
 		}
-		NSDate *newDate = [[[NSDate alloc] initWithString:value] autorelease];
+		NSDate *newDate = [[NSDate alloc] initWithString:value];
 		
 		return newDate;
 	}
@@ -317,7 +310,7 @@
 			return nil;
 		}
 		
-		return [[[NSData alloc] initWithData:data] autorelease];
+		return [[NSData alloc] initWithData:data];
 	}
 	return nil; 	
 }

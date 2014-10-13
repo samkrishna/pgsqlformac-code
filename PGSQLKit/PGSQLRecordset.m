@@ -18,7 +18,7 @@
 - (NSString *)description
 {
     // column names.
-    NSMutableString *descriptionStr = [[[NSMutableString alloc] init] autorelease];
+    NSMutableString *descriptionStr = [[NSMutableString alloc] init];
     for (PGSQLColumn *col in self.columns)
     {
         if ([descriptionStr length] != 0)
@@ -33,7 +33,7 @@
     PGSQLRecord *record = [self moveFirst];
     while (![self isEOF])
     {
-        NSMutableString *columnDataStr = [[[NSMutableString alloc] init] autorelease];
+        NSMutableString *columnDataStr = [[NSMutableString alloc] init];
         for (int myIndex = 0; myIndex < [[self columns] count]; myIndex++)
         {
             if ([columnDataStr length] != 0)
@@ -64,7 +64,7 @@
 		// this will default to NSUTF8StringEncoding with PG9
 		// defaultEncoding = NSMacOSRomanStringEncoding;
 		
-		columns = [[[[NSMutableArray alloc] init] retain] autorelease];
+		columns = [[NSMutableArray alloc] init];
 		
 		pgResult = result;
 		
@@ -81,8 +81,8 @@
 		int i;
 		for ( i = 0; i < iCols; i++)
 		{
-			column = [[[PGSQLColumn alloc] initWithResult:pgResult 
-												   atIndex:i] autorelease];
+			column = [[PGSQLColumn alloc] initWithResult:pgResult 
+												   atIndex:i];
 			[columns addObject:column];
 		}
 		
@@ -103,12 +103,10 @@
 -(void)close
 {
 	if (_isOpen) {
-		[columns release];
 		columns = nil;
 		PQclear(pgResult);
 		pgResult = nil;
 	}
-	[currentRecord release];
 	currentRecord = nil;
 	_isOpen = NO;
 }
@@ -116,7 +114,6 @@
 -(void)dealloc
 {
 	[self close];
-	[super dealloc];
 }
 
 #pragma mark -
@@ -149,7 +146,6 @@
 
 - (void)setCurrentRecordWithRowIndex:(int)rowIndex
 {
-	[currentRecord release];
 	currentRecord = [[PGSQLRecord alloc] initWithResult:pgResult
 														atRow:rowIndex
 													  columns:columns];
@@ -212,8 +208,7 @@
 				break;
 		}
 	}
-	NSDictionary *result = [[[NSDictionary alloc] initWithDictionary:dict] autorelease];
-	[dict release];
+	NSDictionary *result = [[NSDictionary alloc] initWithDictionary:dict];
 	return result;
 }
 
@@ -235,13 +230,12 @@
 	
 	if (currentRowIndex >= rowCount) {
 		_isEOF = true;
-		[currentRecord release];
 		currentRecord = nil;
 		return nil;
 	}
 	
 	[self setCurrentRecordWithRowIndex:currentRowIndex];
-	return [[currentRecord retain] autorelease];
+	return currentRecord;
 }
 
 - (PGSQLRecord *)moveFirst
@@ -253,7 +247,7 @@
 	_isEOF = false;
 	
 	[self setCurrentRecordWithRowIndex:currentRowIndex];
-	return [[currentRecord retain] autorelease];
+	return currentRecord;
 }
 
 - (PGSQLRecord *)movePrevious
@@ -275,7 +269,7 @@
 	}
 	
 	[self setCurrentRecordWithRowIndex:currentRowIndex];
-	return [[currentRecord retain] autorelease];
+	return currentRecord;
 }
 
 - (PGSQLRecord *)moveLast
@@ -287,7 +281,7 @@
 	_isEOF = false;
 
 	[self setCurrentRecordWithRowIndex:currentRowIndex];
-	return [[currentRecord retain] autorelease];
+	return currentRecord;
 }
 
 -(BOOL)isEOF

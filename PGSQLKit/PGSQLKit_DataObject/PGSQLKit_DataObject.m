@@ -26,7 +26,7 @@
     [connection connect];
     
     if (![connection isConnected])
-        STFail(@"Unable to connection to server, cannot test data objects without a data server");
+        XCTFail(@"Unable to connection to server, cannot test data objects without a data server");
     
     [connection retain];
 }
@@ -70,7 +70,7 @@
                                                withPrimaryKey:@"record_id"];
     
     // do we have 2 records ?
-    STAssertTrue([objList count] == 2, @"Count is not the expected 2 records");
+    XCTAssertTrue([objList count] == 2, @"Count is not the expected 2 records");
     
     // cleanup the table
     tableCmd = [[NSMutableString alloc] init];
@@ -111,10 +111,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_abstime) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_abstime) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -130,7 +130,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_abstime"] isEqualToDate:initialValue], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_abstime"] isEqualToDate:initialValue], 
                  @"DataObject (v_abstime) Read Failed");
     
     [objRead release];
@@ -145,7 +145,7 @@
     
     [objUpdate setValue:updateValue forProperty:@"v_abstime"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_abstime) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -159,7 +159,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_abstime) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -176,13 +176,13 @@
             [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
             NSDate *currentValue = [dateFormatter dateFromString:[currentElement stringValue]];
             
-            STAssertTrue([currentValue isEqualToDate:updateValue], 
+            XCTAssertTrue([currentValue isEqualToDate:updateValue], 
                          @"DataObject (v_abstime) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_abstime) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -194,15 +194,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_abstime) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_abstime"] isEqualToDate:updateValue], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_abstime"] isEqualToDate:updateValue], 
                  @"DataObject (v_abstime) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:initialValue forProperty:@"v_abstime"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_abstime) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -212,7 +212,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -255,10 +255,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_bit) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_bit) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -274,7 +274,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_bit"] isEqualToString:initialValue], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_bit"] isEqualToString:initialValue], 
                  @"DataObject (v_bit) Read Failed");
     
     [objRead release];
@@ -289,7 +289,7 @@
     
     [objUpdate setValue:updateValue forProperty:@"v_bit"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_bit) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -303,7 +303,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_bit) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -313,13 +313,13 @@
         
         if ([[currentElement name] isEqualToString:@"v_bit"])
         {
-            STAssertTrue([[currentElement stringValue] isEqualToString:updateValue], 
+            XCTAssertTrue([[currentElement stringValue] isEqualToString:updateValue], 
                          @"DataObject (v_bit) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_bit) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -331,15 +331,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_bit) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_bit"] isEqualToString:updateValue], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_bit"] isEqualToString:updateValue], 
                  @"DataObject (v_bit) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:initialValue forProperty:@"v_bit"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_bit) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -349,7 +349,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -390,10 +390,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_boolean) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_boolean) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -409,7 +409,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_boolean"] isEqualToString:@"yes"], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_boolean"] isEqualToString:@"yes"], 
                  @"DataObject (v_boolean) Read Failed");
     
     [objRead release];
@@ -424,7 +424,7 @@
     
     [objUpdate setValue:@"no" forProperty:@"v_boolean"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_boolean) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -438,7 +438,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_boolean) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -448,13 +448,13 @@
         
         if ([[currentElement name] isEqualToString:@"v_boolean"])
         {
-            STAssertTrue([[currentElement stringValue] isEqualToString:@"no"], 
+            XCTAssertTrue([[currentElement stringValue] isEqualToString:@"no"], 
                          @"DataObject (v_boolean) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_boolean) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -466,15 +466,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_boolean) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_boolean"] isEqualToString:@"no"], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_boolean"] isEqualToString:@"no"], 
                  @"DataObject (v_boolean) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:@"xml test" forProperty:@"v_boolean"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_boolean) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -484,7 +484,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -531,10 +531,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_bytea) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_bytea) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -550,7 +550,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_bytea"] isEqualToData:initialValue], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_bytea"] isEqualToData:initialValue], 
                  @"DataObject (v_bytea) Read Failed");
     
     [objRead release];
@@ -565,7 +565,7 @@
     
     [objUpdate setValue:updateValue forProperty:@"v_bytea"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_bytea) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -579,7 +579,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     NSLog(@"%@", [[xmlDocument rootElement] XMLString]);
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_bytea) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -592,13 +592,13 @@
             NSString *currentValue = [currentElement stringValue];
             
             NSData* xmlData = [NSData dataFromBase64String:currentValue];
-            STAssertTrue([xmlData isEqualToData:updateValue], 
+            XCTAssertTrue([xmlData isEqualToData:updateValue], 
                          @"DataObject (v_bytea) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_bytea) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -610,15 +610,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_bytea) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_bytea"] isEqualToData:updateValue], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_bytea"] isEqualToData:updateValue], 
                  @"DataObject (v_bytea) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:initialValue forProperty:@"v_bytea"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_bytea) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -629,7 +629,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -670,10 +670,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_char) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_char) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -689,7 +689,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_char"] isEqualToString:@"unit test       "], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_char"] isEqualToString:@"unit test       "], 
                  @"DataObject (v_char) Read Failed");
     
     [objRead release];
@@ -704,7 +704,7 @@
     
     [objUpdate setValue:@"update test" forProperty:@"v_char"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_char) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -718,7 +718,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_char) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -728,13 +728,13 @@
         
         if ([[currentElement name] isEqualToString:@"v_char"])
         {
-            STAssertTrue([[currentElement stringValue] isEqualToString:@"update test     "], 
+            XCTAssertTrue([[currentElement stringValue] isEqualToString:@"update test     "], 
                          @"DataObject (v_char) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_char) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -746,15 +746,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_char) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_char"] isEqualToString:@"update test     "], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_char"] isEqualToString:@"update test     "], 
                  @"DataObject (v_char) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:@"xml test" forProperty:@"v_char"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_char) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -764,7 +764,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -807,10 +807,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_date) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_date) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -826,7 +826,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_date"] isEqualToDate:initialValue], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_date"] isEqualToDate:initialValue], 
                  @"DataObject (v_date) Read Failed");
     
     [objRead release];
@@ -841,7 +841,7 @@
     
     [objUpdate setValue:updateValue forProperty:@"v_date"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_date) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -855,7 +855,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_date) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -872,13 +872,13 @@
             [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
             NSDate *currentValue = [dateFormatter dateFromString:[currentElement stringValue]];
             
-            STAssertTrue([currentValue isEqualToDate:updateValue], 
+            XCTAssertTrue([currentValue isEqualToDate:updateValue], 
                          @"DataObject (v_date) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_date) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -890,15 +890,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_date) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_date"] isEqualToDate:updateValue], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_date"] isEqualToDate:updateValue], 
                  @"DataObject (v_date) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:initialValue forProperty:@"v_date"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_date) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -908,7 +908,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -951,10 +951,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_float4) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_float4) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -970,7 +970,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_float4"] isEqualToNumber:initialValue], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_float4"] isEqualToNumber:initialValue], 
                  @"DataObject (v_bit) Read Failed");
     
     [objRead release];
@@ -985,7 +985,7 @@
     
     [objUpdate setValue:updateValue forProperty:@"v_float4"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_float4) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -999,7 +999,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_float4) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -1016,13 +1016,13 @@
             NSNumber *currentValue = [f numberFromString:[currentElement stringValue]];
             [f release];
             
-            STAssertTrue([currentValue floatValue] == [updateValue floatValue], 
+            XCTAssertTrue([currentValue floatValue] == [updateValue floatValue], 
                          @"DataObject (v_float4) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_float4) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -1034,15 +1034,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_float4) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_float4"] floatValue] == [updateValue floatValue], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_float4"] floatValue] == [updateValue floatValue], 
                  @"DataObject (v_float4) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:initialValue forProperty:@"v_float4"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_float4) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -1052,7 +1052,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -1095,10 +1095,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_float8) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_float8) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -1114,7 +1114,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_float8"] isEqualToNumber:initialValue], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_float8"] isEqualToNumber:initialValue], 
                  @"DataObject (v_bit) Read Failed");
     
     [objRead release];
@@ -1129,7 +1129,7 @@
     
     [objUpdate setValue:updateValue forProperty:@"v_float8"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_float8) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -1143,7 +1143,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_float8) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -1160,13 +1160,13 @@
             NSNumber *currentValue = [f numberFromString:[currentElement stringValue]];
             [f release];
             
-            STAssertTrue([currentValue floatValue] == [updateValue floatValue], 
+            XCTAssertTrue([currentValue floatValue] == [updateValue floatValue], 
                          @"DataObject (v_float8) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_float8) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -1178,15 +1178,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_float8) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_float8"] floatValue] == [updateValue floatValue], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_float8"] floatValue] == [updateValue floatValue], 
                  @"DataObject (v_float8) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:initialValue forProperty:@"v_float8"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_float8) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -1196,7 +1196,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -1239,10 +1239,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_int2) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_int2) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -1258,7 +1258,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_int2"] isEqualToNumber:initialValue], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_int2"] isEqualToNumber:initialValue], 
                  @"DataObject (v_int2) Read Failed");
     
     [objRead release];
@@ -1273,7 +1273,7 @@
     
     [objUpdate setValue:updateValue forProperty:@"v_int2"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_int2) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -1287,7 +1287,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_int2) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -1304,13 +1304,13 @@
             NSNumber *currentValue = [f numberFromString:[currentElement stringValue]];
             [f release];
             
-            STAssertTrue([currentValue intValue] == [updateValue intValue], 
+            XCTAssertTrue([currentValue intValue] == [updateValue intValue], 
                          @"DataObject (v_int2) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_int2) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -1322,15 +1322,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_int2) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_int2"] intValue] == [updateValue intValue], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_int2"] intValue] == [updateValue intValue], 
                  @"DataObject (v_int2) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:initialValue forProperty:@"v_int2"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_int2) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -1340,7 +1340,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -1383,10 +1383,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_int4) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_int4) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -1402,7 +1402,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_int4"] isEqualToNumber:initialValue], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_int4"] isEqualToNumber:initialValue], 
                  @"DataObject (v_bit) Read Failed");
     
     [objRead release];
@@ -1417,7 +1417,7 @@
     
     [objUpdate setValue:updateValue forProperty:@"v_int4"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_int4) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -1431,7 +1431,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_int4) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -1448,13 +1448,13 @@
             NSNumber *currentValue = [f numberFromString:[currentElement stringValue]];
             [f release];
             
-            STAssertTrue([currentValue intValue] == [updateValue intValue], 
+            XCTAssertTrue([currentValue intValue] == [updateValue intValue], 
                          @"DataObject (v_int4) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_int4) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -1466,15 +1466,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_int4) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_int4"] intValue] == [updateValue intValue], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_int4"] intValue] == [updateValue intValue], 
                  @"DataObject (v_int4) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:initialValue forProperty:@"v_int4"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_int4) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -1484,7 +1484,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -1527,10 +1527,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_int8) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_int8) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -1546,7 +1546,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_int8"] isEqualToNumber:initialValue], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_int8"] isEqualToNumber:initialValue], 
                  @"DataObject (v_bit) Read Failed");
     
     [objRead release];
@@ -1561,7 +1561,7 @@
     
     [objUpdate setValue:updateValue forProperty:@"v_int8"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_int8) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -1575,7 +1575,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_int8) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -1592,13 +1592,13 @@
             NSNumber *currentValue = [f numberFromString:[currentElement stringValue]];
             [f release];
             
-            STAssertTrue([currentValue longValue] == [updateValue longValue], 
+            XCTAssertTrue([currentValue longValue] == [updateValue longValue], 
                          @"DataObject (v_int8) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_int8) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -1610,15 +1610,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_int8) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_int8"] longValue] == [updateValue longValue], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_int8"] longValue] == [updateValue longValue], 
                  @"DataObject (v_int8) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:initialValue forProperty:@"v_int8"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_int8) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -1628,7 +1628,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -1671,10 +1671,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_interval) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_interval) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -1690,7 +1690,7 @@
                                                     forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_interval"] isEqualToString:initialValue], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_interval"] isEqualToString:initialValue], 
                  @"DataObject (v_interval) Read Failed");
     
     [objRead release];
@@ -1705,7 +1705,7 @@
     
     [objUpdate setValue:updateValue forProperty:@"v_interval"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_interval) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -1719,7 +1719,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_interval) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -1731,13 +1731,13 @@
         {
             NSString *currentValue = [currentElement stringValue];
             
-            STAssertTrue([currentValue isEqualToString:updateValue], 
+            XCTAssertTrue([currentValue isEqualToString:updateValue], 
                          @"DataObject (v_interval) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_interval) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -1749,15 +1749,15 @@
                                                    forTable:@"pgdo_test"
                                              withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_interval) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_interval"] isEqualToString:updateValue], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_interval"] isEqualToString:updateValue], 
                  @"DataObject (v_interval) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:initialValue forProperty:@"v_interval"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_interval) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -1767,7 +1767,7 @@
                                                    forTable:@"pgdo_test"
                                              withPrimaryKey:@"record_id"
                                                       forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -1810,10 +1810,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_money) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_money) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -1829,7 +1829,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_money"] floatValue] == 
+    XCTAssertTrue([[objRead valueForProperty:@"v_money"] floatValue] == 
                  [initialValue floatValue], 
                  @"DataObject (v_money) Read Failed");
     
@@ -1845,7 +1845,7 @@
     
     [objUpdate setValue:updateValue forProperty:@"v_money"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_money) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -1859,7 +1859,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_money) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -1876,13 +1876,13 @@
             NSNumber *currentValue = [f numberFromString:[currentElement stringValue]];
             [f release];
             
-            STAssertTrue([currentValue floatValue] == [updateValue floatValue], 
+            XCTAssertTrue([currentValue floatValue] == [updateValue floatValue], 
                          @"DataObject (v_money) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_money) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -1894,15 +1894,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_money) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_money"] floatValue] == [updateValue floatValue], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_money"] floatValue] == [updateValue floatValue], 
                  @"DataObject (v_money) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:initialValue forProperty:@"v_money"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_money) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -1912,7 +1912,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -1955,10 +1955,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_numeric) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_numeric) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -1974,7 +1974,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_numeric"] isEqualToNumber:initialValue], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_numeric"] isEqualToNumber:initialValue], 
                  @"DataObject (v_numeric) Read Failed");
     
     [objRead release];
@@ -1989,7 +1989,7 @@
     
     [objUpdate setValue:updateValue forProperty:@"v_numeric"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_numeric) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -2003,7 +2003,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_numeric) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -2020,13 +2020,13 @@
             NSNumber *currentValue = [f numberFromString:[currentElement stringValue]];
             [f release];
             
-            STAssertTrue([currentValue floatValue] == [updateValue floatValue], 
+            XCTAssertTrue([currentValue floatValue] == [updateValue floatValue], 
                          @"DataObject (v_numeric) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_numeric) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -2038,15 +2038,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_numeric) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_numeric"] floatValue] == [updateValue floatValue], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_numeric"] floatValue] == [updateValue floatValue], 
                  @"DataObject (v_numeric) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:initialValue forProperty:@"v_numeric"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_numeric) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -2056,7 +2056,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -2097,10 +2097,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_text) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_text) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -2116,7 +2116,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_text"] isEqualToString:@"unit test"], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_text"] isEqualToString:@"unit test"], 
                  @"DataObject (v_text) Read Failed");
     
     [objRead release];
@@ -2131,7 +2131,7 @@
     
     [objUpdate setValue:@"update test" forProperty:@"v_text"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_text) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -2145,7 +2145,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_text) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -2155,13 +2155,13 @@
         
         if ([[currentElement name] isEqualToString:@"v_text"])
         {
-            STAssertTrue([[currentElement stringValue] isEqualToString:@"update test"], 
+            XCTAssertTrue([[currentElement stringValue] isEqualToString:@"update test"], 
                          @"DataObject (v_text) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_text) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -2173,15 +2173,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_text) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_text"] isEqualToString:@"update test"], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_text"] isEqualToString:@"update test"], 
                  @"DataObject (v_text) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:@"xml test" forProperty:@"v_text"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_text) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -2192,7 +2192,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -2235,10 +2235,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_time) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_time) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -2254,7 +2254,7 @@
                                                     forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_time"] isEqualToDate:initialValue], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_time"] isEqualToDate:initialValue], 
                  @"DataObject (v_time) Read Failed");
     
     [objRead release];
@@ -2269,7 +2269,7 @@
     
     [objUpdate setValue:updateValue forProperty:@"v_time"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_time) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -2283,7 +2283,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_time) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -2300,13 +2300,13 @@
             [dateFormatter setDateFormat:@"HH:mm:ss"];
             NSDate *currentValue = [dateFormatter dateFromString:[currentElement stringValue]];
             
-            STAssertTrue([currentValue isEqualToDate:updateValue], 
+            XCTAssertTrue([currentValue isEqualToDate:updateValue], 
                          @"DataObject (v_time) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_time) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -2318,15 +2318,15 @@
                                                    forTable:@"pgdo_test"
                                              withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_time) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_time"] isEqualToDate:updateValue], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_time"] isEqualToDate:updateValue], 
                  @"DataObject (v_time) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:initialValue forProperty:@"v_time"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_time) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -2336,7 +2336,7 @@
                                                    forTable:@"pgdo_test"
                                              withPrimaryKey:@"record_id"
                                                       forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -2379,10 +2379,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_timetz) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_timetz) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -2398,7 +2398,7 @@
                                                     forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_timetz"] isEqualToDate:initialValue], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_timetz"] isEqualToDate:initialValue], 
                  @"DataObject (v_timetz) Read Failed");
     
     [objRead release];
@@ -2413,7 +2413,7 @@
     
     [objUpdate setValue:updateValue forProperty:@"v_timetz"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_timetz) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -2427,7 +2427,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_timetz) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -2444,13 +2444,13 @@
             [dateFormatter setDateFormat:@"HH:mm:ss"];
             NSDate *currentValue = [dateFormatter dateFromString:[currentElement stringValue]];
             
-            STAssertTrue([currentValue isEqualToDate:updateValue], 
+            XCTAssertTrue([currentValue isEqualToDate:updateValue], 
                          @"DataObject (v_timetz) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_timetz) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -2462,15 +2462,15 @@
                                                    forTable:@"pgdo_test"
                                              withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_timetz) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_timetz"] isEqualToDate:updateValue], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_timetz"] isEqualToDate:updateValue], 
                  @"DataObject (v_timetz) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:initialValue forProperty:@"v_timetz"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_timetz) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -2480,7 +2480,7 @@
                                                    forTable:@"pgdo_test"
                                              withPrimaryKey:@"record_id"
                                                       forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -2523,10 +2523,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_timestamp) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_timestamp) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -2542,7 +2542,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_timestamp"] isEqualToDate:initialValue], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_timestamp"] isEqualToDate:initialValue], 
                  @"DataObject (v_timestamp) Read Failed");
     
     [objRead release];
@@ -2557,7 +2557,7 @@
     
     [objUpdate setValue:updateValue forProperty:@"v_timestamp"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_timestamp) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -2571,7 +2571,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_timestamp) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -2588,13 +2588,13 @@
             [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
             NSDate *currentValue = [dateFormatter dateFromString:[currentElement stringValue]];
             
-            STAssertTrue([currentValue isEqualToDate:updateValue], 
+            XCTAssertTrue([currentValue isEqualToDate:updateValue], 
                          @"DataObject (v_timestamp) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_timestamp) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -2606,15 +2606,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_timestamp) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_timestamp"] isEqualToDate:updateValue], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_timestamp"] isEqualToDate:updateValue], 
                  @"DataObject (v_timestamp) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:initialValue forProperty:@"v_timestamp"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_timestamp) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -2624,7 +2624,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -2668,10 +2668,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_timestamptz) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_timestamptz) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -2687,7 +2687,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_timestamptz"] isEqualToDate:initialValue], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_timestamptz"] isEqualToDate:initialValue], 
                  @"DataObject (v_timestamptz) Read Failed");
     
     [objRead release];
@@ -2702,7 +2702,7 @@
     
     [objUpdate setValue:updateValue forProperty:@"v_timestamptz"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_timestamptz) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -2716,7 +2716,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_timestamptz) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -2733,13 +2733,13 @@
             [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
             NSDate *currentValue = [dateFormatter dateFromString:[currentElement stringValue]];
             
-            STAssertTrue([currentValue isEqualToDate:updateValue], 
+            XCTAssertTrue([currentValue isEqualToDate:updateValue], 
                          @"DataObject (v_timestamptz) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_timestamptz) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -2751,15 +2751,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_timestamptz) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_timestamptz"] isEqualToDate:updateValue], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_timestamptz"] isEqualToDate:updateValue], 
                  @"DataObject (v_timestamptz) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:initialValue forProperty:@"v_timestamptz"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_timestamptz) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -2769,7 +2769,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -2810,10 +2810,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_uuid) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_uuid) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -2829,7 +2829,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_uuid"] isEqualToString:@"abc62ed3-a7a2-4f15-b1c5-179826c2e0bb"], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_uuid"] isEqualToString:@"abc62ed3-a7a2-4f15-b1c5-179826c2e0bb"], 
                  @"DataObject (v_uuid) Read Failed");
     
     [objRead release];
@@ -2844,7 +2844,7 @@
     
     [objUpdate setValue:@"{5E70283C-D420-4E67-939C-4032C8EBC702}" forProperty:@"v_uuid"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_uuid) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -2858,7 +2858,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_uuid) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -2868,13 +2868,13 @@
         
         if ([[currentElement name] isEqualToString:@"v_uuid"])
         {
-            STAssertTrue([[currentElement stringValue] isEqualToString:@"5e70283c-d420-4e67-939c-4032c8ebc702"], 
+            XCTAssertTrue([[currentElement stringValue] isEqualToString:@"5e70283c-d420-4e67-939c-4032c8ebc702"], 
                          @"DataObject (v_uuid) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_uuid) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -2886,15 +2886,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_uuid) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_uuid"] isEqualToString:@"5e70283c-d420-4e67-939c-4032c8ebc702"], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_uuid"] isEqualToString:@"5e70283c-d420-4e67-939c-4032c8ebc702"], 
                  @"DataObject (v_uuid) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:@"{5E70283C-D420-4E67-939C-4032C8EBC702}" forProperty:@"v_uuid"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_uuid) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -2905,7 +2905,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -2948,10 +2948,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_varbit) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_varbit) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -2967,7 +2967,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_varbit"] isEqualToString:initialValue], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_varbit"] isEqualToString:initialValue], 
                  @"DataObject (v_varbit) Read Failed");
     
     [objRead release];
@@ -2982,7 +2982,7 @@
     
     [objUpdate setValue:updateValue forProperty:@"v_varbit"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_varbit) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -2996,7 +2996,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_varbit) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -3006,13 +3006,13 @@
         
         if ([[currentElement name] isEqualToString:@"v_varbit"])
         {
-            STAssertTrue([[currentElement stringValue] isEqualToString:updateValue], 
+            XCTAssertTrue([[currentElement stringValue] isEqualToString:updateValue], 
                          @"DataObject (v_varbit) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_varbit) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -3024,15 +3024,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_varbit) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_varbit"] isEqualToString:updateValue], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_varbit"] isEqualToString:updateValue], 
                  @"DataObject (v_varbit) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:initialValue forProperty:@"v_varbit"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_varbit) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -3042,7 +3042,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     
@@ -3083,10 +3083,10 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        STAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
                      [objCreate lastError]);
     } else {
-        STAssertTrue(result == YES, @"DataObject (v_varchar) Save Failed: %@", 
+        XCTAssertTrue(result == YES, @"DataObject (v_varchar) Save Failed: %@", 
                      [objCreate lastError]);
         [objCreate release];
         return;
@@ -3102,7 +3102,7 @@
                                                   forId:refId];
     // get the property
     
-    STAssertTrue([[objRead valueForProperty:@"v_varchar"] isEqualToString:@"unit test"], 
+    XCTAssertTrue([[objRead valueForProperty:@"v_varchar"] isEqualToString:@"unit test"], 
                  @"DataObject (v_varchar) Read Failed");
     
     [objRead release];
@@ -3117,7 +3117,7 @@
     
     [objUpdate setValue:@"update test" forProperty:@"v_varchar"];
     
-    STAssertTrue([objUpdate  save], 
+    XCTAssertTrue([objUpdate  save], 
                  @"DataObject (v_varchar) Update failed: %@", [objUpdate lastError]);
     [objUpdate release];
     
@@ -3131,7 +3131,7 @@
     
     NSXMLDocument *xmlDocument = [[NSXMLDocument alloc] initWithRootElement:[objXmlFetch xmlForObject]];
     
-    STAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
+    XCTAssertTrue(([[xmlDocument rootElement] childCount] > 0), 
                  @"DataObject (v_varchar) xmlForObject failed: %@", [objXmlFetch lastError]);
     
     int iFoundChildren = 0;
@@ -3141,13 +3141,13 @@
         
         if ([[currentElement name] isEqualToString:@"v_varchar"])
         {
-            STAssertTrue([[currentElement stringValue] isEqualToString:@"update test"], 
+            XCTAssertTrue([[currentElement stringValue] isEqualToString:@"update test"], 
                          @"DataObject (v_varchar) xmlForObject Xml value not expected value");
             
             iFoundChildren++;
         }
     }
-    STAssertTrue(iFoundChildren >= 1, 
+    XCTAssertTrue(iFoundChildren >= 1, 
                  @"DataObject (v_varchar) xmlForObject failed to find field in Xml");
     
     [objXmlFetch release];
@@ -3159,15 +3159,15 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"]; 
     
-    STAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
+    XCTAssertTrue([objXmlSet loadFromXml:[xmlDocument rootElement]], 
                  @"DataObject (v_varchar) loadFromXml Failed: no xml document");
     
-    STAssertTrue([[objXmlSet valueForProperty:@"v_varchar"] isEqualToString:@"update test"], 
+    XCTAssertTrue([[objXmlSet valueForProperty:@"v_varchar"] isEqualToString:@"update test"], 
                  @"DataObject (v_varchar) loadFromXml Failed: value does not match expected");
     
     [objXmlSet setValue:@"xml test" forProperty:@"v_varchar"];
     
-    STAssertTrue([objXmlSet save], 
+    XCTAssertTrue([objXmlSet save], 
                  @"DataObject (v_varchar) Save after loadFromXml: %@", [objXmlSet lastError]);
     [objXmlSet release];
     
@@ -3178,7 +3178,7 @@
                                                  forTable:@"pgdo_test"
                                            withPrimaryKey:@"record_id"
                                                     forId:refId];
-    STAssertTrue([objDelete remove], 
+    XCTAssertTrue([objDelete remove], 
                  @"DataObject Delete failed: %@", [objDelete lastError]);
     [objDelete release];  
     

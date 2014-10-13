@@ -122,9 +122,9 @@
     self = [super init];
 	
 	if (self != nil) {
-		connection = [conn retain];
-        table = [[tableName copy] retain];
-        primaryKey = [[keyName copy] retain];
+		connection = conn;
+        table = [tableName copy];
+        primaryKey = [keyName copy];
 		
 		items = [[NSMutableArray alloc] init];	
         
@@ -143,7 +143,6 @@
                                            forRecord:rs];
             [items addObject:dataObject];
             [rs moveNext];
-            [dataObject release];
         }
         [rs close];}
 	
@@ -162,20 +161,6 @@
  *     who   date    change
  *     --- -------- ----------------------------------------------------------- 
  ******************************************************************************/
--(void)dealloc
-{
-	if (connection != nil)
-	{
-		[connection release];
-	}
-	
-	if (items != nil)
-	{
-		[items release];
-	}
-	
-	[super dealloc];
-}
 
 /* save
  *   description
@@ -231,7 +216,7 @@
  ******************************************************************************/
 - (NSXMLElement *)xmlForObject
 {
-	NSXMLElement *thisNode = [[[NSXMLElement alloc] initWithName:table] autorelease];
+	NSXMLElement *thisNode = [[NSXMLElement alloc] initWithName:table];
     
 	int i;
 	for (i = 0; i < [items count]; i++)
