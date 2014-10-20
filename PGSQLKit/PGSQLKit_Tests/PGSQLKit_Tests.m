@@ -30,9 +30,9 @@
     // create the connectoin
     connection = [[PGSQLConnection alloc] init];
     [connection setServer:@"localhost"];
-    [connection setUserName:@"arsatori"];
-    [connection setPassword:@""];
-    [connection setDatabaseName:@"twj_test"];
+    [connection setUserName:@"postgres"];
+    [connection setPassword:@"gr8orthan0"];
+    [connection setDatabaseName:@"golf"];
     [connection connect];
     
     if (![connection isConnected])

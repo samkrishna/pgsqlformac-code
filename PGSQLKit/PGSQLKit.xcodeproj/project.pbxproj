@@ -117,7 +117,7 @@
 		43C1A66D14D77B5B009F7111 /* PGSQLDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLDataObject.m; sourceTree = "<group>"; };
 		43C1A67014D78FB7009F7111 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
 		43C1A67114D78FB7009F7111 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
-		43C1A67914D7903C009F7111 /* PGSQLKit_Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PGSQLKit_Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		43C1A67914D7903C009F7111 /* PGSQLKit_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PGSQLKit_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		43C1A68014D7903C009F7111 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		43C1A68114D7903C009F7111 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		43C1A68214D7903C009F7111 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -184,7 +184,7 @@
 			children = (
 				43D812CD1117FAB400804354 /* docs */,
 				8DC2EF5B0486A6940098B216 /* PGSQLKit.framework */,
-				43C1A67914D7903C009F7111 /* PGSQLKit_Tests.octest */,
+				43C1A67914D7903C009F7111 /* PGSQLKit_Tests.xctest */,
 				43C1A69514D7913C009F7111 /* PGSQLKit_DataObject.xctest */,
 			);
 			name = Products;
@@ -422,7 +422,7 @@
 			);
 			name = PGSQLKit_Tests;
 			productName = PGSQLKit_Tests;
-			productReference = 43C1A67914D7903C009F7111 /* PGSQLKit_Tests.octest */;
+			productReference = 43C1A67914D7903C009F7111 /* PGSQLKit_Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		43C1A69414D7913C009F7111 /* PGSQLKit_DataObject */ = {

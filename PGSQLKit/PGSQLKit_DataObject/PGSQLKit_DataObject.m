@@ -20,9 +20,9 @@
     // create the connectoin
     connection = [[PGSQLConnection alloc] init];
     [connection setServer:@"localhost"];
-    [connection setUserName:@"arsatori"];
-    [connection setPassword:@""];
-    [connection setDatabaseName:@"twj_test"];
+    [connection setUserName:@"postgres"];
+    [connection setPassword:@"gr8orthan0"];
+    [connection setDatabaseName:@"golf"];
     [connection connect];
     
     if (![connection isConnected])
@@ -951,7 +951,7 @@
     if (result)
     {
         refId  = [[[objCreate refId] copy] retain];
-        XCTAssertTrue([refId longValue] > 0, @"Reference ID is Zero, error: %@", 
+        XCTAssertTrue([refId floatValue] > 0, @"Reference ID is Zero, error: %@",
                      [objCreate lastError]);
     } else {
         XCTAssertTrue(result == YES, @"DataObject (v_float4) Save Failed: %@", 
@@ -969,9 +969,8 @@
                                          withPrimaryKey:@"record_id"
                                                   forId:refId];
     // get the property
-    
-    XCTAssertTrue([[objRead valueForProperty:@"v_float4"] isEqualToNumber:initialValue], 
-                 @"DataObject (v_bit) Read Failed");
+    XCTAssertTrue([[objRead valueForProperty:@"v_float4"] floatValue] == [initialValue floatValue],
+                 @"DataObject (v_float4) Read Failed (%f != %f)", [[objRead valueForProperty:@"v_float4"] floatValue], [initialValue floatValue]  );
     
     [objRead release];
     
@@ -1114,8 +1113,9 @@
                                                   forId:refId];
     // get the property
     
-    XCTAssertTrue([[objRead valueForProperty:@"v_float8"] isEqualToNumber:initialValue], 
-                 @"DataObject (v_bit) Read Failed");
+    XCTAssertTrue([[objRead valueForProperty:@"v_float8"] doubleValue] == [initialValue doubleValue],
+                 @"DataObject (v_bit) Read Failed ( %f == %f )",
+                  [[objRead valueForProperty:@"v_float8"] doubleValue], [initialValue doubleValue]);
     
     [objRead release];
     
@@ -1975,7 +1975,8 @@
     // get the property
     
     XCTAssertTrue([[objRead valueForProperty:@"v_numeric"] isEqualToNumber:initialValue], 
-                 @"DataObject (v_numeric) Read Failed");
+                 @"DataObject (v_numeric) Read Failed ( %@ == %@)",
+                  [ objRead valueForProperty:@"v_numeric"], initialValue);
     
     [objRead release];
     
