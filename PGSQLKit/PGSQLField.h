@@ -92,6 +92,7 @@
 -(NSString *)asString:(NSStringEncoding)encoding;
 -(NSNumber *)asNumber;
 -(long)asLong;
+-(short)asShort;
 -(NSDate *)asDate;
 -(NSDate *)asDateWithGMTOffset:(NSString *)gmtOffset;
 -(NSData *)asData;

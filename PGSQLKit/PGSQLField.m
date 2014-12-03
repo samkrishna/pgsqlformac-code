@@ -172,7 +172,6 @@
 	return 0; 
 }
 
-
 -(short)asShort
 {
 	if (data != nil) {
