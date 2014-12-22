@@ -53,7 +53,7 @@
 				THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-//#import <Foundation/Foundation.h>
+#import <Foundation/Foundation.h>
 #import "GenDBProtocol.h"
 
 @class PGSQLRecordset;

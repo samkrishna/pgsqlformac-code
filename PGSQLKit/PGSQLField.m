@@ -293,8 +293,13 @@
 			
 			value = [NSString stringWithFormat:@"%@ %@", value, gmtOffset];
 		}
-		NSDate *newDate = [[NSDate alloc] initWithString:value];
-		
+        
+        
+        NSDateFormatter *df = [[NSDateFormatter alloc] init];
+        [df setDateFormat:@"yyyy-MM-dd HH:mm:ssZZZ"];
+        // self.currentQuestion.updated = [self.dateFormatter dateFromString:
+                                        
+		NSDate *newDate = [df dateFromString:value];
 		return newDate;
 	}
 	return nil; 	

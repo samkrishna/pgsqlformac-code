@@ -12,18 +12,18 @@ import PGSQLKit
 println("Testing ODBCKit from Swift")
 
 
-var odbcconnection: ODBCConnection;
+var connection: PGSQLConnection;
 
-odbcconnection = ODBCConnection();
-odbcconnection.initSQLEnvironment();
-odbcconnection.UserName = "postgres";
-odbcconnection.Password = "gr8orthan0";
-odbcconnection.Dsn = "test";
-if (!odbcconnection.connect())
+connection = ODBCConnection();
+connection.initSQLEnvironment();
+connection.UserName = "postgres";
+connection.Password = "gr8orthan0";
+connection.Dsn = "test";
+if (!connection.connect())
 {
-    if (!odbcconnection.isConnected()) {
+    if (!connection.isConnected()) {
         println("Connection Failed");
-        odbcconnection.close();
+        connection.close();
         exit(0);
     }
 }

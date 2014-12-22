@@ -13,6 +13,20 @@
 		431397B70C31BC1000E596BA /* PGSQLField.h in Headers */ = {isa = PBXBuildFile; fileRef = 439F7B5F0C18947C001CA5A4 /* PGSQLField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		432A8C110C47074F00CA8F33 /* PGSQLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 439656720BE8C779003EDC3D /* PGSQLKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43318B370BF1227A008C2560 /* PGSQL Login.nib in Resources */ = {isa = PBXBuildFile; fileRef = 43318B350BF1227A008C2560 /* PGSQL Login.nib */; };
+		4333F7101A4740100049A314 /* PGSQLConnectionBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 43CAC69F14EC5EBA003E60DF /* PGSQLConnectionBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4333F7111A4740100049A314 /* PGSQLDispatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 43CAC6A114EC5EBA003E60DF /* PGSQLDispatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4333F7121A4740100049A314 /* PGSQLDispatchConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 43CAC6A314EC5EBA003E60DF /* PGSQLDispatchConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4333F7131A4740100049A314 /* NSData+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 43C1A67014D78FB7009F7111 /* NSData+Base64.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4333F7151A4740100049A314 /* GenDBProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 435C18B417296F8B0003AEC3 /* GenDBProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4333F7161A4740100049A314 /* PGSQLConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 43318B520BF16497008C2560 /* PGSQLConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4333F7171A4740100049A314 /* PGSQLColumn.h in Headers */ = {isa = PBXBuildFile; fileRef = 439F7B670C1894AA001CA5A4 /* PGSQLColumn.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4333F7181A4740100049A314 /* PGSQLField.h in Headers */ = {isa = PBXBuildFile; fileRef = 439F7B5F0C18947C001CA5A4 /* PGSQLField.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4333F7191A4740100049A314 /* PGSQLRecord.h in Headers */ = {isa = PBXBuildFile; fileRef = 439F7B630C189495001CA5A4 /* PGSQLRecord.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4333F71A1A4740100049A314 /* PGSQLRecordset.h in Headers */ = {isa = PBXBuildFile; fileRef = 4325688D0C0D122F007E8DE8 /* PGSQLRecordset.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4333F71B1A4740110049A314 /* PGSQLConnectionInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 43F613310F9E5DC000F8273F /* PGSQLConnectionInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4333F71D1A4740410049A314 /* PGSQLKitTouch.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 43CD39021A45D02E00A3D4FF /* PGSQLKitTouch.framework */; };
+		4333F7261A4743F80049A314 /* PGSQLKitTouch.h in Sources */ = {isa = PBXBuildFile; fileRef = 4333F7251A4743F80049A314 /* PGSQLKitTouch.h */; };
+		4333F7271A47441E0049A314 /* PGSQLKitTouch.h in Headers */ = {isa = PBXBuildFile; fileRef = 4333F7251A4743F80049A314 /* PGSQLKitTouch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4343CB5714D84ED700DBED85 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 43C1A67114D78FB7009F7111 /* NSData+Base64.m */; };
 		4343CB5814D85BE000DBED85 /* PGSQLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* PGSQLKit.framework */; };
 		4343CB5B14D85C5000DBED85 /* PGSQLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* PGSQLKit.framework */; };
@@ -43,6 +57,20 @@
 		43CAC6A814EC5EBA003E60DF /* PGSQLDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CAC6A214EC5EBA003E60DF /* PGSQLDispatch.m */; };
 		43CAC6A914EC5EBA003E60DF /* PGSQLDispatchConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 43CAC6A314EC5EBA003E60DF /* PGSQLDispatchConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43CAC6AA14EC5EBA003E60DF /* PGSQLDispatchConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CAC6A414EC5EBA003E60DF /* PGSQLDispatchConnection.m */; };
+		43CD39071A45D02E00A3D4FF /* PGSQLKitTouch.h in Sources */ = {isa = PBXBuildFile; fileRef = 43CD39061A45D02E00A3D4FF /* PGSQLKitTouch.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		43CD390D1A45D02E00A3D4FF /* PGSQLKitTouch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43CD39021A45D02E00A3D4FF /* PGSQLKitTouch.framework */; };
+		43CD39141A45D02E00A3D4FF /* PGSQLKitTouchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CD39131A45D02E00A3D4FF /* PGSQLKitTouchTests.m */; };
+		43CD39251A4608AE00A3D4FF /* libpqtouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43CD39211A45D07E00A3D4FF /* libpqtouch.a */; };
+		43CD39281A46091100A3D4FF /* PGSQLConnectionBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CAC6A014EC5EBA003E60DF /* PGSQLConnectionBase.m */; };
+		43CD39291A46091100A3D4FF /* PGSQLDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CAC6A214EC5EBA003E60DF /* PGSQLDispatch.m */; };
+		43CD392A1A46091100A3D4FF /* PGSQLDispatchConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CAC6A414EC5EBA003E60DF /* PGSQLDispatchConnection.m */; };
+		43CD392B1A46091100A3D4FF /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 43C1A67114D78FB7009F7111 /* NSData+Base64.m */; };
+		43CD392C1A46091100A3D4FF /* PGSQLConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 43318B530BF16497008C2560 /* PGSQLConnection.m */; };
+		43CD392D1A46091100A3D4FF /* PGSQLColumn.m in Sources */ = {isa = PBXBuildFile; fileRef = 439F7B680C1894AA001CA5A4 /* PGSQLColumn.m */; };
+		43CD392E1A46091100A3D4FF /* PGSQLField.m in Sources */ = {isa = PBXBuildFile; fileRef = 439F7B600C18947C001CA5A4 /* PGSQLField.m */; };
+		43CD392F1A46091100A3D4FF /* PGSQLRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 439F7B640C189495001CA5A4 /* PGSQLRecord.m */; };
+		43CD39301A46091100A3D4FF /* PGSQLRecordset.m in Sources */ = {isa = PBXBuildFile; fileRef = 4325688E0C0D122F007E8DE8 /* PGSQLRecordset.m */; };
+		43CD39311A46091100A3D4FF /* PGSQLConnectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 43F613320F9E5DC000F8273F /* PGSQLConnectionInfo.m */; };
 		43E6FCEB179B3D7D000ED9C5 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43E6FCEA179B3D7D000ED9C5 /* Security.framework */; };
 		43F613330F9E5DC000F8273F /* PGSQLConnectionInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 43F613310F9E5DC000F8273F /* PGSQLConnectionInfo.h */; };
 		43F613340F9E5DC000F8273F /* PGSQLConnectionInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 43F613320F9E5DC000F8273F /* PGSQLConnectionInfo.m */; };
@@ -68,6 +96,20 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = PGSQLKit;
 		};
+		43CD39201A45D07E00A3D4FF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43CD391B1A45D07E00A3D4FF /* pqtouch.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteInfo = pqtouch;
+		};
+		43CD39261A4608D000A3D4FF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43CD391B1A45D07E00A3D4FF /* pqtouch.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D2AAC07D0554694100DB518D;
+			remoteInfo = pqtouch;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -78,6 +120,16 @@
 			dstSubfolderSpec = 0;
 			files = (
 				43B0EBED14B4F4C7000390E4 /* PGSQLKit.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4333F71C1A4740300049A314 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "~/Library/Frameworks";
+			dstSubfolderSpec = 0;
+			files = (
+				4333F71D1A4740410049A314 /* PGSQLKitTouch.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +147,7 @@
 		43318B360BF1227A008C2560 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = "English.lproj/PGSQL Login.nib"; sourceTree = "<group>"; };
 		43318B520BF16497008C2560 /* PGSQLConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLConnection.h; sourceTree = "<group>"; };
 		43318B530BF16497008C2560 /* PGSQLConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLConnection.m; sourceTree = "<group>"; };
+		4333F7251A4743F80049A314 /* PGSQLKitTouch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.objj; path = PGSQLKitTouch.h; sourceTree = "<group>"; };
 		43416A1213A100A500D77235 /* PGSQLLoginDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.objj; path = PGSQLLoginDelegate.h; sourceTree = "<group>"; };
 		4357486A0F334F5B00F86110 /* PGSQLPreparedStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLPreparedStatement.h; sourceTree = "<group>"; };
 		4357486B0F334F5B00F86110 /* PGSQLPreparedStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLPreparedStatement.m; sourceTree = "<group>"; };
@@ -140,6 +193,13 @@
 		43CAC6A414EC5EBA003E60DF /* PGSQLDispatchConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLDispatchConnection.m; sourceTree = "<group>"; };
 		43CBC57C0BF11AC300A5E5AF /* PGSQLLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLLogin.h; sourceTree = "<group>"; };
 		43CBC57D0BF11AC300A5E5AF /* PGSQLLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PGSQLLogin.m; sourceTree = "<group>"; };
+		43CD39021A45D02E00A3D4FF /* PGSQLKitTouch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PGSQLKitTouch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		43CD39051A45D02E00A3D4FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		43CD39061A45D02E00A3D4FF /* PGSQLKitTouch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.objj; path = PGSQLKitTouch.h; sourceTree = "<group>"; };
+		43CD390C1A45D02E00A3D4FF /* PGSQLKitTouchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PGSQLKitTouchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		43CD39121A45D02E00A3D4FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		43CD39131A45D02E00A3D4FF /* PGSQLKitTouchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PGSQLKitTouchTests.m; sourceTree = "<group>"; };
+		43CD391B1A45D07E00A3D4FF /* pqtouch.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = pqtouch.xcodeproj; path = "../../../experimental/PostgreSQL Client Tools/pqtouch/pqtouch.xcodeproj"; sourceTree = "<group>"; };
 		43D812CD1117FAB400804354 /* docs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = docs; path = build/docs; sourceTree = "<group>"; };
 		43E6FCEA179B3D7D000ED9C5 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		43F613310F9E5DC000F8273F /* PGSQLConnectionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PGSQLConnectionInfo.h; sourceTree = "<group>"; };
@@ -167,6 +227,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		43CD38FE1A45D02E00A3D4FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43CD39251A4608AE00A3D4FF /* libpqtouch.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43CD39091A45D02E00A3D4FF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43CD390D1A45D02E00A3D4FF /* PGSQLKitTouch.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF560486A6940098B216 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -186,6 +262,8 @@
 				8DC2EF5B0486A6940098B216 /* PGSQLKit.framework */,
 				43C1A67914D7903C009F7111 /* PGSQLKit_Tests.xctest */,
 				43C1A69514D7913C009F7111 /* PGSQLKit_DataObject.xctest */,
+				43CD39021A45D02E00A3D4FF /* PGSQLKitTouch.framework */,
+				43CD390C1A45D02E00A3D4FF /* PGSQLKitTouchTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -203,8 +281,11 @@
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				43C1A68314D7903C009F7111 /* PGSQLKit_Tests */,
 				43C1A69814D7913D009F7111 /* PGSQLKit_DataObject */,
+				43CD39031A45D02E00A3D4FF /* PGSQLKitTouch */,
+				43CD39101A45D02E00A3D4FF /* PGSQLKitTouchTests */,
 				43C1A67A14D7903C009F7111 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
+				43CD391B1A45D07E00A3D4FF /* pqtouch.xcodeproj */,
 			);
 			name = PGSQLKit;
 			sourceTree = "<group>";
@@ -264,6 +345,7 @@
 				43C1A66D14D77B5B009F7111 /* PGSQLDataObject.m */,
 				43A6C9E214D8D98E0051779D /* PGSQLDataObjectList.h */,
 				43A6C9E314D8D98E0051779D /* PGSQLDataObjectList.m */,
+				4333F7251A4743F80049A314 /* PGSQLKitTouch.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -370,6 +452,48 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		43CD39031A45D02E00A3D4FF /* PGSQLKitTouch */ = {
+			isa = PBXGroup;
+			children = (
+				43CD39061A45D02E00A3D4FF /* PGSQLKitTouch.h */,
+				43CD39041A45D02E00A3D4FF /* Supporting Files */,
+			);
+			path = PGSQLKitTouch;
+			sourceTree = "<group>";
+		};
+		43CD39041A45D02E00A3D4FF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				43CD39051A45D02E00A3D4FF /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		43CD39101A45D02E00A3D4FF /* PGSQLKitTouchTests */ = {
+			isa = PBXGroup;
+			children = (
+				43CD39131A45D02E00A3D4FF /* PGSQLKitTouchTests.m */,
+				43CD39111A45D02E00A3D4FF /* Supporting Files */,
+			);
+			path = PGSQLKitTouchTests;
+			sourceTree = "<group>";
+		};
+		43CD39111A45D02E00A3D4FF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				43CD39121A45D02E00A3D4FF /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		43CD391C1A45D07E00A3D4FF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				43CD39211A45D07E00A3D4FF /* libpqtouch.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		7B70BF98100D68D100046E2F /* Cocoa */ = {
 			isa = PBXGroup;
 			children = (
@@ -381,6 +505,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		43CD38FF1A45D02E00A3D4FF /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4333F7271A47441E0049A314 /* PGSQLKitTouch.h in Headers */,
+				4333F7101A4740100049A314 /* PGSQLConnectionBase.h in Headers */,
+				4333F7111A4740100049A314 /* PGSQLDispatch.h in Headers */,
+				4333F7121A4740100049A314 /* PGSQLDispatchConnection.h in Headers */,
+				4333F7131A4740100049A314 /* NSData+Base64.h in Headers */,
+				4333F7151A4740100049A314 /* GenDBProtocol.h in Headers */,
+				4333F7161A4740100049A314 /* PGSQLConnection.h in Headers */,
+				4333F7171A4740100049A314 /* PGSQLColumn.h in Headers */,
+				4333F7181A4740100049A314 /* PGSQLField.h in Headers */,
+				4333F7191A4740100049A314 /* PGSQLRecord.h in Headers */,
+				4333F71A1A4740100049A314 /* PGSQLRecordset.h in Headers */,
+				4333F71B1A4740110049A314 /* PGSQLConnectionInfo.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF500486A6940098B216 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -444,6 +587,43 @@
 			productReference = 43C1A69514D7913C009F7111 /* PGSQLKit_DataObject.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		43CD39011A45D02E00A3D4FF /* PGSQLKitTouch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43CD39191A45D02E00A3D4FF /* Build configuration list for PBXNativeTarget "PGSQLKitTouch" */;
+			buildPhases = (
+				43CD38FD1A45D02E00A3D4FF /* Sources */,
+				43CD38FE1A45D02E00A3D4FF /* Frameworks */,
+				43CD38FF1A45D02E00A3D4FF /* Headers */,
+				43CD39001A45D02E00A3D4FF /* Resources */,
+				4333F71C1A4740300049A314 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				43CD39271A4608D000A3D4FF /* PBXTargetDependency */,
+			);
+			name = PGSQLKitTouch;
+			productName = PGSQLKitTouch;
+			productReference = 43CD39021A45D02E00A3D4FF /* PGSQLKitTouch.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		43CD390B1A45D02E00A3D4FF /* PGSQLKitTouchTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43CD391A1A45D02E00A3D4FF /* Build configuration list for PBXNativeTarget "PGSQLKitTouchTests" */;
+			buildPhases = (
+				43CD39081A45D02E00A3D4FF /* Sources */,
+				43CD39091A45D02E00A3D4FF /* Frameworks */,
+				43CD390A1A45D02E00A3D4FF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PGSQLKitTouchTests;
+			productName = PGSQLKitTouchTests;
+			productReference = 43CD390C1A45D02E00A3D4FF /* PGSQLKitTouchTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		8DC2EF4F0486A6940098B216 /* PGSQLKit */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB91AD08733DA50010E9CD /* Build configuration list for PBXNativeTarget "PGSQLKit" */;
@@ -471,6 +651,18 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0600;
+				TargetAttributes = {
+					43CD39011A45D02E00A3D4FF = {
+						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = Z44257Z59V;
+					};
+					43CD390B1A45D02E00A3D4FF = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					8DC2EF4F0486A6940098B216 = {
+						DevelopmentTeam = Z44257Z59V;
+					};
+				};
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "PGSQLKit" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -486,14 +678,32 @@
 			mainGroup = 0867D691FE84028FC02AAC07 /* PGSQLKit */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 43CD391C1A45D07E00A3D4FF /* Products */;
+					ProjectRef = 43CD391B1A45D07E00A3D4FF /* pqtouch.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8DC2EF4F0486A6940098B216 /* PGSQLKit */,
 				43C1A67814D7903C009F7111 /* PGSQLKit_Tests */,
 				43C1A69414D7913C009F7111 /* PGSQLKit_DataObject */,
+				43CD39011A45D02E00A3D4FF /* PGSQLKitTouch */,
+				43CD390B1A45D02E00A3D4FF /* PGSQLKitTouchTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		43CD39211A45D07E00A3D4FF /* libpqtouch.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libpqtouch.a;
+			remoteRef = 43CD39201A45D07E00A3D4FF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		43C1A67614D7903C009F7111 /* Resources */ = {
@@ -509,6 +719,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				43C1A69D14D7913D009F7111 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43CD39001A45D02E00A3D4FF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43CD390A1A45D02E00A3D4FF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -574,6 +798,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		43CD38FD1A45D02E00A3D4FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43CD39281A46091100A3D4FF /* PGSQLConnectionBase.m in Sources */,
+				43CD39291A46091100A3D4FF /* PGSQLDispatch.m in Sources */,
+				43CD392A1A46091100A3D4FF /* PGSQLDispatchConnection.m in Sources */,
+				43CD392B1A46091100A3D4FF /* NSData+Base64.m in Sources */,
+				43CD392C1A46091100A3D4FF /* PGSQLConnection.m in Sources */,
+				43CD392D1A46091100A3D4FF /* PGSQLColumn.m in Sources */,
+				43CD392E1A46091100A3D4FF /* PGSQLField.m in Sources */,
+				4333F7261A4743F80049A314 /* PGSQLKitTouch.h in Sources */,
+				43CD392F1A46091100A3D4FF /* PGSQLRecord.m in Sources */,
+				43CD39301A46091100A3D4FF /* PGSQLRecordset.m in Sources */,
+				43CD39311A46091100A3D4FF /* PGSQLConnectionInfo.m in Sources */,
+				43CD39071A45D02E00A3D4FF /* PGSQLKitTouch.h in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43CD39081A45D02E00A3D4FF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43CD39141A45D02E00A3D4FF /* PGSQLKitTouchTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8DC2EF540486A6940098B216 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -606,6 +857,11 @@
 			isa = PBXTargetDependency;
 			target = 8DC2EF4F0486A6940098B216 /* PGSQLKit */;
 			targetProxy = 43C1A6A514D79169009F7111 /* PBXContainerItemProxy */;
+		};
+		43CD39271A4608D000A3D4FF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = pqtouch;
+			targetProxy = 43CD39261A4608D000A3D4FF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -648,7 +904,9 @@
 		1DEB91AE08733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
@@ -670,6 +928,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LD_DYLIB_INSTALL_NAME = "@rpath/Frameworks/$(EXECUTABLE_PATH)";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
@@ -685,6 +944,7 @@
 				);
 				PRODUCT_NAME = PGSQLKit;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = framework;
 				ZERO_LINK = YES;
 			};
@@ -693,7 +953,9 @@
 		1DEB91AF08733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "Developer ID Application";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -713,6 +975,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LD_DYLIB_INSTALL_NAME = "@rpath/Frameworks/$(EXECUTABLE_PATH)";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					/opt/local/lib,
 					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
@@ -739,6 +1002,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -752,6 +1016,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 			};
@@ -855,6 +1120,205 @@
 			};
 			name = Release;
 		};
+		43CD39151A45D02E00A3D4FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/opt/local/include,
+				);
+				INFOPLIST_FILE = PGSQLKitTouch/Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		43CD39161A45D02E00A3D4FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					/opt/local/include,
+				);
+				INFOPLIST_FILE = PGSQLKitTouch/Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		43CD39171A45D02E00A3D4FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = PGSQLKitTouchTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		43CD39181A45D02E00A3D4FF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				INFOPLIST_FILE = PGSQLKitTouchTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -890,6 +1354,24 @@
 			buildConfigurations = (
 				43C1A6A314D7913D009F7111 /* Debug */,
 				43C1A6A414D7913D009F7111 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43CD39191A45D02E00A3D4FF /* Build configuration list for PBXNativeTarget "PGSQLKitTouch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43CD39151A45D02E00A3D4FF /* Debug */,
+				43CD39161A45D02E00A3D4FF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43CD391A1A45D02E00A3D4FF /* Build configuration list for PBXNativeTarget "PGSQLKitTouchTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43CD39171A45D02E00A3D4FF /* Debug */,
+				43CD39181A45D02E00A3D4FF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -107,6 +107,7 @@
 -(PGSQLRecord *)moveLast;
 
 -(BOOL)isEOF;
+@property (assign, nonatomic, readonly, getter=isEOF) BOOL IsEOF;
 
 -(NSDictionary *)dictionaryFromRecord;
 
