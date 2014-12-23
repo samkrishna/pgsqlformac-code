@@ -34,12 +34,11 @@
  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  
  *******************************************************************************/
-
+#import <Foundation/Foundation.h>
 #import "GenDBProtocol.h"
 #import "PGSQLConnection.h"
 #import "PGSQLRecordset.h"
-#import "PGSQLDataObject.h"
-#import "PGSQLDataObjectList.h"
+
 
 
 

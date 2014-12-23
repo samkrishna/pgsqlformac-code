@@ -57,7 +57,6 @@
 		43CAC6A814EC5EBA003E60DF /* PGSQLDispatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CAC6A214EC5EBA003E60DF /* PGSQLDispatch.m */; };
 		43CAC6A914EC5EBA003E60DF /* PGSQLDispatchConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 43CAC6A314EC5EBA003E60DF /* PGSQLDispatchConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43CAC6AA14EC5EBA003E60DF /* PGSQLDispatchConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CAC6A414EC5EBA003E60DF /* PGSQLDispatchConnection.m */; };
-		43CD39071A45D02E00A3D4FF /* PGSQLKitTouch.h in Sources */ = {isa = PBXBuildFile; fileRef = 43CD39061A45D02E00A3D4FF /* PGSQLKitTouch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43CD390D1A45D02E00A3D4FF /* PGSQLKitTouch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 43CD39021A45D02E00A3D4FF /* PGSQLKitTouch.framework */; };
 		43CD39141A45D02E00A3D4FF /* PGSQLKitTouchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 43CD39131A45D02E00A3D4FF /* PGSQLKitTouchTests.m */; };
 		43CD39251A4608AE00A3D4FF /* libpqtouch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 43CD39211A45D07E00A3D4FF /* libpqtouch.a */; };
@@ -802,6 +801,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4333F7261A4743F80049A314 /* PGSQLKitTouch.h in Sources */,
 				43CD39281A46091100A3D4FF /* PGSQLConnectionBase.m in Sources */,
 				43CD39291A46091100A3D4FF /* PGSQLDispatch.m in Sources */,
 				43CD392A1A46091100A3D4FF /* PGSQLDispatchConnection.m in Sources */,
@@ -809,11 +809,9 @@
 				43CD392C1A46091100A3D4FF /* PGSQLConnection.m in Sources */,
 				43CD392D1A46091100A3D4FF /* PGSQLColumn.m in Sources */,
 				43CD392E1A46091100A3D4FF /* PGSQLField.m in Sources */,
-				4333F7261A4743F80049A314 /* PGSQLKitTouch.h in Sources */,
 				43CD392F1A46091100A3D4FF /* PGSQLRecord.m in Sources */,
 				43CD39301A46091100A3D4FF /* PGSQLRecordset.m in Sources */,
 				43CD39311A46091100A3D4FF /* PGSQLConnectionInfo.m in Sources */,
-				43CD39071A45D02E00A3D4FF /* PGSQLKitTouch.h in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
