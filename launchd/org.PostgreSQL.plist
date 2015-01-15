@@ -19,9 +19,7 @@ www.apple.com/DTDs/PropertyList-1.0.dtd">
      <string>PostgreSQL Database Server</string>
      <key>UserName</key>
      <string>postgres</string>
-     <key>StandardOutPath</key>
-     <string>/Library/PostgreSQL/log/PostgreSQL.log</string>
      <key>StandardErrorPath</key>
-     <string>/Library/PostgreSQL/log/error.log</string>
+     <string>/Library/PostgreSQL/log/PostgreSQL.log</string>
 </dict>
 </plist>
