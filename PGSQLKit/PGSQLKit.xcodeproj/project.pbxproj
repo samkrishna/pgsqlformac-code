@@ -42,7 +42,6 @@
 		437D0F6017984D5700F3A639 /* GenDBProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 435C18B417296F8B0003AEC3 /* GenDBProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43A6C9E414D8D98E0051779D /* PGSQLDataObjectList.h in Headers */ = {isa = PBXBuildFile; fileRef = 43A6C9E214D8D98E0051779D /* PGSQLDataObjectList.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43A6C9E514D8D98E0051779D /* PGSQLDataObjectList.m in Sources */ = {isa = PBXBuildFile; fileRef = 43A6C9E314D8D98E0051779D /* PGSQLDataObjectList.m */; };
-		43B0EBED14B4F4C7000390E4 /* PGSQLKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* PGSQLKit.framework */; };
 		43C1A66E14D77B5B009F7111 /* PGSQLDataObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 43C1A66C14D77B5B009F7111 /* PGSQLDataObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		43C1A66F14D77B5B009F7111 /* PGSQLDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 43C1A66D14D77B5B009F7111 /* PGSQLDataObject.m */; };
 		43C1A67214D78FB7009F7111 /* NSData+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 43C1A67014D78FB7009F7111 /* NSData+Base64.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -118,7 +117,6 @@
 			dstPath = "~/Library/Frameworks";
 			dstSubfolderSpec = 0;
 			files = (
-				43B0EBED14B4F4C7000390E4 /* PGSQLKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

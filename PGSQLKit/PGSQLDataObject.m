@@ -1242,7 +1242,7 @@
     // handle nulls gracefulle
     if ([[column objectForKey:@"isnull"] isEqualToString:@"yes"])
     {
-        result = [[NSString alloc] initWithString:@"null"];
+        result = @"null";
         return result;
     }
     

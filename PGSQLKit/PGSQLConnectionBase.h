@@ -101,7 +101,6 @@
     
 	NSString		*commandStatus;
     NSDate          *startTimeStamp;    // Start timestamp if SQL is running or results being processed, nil otherwise.
-    
 }
 
 /*!

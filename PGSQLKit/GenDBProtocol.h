@@ -220,22 +220,22 @@
 
 - (NSString *)connectionString;
 - (void)setConnectionString:(NSString *)value;
-@property (assign, nonatomic) NSString *ConnectionString;
+@property (assign, nonatomic, getter=connectionString, setter=setConnectionString:) NSString *ConnectionString;
 
 - (NSString *)userName;
 - (void)setUserName:(NSString *)value;
-@property (assign, nonatomic) NSString *UserName;
+@property (assign, nonatomic, getter=userName, setter=setUserName:) NSString *UserName;
 
 - (NSString *)password;
 - (void)setPassword:(NSString *)value;
-@property (assign, nonatomic) NSString *Password;
+@property (assign, nonatomic, getter=password, setter=setPassword:) NSString *Password;
 
 - (NSString *)datasourceFilter;
 - (void)setDatasourceFilter:(NSString *)value;
 
 - (BOOL)enableCursors;
 - (void)setEnableCursors:(BOOL)value;
-@property (assign, nonatomic) BOOL EnableCursors;
+@property (assign, nonatomic, getter=enableCursors, setter=setEnableCursors:) BOOL EnableCursors;
 
 /*!
 	@function
@@ -258,7 +258,7 @@
 	@result     void
  */
 -(void)setDefaultEncoding:(NSStringEncoding)value;
-@property (assign, nonatomic) NSStringEncoding DefaultEncoding;
+@property (assign, nonatomic, getter=defaultEncoding, setter=setDefaultEncoding:) NSStringEncoding DefaultEncoding;
 
 /* Connection Management Functions ********************************************/
 

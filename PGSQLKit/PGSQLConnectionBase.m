@@ -68,11 +68,11 @@ static PGSQLConnectionBase *globalPGSQLConnection;
 		defaultEncoding = NSMacOSRomanStringEncoding;
 		
 		pgconn = nil;
-		host = [[NSString alloc] initWithString:@"localhost"];
-		port = [[NSString alloc] initWithString:@"5432"];
+		host = @"localhost";
+		port = @"5432";
 		options = nil;
 		tty = nil;
-		dbName = [[NSString alloc] initWithString:@"template1"];
+		dbName = @"template1";
 		userName = nil;
 		password = nil;
 		sslMode = nil;
