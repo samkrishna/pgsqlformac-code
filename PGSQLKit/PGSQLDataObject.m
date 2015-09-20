@@ -904,6 +904,294 @@
 	return (iFoundChildren >= 2);
 }
 
+
+/* jsonForObject
+ *   description
+ *     if the table name contains a t_ prefix, it will
+ *       removed in the element name.
+ *   arguments
+ *     none
+ *   returns
+ *     NSMutableArray * representing the array of dictionary items that define
+ *       the object. Due to the nature of JSON, this is nothing more than 
+ *       key/value encoding and does not include field definitions.
+ *   history
+ *     who   date    change
+ *     --- -------- -----------------------------------------------------------
+ *
+ ******************************************************************************/
+- (NSDictionary *)jsonForObject
+{
+    NSMutableDictionary *thisObject = [[NSMutableDictionary alloc] init];
+    
+    NSMutableString *nodeName = [[NSMutableString alloc] init];
+    [nodeName appendString:table];
+    [thisObject setObject:nodeName forKey:@"entitiy"];
+    
+    NSMutableDictionary *entityDetails = [[NSMutableDictionary alloc] init];
+    int i;
+    for (i = 0; i < [[properties allKeys] count]; i++)
+    {
+
+        NSDictionary *column = [properties objectForKey:[[properties allKeys] objectAtIndex:i]];
+        
+        // needs to pass back the isnull values of the node
+        int x;
+        BOOL skipColumn = NO;
+        if (omittedFields != nil)
+            for (x = 0; x < [omittedFields count]; x++)
+            {
+                if ([[column objectForKey:@"name"] isEqualToString:[omittedFields objectAtIndex:x]])
+                {
+                    skipColumn = YES;
+                }
+                // NSLog(@"DEBUG: %@ = %@")
+            }
+        
+        if (!skipColumn)
+        {
+            if ([[column objectForKey:@"isnull"] isEqualToString:@"no"])
+            {
+                /* add logic to put the data into the xml in usable resulting format
+                 -- CDATA encapsulated if needed. */
+                switch ([[column objectForKey:@"type"] intValue])
+                {
+                        // Bit
+                    case 1560: // bit
+                    case 1562: // bit varying / varbit
+                        [childNode setStringValue:[column objectForKey:@"value"]];
+                        break;
+                        
+                        // Boolean
+                    case 16: // boolean
+                        [childNode setStringValue:[column objectForKey:@"value"]];
+                        break;
+                        
+                        // Data -- CDATA -- Base64 Encoded
+                    case 17: // bytea
+                    {
+                        NSXMLNode *cdata = [[NSXMLNode alloc] initWithKind:NSXMLTextKind options:NSXMLNodeIsCDATA];
+                        NSString *dataString = [(NSData *)[column objectForKey:@"value"] base64EncodedString];
+                        [cdata setStringValue:dataString];
+                        // [dataString release];
+                        [childNode addChild:cdata];
+                        break;
+                    }
+                        // Date & Time
+                    case 702:   // abstime (date and time)
+                        [childNode setStringValue:[column objectForKey:@"value"]];
+                        break;
+                        
+                    case 1082:  // date
+                        [childNode setStringValue:[column objectForKey:@"value"]];
+                        break;
+                        
+                    case 1083:  // time
+                    case 1266:  // timetz
+                    {
+                        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+                        [format setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+                        [format setDateFormat:@"HH:mm:ss"];
+                        [childNode setStringValue:[format stringFromDate:[column objectForKey:@"value"]]];
+                        break;
+                    }
+                        
+                    case 1114:  // timestamp
+                    case 1184:  // timestamptz
+                        [childNode setStringValue:[column objectForKey:@"value"]];
+                        break;
+                        
+                    case 1186:  // interval
+                        [childNode setStringValue:[column objectForKey:@"value"]];
+                        break;
+                        
+                        // Numbers
+                    case 1700:  // numeric
+                    case 790:   // money
+                    case 700:   // float4
+                    case 701:   // float8
+                        // use the size and offset params to determine the layout
+                        [childNode setStringValue:[[column objectForKey:@"value"] stringValue]];
+                        break;
+                        
+                    case 20:    // int8
+                    case 21:    // int2
+                    case 23:    // int4
+                    case 10:    // int8 (bigserial)
+                        [childNode setStringValue:[[column objectForKey:@"value"] stringValue]];
+                        break;
+                        
+                        // Strings
+                    case 2950:  // UUID
+                        [childNode setStringValue:[column objectForKey:@"value"]];
+                        break;
+                        
+                    case 25:    // text  -- CDATA
+                    case 142:   // xml   -- CDATA
+                    case 1042:  // char  -- CDATA
+                    case 1043:  // varchar (length is inthe offset)  -- CDATA
+                    {
+                        NSXMLNode *cdata = [[NSXMLNode alloc] initWithKind:NSXMLTextKind options:NSXMLNodeIsCDATA];
+                        [cdata setStringValue:[column objectForKey:@"value"]];
+                        [childNode addChild:cdata];
+                        break;
+                    }
+                        
+                    default: //  -- CDATA
+                    {
+                        NSXMLNode *cdata = [[NSXMLNode alloc] initWithKind:NSXMLTextKind options:NSXMLNodeIsCDATA];
+                        [cdata setStringValue:[column objectForKey:@"value"]];
+                        [childNode addChild:cdata];
+                        break;
+                    }
+                }
+        
+            
+            [entityDetails setObject:[column objectForKey:@"value"]
+                              forKey:[column objectForKey:@"name"]];
+        }
+    }
+    
+    
+    
+    // keep going, I think this is the right track.
+    
+    NSXMLElement *thisNode = [[NSXMLElement alloc] initWithName:nodeName];
+    // loop the properties dictionary and convert the properties to xml
+    // key/value pairs
+    int i;
+    for (i = 0; i < [[properties allKeys] count]; i++)
+    {
+        NSDictionary *column = [properties objectForKey:[[properties allKeys] objectAtIndex:i]];
+        
+        // needs to pass back the isnull values of the node
+        int x;
+        BOOL skipColumn = NO;
+        if (omittedFields != nil)
+            for (x = 0; x < [omittedFields count]; x++)
+            {
+                if ([[column objectForKey:@"name"] isEqualToString:[omittedFields objectAtIndex:x]])
+                {
+                    skipColumn = YES;
+                }
+                // NSLog(@"DEBUG: %@ = %@")
+            }
+        
+        if (!skipColumn)
+        {
+            NSXMLElement *childNode = [[NSXMLElement alloc] initWithName:[column objectForKey:@"name"]];
+            
+            NSXMLNode *attribute = [NSXMLNode attributeWithName:@"isnull"
+                                                            URI:@""
+                                                    stringValue:[column objectForKey:@"isnull"]];
+            [childNode addAttribute:attribute];
+            
+            if ([[column objectForKey:@"isnull"] isEqualToString:@"no"])
+            {
+                /* add logic to put the data into the xml in usable resulting format
+                 -- CDATA encapsulated if needed. */
+                switch ([[column objectForKey:@"type"] intValue])
+                {
+                        // Bit
+                    case 1560: // bit
+                    case 1562: // bit varying / varbit
+                        [childNode setStringValue:[column objectForKey:@"value"]];
+                        break;
+                        
+                        // Boolean
+                    case 16: // boolean
+                        [childNode setStringValue:[column objectForKey:@"value"]];
+                        break;
+                        
+                        // Data -- CDATA -- Base64 Encoded
+                    case 17: // bytea
+                    {
+                        NSXMLNode *cdata = [[NSXMLNode alloc] initWithKind:NSXMLTextKind options:NSXMLNodeIsCDATA];
+                        NSString *dataString = [(NSData *)[column objectForKey:@"value"] base64EncodedString];
+                        [cdata setStringValue:dataString];
+                        // [dataString release];
+                        [childNode addChild:cdata];
+                        break;
+                    }
+                        // Date & Time
+                    case 702:   // abstime (date and time)
+                        [childNode setStringValue:[column objectForKey:@"value"]];
+                        break;
+                        
+                    case 1082:  // date
+                        [childNode setStringValue:[column objectForKey:@"value"]];
+                        break;
+                        
+                    case 1083:  // time
+                    case 1266:  // timetz
+                    {
+                        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+                        [format setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+                        [format setDateFormat:@"HH:mm:ss"];
+                        [childNode setStringValue:[format stringFromDate:[column objectForKey:@"value"]]];
+                        break;
+                    }
+                        
+                    case 1114:  // timestamp
+                    case 1184:  // timestamptz
+                        [childNode setStringValue:[column objectForKey:@"value"]];
+                        break;
+                        
+                    case 1186:  // interval
+                        [childNode setStringValue:[column objectForKey:@"value"]];
+                        break;
+                        
+                        // Numbers
+                    case 1700:  // numeric
+                    case 790:   // money
+                    case 700:   // float4
+                    case 701:   // float8
+                        // use the size and offset params to determine the layout
+                        [childNode setStringValue:[[column objectForKey:@"value"] stringValue]];
+                        break;
+                        
+                    case 20:    // int8
+                    case 21:    // int2
+                    case 23:    // int4
+                    case 10:    // int8 (bigserial)
+                        [childNode setStringValue:[[column objectForKey:@"value"] stringValue]];
+                        break;
+                        
+                        // Strings
+                    case 2950:  // UUID
+                        [childNode setStringValue:[column objectForKey:@"value"]];
+                        break;
+                        
+                    case 25:    // text  -- CDATA
+                    case 142:   // xml   -- CDATA
+                    case 1042:  // char  -- CDATA
+                    case 1043:  // varchar (length is inthe offset)  -- CDATA
+                    {
+                        NSXMLNode *cdata = [[NSXMLNode alloc] initWithKind:NSXMLTextKind options:NSXMLNodeIsCDATA];
+                        [cdata setStringValue:[column objectForKey:@"value"]];
+                        [childNode addChild:cdata];
+                        break;
+                    }
+                        
+                    default: //  -- CDATA
+                    {
+                        NSXMLNode *cdata = [[NSXMLNode alloc] initWithKind:NSXMLTextKind options:NSXMLNodeIsCDATA];
+                        [cdata setStringValue:[column objectForKey:@"value"]];
+                        [childNode addChild:cdata];
+                        break;
+                    }
+                }
+            }
+            
+            [thisNode addChild:childNode];
+        }
+    }
+    
+    
+    return thisNode;	
+}
+
+
 #pragma mark private method implementations
 
 /* getNextSequenceValue

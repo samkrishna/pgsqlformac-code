@@ -120,6 +120,9 @@
 - (NSXMLElement *)xmlForObject;
 - (BOOL)loadFromXml:(NSXMLElement *)xmlElement;
 
+- (NSMutableArray *)jsonForObject;
+- (BOOL)loadFromJson:(NSArray *)xmlElement;
+
 - (void)setLastError:(NSString *)value;
 
 - (BOOL)addOmittedField:(NSString *)fieldName;

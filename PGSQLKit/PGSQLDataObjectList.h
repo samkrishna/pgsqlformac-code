@@ -74,6 +74,11 @@
 - (NSXMLElement *)xmlForObject;
 - (BOOL)loadFromXml:(NSXMLElement *)xmlElement;
 
+#pragma mark JSON processing methods
+
+- (NSMutableArray *)jsonForObject;
+- (BOOL)loadFromJson:(NSArray *)jsonElement;
+
 #pragma mark custom properties
 
 - (NSMutableArray *)items;

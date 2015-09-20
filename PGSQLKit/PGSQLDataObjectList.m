@@ -250,6 +250,56 @@
     return NO;
 }
 
+#pragma mark json processing methods
+
+/* jsonForObject
+ *   description
+ *     return an NSArray of NSDictionary items for use with the NSJSONSerializer
+ *   arguments
+ *     none
+ *   returns
+ *     (NSMutableArray *) containing an NSArray elementa that represents the
+ *       contents of the object.
+ *   history
+ *     who   date    change
+ *     --- -------- -----------------------------------------------------------
+ ******************************************************************************/
+- (NSMutableArray *)jsonForObject
+{
+    NSMutableArray *thisElement = [[NSMutableArray alloc] init];
+    
+    int i;
+    for (i = 0; i < [items count]; i++)
+    {
+    //    PGSQLDataObject *item = [items objectAtIndex:i];
+    //    NSXMLElement *childNode = [item xmlForObject];
+    //    [thisNode addChild:childNode];
+    }
+    
+    return thisElement;
+}
+
+/* loadFromXml
+ *   description
+ *     provides a method for populating an object from a passed in xml stream.
+ *     the stream populates the state of the object and the current state can be
+ *     used to update or create a database record based upon the input.
+ *   arguments
+ *     (NSXMLElement *)xmlElement as the data element defining this object (and
+ *       potentially any child objects associated with it.
+ *   returns
+ *     BOOL result as success or failure of the load.  Should this return NO
+ *       then the lastError property should contain a string defining the
+ *       reason(s) for the failure.
+ *   history
+ *     who   date    change
+ *     --- -------- -----------------------------------------------------------
+ ******************************************************************************/
+- (BOOL)loadFromJson:(NSArray *)jsonElement
+{
+    return NO;
+}
+
 #pragma mark Property Accessors
 
 /* items
