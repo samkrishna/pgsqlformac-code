@@ -40,7 +40,7 @@
 #import "PGSQLRecordset.h"
 #import "PGSQLDataObject.h"
 #import "PGSQLDataObjectList.h"
-
+#import "NSData+Base64.h"
 
 
 

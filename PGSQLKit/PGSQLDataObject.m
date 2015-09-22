@@ -926,7 +926,7 @@
     
     NSMutableString *nodeName = [[NSMutableString alloc] init];
     [nodeName appendString:table];
-    [thisObject setObject:nodeName forKey:@"entitiy"];
+    //[thisObject setObject:nodeName forKey:@"entitiy"];
     
     NSMutableArray *entityProperties = [[NSMutableArray alloc] init];
     [thisObject setObject:entityProperties forKey:nodeName];
@@ -959,7 +959,7 @@
             // omit null data elements to save bandwidth
             if ([[column objectForKey:@"isnull"] isEqualToString:@"no"])
             {
-/*                switch ([[column objectForKey:@"type"] intValue])
+                switch ([[column objectForKey:@"type"] intValue])
                 {
                         // Bit
                     case 1560: // bit
@@ -974,7 +974,7 @@
                                           forKey:[column objectForKey:@"name"]];
                         break;
                         
-                        // Data -- CDATA -- Base64 Encoded
+                    // Data -- CDATA -- Base64 Encoded
                     case 17: // bytea
                     {
                         NSString *dataString = [(NSData *)[column objectForKey:@"value"] base64EncodedString];
@@ -1015,7 +1015,7 @@
                                           forKey:[column objectForKey:@"name"]];
                         break;
                         
-                        // Numbers
+                    // Numbers
                     case 1700:  // numeric
                     case 790:   // money
                     case 700:   // float4
@@ -1033,7 +1033,7 @@
                                           forKey:[column objectForKey:@"name"]];
                         break;
                         
-                        // Strings
+                    // Strings
                     case 2950:  // UUID
                         [entityDetails setObject:[column objectForKey:@"value"]
                                           forKey:[column objectForKey:@"name"]];
@@ -1044,8 +1044,7 @@
                     case 1042:  // char  -- CDATA
                     case 1043:  // varchar (length is inthe offset)  -- CDATA
                     {
-                        NSString *dataString = [(NSData *)[column objectForKey:@"value"] base64EncodedString];
-                        [entityDetails setObject:dataString
+                        [entityDetails setObject:[column objectForKey:@"value"]
                                           forKey:[column objectForKey:@"name"]];
                         break;
                     }
@@ -1058,7 +1057,7 @@
                         break;
                     }
                 }
-*/            }
+            }
         }
     }
     
@@ -1081,9 +1080,22 @@
  ******************************************************************************/
 - (long)getNextSequenceValue
 {
+    NSMutableString *correctedTableName = [NSMutableString stringWithString:self.table];
+    // in instances where the name contains special charaters or is prefixed
+    // with a schema, these need to be normalized.
+    if ([correctedTableName containsString:@"\""])
+    {
+        [correctedTableName replaceOccurrencesOfString:@"\""
+                                            withString:@""
+                                               options:NSCaseInsensitiveSearch
+                                                 range:NSMakeRange(0, [correctedTableName length])];
+    }
+    
 	// fetch the next sequence value for the primary key / serial insert logic
     NSString *cmd = [[NSString alloc] initWithFormat:@"select nextval('%@_%@_seq') as _id;",
-                     table, primaryKey];
+                     correctedTableName, primaryKey];
+    
+    NSLog(@"SEQUENCE CMD: %@", cmd);
 	PGSQLRecordset *rs = (PGSQLRecordset*)[connection open:cmd];
     if (![rs isEOF])
 	{

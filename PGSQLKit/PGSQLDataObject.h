@@ -120,7 +120,7 @@
 - (NSXMLElement *)xmlForObject;
 - (BOOL)loadFromXml:(NSXMLElement *)xmlElement;
 
-- (NSMutableArray *)jsonForObject;
+- (NSDictionary *)jsonForObject;
 - (BOOL)loadFromJson:(NSArray *)xmlElement;
 
 - (void)setLastError:(NSString *)value;
