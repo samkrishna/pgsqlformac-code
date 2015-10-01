@@ -349,12 +349,16 @@
 	NSString *cmd = [NSString stringWithFormat:@"select * from %@ where %@ = '%@' limit 1",
                      table,keyName,keyValue];
 	PGSQLRecordset *rs = (PGSQLRecordset*)[pgConn open:cmd];
-	if (![rs isEOF])
+    BOOL found = NO;
+    if (![rs isEOF])
 	{
 		[self loadFromRecord:rs];
+        found = YES;
 	}
 	[rs close];
-	
+    
+    if (!found) { return nil; }
+    
 	return self;
 }
 
@@ -489,9 +493,10 @@
         }
         
 		[cmd appendFormat:@" where %@ = %@;",
-         primaryKey, 
-         [self stringForLongNumber:refId]];
+         primaryKey,
+         [self stringForColumn:[properties objectForKey:[[properties allKeys] objectAtIndex:primaryKeyIndex]]]];
 	}
+    
     BOOL result = ([connection execCommand:cmd] > 0);
     if (!result)
     {
@@ -922,10 +927,22 @@
  ******************************************************************************/
 - (NSDictionary *)jsonForObject
 {
+    
+    
     NSMutableDictionary *thisObject = [[NSMutableDictionary alloc] init];
     
+    NSMutableString *correctedTableName = [NSMutableString stringWithString:self.table];
+    // in instances where the name contains special charaters or is prefixed
+    // with a schema, these need to be normalized.
+    if ([correctedTableName containsString:@"\""])
+    {
+        [correctedTableName replaceOccurrencesOfString:@"\""
+                                            withString:@""
+                                               options:NSCaseInsensitiveSearch
+                                                 range:NSMakeRange(0, [correctedTableName length])];
+    }
     NSMutableString *nodeName = [[NSMutableString alloc] init];
-    [nodeName appendString:table];
+    [nodeName appendString:correctedTableName];
     //[thisObject setObject:nodeName forKey:@"entitiy"];
     
     NSMutableArray *entityProperties = [[NSMutableArray alloc] init];
@@ -970,8 +987,15 @@
                         
                         // Boolean
                     case 16: // boolean
-                        [entityDetails setObject:[column objectForKey:@"value"]
-                                          forKey:[column objectForKey:@"name"]];
+                        // BOOL has no rep in JSON, so convert it to a TRUE/FALSE string
+                        if ([[column objectForKey:@"value"] boolValue] == YES)
+                        {
+                            [entityDetails setObject:@"TRUE"
+                                              forKey:[column objectForKey:@"name"]];
+                        } else {
+                            [entityDetails setObject:@"FALSE"
+                                              forKey:[column objectForKey:@"name"]];
+                        }
                         break;
                         
                     // Data -- CDATA -- Base64 Encoded
@@ -984,15 +1008,23 @@
                     }
                         // Date & Time
                     case 702:   // abstime (date and time)
-                        [entityDetails setObject:[column objectForKey:@"value"]
+                    {
+                        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+                        [format setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+                        [format setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+                        [entityDetails setObject:[format stringFromDate:[column objectForKey:@"value"]]
                                           forKey:[column objectForKey:@"name"]];
                         break;
-                        
+                    }
                     case 1082:  // date
-                        [entityDetails setObject:[column objectForKey:@"value"]
+                    {
+                        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+                        [format setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+                        [format setDateFormat:@"YYYY-MM-dd]"];
+                        [entityDetails setObject:[format stringFromDate:[column objectForKey:@"value"]]
                                           forKey:[column objectForKey:@"name"]];
                         break;
-                        
+                    }
                     case 1083:  // time
                     case 1266:  // timetz
                     {
@@ -1006,10 +1038,14 @@
                         
                     case 1114:  // timestamp
                     case 1184:  // timestamptz
-                        [entityDetails setObject:[column objectForKey:@"value"]
+                    {
+                        NSDateFormatter *format = [[NSDateFormatter alloc] init];
+                        [format setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+                        [format setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+                        [entityDetails setObject:[format stringFromDate:[column objectForKey:@"value"]]
                                           forKey:[column objectForKey:@"name"]];
                         break;
-                        
+                    }
                     case 1186:  // interval
                         [entityDetails setObject:[column objectForKey:@"value"]
                                           forKey:[column objectForKey:@"name"]];

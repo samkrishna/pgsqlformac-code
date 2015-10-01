@@ -12,6 +12,7 @@
 		431397B60C31BC1000E596BA /* PGSQLField.m in Sources */ = {isa = PBXBuildFile; fileRef = 439F7B600C18947C001CA5A4 /* PGSQLField.m */; };
 		431397B70C31BC1000E596BA /* PGSQLField.h in Headers */ = {isa = PBXBuildFile; fileRef = 439F7B5F0C18947C001CA5A4 /* PGSQLField.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		432A8C110C47074F00CA8F33 /* PGSQLKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 439656720BE8C779003EDC3D /* PGSQLKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4330F90E1BBD9A1D00CB5749 /* PGSQLKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8DC2EF5B0486A6940098B216 /* PGSQLKit.framework */; };
 		43318B370BF1227A008C2560 /* PGSQL Login.nib in Resources */ = {isa = PBXBuildFile; fileRef = 43318B350BF1227A008C2560 /* PGSQL Login.nib */; };
 		4333F7101A4740100049A314 /* PGSQLConnectionBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 43CAC69F14EC5EBA003E60DF /* PGSQLConnectionBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4333F7111A4740100049A314 /* PGSQLDispatch.h in Headers */ = {isa = PBXBuildFile; fileRef = 43CAC6A114EC5EBA003E60DF /* PGSQLDispatch.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -114,9 +115,10 @@
 		4324B36A0BF36104001F6E5E /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = "~/Library/Frameworks";
+			dstPath = /Library/Frameworks;
 			dstSubfolderSpec = 0;
 			files = (
+				4330F90E1BBD9A1D00CB5749 /* PGSQLKit.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -647,7 +649,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0700;
 				TargetAttributes = {
 					43CD39011A45D02E00A3D4FF = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -938,6 +940,7 @@
 					"-lpq",
 					"-lldap",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.postgresqlformac.pgsqlkit;
 				PRODUCT_NAME = PGSQLKit;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -985,6 +988,7 @@
 					"-lpq",
 					"-lldap",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.postgresqlformac.pgsqlkit;
 				PRODUCT_NAME = PGSQLKit;
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = framework;
@@ -995,6 +999,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEFINES_MODULE = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_VERSION = "";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -1042,6 +1047,7 @@
 				INFOPLIST_FILE = "PGSQLKit_Tests/PGSQLKit_Tests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.druware.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1063,6 +1069,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				INFOPLIST_FILE = "PGSQLKit_Tests/PGSQLKit_Tests-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.druware.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -1091,6 +1098,7 @@
 				INFOPLIST_FILE = "PGSQLKit_DataObject/PGSQLKit_DataObject-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.druware.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -1112,6 +1120,7 @@
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				INFOPLIST_FILE = "PGSQLKit_DataObject/PGSQLKit_DataObject-Info.plist";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.druware.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -1165,6 +1174,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.druware.postgresql.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1218,6 +1228,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.druware.postgresql.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -1269,6 +1280,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.druware.postgresql.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 			};
@@ -1309,6 +1321,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.druware.postgresql.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
