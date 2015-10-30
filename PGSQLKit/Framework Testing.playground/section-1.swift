@@ -10,11 +10,11 @@ conn.Password = "test";
 conn.ConnectionString = "host=localhost port=5432 dbname=postgres user=postgres password=gr8orthan0";
 if (!conn.connect())
 {
-    println("Connection Failed");
-    println(conn.LastError);
+    print("Connection Failed");
+    print(conn.LastError);
     conn.close();
 } else {
-    println("Connected");
+    print("Connected");
     
     var rs: GenDBRecordset
     rs = conn.open("select current_database()")
@@ -22,7 +22,7 @@ if (!conn.connect())
     var currentState = rs.IsEOF
     if (!rs.IsEOF)
     {
-        println("table: " + rs.fieldByIndex(0).asString())
+        print("table: " + rs.fieldByIndex(0).asString())
         // rs.moveNext()
     }
     rs.close()
