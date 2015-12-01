@@ -945,11 +945,11 @@
     [nodeName appendString:correctedTableName];
     //[thisObject setObject:nodeName forKey:@"entitiy"];
     
-    NSMutableArray *entityProperties = [[NSMutableArray alloc] init];
-    [thisObject setObject:entityProperties forKey:nodeName];
+    //NSMutableArray *entityProperties = [[NSMutableArray alloc] init];
+    //[thisObject setObject:entityProperties forKey:nodeName];
     
     NSMutableDictionary *entityDetails = [[NSMutableDictionary alloc] init];
-    [entityProperties addObject:entityDetails];
+    [thisObject setObject:entityDetails forKey:nodeName];
     
     
     int i;
