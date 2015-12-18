@@ -14,6 +14,9 @@ www.apple.com/DTDs/PropertyList-1.0.dtd">
 	 <string>/Library/PostgreSQL/bin/postmaster</string>
          <string>-D</string>
          <string>/Library/PostgreSQL/data</string>
+         <string>-i</string>
+         <string>-p</string>
+         <string>5432</string>
      </array>
      <key>ServiceDescription</key>
      <string>PostgreSQL Database Server</string>
