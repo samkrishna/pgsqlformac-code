@@ -555,7 +555,6 @@
 				43C1A67414D7903C009F7111 /* Sources */,
 				43C1A67514D7903C009F7111 /* Frameworks */,
 				43C1A67614D7903C009F7111 /* Resources */,
-				43C1A67714D7903C009F7111 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -574,7 +573,6 @@
 				43C1A69014D7913C009F7111 /* Sources */,
 				43C1A69114D7913C009F7111 /* Frameworks */,
 				43C1A69214D7913C009F7111 /* Resources */,
-				43C1A69314D7913C009F7111 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -749,35 +747,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		43C1A67714D7903C009F7111 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
-		43C1A69314D7913C009F7111 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		43C1A67414D7903C009F7111 /* Sources */ = {
@@ -1289,6 +1258,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.druware.postgresql.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 			};
 			name = Debug;
 		};
@@ -1330,6 +1300,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.druware.postgresql.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
